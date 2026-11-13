@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en-IN" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D Lab · Abhishek Anand Masih</title>
+<meta name="description" content="Seven 3D experiments, AI-assisted: product shots on a turntable, a laptop-and-phone reveal, a lotto draw of my projects, a room you can refinish, a print magazine turned into listings, a builder floor and a business card.">
+<link rel="canonical" href="https://abbytes-sudo.github.io/lab.html">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#07070A">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<link rel="stylesheet" href="assets/home.css?v=20261107a">
+<link rel="stylesheet" href="assets/lab.css?v=20261107a">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Abhishek Anand Masih">
+<meta property="og:title" content="3D Lab · Abhishek Anand Masih">
+<meta property="og:description" content="Seven 3D experiments you can turn around, from product hero shots to a property explorer.">
+<meta property="og:url" content="https://abbytes-sudo.github.io/lab.html">
+<meta property="og:image" content="https://abbytes-sudo.github.io/assets/og-lab.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The 3D Lab: ideas you can turn around, with a kettlebell on a studio turntable">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://abbytes-sudo.github.io/assets/og-lab.jpg">
+<script src="assets/home.js?v=20261107a" defer></script>
+<script type="module" src="assets/lab.js?v=20261107a"></script>
+</head>
+<body class="lab" id="top">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="hd" id="hd">
+  <a class="hd-mark" href="index.html" aria-label="Abhishek’s Portfolio, home"><span class="hd-dot" aria-hidden="true"></span>Abhishek’s Portfolio</a>
+  <nav class="hd-nav" aria-label="Primary">
+    <a href="index.html#about">About</a><a href="index.html#achievements">Achievements</a><a href="index.html#work">Work</a><a href="index.html#services">Services</a><a href="lab.html" aria-current="page" class="on">3D Lab</a>
+  </nav>
+  <a class="hd-cta" href="index.html#contact"><span class="pulse" aria-hidden="true"></span>Open to work</a>
+</header>
+
+<canvas id="gl" class="gl" aria-hidden="true"></canvas>
+<nav class="lab-dots" aria-label="Chapters">
+  <a href="#studio"><span>01</span><b>Product heroes</b></a>
+  <a href="#device"><span>02</span><b>Product reveal</b></a>
+  <a href="#lotto"><span>03</span><b>Lotto draw</b></a>
+  <a href="#room"><span>04</span><b>Room configurator</b></a>
+  <a href="#magazine"><span>05</span><b>Print to listings</b></a>
+  <a href="#building"><span>06</span><b>Property explorer</b></a>
+  <a href="#contact"><span>07</span><b>Contact</b></a>
+</nav>
+
+<main id="main">
+
+<!-- 01 · Product heroes (page opener) -->
+<section class="ch ch-studio" id="studio" data-scene="studio" aria-labelledby="studio-h">
+  <div class="ch-in">
+    <div class="panel panel-hero">
+      <p class="eyebrow"><span>3D</span>The Lab</p>
+      <h1 class="lab-h" id="studio-h">Ideas you can <em>turn around.</em></h1>
+      <p class="lab-lede">Seven 3D experiments, most based on projects I’ve delivered. Scroll through them. AI-assisted, like everything on this site.</p>
+      <p class="tech"><span>01 · Product heroes</span>A hero shot is the first picture anyone sees of a product, so brands fuss over it. Three concept products: pick one, drag to turn it.</p>
+      <div class="prd-ui" role="group" aria-label="Products">
+        <button class="prd on" type="button" data-product="kettlebell" aria-pressed="true">Kettlebell</button><button class="prd" type="button" data-product="coffee" aria-pressed="false">Coffee pouch</button><button class="prd" type="button" data-product="key" aria-pressed="false">Smart key</button>
+      </div>
+      <p class="note-s">Made up for this page; no client’s product is shown.</p>
+    </div>
+    <ul class="scene-data" id="studio-products" hidden>
+      <li data-id="kettlebell" data-name="Kettlebell" data-sub="For a fitness studio" data-color="#E8B931"></li>
+      <li data-id="coffee" data-name="Coffee pouch" data-sub="For a D2C coffee brand" data-color="#C9A45F"></li>
+      <li data-id="key" data-name="Smart key" data-sub="For a property brand" data-color="#4BE3C1"></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 02 · Product reveal -->
+<section class="ch ch-intro ch-device" id="device" data-scene="device" aria-labelledby="intro-h">
+  <div class="ch-in">
+    <div class="panel panel-left">
+      <h2 class="lab-h2" id="intro-h">A product <em>reveal.</em></h2>
+      <p class="tech"><span>02 · Product reveal</span>Real screens from the Real Estate Platform on a laptop and a phone. Scroll and they open, turn and separate, like a hardware launch.</p>
+      <a class="scroll-hint" href="#lotto" hidden>Scroll <span aria-hidden="true">↓</span></a>
+    </div>
+    <ul class="scene-data" id="device-shots" hidden>
+      <li data-role="laptop" data-img="img/real-estate-website/web-landing-3bhk.webp" data-alt="A landing page on the website: 3 BHK flats for rent in Vasant Vihar"></li>
+      <li data-role="phone" data-img="img/real-estate-website/web-m-roofie.webp" data-alt="Roofie, the scripted enquiry assistant, on a phone"></li>
+      <li data-role="laptop-2" data-img="img/real-estate-crm/crm-tasks-calendar.webp" data-alt="Tasks calendar in the CRM (demo data)"></li>
+      <li data-role="phone-2" data-img="img/real-estate-website/web-m-price-guide.webp" data-alt="The price guide on a phone: rent and sale bands by colony"></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 03 · Physics -->
+<section class="ch ch-lotto" id="lotto" data-scene="lotto" aria-labelledby="lotto-h">
+  <div class="ch-in">
+    <div class="panel panel-left">
+      <p class="tech"><span>03 · Lotto draw</span>The balls really collide; an air jet tumbles them around a glass drum.</p>
+      <h2 class="lab-h2" id="lotto-h">Draw a <em>project.</em></h2>
+      <p class="lab-lede">Six balls are case studies; the rest are the skills behind them. Press draw and the machine picks what you read next.</p>
+      <div class="lotto-ui">
+        <button class="btn draw" type="button" id="lotto-draw" disabled>Draw a project</button>
+        <p class="lotto-status" id="lotto-status" aria-live="polite">The drum is warming up…</p>
+      </div>
+    </div>
+    <article class="lotto-card" id="lotto-card" hidden aria-live="polite">
+      <p class="lc-n"></p>
+      <h3 class="lc-h"></h3>
+      <p class="lc-s"></p>
+      <p class="lc-b"></p>
+      <a class="lc-go" href="index.html#work">Read the case study <span aria-hidden="true">→</span></a>
+      <button class="lc-again" type="button">Draw again</button>
+    </article>
+    <ul class="scene-data" id="lotto-items" hidden>
+      <li data-n="01" data-color="#F4B556" data-title="Real Estate Platform" data-sub="CRM &amp; operations" data-status="Live, in daily use since the 9 Sep 2026 cutover" data-body="A Delhi property brokerage moved off spreadsheets and a 12-seat subscription CRM to its own self-hosted CRM and website in 3 months (Jun–Sep 2026)." data-href="projects/real-estate-crm.html" data-cta="Read the case study"></li>
+      <li data-n="02" data-color="#F5A02A" data-title="Real Estate Platform" data-sub="Public website" data-status="Live for a Delhi real estate agency with its own online platform · relaunched Sep 2026" data-body="A property site you can search in plain English (“3 BHK in Vasant Vihar under 1.5 lakh”), with a colony price guide and Roofie, a scripted enquiry assistant." data-href="projects/real-estate-website.html" data-cta="Read the case study"></li>
+      <li data-n="03" data-color="#D3A84F" data-title="Construction &amp; Interior Design Firm" data-sub="CRM / ERP" data-status="Live since May 2026" data-body="BOQ quotes priced from a 569-item rate card and sent as one link the client can accept. A won quote becomes a project plan in one step." data-href="projects/interiors-crm-erp.html" data-cta="Read the case study"></li>
+      <li data-n="05" data-color="#E8B931" data-title="The Boxx" data-sub="Fitness studio website" data-status="Live at theboxx.in · rebuilt Apr 2026" data-body="A coached-training studio’s website, rebuilt and relaunched in about 19 hours, AI-assisted. Every page has one next step: “Train now”." data-href="projects/fitness-studio-website.html" data-cta="Read the case study"></li>
+      <li data-n="06" data-color="#C9A45F" data-title="Construction &amp; Interior Design Firm" data-sub="Website" data-status="Live at buildwithsnc.com · 30 pages (6 Nov 2026)" data-body="A design-build studio’s website, opening on a 3D cutaway of a home, with a filterable portfolio and a live palette configurator." data-href="projects/design-studio-website.html" data-cta="Read the case study"></li>
+      <li data-n="07" data-color="#4BE3C1" data-title="Constellation" data-sub="3D business planner" data-status="Live demo · self-initiated" data-body="A business plan in 3D: each initiative a star, each dependency a line of light. A plan is a network, not a list." data-href="projects/constellation.html" data-cta="Read the case study"></li>
+    </ul>
+    <ul class="scene-data" id="lotto-skills" hidden>
+      <li>Requirements</li><li>Product calls</li><li>AI-assisted build</li><li>Testing</li><li>Migration</li><li>Go-live</li><li>Training</li><li>Adoption</li><li>CRM</li><li>SEO</li><li>Calling queues</li><li>Matching</li><li>Roofie</li><li>Magazine reader</li><li>Specs</li><li>QA</li><li>Workflows</li><li>Dashboards</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 04 · Configurator -->
+<section class="ch ch-room" id="room" data-scene="room" aria-labelledby="room-h">
+  <div class="ch-in">
+    <div class="panel panel-left">
+      <p class="tech"><span>04 · Room configurator</span>Tap a finish and the floor, walls, sofa, wood and metal all change, so a client sees a room, not a swatch. Same idea as the design studio’s palette configurator, in 3D. Drag to look around.</p>
+      <h2 class="lab-h2" id="room-h">Pick a <em>finish.</em></h2>
+      <div class="room-ui" role="group" aria-label="Finishes">
+        <button class="fin on" type="button" data-palette="pale" aria-pressed="true"><i class="sw sw-pale" aria-hidden="true"></i>The Pale</button>
+        <button class="fin" type="button" data-palette="walnut" aria-pressed="false"><i class="sw sw-walnut" aria-hidden="true"></i>The Walnut</button>
+        <button class="fin" type="button" data-palette="saffron" aria-pressed="false"><i class="sw sw-saffron" aria-hidden="true"></i>The Saffron</button>
+        <button class="fin" type="button" data-palette="carmine" aria-pressed="false"><i class="sw sw-carmine" aria-hidden="true"></i>The Carmine</button>
+      </div>
+      <p class="note-s">Studio finish names; the colours are illustrative.</p>
+    </div>
+    <ul class="scene-data" id="room-palettes" hidden>
+      <li data-id="pale" data-floor="#E6DCCB" data-wall="#F2EEE7" data-sofa="#D9D2C5" data-wood="#C8B08C" data-accent="#B9A88F" data-metal="#C9C3B8"></li>
+      <li data-id="walnut" data-floor="#5A3A28" data-wall="#E7DCCB" data-sofa="#3D2C24" data-wood="#7A4E32" data-accent="#C9A45F" data-metal="#B08D57"></li>
+      <li data-id="saffron" data-floor="#C49A63" data-wall="#F3E2BF" data-sofa="#E2A73A" data-wood="#9C6B3C" data-accent="#7A4B16" data-metal="#D3A84F"></li>
+      <li data-id="carmine" data-floor="#6A4939" data-wall="#E9DAD2" data-sofa="#8C1C2B" data-wood="#5E3A2C" data-accent="#C9A45F" data-metal="#C9A45F"></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 05 · Print to listings -->
+<section class="ch ch-magazine" id="magazine" data-scene="magazine" aria-labelledby="magazine-h">
+  <div class="ch-in">
+    <div class="panel panel-left">
+      <p class="tech"><span>05 · Print to listings</span>Software reads a printed property magazine so nobody types it in by hand: each line lifts off the page and lands as a listing card. Lines it isn’t sure about wait for a person (amber).</p>
+      <h2 class="lab-h2" id="magazine-h">From print to <em>listings.</em></h2>
+      <p class="lab-lede">The Real Estate Platform’s magazine reader does this for real: across two issues it refreshed 16,441 listings and needed a person for only 274 of 21,182 printed lines.</p>
+      <p class="stamp k1">Dashboard · 23 Oct 2026</p>
+      <p class="note-s">The lines shown here are demo data.</p>
+    </div>
+    <ul class="scene-data" id="magazine-lines" hidden>
+      <li data-ok="1">GK-1 · 3 BHK · FF · 1,800 sq ft · ₹1.45 L</li>
+      <li data-ok="1">Vasant Vihar · 4 BHK · SF · ₹2.2 L</li>
+      <li data-ok="1">Defence Colony · 3 BHK · GF · ₹1.1 L</li>
+      <li data-ok="0">Jor Bagh · 850F · ₹3.5 Cr?</li>
+      <li data-ok="1">Anand Niketan · 3 BHK · TF · ₹1.25 L</li>
+      <li data-ok="1">Sundar Nagar · 2 BHK · GF · ₹95,000</li>
+      <li data-ok="1">Greater Kailash-2 · 4 BHK · FF · ₹1.8 L</li>
+      <li data-ok="0">Panchsheel Park · BF · ₹?</li>
+      <li data-ok="1">Safdarjung Enclave · 3 BHK · SF · ₹1.05 L</li>
+      <li data-ok="1">Nizamuddin East · 3 BHK · FF · ₹1.6 L</li>
+      <li data-ok="1">New Friends Colony · 4 BHK · GF · ₹1.4 L</li>
+      <li data-ok="1">Westend · 5 BHK · TF · ₹3.1 L</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 06 · Property explorer -->
+<section class="ch ch-building" id="building" data-scene="building" aria-labelledby="building-h">
+  <div class="ch-in">
+    <div class="panel panel-left">
+      <p class="tech"><span>06 · Property explorer</span>A South Delhi builder floor: stilt parking, four floors, each its own flat. Tap one for its sample listing. And yes, “FF” is first floor, not fully furnished.</p>
+      <h2 class="lab-h2" id="building-h">Explore a <em>builder floor.</em></h2>
+      <div class="bld-ui" role="group" aria-label="Floors">
+        <button class="flr" type="button" data-floor="tf">TF</button><button class="flr" type="button" data-floor="sf">SF</button><button class="flr on" type="button" data-floor="ff" aria-pressed="true">FF</button><button class="flr" type="button" data-floor="gf">GF</button>
+      </div>
+      <article class="bld-card" id="bld-card" aria-live="polite"><p class="bc-k"></p><h3 class="bc-h"></h3><p class="bc-s"></p><p class="bc-b"></p></article>
+      <p class="note-s">Sample listings, demo data.</p>
+    </div>
+    <ul class="scene-data" id="building-floors" hidden>
+      <li data-floor="tf" data-label="Third floor" data-title="3 BHK with terrace" data-meta="1,650 sq ft · To rent · Semi-furnished" data-price="₹1.25 L a month" data-check="Verified 3 days ago"></li>
+      <li data-floor="sf" data-label="Second floor" data-title="3 BHK builder floor" data-meta="1,800 sq ft · To rent · Furnished" data-price="₹1.45 L a month" data-check="Verified yesterday"></li>
+      <li data-floor="ff" data-label="First floor" data-title="3 BHK builder floor" data-meta="1,800 sq ft · For sale · Unfurnished" data-price="₹6.9 Cr" data-check="Verified 5 days ago"></li>
+      <li data-floor="gf" data-label="Ground floor" data-title="3 BHK with garden" data-meta="1,800 sq ft · To rent · Semi-furnished" data-price="₹1.6 L a month" data-check="Verified 2 days ago"></li>
+    </ul>
+  </div>
+</section>
+
+<section class="ch ch-contact" id="contact" data-scene="contact" aria-labelledby="lc-h">
+  <div class="ch-in ci">
+    <div class="hfr" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="ci-grid">
+      <div class="ci-tx">
+        <p class="eyebrow"><span>07</span>Contact</p>
+        <h2 class="ci-h" id="lc-h">That’s the Lab. <em>Now, your project.</em></h2>
+        <p class="ci-lede">From requirements to go-live: I work out what a team needs, direct an AI-assisted build, test every change and train people on it. Open to roles and freelance work.</p>
+        <div class="ci-rule" aria-hidden="true"></div>
+        <dl class="ci-rows">
+          <div><dt>Email</dt><dd><a class="ci-mail" href="mailto:abhimasih0505@gmail.com">abhimasih0505@gmail.com</a><button class="copy" type="button" data-copy="abhimasih0505@gmail.com" hidden>Copy</button></dd></div>
+          <div><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/abhishek-m-b934a925a">linkedin.com/in/abhishek-m-b934a925a <i aria-hidden="true">↗</i></a></dd></div>
+          <div><dt>GitHub</dt><dd><a href="https://github.com/abBytes-sudo">github.com/abBytes-sudo <i aria-hidden="true">↗</i></a></dd></div>
+          <div><dt>Work</dt><dd><a href="index.html#work">See the case studies <i aria-hidden="true">→</i></a></dd></div>
+        </dl>
+        <p class="ci-fine">Built with three.js (MIT License). The 3D scenes are AI-assisted: I set what each chapter should show and how it should feel, directed AI coding tools, and tested every change on desktop and phone. Screens shown are from white-labelled demo builds unless marked live.</p>
+        <p class="ci-fine no-gl-note">Your browser has 3D (WebGL) turned off or unavailable, so this page is showing its text-only version.</p>
+      </div>
+      <div class="ci-stage" aria-hidden="true"><span class="ci-tag">Press the card</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="ft">
+  <div class="wrap ft-in">
+    <p class="ft-name">Abhishek Anand Masih <span>· Operations &amp; CRM Lead · New Delhi</span></p>
+    <p class="ft-fine">AI-assisted builds · every number dated · © 2026</p>
+    <a class="ft-top" href="#top">Back to top ↑</a>
+  </div>
+</footer>
+</body>
+</html>

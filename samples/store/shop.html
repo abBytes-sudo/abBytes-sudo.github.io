@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop all pieces · Northlane</title>
+<meta name="description" content="Browse twelve considered pieces in leather, cotton and merino. Northlane is a fictional store, a design sample by Abhishek.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Northlane (design sample)">
+<meta property="og:title" content="Shop all pieces · Northlane"><meta property="og:description" content="Browse twelve considered pieces in leather, cotton and merino. Northlane is a fictional store, a design sample by Abhishek.">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/store/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Shop all pieces · Northlane"><meta name="twitter:description" content="Browse twelve considered pieces in leather, cotton and merino. Northlane is a fictional store, a design sample by Abhishek."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/store/og.jpg">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/vendor/lenis.css">
+<link rel="stylesheet" href="store.css?v=8">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="../assets/vendor/SplitText.min.js" defer></script>
+<script src="../assets/vendor/lenis.min.js" defer></script>
+<script src="../assets/motion.js" defer></script>
+<script src="catalog.js?v=8" defer></script>
+<script src="store.js?v=8" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body data-page="shop">
+<main id="main">
+<div class="sh-hd"><p class="eyebrow"><span>Northlane / Shop</span><span>Autumn / Winter 2026</span></p><h1><span id="shopH">All pieces</span><span id="shopN" class="num"></span></h1></div>
+<div class="tools">
+  <div class="tools-in"><div class="tabs" id="tabs" role="group" aria-label="Category"></div>
+    <div class="tools-r"><span id="count" aria-live="polite"></span><button class="tbtn" id="fBtn" type="button" aria-expanded="false" aria-controls="fPanel"><span>Filters</span><i aria-hidden="true">+</i></button>
+    <label class="sel"><span class="vh">Sort by</span><select id="sort"><option value="featured">Featured</option><option value="low">Price, low to high</option><option value="high">Price, high to low</option></select></label></div></div>
+  <div class="fpanel" id="fPanel"><div><div class="fp-in">
+    <div><h3>Size</h3><div class="chips" id="fSize"></div></div>
+    <div><h3>Colour</h3><div class="sws" id="fColor"></div></div>
+    <div><h3>Up to <span id="fMaxV">$250</span></h3><input id="fMax" type="range" min="30" max="250" step="10" value="250" aria-label="Maximum price"></div>
+    <button class="fp-clear" type="button" hidden>Clear all filters</button>
+  </div></div></div>
+</div>
+<ul class="grid g3 shop-g" id="shopGrid"></ul>
+</main>
+</body>
+</html>

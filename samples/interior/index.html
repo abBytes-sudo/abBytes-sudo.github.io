@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier Nori · Calm, lived-in interiors (design sample)</title>
+<meta name="description" content="Atelier Nori designs calm, lived-in homes. Browse the rooms, walk through a live 3D living room and take the style quiz. A fictional studio and design sample by Abhishek.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Atelier Nori (design sample)">
+<meta property="og:title" content="Atelier Nori · Calm, lived-in interiors">
+<meta property="og:description" content="Walk through a live 3D living room, switch its style and lighting, and browse the rooms. A fictional studio and design sample by Abhishek.">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/interior/">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/interior/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="A bright open-plan home with a long kitchen island and a living room beyond">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Atelier Nori · Calm, lived-in interiors"><meta name="twitter:description" content="Walk through a live 3D living room and browse the rooms. A fictional studio and design sample by Abhishek."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/interior/og.jpg">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/lenis.css">
+<link rel="stylesheet" href="nori.css?v=10">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="../assets/vendor/SplitText.min.js" defer></script>
+<script src="../assets/vendor/lenis.min.js" defer></script>
+<script src="../assets/motion.js?v=1" defer></script>
+<script src="../assets/room3d.js?v=10" defer></script>
+<script src="nori.js?v=10" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body>
+<p class="demo">Fictional · design sample by <a href="../../index.html">Abhishek</a></p>
+<header id="hdr"><div class="nav"><a class="logo" href="#top" aria-label="Atelier Nori, home">Atelier <em>Nori</em></a><nav aria-label="Main"><a class="ul" href="#work">Work</a><a class="ul" href="#services">Services</a><a class="ul" href="#room">Walk through</a><a class="ul" href="#style">Style quiz</a><a class="ul" href="#process">Process</a></nav><a class="btn sm bk" data-magnetic href="#book"><span>Book a consultation</span></a><button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="menu"><span>Menu</span></button></div></header>
+<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="#work">Work</a><a href="#services">Services</a><a href="#room">Walk through a room</a><a href="#style">Style quiz</a><a href="#process">Process</a><a href="#book">Book a consultation</a></nav><p>Atelier Nori · a fictional studio</p></div>
+
+<main id="top">
+<!-- 01 · HERO -->
+<section class="hero" aria-label="Atelier Nori">
+  <div class="hero-clip">
+    <video class="lazyv" muted loop playsinline preload="none" poster="photos/poster-wide.jpg" data-src="video/interior-wide.mp4" data-src-sm="video/interior-wide-sm.mp4" aria-hidden="true"></video>
+    <div class="hero-shade"></div>
+  </div>
+  <div class="hero-in">
+    <p class="eyebrow" data-hero>Interior design studio · Residential &amp; small commercial</p>
+    <h1 data-split data-now data-delay="1">Rooms that feel <em>like you.</em></h1>
+    <div class="hero-foot" data-hero>
+      <p>Calm, lived-in homes, designed slowly and drawn in 3D before anything is bought.</p>
+      <a class="scrollcue" href="#studio"><span>Scroll</span><i></i></a>
+      <p class="hero-no">Reel · A house on the hill<br>00:15</p>
+    </div>
+  </div>
+</section>
+
+<div class="mq" data-marquee="60" aria-hidden="true"><div class="mq-t"><span>Full-service design</span><span>Space planning</span><span>Kitchens &amp; bathrooms</span><span>Styling &amp; sourcing</span><span>Virtual design</span><span>Small commercial</span><span>Full-service design</span><span>Space planning</span><span>Kitchens &amp; bathrooms</span><span>Styling &amp; sourcing</span><span>Virtual design</span><span>Small commercial</span></div></div>
+
+<!-- 02 · STUDIO STATEMENT -->
+<section class="sec statement" id="studio">
+  <div class="g12">
+    <p class="label c1-3" data-reveal>(Studio)</p>
+    <h2 class="big c3-13" data-split>We design rooms slowly, and we live in them <em>before we draw them.</em></h2>
+    <div class="st-text c3-7" data-reveal><p>Atelier Nori is a small studio working on homes where quiet matters. We start with how you sit, where the light falls at four o’clock and what you reach for first in the morning, then we build everything else around that.</p><p>Every room is modelled, lit and styled in 3D first, so you can walk through it, change your mind and sign it off with confidence.</p><a class="ul arrow" href="#room">Walk through a room</a></div>
+    <figure class="st-fig c9-13" data-wipe><video class="lazyv" data-parallax="0.1" muted loop playsinline preload="none" poster="photos/poster-tall.jpg" data-src="video/interior-tall.mp4" aria-label="A living room, slowly filmed"></video><figcaption>Living room, afternoon. Film.</figcaption></figure>
+  </div>
+</section>
+
+<!-- 03 · SELECTED WORK -->
+<section class="work" id="work">
+  <div class="wrap work-h"><p class="label" data-reveal>(Sample projects · 2023–2025)</p><h2 class="mid" data-split>Three rooms, <em>closely.</em></h2></div>
+
+  <article class="spread s1 g12 wrap">
+    <figure class="img a" data-wipe><img data-parallax="0.12" src="photos/room-1.jpg" width="1400" height="1750" alt="A Japandi living room with a low linen sofa, pale oak and soft daylight" loading="lazy" decoding="async"><figcaption><b>01</b> Living room · Concept render</figcaption></figure>
+    <div class="tx">
+      <p class="rn" data-reveal>01</p>
+      <h3 data-split>House <em>on the hill</em></h3>
+      <p data-reveal>A long, low living room opened up to the garden. Pale oak, undyed linen and a low sofa that faces the garden, with nothing on the walls that the room did not ask for.</p>
+      <dl data-reveal><div><dt>Style</dt><dd>Japandi</dd></div><div><dt>Area</dt><dd>46 m²</dd></div><div><dt>Year</dt><dd>2025</dd></div></dl><p class="samp" data-reveal>Sample project · details are illustrative</p>
+    </div>
+    <figure class="img b" data-wipe><img data-parallax="0.1" src="photos/room-5.jpg" width="1400" height="1867" alt="A quiet study with a timber desk and a window" loading="lazy" decoding="async"><figcaption><b>Detail</b> Study · Concept render</figcaption></figure>
+  </article>
+
+  <article class="spread s2 g12 wrap">
+    <div class="tx">
+      <p class="rn" data-reveal>02</p>
+      <h3 data-split>The <em>long table</em></h3>
+      <p data-reveal>A kitchen and dining room for people who cook for a crowd. Walnut joinery drawn to the millimetre, a seamless pale floor, and a table long enough to forget about the time.</p>
+      <dl data-reveal><div><dt>Style</dt><dd>Warm minimal</dd></div><div><dt>Area</dt><dd>38 m²</dd></div><div><dt>Year</dt><dd>2024</dd></div></dl><p class="samp" data-reveal>Sample project · details are illustrative</p>
+    </div>
+    <figure class="img a" data-wipe><img data-parallax="0.12" src="photos/room-2.jpg" width="1400" height="1750" alt="A warm minimal kitchen and dining room with oak cabinetry and a long table" loading="lazy" decoding="async"><figcaption><b>02</b> Kitchen &amp; dining</figcaption></figure>
+    <figure class="img b" data-wipe><img data-parallax="0.1" src="photos/clay.jpg" width="1600" height="2400" alt="Three hand-built clay vessels on a pale stone plinth" loading="lazy" decoding="async"><figcaption><b>Detail</b> Clay, on the plinth</figcaption></figure>
+  </article>
+
+  <article class="spread s3">
+    <figure class="s3-img" data-wipe><img data-parallax="0.1" src="photos/room-4.jpg" width="1400" height="788" alt="A dark, intimate tea room lit by a single warm lamp" loading="lazy" decoding="async"></figure>
+    <div class="s3-tx wrap">
+      <p class="rn" data-reveal>03</p>
+      <h3 data-split>The <em>tea room</em></h3>
+      <div class="s3-cap" data-reveal><p><b>Project 03</b> A fourteen-square-metre room, painted the colour of strong tea and lit by one lamp. Moody, on purpose.</p><p class="meta">Moody · 14 m² · 2025 · Sample project</p></div>
+    </div>
+  </article>
+</section>
+
+<!-- 04 · PINNED HORIZONTAL GALLERY -->
+<section class="hgal" id="rooms" data-pin-scrub aria-label="Rooms in passing, a horizontal gallery">
+  <div class="hg-track" data-track>
+    <div class="hg-intro"><p class="label">(More rooms)</p><h2 class="mid">Rooms, <em>in passing.</em></h2><p>Bedrooms, baths and the small things that make them. Keep scrolling.</p></div>
+    <figure class="hg h1"><img src="photos/room-3.jpg" width="1400" height="2100" alt="A single lamp glowing against a dark wall" loading="lazy" decoding="async"><figcaption>Lamp, tea room</figcaption></figure>
+    <figure class="hg h2"><img src="photos/bedroom.jpg" width="1600" height="1257" alt="A calm bedroom with an arched oak headboard and cream linen" loading="lazy" decoding="async"><figcaption>Bedroom, warm minimal</figcaption></figure>
+    <figure class="hg h3"><img src="photos/bath-oak.jpg" width="1600" height="2000" alt="A black stone bath beside a tall window and an oak wall" loading="lazy" decoding="async"><figcaption>Bathroom, oak and stone</figcaption></figure>
+    <figure class="hg h4"><img src="photos/linen.jpg" width="1600" height="1067" alt="Soft undyed linen curtain falling to a pale floor" loading="lazy" decoding="async"><figcaption>Linen, undyed</figcaption></figure>
+    <figure class="hg h5"><img src="photos/bath-stone.jpg" width="1600" height="1867" alt="A stone vanity with two glass basins under warm light" loading="lazy" decoding="async"><figcaption>Bathroom, vanity</figcaption></figure>
+    <figure class="hg h6"><img src="photos/vase.jpg" width="1600" height="2400" alt="A white ceramic vase with a trailing branch beside an abstract print" loading="lazy" decoding="async"><figcaption>Styling, the corner</figcaption></figure>
+    <div class="hg-end"><p>Next, a room you can <em>step into.</em></p></div>
+  </div>
+</section>
+
+<!-- 05 · SERVICES INDEX -->
+<section class="sec services" id="services">
+  <div class="g12">
+    <p class="label c1-3" data-reveal>(Services)</p>
+    <h2 class="mid c3-13" data-split>One room, or <em>the whole house.</em></h2>
+  </div>
+  <ol class="index" data-stagger="0.07">
+    <li><span class="ix">01</span><h3>Full-service design</h3><p>Concept, layout, sourcing, contractors and installation, managed end to end.</p><img src="photos/room-1.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
+    <li><span class="ix">02</span><h3>Space planning</h3><p>Scaled layouts that make a small or awkward room work hard.</p><img src="photos/room-5.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
+    <li><span class="ix">03</span><h3>Kitchens &amp; bathrooms</h3><p>Joinery and stone drawn and detailed for your builder.</p><img src="photos/bath-oak.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
+    <li><span class="ix">04</span><h3>Styling &amp; sourcing</h3><p>Furniture, lighting, textiles and art, chosen and placed.</p><img src="photos/vase.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
+    <li><span class="ix">05</span><h3>Virtual design</h3><p>A 3D room plan and shopping list delivered online, wherever you live.</p><img src="photos/room-3.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
+    <li><span class="ix">06</span><h3>Small commercial</h3><p>Cafés, studios and boutique offices with a calm, considered feel.</p><img src="photos/room-4.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
+  </ol>
+</section>
+
+<!-- 06 · WALK THROUGH A ROOM (3D) -->
+<section class="tour" id="room" aria-label="Walk through a room, a live 3D living room">
+  <div class="stick" id="stick">
+    <div class="tcol">
+      <div>
+        <p class="label">(Live in 3D)</p>
+        <h2 class="mid">Walk through <em>a room.</em></h2>
+        <div class="caps" aria-live="polite">
+          <div class="cap on"><p class="k">01 · Comfort first</p><p>Every plan begins with how you actually live: where you read, where guests land, where the light falls.</p></div>
+          <div class="cap"><p class="k">02 · Light &amp; nature</p><p>We plan around daylight and bring the outside in: plants, natural fibres and colour that changes with the hour.</p></div>
+          <div class="cap"><p class="k">03 · Every piece</p><p>A clear layout, a sourced shopping list and a contractor-ready plan. Try another style, or switch to evening.</p></div>
+        </div>
+      </div>
+      <p class="hint"><span id="stepNo">01</span> / 03 · Scroll to move through the room</p>
+    </div>
+    <div class="stage">
+      <canvas id="room3d" role="img" aria-label="A 3D living room. Scroll to move through it; choose a style below."></canvas>
+      <p class="ld" id="ld" role="status">Setting the room</p>
+      <img class="fb" id="fb" src="photos/room-1.jpg" alt="A Japandi living room" hidden>
+    </div>
+    <div class="ctrl" role="group" aria-label="Room style and lighting">
+      <div class="styles"><span class="cl">Style</span>
+        <button class="th" type="button" data-theme="japandi" aria-pressed="true">Japandi</button><button class="th" type="button" data-theme="midcentury" aria-pressed="false">Mid-century</button><button class="th" type="button" data-theme="coastal" aria-pressed="false">Coastal</button><button class="th" type="button" data-theme="moody" aria-pressed="false">Moody</button></div>
+      <button class="sw" type="button" id="night" aria-pressed="false"><span>Day</span><i aria-hidden="true"></i><span>Evening</span></button>
+      <div class="rail" aria-hidden="true"><i id="railFill"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 · STYLE QUIZ -->
+<section class="sec quiz" id="style">
+  <div class="g12">
+    <p class="label c1-3" data-reveal>(Style quiz)</p>
+    <h2 class="mid c3-9" data-split>Three questions, <em>one room.</em></h2>
+    <div class="qz c3-13">
+      <div class="q" data-q="1"><p class="qh"><span>I</span>Your perfect Sunday?</p><div class="opts"><button class="opt" type="button" data-v="japandi" aria-pressed="false">Tea and a quiet book</button><button class="opt" type="button" data-v="midcentury" aria-pressed="false">Records and friends</button><button class="opt" type="button" data-v="coastal" aria-pressed="false">A long walk by water</button><button class="opt" type="button" data-v="moody" aria-pressed="false">Candles and a film</button></div></div>
+      <div class="q" data-q="2"><p class="qh"><span>II</span>Pick a material.</p><div class="opts"><button class="opt" type="button" data-v="japandi" aria-pressed="false">Pale oak</button><button class="opt" type="button" data-v="midcentury" aria-pressed="false">Walnut</button><button class="opt" type="button" data-v="coastal" aria-pressed="false">Linen</button><button class="opt" type="button" data-v="moody" aria-pressed="false">Velvet</button></div></div>
+      <div class="q" data-q="3"><p class="qh"><span>III</span>And a colour?</p><div class="opts"><button class="opt" type="button" data-v="japandi" aria-pressed="false">Sage</button><button class="opt" type="button" data-v="midcentury" aria-pressed="false">Mustard</button><button class="opt" type="button" data-v="coastal" aria-pressed="false">Sea blue</button><button class="opt" type="button" data-v="moody" aria-pressed="false">Forest green</button></div></div>
+      <div class="res" id="qRes" aria-live="polite"><p class="rk">Your style</p><p class="rt" id="qTitle">Answer three to see it</p><p class="rd" id="qDesc">Your result will restyle the 3D room above.</p><div class="sws" id="qSw" aria-hidden="true"></div><button class="btn" id="qGo" data-magnetic type="button" hidden><span>See it in the room</span></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 · PROCESS -->
+<section class="sec process" id="process">
+  <div class="g12">
+    <p class="label c1-3" data-reveal>(Process)</p>
+    <h2 class="mid c3-13" data-split>From first call to <em>last cushion.</em></h2>
+  </div>
+  <ol class="steps" data-stagger="0.12">
+    <li><span class="sn">I</span><h3>Consultation</h3><p>A visit or video call to see the space and hear how you live.</p></li>
+    <li><span class="sn">II</span><h3>Concept</h3><p>Moodboards, a 3D layout and a first look at materials.</p></li>
+    <li><span class="sn">III</span><h3>Design plan</h3><p>Final drawings, finishes and a full shopping list with prices.</p></li>
+    <li><span class="sn">IV</span><h3>Installation</h3><p>We order, coordinate the trades and style the room, ready to live in.</p></li>
+  </ol>
+</section>
+
+<!-- 09 · BOOK + FOOTER -->
+<section class="book" id="book">
+  <div class="g12 wrap">
+    <div class="b-l c1-6"><p class="label" data-reveal>(Consultation)</p><h2 class="big" data-split>Let’s design <em>your room.</em></h2><p data-reveal>Tell us about the space. We reply within one working day.</p></div>
+    <form id="bForm" class="c8-13" autocomplete="off">
+      <label class="f">Name<input name="n" required autocomplete="off"></label>
+      <label class="f">Email or phone<input name="c" required autocomplete="off"></label>
+      <label class="f">Which room?<select name="r"><option>Living room</option><option>Kitchen &amp; dining</option><option>Bedroom</option><option>Bathroom</option><option>Whole home</option><option>Commercial space</option></select></label>
+      <label class="f">Tell us more<textarea name="m" rows="3"></textarea></label>
+      <button class="btn lt" data-magnetic type="submit"><span>Request a consultation</span></button>
+      <p id="bDone" role="status" hidden>Thank you. On a live site this books the call and logs the enquiry. This demo stops here.</p>
+    </form>
+  </div>
+  <footer class="ft">
+    <div class="wrap ft-row"><p>Fictional studio · design sample by <a class="ul" href="../../index.html">Abhishek</a></p><p>Photos: Unsplash · Video: Pexels · 3D: Poly Haven (CC0), Wayfair via Khronos glTF samples (CC BY 4.0)</p></div>
+    <p class="mark" data-split aria-hidden="true">Atelier <em>Nori</em></p>
+  </footer>
+</section>
+</main>
+</body>
+</html>

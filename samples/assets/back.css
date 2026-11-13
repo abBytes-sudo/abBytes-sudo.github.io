@@ -1,0 +1,13 @@
+.to-home{position:fixed;left:16px;bottom:16px;z-index:90;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px 0 14px;border-radius:999px;background:rgba(20,18,16,.86);color:#F4EFE7;font:600 13.5px/1 system-ui,-apple-system,'Segoe UI',sans-serif;letter-spacing:.01em;text-decoration:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.25),inset 0 0 0 1px rgba(255,255,255,.12);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .35s,transform .35s}
+.to-home.on{opacity:1;transform:none;pointer-events:auto}
+.to-home:hover{background:rgba(0,0,0,.92)}
+.to-home b{font-size:16px;line-height:1}
+.back-top{font-weight:600;text-decoration:underline;text-underline-offset:3px;margin-right:10px;white-space:nowrap}
+@media print{.to-home{display:none}}
+/* pages can lift the floating button above their own bottom controls: body{--to-home-bottom:96px} */
+.to-home{bottom:var(--to-home-bottom,16px)}
+.back-top{display:inline-block;padding:8px 0}
+@media (max-width:700px){
+  .to-home{left:12px;width:44px;height:44px;padding:0;justify-content:center;font-size:0;gap:0}
+  .to-home b{font-size:20px}
+}

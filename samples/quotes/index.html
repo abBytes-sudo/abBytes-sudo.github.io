@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marlow &amp; Reed Quote Desk · BOQ quotes that become project plans</title>
+<meta name="description" content="A quoting system and mini-ERP for a fictional design-build studio, built by Abhishek as a design sample: rate library, BOQ quote builder, client quote link, project plan and dashboard.">
+<meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Marlow &amp; Reed Quote Desk: BOQ quotes that become project plans">
+<meta property="og:description" content="A quoting system and mini-ERP for a fictional design-build studio: rate library, BOQ builder, client accept link and an auto-built project plan. Design sample by Abhishek.">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/quotes/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/quotes/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Marlow &amp; Reed Quote Desk">
+<meta name="twitter:description" content="BOQ quotes that become project plans. A design sample by Abhishek.">
+<meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/quotes/og.jpg">
+<meta name="theme-color" content="#F6F5F2">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;450;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Caveat:wght@500&display=swap">
+<link rel="stylesheet" href="quotes.css?v=9">
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="quotes.js?v=9" defer></script>
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<p class="demo"><span class="lg">Marlow &amp; Reed is a fictional studio and all data here is demo data. This is a design sample by <a href="../../index.html">Abhishek</a>.</span><span class="sm">Fictional · design sample by <a href="../../index.html">Abhishek</a></span></p>
+<div class="app" id="app">
+  <aside class="side" id="side" aria-label="Sidebar">
+    <div class="side-top">
+      <a class="brand" href="#/" aria-label="Marlow &amp; Reed Quote Desk, home"><span class="mark" aria-hidden="true">M<i>&amp;</i>R</span><span class="bn">Marlow &amp; Reed<small>Quote Desk</small></span></a>
+    </div>
+    <nav aria-label="Main" id="nav" class="nav"></nav>
+    <div class="side-ft">
+      <button type="button" class="nav-btn" data-act="shortcuts"><span class="ico" data-ic="keys"></span><span class="lb">Shortcuts</span><kbd>?</kbd></button>
+      <button type="button" class="nav-btn" data-act="reset"><span class="ico" data-ic="reset"></span><span class="lb">Reset demo data</span></button>
+      <p class="fine">Stored only in this browser.</p>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim" hidden></div>
+  <div class="col">
+    <header class="top" id="top">
+      <button type="button" class="icon-btn" data-act="toggle-side" aria-label="Toggle sidebar" aria-expanded="true" aria-controls="side"><span class="ico" data-ic="panel"></span></button>
+      <p class="crumbs" id="crumbs"></p>
+      <button type="button" class="searchbtn" data-act="palette" aria-label="Search or jump to (Command K)"><span class="ico" data-ic="search"></span><span class="ph-t">Search quotes, clients, actions</span><kbd><span class="k-mod">⌘</span>K</kbd></button>
+      <button type="button" class="btn pri sm top-new" data-act="new-quote"><span class="ico" data-ic="plus"></span><span class="lb">New quote</span></button>
+    </header>
+    <main id="main" tabindex="-1"></main>
+  </div>
+</div>
+<dialog id="dlg" class="modal" aria-labelledby="dlgT"></dialog>
+<dialog id="drawer" class="drawer" aria-labelledby="drT"></dialog>
+<dialog id="pal" class="palette" aria-label="Command palette"></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="tip" class="tip" role="presentation" hidden></div>
+<noscript><p style="padding:24px">This demo needs JavaScript.</p></noscript>
+</body>
+</html>

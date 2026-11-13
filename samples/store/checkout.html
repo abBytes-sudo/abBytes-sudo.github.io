@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout · Northlane (demo)</title>
+<meta name="description" content="A demonstration checkout: no payment is taken. Northlane is a fictional store, a design sample by Abhishek.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Northlane (design sample)">
+<meta property="og:title" content="Checkout · Northlane (demo)"><meta property="og:description" content="A demonstration checkout: no payment is taken. Northlane is a fictional store, a design sample by Abhishek.">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/store/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Checkout · Northlane (demo)"><meta name="twitter:description" content="A demonstration checkout: no payment is taken. Northlane is a fictional store, a design sample by Abhishek."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/store/og.jpg">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/vendor/lenis.css">
+<link rel="stylesheet" href="store.css?v=8">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="../assets/vendor/SplitText.min.js" defer></script>
+<script src="../assets/vendor/lenis.min.js" defer></script>
+<script src="../assets/motion.js" defer></script>
+<script src="catalog.js?v=8" defer></script>
+<script src="../orders/orders.js?v=3" defer></script>
+<script src="store.js?v=8" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body data-page="checkout">
+<main id="main">
+<div class="co">
+  <div class="co-demo"><b>Demo checkout</b><span>No payment is taken and nothing you type leaves your browser.</span></div>
+  <section>
+    <h1>Checkout</h1>
+    <form id="coForm" autocomplete="off">
+      <div id="coFields">
+        <h2 class="lg">Contact</h2>
+        <label class="f"><span>Email</span><input type="email" required autocomplete="off"></label>
+        <h2 class="lg" style="margin-top:30px">Delivery address</h2>
+        <div class="row"><label class="f"><span>First name</span><input required></label><label class="f"><span>Last name</span><input required></label></div>
+        <label class="f"><span>Address</span><input required></label>
+        <div class="row"><label class="f"><span>City</span><input required></label><label class="f"><span>Postcode</span><input required></label></div>
+        <fieldset><legend>Delivery</legend>
+          <label class="ship-opt"><input type="radio" name="sh" value="std" checked><span>Standard · 3 to 5 days</span><b>Free over $150, else $8</b></label>
+          <label class="ship-opt"><input type="radio" name="sh" value="exp"><span>Express · next day</span><b>$18</b></label>
+        </fieldset>
+        <fieldset><legend>Payment</legend><p class="ship-opt" style="cursor:default;color:var(--ink2)">Payment is switched off in this demo. A live store would connect to a payment provider here.</p></fieldset>
+        <button class="nl-btn" id="coBtn" type="submit">Place demo order</button>
+        <p class="co-fine">By placing this demo order you agree to nothing, because nothing happens.</p>
+      </div>
+      <div id="coDone" hidden><h2 tabindex="-1">Thank you. <em>This is a demo.</em></h2><p>Order <b id="coNum"></b> would be confirmed here. Nothing was charged and no email was sent.</p><p>It now sits in the demo store admin as a new order. Track it, then open the admin to pack and ship it.</p><a class="nl-btn" id="coTrack" href="../orders/track.html">Track this order <span class="arrow" aria-hidden="true">→</span></a></div>
+    </form>
+  </section>
+  <aside class="co-sum" aria-label="Order summary"><h2>Your bag</h2><ul id="coList"></ul>
+    <div class="co-t"><p><span>Subtotal</span><span id="coSub"></span></p><p><span>Shipping</span><span id="coShip"></span></p><p class="big"><span>Total</span><span id="coTot"></span></p></div></aside>
+</div>
+</main>
+</body>
+</html>
