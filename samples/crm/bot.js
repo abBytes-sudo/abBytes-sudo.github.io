@@ -8,7 +8,7 @@
   var outPill = function (o) { return '<span class="tag-p ' + OUT[o][1] + '">' + OUT[o][0] + '</span>'; };
   var short = function (s, n) { s = String(s || ''); return s.length > (n || 46) ? s.slice(0, (n || 46) - 1) + '…' : s; };
   var flow = function () { return S().bot; };
-  var tab = function () { return C.ui.botTab || 'flow'; };
+  var tab = function () { return C.ui.botTab || 'orbit'; };
   var side = function () { return C.ui.botSide || 'edit'; };
   var NW = 252, HC = 19;
 
@@ -32,8 +32,8 @@
     title: function () { return 'Chatbot manager'; },
     render: function () {
       var st = stats(), t = tab();
-      C.chartSpecs.ring = function () { return C.chart.donut({ size: 84, sw: 10, items: [{ label: 'Handled without an agent', value: st.h, color: '#2B59FF' }, { label: 'Handed to an agent', value: st.hand, color: '#DDE1EA' }], center: '', label: st.pct + ' percent of chats handled without an agent' }); };
-      var tabs = [['flow', 'Flow & test'], ['log', 'Transcripts']].map(function (x) {
+      C.chartSpecs.ring = function () { return C.chart.donut({ size: 84, sw: 10, items: [{ label: 'Handled without an agent', value: st.h, color: '#4F46E5' }, { label: 'Handed to an agent', value: st.hand, color: '#DDE1EA' }], center: '', label: st.pct + ' percent of chats handled without an agent' }); };
+      var tabs = [['orbit', 'Website assistant'], ['flow', 'Lead-form flow'], ['log', 'Transcripts']].map(function (x) {
         return '<button type="button" role="tab" id="tab-' + x[0] + '" aria-controls="panel" aria-selected="' + (t === x[0]) + '" tabindex="' + (t === x[0] ? 0 : -1) + '" data-act="tab" data-k="botTab" data-v="' + x[0] + '">' + x[1] + '</button>';
       }).join('');
       return C.page('Chatbot manager', 'A scripted, rule-based assistant that answers common questions and captures leads before an agent is needed', '<button type="button" class="btn" data-act="bot-reset">' + C.ic('refresh', 14) + 'Reset flow</button>') +
@@ -42,9 +42,9 @@
         '<div class="kpi"><div class="kl">Leads captured</div><div class="kv"><span data-count="' + st.leads + '" data-f="int">' + st.leads + '</span></div><div class="ks">Auto-added to the inbox</div></div>' +
         '<div class="kpi"><div class="kl">Handed to an agent</div><div class="kv"><span data-count="' + st.hand + '" data-f="int">' + st.hand + '</span></div><div class="ks">Avg. wait 1m 40s</div></div></section>' +
         '<div class="tabs" role="tablist" aria-label="Chatbot sections">' + tabs + '</div>' +
-        '<div id="panel" role="tabpanel" aria-labelledby="tab-' + t + '">' + (t === 'flow' ? flowPanel() : logPanel()) + '</div>';
+        '<div id="panel" role="tabpanel" aria-labelledby="tab-' + t + '">' + (t === 'orbit' ? (C.orbitTree ? C.orbitTree() : '') : t === 'flow' ? flowPanel() : logPanel()) + '</div>';
     },
-    mount: function () { if (tab() === 'flow') mountCanvas(); }
+    mount: function () { if (tab() === 'flow') mountCanvas(); if (tab() === 'orbit' && C.orbitTreeMount) C.orbitTreeMount(); }
   };
   C.acts['bot-reset'] = function () { var f = C.flowSeed(); S().bot = f; C.ui.botNode = null; C.ui.test = null; C.ui.cv = null; C.save(); C.toast('Flow reset to the default script', { icon: 'refresh' }); C.rerender(); };
 
@@ -92,7 +92,7 @@
   }
   function edgesHTML(anim) {
     var rects = nodeRects(), ek = 0;
-    var f = flow(), sel = selNode(), T = trail(), out = '<defs><marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0.8 7.2 4 0 7.2z" fill="#A9AFBD"/></marker><marker id="ar-on" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0.8 7.2 4 0 7.2z" fill="#2B59FF"/></marker></defs>';
+    var f = flow(), sel = selNode(), T = trail(), out = '<defs><marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0.8 7.2 4 0 7.2z" fill="#A9AFBD"/></marker><marker id="ar-on" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0.8 7.2 4 0 7.2z" fill="#4F46E5"/></marker></defs>';
     Object.keys(f.nodes).forEach(function (id) {
       var n = f.nodes[id]; if (n.type !== 'question') return;
       (n.options || []).forEach(function (o, i) {
@@ -344,7 +344,7 @@
   };
   function testPanel() {
     return '<div class="chatbox"><div class="chat-h">' + C.avatar('Lumi', 30) + '<div class="grow"><b>Lumi</b><div class="muted sm"><span class="live-dot"></span>Preview · runs your current flow</div></div><button type="button" class="btn sm" data-act="test-restart">' + C.ic('refresh', 13) + 'Restart</button></div><div class="chat" id="chat" role="log" aria-live="polite" aria-label="Chat preview"></div><div id="chat-opts" class="chat-opts"></div></div>' +
-      '<p class="hint">Finishing a chat saves a transcript, and capturing a lead adds a real entry to this demo’s inbox. Watch the path light up on the canvas.</p>';
+      '<p class="hint">Finishing a chat saves a transcript, and capturing a lead adds a real entry to the lead inbox. Watch the path light up on the canvas.</p>';
   }
 
   // ---------- transcripts ---------------------------------------------------

@@ -15,12 +15,12 @@
   C.mod = isMac ? '⌘' : 'Ctrl';
 
   C.SOURCES = {
-    web: { label: 'Website form', color: '#2B59FF', icon: 'form' }, google: { label: 'Google search', color: '#0B8F9E', icon: 'search' },
+    web: { label: 'Website form', color: '#4F46E5', icon: 'form' }, google: { label: 'Google search', color: '#0B8F9E', icon: 'search' },
     meta: { label: 'Meta ads', color: '#8454E8', icon: 'mega' }, whatsapp: { label: 'WhatsApp', color: '#1F9D57', icon: 'wa' },
     chatbot: { label: 'Chatbot', color: '#D9731F', icon: 'bot' }, phone: { label: 'Phone', color: '#667085', icon: 'phone' }
   };
   C.STAGES = [
-    { id: 'new', label: 'New', color: '#2B59FF' }, { id: 'contacted', label: 'Contacted', color: '#8791A8' },
+    { id: 'new', label: 'New', color: '#4F46E5' }, { id: 'contacted', label: 'Contacted', color: '#8791A8' },
     { id: 'site', label: 'Site visit', color: '#5F6B86' }, { id: 'quote', label: 'Quote sent', color: '#323A4E' },
     { id: 'won', label: 'Won', color: '#1F9D57' }, { id: 'lost', label: 'Lost', color: '#C4C8D0' }
   ];
@@ -61,6 +61,7 @@
     grip: '<circle cx="9" cy="6" r="1.3"/><circle cx="15" cy="6" r="1.3"/><circle cx="9" cy="12" r="1.3"/><circle cx="15" cy="12" r="1.3"/><circle cx="9" cy="18" r="1.3"/><circle cx="15" cy="18" r="1.3"/>',
     flag: '<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>', pin: '<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'
   };
+  C.IC = IC;
   C.ic = function (n, s) { s = s || 16; return '<svg class="ic" viewBox="0 0 24 24" width="' + s + '" height="' + s + '" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (IC[n] || '') + '</svg>'; };
   C.srcIco = function (k, s) { var o = C.SOURCES[k]; return '<span class="sico" style="--c:' + o.color + '" title="' + esc(o.label) + '">' + C.ic(o.icon, s || 14) + '</span>'; };
   C.srcBadge = function (k) { var o = C.SOURCES[k]; return '<span class="src">' + C.srcIco(k) + '<span>' + o.label + '</span></span>'; };
@@ -72,7 +73,10 @@
   };
 
   // ---- state --------------------------------------------------------------
-  var KEY = 'lumen-crm-demo-v1', PKEY = 'lumen-crm-prefs-v2', S = null, P = { side: false, views: [] };
+  // each workspace has its own state; the default (Lumen Homes) keeps the original key
+  C.wsId = (function () { try { return localStorage.getItem('lumen-crm-ws') || ''; } catch (e) { return ''; } })();
+  if (!/^[a-z0-9-]{0,40}$/.test(C.wsId)) C.wsId = '';
+  var KEY = C.wsId ? 'lumen-crm-ws-' + C.wsId : 'lumen-crm-demo-v1', PKEY = 'lumen-crm-prefs-v2', S = null, P = { side: false, views: [] };
   function load() {
     try {
       var raw = localStorage.getItem(KEY);
@@ -104,7 +108,7 @@
   C.page = function (h1, sub, actions) {
     return '<header class="page-h"><div><h1>' + h1 + '</h1>' + (sub ? '<p class="sub">' + sub + '</p>' : '') + '</div>' + (actions ? '<div class="page-a">' + actions + '</div>' : '') + '</header>';
   };
-  C.simTag = '<span class="sim" title="No real API is called">Simulated data</span>';
+  C.simTag = '';
   C.leadHref = function (id) { return '#/' + (C.cur ? C.cur.name : 'inbox') + '/' + id; };
   C.fmts = {
     int: C.num, pct: function (v) { return v.toFixed(0) + '%'; }, min: C.fmtMin, money: C.money, inr: C.inr,
@@ -121,6 +125,7 @@
     if (lead.status === to) return false;
     var from = lead.status; lead.status = to;
     C.log(lead, 'status', 'Status changed from ' + C.stageLabel(from) + ' to ' + C.stageLabel(to));
+    if (C.audit) C.audit('stage', { t: 'lead', id: lead.id, name: lead.name }, 'Lead status', C.stageLabel(from), C.stageLabel(to));
     if (lead.resp == null && from === 'new') lead.resp = Math.max(1, Math.round((Date.now() - lead.created) / 6e4));
     if (to === 'won' || to === 'lost') S.tasks.forEach(function (t) { if (t.leadId === lead.id && !t.done) { t.done = true; t.doneAt = Date.now(); } });
     if (lead.source === 'meta') { var m = { contacted: 'Contact', site: 'Schedule', won: 'Purchase' }[to]; if (m) C.capi(lead, m); }
@@ -346,7 +351,7 @@
   C.acts['dlg-close'] = function () { $('#dlg').close(); };
 
   // ---- command palette ----------------------------------------------------
-  var PAGES = [['Dashboard', 'dashboard', 'dash', 'g d', 'overview kpi charts'], ['Lead inbox', 'inbox', 'inbox', 'g i', 'leads table'], ['Pipeline', 'pipeline', 'pipe', 'g p', 'kanban stages board'], ['Tasks', 'tasks', 'tasks', 'g t', 'follow-ups todo'], ['Chatbot manager', 'bot', 'bot', 'g b', 'flow editor transcripts'], ['UTM builder', 'utm', 'link', 'g u', 'campaign links tracking'], ['Integrations', 'integrations', 'plug', 'g n', 'search console meta ads']];
+  var PAGES = [['Home', 'dashboard', 'dash', 'g h', 'dashboard overview kpi charts'], ['Lead inbox', 'inbox', 'inbox', 'g i', 'leads table'], ['Lead board', 'pipeline', 'pipe', 'g p', 'kanban stages board pipeline'], ['Deals', 'deals', 'deal', 'g e', 'pipelines kanban sales partnerships line items'], ['Contacts', 'contacts', 'user', 'g c', 'people records import csv'], ['Companies', 'companies', 'building', 'g o', 'accounts organisations'], ['Quotes', 'quotes', 'quote', 'g q', 'quotation gst discount pdf'], ['Tickets', 'tickets', 'ticket', 'g k', 'service after sales snags support'], ['Workflows', 'workflows', 'bolt', 'g w', 'automation rules stage gates blueprint'], ['Sequences', 'sequences', 'flow', 'g s', 'email whatsapp cadence'], ['Scoring and routing', 'routing', 'gauge', 'g l', 'lead score round robin sla'], ['Reports', 'reports', 'chart', 'g r', 'funnel roi forecast leaderboard dashboard'], ['Conversations', 'conversations', 'mail', 'g m', 'email whatsapp threads shared inbox'], ['Calendar', 'calendar', 'cal', 'g a', 'week meetings site visits calls'], ['Settings', 'settings', 'key', 'g ,', 'users roles permissions pipelines custom fields sources business hours templates audit log'], ['Tasks', 'tasks', 'tasks', 'g t', 'follow-ups todo'], ['Chatbot manager', 'bot', 'bot', 'g b', 'flow editor transcripts'], ['UTM builder', 'utm', 'link', 'g u', 'campaign links tracking'], ['Integrations', 'integrations', 'plug', 'g n', 'marketplace apps connectors accounting stockroom'], ['Tracking overview', 'tracking', 'target', '', 'meta pixel capi search console event match quality'], ['Meta Pixel', 'pixel', 'scan', '', 'browser events facebook'], ['Conversions API', 'capi', 'server', '', 'server events meta delivery log payload hashing'], ['Attribution', 'attribution', 'chart', '', 'roas cpl campaigns ads'], ['Search Console', 'gsc', 'search', '', 'seo google indexing url inspection core web vitals']];
   var palSel = 0, palItems = [];
   function palBuild(q) {
     q = q.trim().toLowerCase(); var terms = q.split(/\s+/).filter(Boolean), out = [];
@@ -360,12 +365,13 @@
       { g: 'Actions', ic: 'mega', label: 'Open Meta Ads panel', key: '', kw: 'facebook capi', run: function () { C.ui.itab = 'meta'; if (C.cur.name === 'integrations') C.route(false, true); else location.hash = '#/integrations'; } },
       { g: 'Actions', ic: 'side', label: 'Toggle sidebar', key: '[', run: function () { C.acts['side-toggle'](); } },
       { g: 'Actions', ic: 'key', label: 'Keyboard shortcuts', key: '?', run: function () { C.acts.help(); } },
-      { g: 'Actions', ic: 'refresh', label: 'Reset demo data', key: '', kw: 'restore seed', run: function () { C.acts.reset(); } }
+      { g: 'Actions', ic: 'refresh', label: 'Start fresh', key: '', kw: 'restore seed', run: function () { C.acts.reset(); } }
     ].filter(function (a) { return hit(a.label + ' ' + (a.kw || '')); });
-    var L = S.leads.slice().sort(function (a, b) { return b.created - a.created; });
+    var L = S.leads.filter(function (l) { return !C.visibleLead || C.visibleLead(l); }).sort(function (a, b) { return b.created - a.created; });
     if (terms.length) L = L.filter(function (l) { return hit(l.name + ' ' + l.id + ' ' + l.service + ' ' + l.loc + ' ' + l.phone + ' ' + C.SOURCES[l.source].label + ' ' + l.status); }); else L = L.slice(0, 4);
     var leads = L.slice(0, 6).map(function (l) { return { g: terms.length ? 'Leads' : 'Recent leads', av: l.name, label: l.name, sub: l.id + ' · ' + l.service + ' · ' + C.stageLabel(l.status), run: function () { location.hash = '#/' + (C.cur.name === 'bot' || C.cur.name === 'utm' ? 'inbox' : C.cur.name) + '/' + l.id; } }; });
-    return out.concat(terms.length ? leads.concat(pages, acts) : pages.concat(acts, leads));
+    var extra = C.palExtra ? C.palExtra(terms, hit) : [];
+    return out.concat(terms.length ? extra.concat(leads, pages, acts) : extra.concat(pages, acts, leads));
   }
   function palPaint() {
     var q = $('#pal-q').value; palItems = palBuild(q); palSel = Math.min(palSel, Math.max(0, palItems.length - 1));
@@ -395,7 +401,7 @@
   });
   document.addEventListener('mousemove', function (e) { var li = e.target.closest && e.target.closest('.pal-i'); if (li && +li.dataset.i !== palSel) { palSel = +li.dataset.i; $$('.pal-i').forEach(function (n, k) { n.classList.toggle('on', +n.dataset.i === palSel); n.setAttribute('aria-selected', +n.dataset.i === palSel); }); } });
   C.acts.help = function () {
-    var rows = [['Command palette', C.mod + ' K'], ['Search', '/'], ['New lead', 'C'], ['Toggle sidebar', '['], ['Go to dashboard', 'G D'], ['Go to inbox', 'G I'], ['Go to pipeline', 'G P'], ['Go to tasks', 'G T'], ['Go to chatbot manager', 'G B'], ['Go to UTM builder', 'G U'], ['Go to integrations', 'G N'], ['Next / previous lead in inbox', 'J / K'], ['Move a pipeline card', '⇧ ← →'], ['Close drawer or dialog', 'Esc']];
+    var rows = [['Command palette', C.mod + ' K'], ['Search', '/'], ['New lead', 'C'], ['Toggle sidebar', '['], ['Go to home', 'G H'], ['Go to inbox', 'G I'], ['Go to lead board', 'G P'], ['Go to deals', 'G E'], ['Go to contacts', 'G C'], ['Go to companies', 'G O'], ['Go to tasks', 'G T'], ['Go to workflows', 'G W'], ['Go to sequences', 'G S'], ['Go to scoring and routing', 'G L'], ['Go to reports', 'G R'], ['Go to conversations', 'G M'], ['Go to calendar', 'G A'], ['Go to settings', 'G ,'], ['Go to quotes', 'G Q'], ['Go to tickets', 'G K'], ['Toggle dark theme', 'T'], ['Go to chatbot manager', 'G B'], ['Go to UTM builder', 'G U'], ['Go to integrations', 'G N'], ['Next / previous lead in inbox', 'J / K'], ['Tasks: next / previous task', 'J / K'], ['Tasks: complete (calls ask for an outcome)', 'X'], ['Tasks: snooze', 'S'], ['Tasks: assign', 'A'], ['Tasks: open the record', '↵'], ['Call queue: log an outcome', '1 2 3 4'], ['Call queue: quick note', 'N'], ['Move a pipeline card', '⇧ ← →'], ['Close drawer or dialog', 'Esc']];
     var d = $('#help'); d.innerHTML = '<div class="dlg"><div class="dlg-h"><h2>Keyboard shortcuts</h2><button type="button" class="ibtn" data-act="help-close" aria-label="Close">' + C.ic('x', 16) + '</button></div><div class="dlg-body"><ul class="kb">' + rows.map(function (r) { return '<li><span>' + r[0] + '</span><span>' + r[1].split(' ').map(function (k) { return k === '/' && r[1].indexOf(' / ') > -1 ? '<em>or</em>' : '<kbd>' + esc(k) + '</kbd>'; }).join('') + '</span></li>'; }).join('') + '</ul></div></div>';
     d.showModal();
   };
@@ -419,7 +425,7 @@
     if (typing || e.metaKey || e.ctrlKey || e.altKey || document.querySelector('dialog[open]')) return;
     var k = e.key;
     if (chord && Date.now() - chord < 1000) {
-      var m = { d: 'dashboard', i: 'inbox', p: 'pipeline', t: 'tasks', b: 'bot', u: 'utm', n: 'integrations' }[k.toLowerCase()]; chord = 0;
+      var m = { d: 'dashboard', h: 'dashboard', i: 'inbox', p: 'pipeline', t: 'tasks', b: 'bot', u: 'utm', n: 'integrations', e: 'deals', c: 'contacts', o: 'companies', w: 'workflows', s: 'sequences', l: 'routing', r: 'reports', m: 'conversations', a: 'calendar', ',': 'settings', q: 'quotes', k: 'tickets' }[k.toLowerCase()]; chord = 0;
       if (m) { location.hash = '#/' + m; e.preventDefault(); return; }
     }
     if (k === 'g') { chord = Date.now(); return; }
@@ -427,6 +433,7 @@
     else if (k === 'c') { e.preventDefault(); C.acts['new-lead'](); }
     else if (k === '[') C.acts['side-toggle']();
     else if (k === '?') C.acts.help();
+    else if (k === 't' && C.acts.theme) C.acts.theme();
   });
 
   // ---- global events ------------------------------------------------------
@@ -453,17 +460,20 @@
   };
   C.acts.reset = function () {
     try { localStorage.removeItem(KEY); } catch (e) { }
-    S = C.seed(); save(); C.ui = {}; if (C.cur && C.cur.lead) location.hash = '#/' + C.cur.name; C.route(false, true); C.toast('Demo data reset', { icon: 'refresh' });
+    S = C.seed(); if (C.proEnsure) C.proEnsure(S); save(); C.ui = {}; if (C.cur && C.cur.lead) location.hash = '#/' + C.cur.name; C.route(false, true); C.toast('Started fresh', { icon: 'refresh' });
   };
   C.acts.tab = function (el) { C.ui[el.dataset.k] = el.dataset.v; C.rerender(true); var t = $('[role="tab"][aria-selected="true"]'); if (t) t.focus(); };
 
   // ---- router -------------------------------------------------------------
   C.badges = function () {
-    var n = S.leads.filter(function (l) { return l.status === 'new'; }).length, open = S.leads.filter(function (l) { return l.status !== 'won' && l.status !== 'lost'; }).length;
-    var end = C.dayStart() + 864e5, d = S.tasks.filter(function (t) { return !t.done && t.due < end; }).length;
-    $$('[data-badge]').forEach(function (b) { var v = { inbox: n, tasks: d, pipeline: open }[b.dataset.badge]; b.textContent = v; b.hidden = !v; });
+    var vis = function (l) { return !C.visibleLead || C.visibleLead(l); }, mineT = function (t) { return !C.visibleOwner || C.visibleOwner(t.owner); };
+    var n = S.leads.filter(function (l) { return l.status === 'new' && vis(l); }).length, open = S.leads.filter(function (l) { return l.status !== 'won' && l.status !== 'lost' && vis(l); }).length;
+    var end = C.dayStart() + 864e5, d = S.tasks.filter(function (t) { return !t.done && t.due < end && mineT(t); }).length;
+    var bm = { inbox: n, tasks: d, pipeline: open }; (C.badgeFns || []).forEach(function (f) { var o = f() || {}; Object.keys(o).forEach(function (k) { bm[k] = o[k]; }); });
+    $$('[data-badge]').forEach(function (b) { var v = bm[b.dataset.badge]; b.textContent = v; b.hidden = !v; });
   };
   function paintView(v, anim, focus) {
+    if (C.preSkel && C.preSkel(v, function () { paintView(v, anim, focus); })) return;
     var main = $('#view'); main.innerHTML = v.render();
     if (v.mount) v.mount();
     C.drawCharts(); C.badges(); C.countUp(main);
@@ -475,11 +485,12 @@
     var arg = parts[1] ? decodeURIComponent(parts[1]) : null;
     if (name === 'lead' && arg) { history.replaceState(null, '', '#/inbox/' + arg); name = 'inbox'; }
     if (!C.views[name]) name = 'dashboard';
-    var lead = arg && /^L-\d+$/.test(arg) && C.lead(arg) ? arg : null;
-    var changed = !C.cur || C.cur.name !== name || force;
-    C.cur = { name: name, lead: lead };
-    document.title = C.views[name].title() + ' · Lumen CRM (design sample)';
+    var lead = arg && /^L-\d+$/.test(arg) && C.lead(arg) ? arg : null, rarg = lead ? (C.cur && C.cur.name === name ? C.cur.arg : null) : arg;
+    var changed = !C.cur || C.cur.name !== name || force || C.cur.arg !== rarg;
+    C.cur = { name: name, lead: lead, arg: rarg };
+    document.title = C.views[name].title() + ' · Lumen CRM Pro';
     $$('.nav a').forEach(function (a) { if (a.dataset.nav === name) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if (C.onRoute) C.onRoute(name, rarg);
     $('#crumb').textContent = C.views[name].title();
     document.body.classList.remove('nav-open'); $('#menu').setAttribute('aria-expanded', 'false');
     if (changed) { C.noFx = false; tipHide(); paintView(C.views[name], !force || focusMain, focusMain); }
@@ -495,8 +506,8 @@
 
   // ---- boot ---------------------------------------------------------------
   C.boot = function () {
-    S = load(); save();
-    try { var p = JSON.parse(localStorage.getItem(PKEY)); if (p && typeof p === 'object') P = { side: !!p.side, views: Array.isArray(p.views) ? p.views : [] }; } catch (e) { }
+    S = load(); if (C.proEnsure) C.proEnsure(S); save();
+    try { var p = JSON.parse(localStorage.getItem(PKEY)); if (p && typeof p === 'object') P = { side: !!p.side, views: Array.isArray(p.views) ? p.views : [], cols: p.cols && typeof p.cols === 'object' ? p.cols : {} }; } catch (e) { }
     if (P.side && innerWidth > 900) document.body.classList.add('side-off');
     $('#side-t').setAttribute('aria-expanded', String(!P.side));
     $('#kmod').textContent = C.mod + ' K';

@@ -1,0 +1,29 @@
+Photo credits - Sthira Design-Build sample
+All images from Unsplash (https://unsplash.com), free Unsplash License (https://unsplash.com/license).
+Each <name>.jpg has a 720px-wide companion <name>-s.jpg from the same photo.
+Crops: site-excavation (top strip + right edge removed), site-pour (left edge removed), fitout-clinic (left/top cropped) to drop incidental signage.
+
+site-excavation.jpg https://unsplash.com/photos/4xLxkDeiJC0  -  Photo by Fons Heijnsbroek on Unsplash
+site-rebar.jpg   https://unsplash.com/photos/jYNvXKTUYvs  -  Photo by Ricardo Gomez Angel on Unsplash
+site-pour.jpg    https://unsplash.com/photos/7X4Udm-RXwU  -  Photo by Mugabi Owen on Unsplash
+site-formwork.jpg https://unsplash.com/photos/Iij0qprxnpY  -  Photo by Iqro Rinaldi on Unsplash
+site-blockwork.jpg https://unsplash.com/photos/MXPWld5uysw  -  Photo by Gowtham AGM on Unsplash
+site-scaffold.jpg https://unsplash.com/photos/2wqCQc9WpIw  -  Photo by Saumya jain on Unsplash
+site-plaster.jpg https://unsplash.com/photos/iE-jvY7Mc9U  -  Photo by Thi Nguyen Duc on Unsplash
+site-crane.jpg   https://unsplash.com/photos/l0LFTXnzymQ  -  Photo by airci K on Unsplash
+site-crew.jpg    https://unsplash.com/photos/fBtNXtM4o3k  -  Photo by Wasif Ali on Unsplash
+site-engineer.jpg https://unsplash.com/photos/MThcHX1xBAs  -  Photo by Wesley Pacífico on Unsplash
+site-glazing.jpg https://unsplash.com/photos/DIMsTNbTA94  -  Photo by Infinara on Unsplash
+site-frame.jpg   https://unsplash.com/photos/hBfz3moaQDA  -  Photo by Ben Koorengevel on Unsplash
+home-1.jpg       https://unsplash.com/photos/_tEBCVrEnyo  -  Photo by Tim Schmidbauer on Unsplash
+home-2.jpg       https://unsplash.com/photos/Uy8Wwg5ptQg  -  Photo by Alef Morais on Unsplash
+home-3.jpg       https://unsplash.com/photos/HY2xcxQQ0FU  -  Photo by Ronaldo Rizzutti on Unsplash
+home-4.jpg       https://unsplash.com/photos/rlesyj-1Kv0  -  Photo by Alef Morais on Unsplash
+office-1.jpg     https://unsplash.com/photos/Wm8opOd-MDE  -  Photo by Kenrick Baksh on Unsplash
+office-2.jpg     https://unsplash.com/photos/By0kBKUFOgg  -  Photo by Declan Sun on Unsplash
+fitout-office.jpg https://unsplash.com/photos/eHD8Y1Znfpk  -  Photo by Nastuh Abootalebi on Unsplash
+fitout-home.jpg  https://unsplash.com/photos/mw_mj-noYHM  -  Photo by Zac Gudakov on Unsplash
+fitout-clinic.jpg https://unsplash.com/photos/ZimlF1xeZ8k  -  Photo by Chesley McCarty on Unsplash
+landscape-1.jpg  https://unsplash.com/photos/9hj4WRa8QPc  -  Photo by I P on Unsplash
+drawings.jpg     https://unsplash.com/photos/fteR0e2BzKo  -  Photo by Sven Mieke on Unsplash
+team-studio.jpg  https://unsplash.com/photos/8Jw2WhafOOg  -  Photo by ThisisEngineering on Unsplash

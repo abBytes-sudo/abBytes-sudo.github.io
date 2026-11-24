@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Front desk · Taradhura</title>
+<meta name="description" content="The Taradhura front desk: what needs attention now, arrivals and check-in, the payments call queue, a tape chart of 13 rooms, bookings, the experiences roster, guest conversations and messages, wedding and offsite enquiries and rates.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Taradhura">
+<meta property="og:title" content="Front desk · Taradhura">
+<meta property="og:description" content="The Taradhura front desk: what needs attention now, arrivals and check-in, the payments call queue, a tape chart of 13 rooms, bookings, the experiences roster, guest conversations and messages, wedding and offsite enquiries and rates.">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/resort/staff.html">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/resort/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Stone cottages with lit windows on a Kumaon ridge under the Milky Way, the Taradhura wordmark">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Front desk · Taradhura"><meta name="twitter:description" content="The Taradhura front desk: what needs attention now, arrivals and check-in, the payments call queue, a tape chart of 13 rooms, bookings, the experiences roster, guest conversations and messages, wedding and offsite enquiries and rates."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/resort/og.jpg">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2A2140">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" href="fonts/alegreya-400-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/alegreya-sans-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="resort.min.css?v=28">
+<link rel="stylesheet" href="pages.min.css?v=28">
+<link rel="stylesheet" href="staff.min.css?v=28">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="data.min.js?v=28" defer></script>
+<script src="engine.min.js?v=28" defer></script>
+<script src="app.min.js?v=28" defer></script>
+<script src="staff.min.js?v=28" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body class="staff">
+
+<a class="skip" href="#view">Skip to content</a>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<div class="bo">
+  <aside class="bo-side" id="side" aria-label="Front desk navigation">
+    <div class="bo-brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 25l8.5-8.5 4 4L21 13l9 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M21 2.5l1.1 3.4 3.4 1.1-3.4 1.1L21 11.5l-1.1-3.4L16.5 7l3.4-1.1z" fill="#F1B266"/></svg><span><b>Taradhura</b><small>Front desk</small></span></div>
+    <button type="button" class="bo-k" id="open-k"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5l3.5 3.5"/></svg><span>Search or jump</span><kbd>⌘K</kbd></button>
+    <nav class="bo-nav" aria-label="Sections">
+      <p class="bo-grp">Today</p>
+      <a href="#home" data-v="home"><i aria-hidden="true">◐</i>Home</a>
+      <a href="#arrivals" data-v="arrivals"><i aria-hidden="true">↘</i>Front desk <b data-count="arrivals"></b></a>
+      <a href="#payments" data-v="payments"><i aria-hidden="true">₹</i>Payments to chase <b data-count="payments"></b></a>
+      <p class="bo-grp">Reservations</p>
+      <a href="#tape" data-v="tape"><i aria-hidden="true">▤</i>Tape chart</a>
+      <a href="#bookings" data-v="bookings"><i aria-hidden="true">≡</i>Bookings <b data-count="holds" class="mute"></b></a>
+      <a href="#rates" data-v="rates"><i aria-hidden="true">%</i>Rates</a>
+      <p class="bo-grp">Guests</p>
+      <a href="#inbox" data-v="inbox"><i aria-hidden="true">◌</i>Conversations <b data-count="chats"></b></a>
+      <a href="#messages" data-v="messages"><i aria-hidden="true">✉</i>Guest messages <b data-count="msgs"></b></a>
+      <a href="#roster" data-v="roster"><i aria-hidden="true">◎</i>Experiences <b data-count="slots" class="mute"></b></a>
+      <p class="bo-grp">Sales</p>
+      <a href="#enquiries" data-v="enquiries"><i aria-hidden="true">◇</i>Weddings &amp; offsites <b data-count="enq"></b></a>
+    </nav>
+    <div class="bo-side-foot">
+      <a class="bo-link" href="index.html"><i aria-hidden="true">↗</i>Open the website</a>
+      <button type="button" class="bo-link" id="keys"><i aria-hidden="true">?</i>Keyboard shortcuts</button>
+      <button type="button" class="bo-link" id="reset"><i aria-hidden="true">↺</i>Start fresh</button>
+      <div class="bo-me"><span class="av" aria-hidden="true">RP</span><span><b>Ritu Pant</b><small>Front desk lead · day shift</small></span></div>
+    </div>
+  </aside>
+  <div class="bo-main">
+    <header class="bo-top">
+      <button class="bo-ib bo-mnav" type="button" id="bo-mnav" aria-expanded="false" aria-controls="side" aria-label="Open navigation"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg></button>
+      <h1 id="view-h">Home</h1>
+      <div class="bo-top-r">
+        <div class="bo-day" role="group" aria-label="Business day"><button type="button" data-day="0" aria-pressed="true">Today</button><button type="button" data-day="1" aria-pressed="false">Tomorrow</button></div>
+        <button type="button" class="bo-search" id="open-k2"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5l3.5 3.5"/></svg><span>Search guests, refs, rooms</span><kbd>⌘K</kbd></button>
+        <div class="bo-new"><button type="button" class="bob" id="new-menu" aria-haspopup="menu" aria-expanded="false"><span aria-hidden="true">+</span> New</button>
+          <div class="bo-menu" id="new-list" role="menu" hidden><button role="menuitem" type="button" data-new="booking">Booking <kbd>N</kbd></button><button role="menuitem" type="button" data-new="slot">Experience slot</button><button role="menuitem" type="button" data-new="enquiry">Wedding or offsite enquiry</button></div></div>
+      </div>
+    </header>
+    <main id="main"><div id="view" class="bo-view" tabindex="-1" aria-live="polite"></div></main>
+  </div>
+  <nav class="bo-tabs" aria-label="Sections (phone)"><a href="#home" data-v="home"><i aria-hidden="true">◐</i>Home</a><a href="#arrivals" data-v="arrivals"><i aria-hidden="true">↘</i>Desk<b data-count="arrivals"></b></a><a href="#tape" data-v="tape"><i aria-hidden="true">▤</i>Rooms</a><a href="#inbox" data-v="inbox"><i aria-hidden="true">◌</i>Inbox<b data-count="chats"></b></a><button type="button" id="tab-more"><i aria-hidden="true">⋯</i>More</button></nav>
+</div>
+<div class="bo-pal" id="pal" hidden role="dialog" aria-modal="true" aria-label="Search and commands"><div class="bo-pal-box"><input id="pal-i" type="text" placeholder="Search guests, references, rooms or actions…" aria-label="Search" autocomplete="off"><ul id="pal-l" role="listbox" aria-label="Results" tabindex="0"></ul><p class="bo-pal-f"><kbd>↑</kbd><kbd>↓</kbd> move · <kbd>↵</kbd> open · <kbd>esc</kbd> close</p></div></div>
+
+</body>
+</html>

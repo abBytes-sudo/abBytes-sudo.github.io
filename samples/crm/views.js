@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var C = window.CRM, esc = C.esc, $ = C.$, $$ = C.$$, V = C.views, S = C.S, page = C.page;
-  var ACC = '#2B59FF';
+  var ACC = '#4F46E5';
 
   function openLeads() { return S().leads.filter(function (l) { return l.status !== 'won' && l.status !== 'lost'; }); }
   function dueText(t) {
@@ -24,7 +24,7 @@
   // ===== Dashboard =========================================================
   C.acts.range = function (el) { C.ui.range = +el.dataset.v; C.rerender(); $('[data-act="range"][aria-pressed="true"]').focus(); };
   V.dashboard = {
-    title: function () { return 'Dashboard'; },
+    title: function () { return 'Home'; },
     render: function () {
       var range = C.ui.range || 30, L = S().leads, now = Date.now(), from = now - range * 864e5, pf = from - range * 864e5, d0 = C.dayStart();
       var cur = L.filter(function (l) { return l.created >= from; }), prev = L.filter(function (l) { return l.created >= pf && l.created < from; });
@@ -52,7 +52,7 @@
       };
       var bySrc = Object.keys(C.SOURCES).map(function (k) { return { k: k, label: C.SOURCES[k].label, color: C.SOURCES[k].color, value: cur.filter(function (l) { return l.source === k; }).length }; });
       C.chartSpecs.donut = function (w) { return C.chart.donut({ size: Math.min(168, w), items: bySrc, center: String(cur.length), sub: 'leads', label: 'Leads by source: ' + bySrc.map(function (s) { return s.label + ' ' + s.value; }).join(', ') }); };
-      var reach = ['Lead', 'Contacted', 'Site visit', 'Quote sent', 'Won'].map(function (lb, k) { return { label: lb, value: L.filter(function (l) { return C.reached(l) >= k; }).length, color: k === 4 ? '#1F9D57' : ACC }; });
+      var reach = ['Lead'].concat(['contacted', 'site', 'quote', 'won'].map(function (id) { return C.stageLabel(id); })).map(function (lb, k) { return { label: lb, value: L.filter(function (l) { return C.reached(l) >= k; }).length, color: k === 4 ? '#1F9D57' : ACC }; });
       var lostN = L.filter(function (l) { return l.status === 'lost'; }).length;
       C.chartSpecs.funnel = function (w) { return C.chart.funnel({ w: w, h: 236, items: reach, label: 'Pipeline funnel: ' + reach.map(function (c) { return c.label + ' ' + c.value; }).join(', ') }); };
 
@@ -64,28 +64,26 @@
         var a = cur.filter(function (l) { return l.source === s.k; }), w = won(a);
         return '<tr><td>' + C.srcBadge(s.k) + '</td><td class="num">' + a.length + '</td><td><span class="mbar"><i style="width:' + Math.round(s.value / maxS * 100) + '%;background:' + s.color + '"></i></span></td><td class="num">' + w + '</td><td class="num">' + (a.length ? Math.round(w / a.length * 100) + '%' : '—') + '</td><td class="num">' + C.fmtMin(avg(a)) + '</td><td class="num">' + C.money(a.reduce(function (x, l) { return x + l.budget; }, 0)) + '</td></tr>';
       }).join('');
-      var kpi = function (label, val, f, d, sub, sp, col) { return '<div class="kpi"><div class="kl">' + label + '</div><div class="kv"><span data-count="' + val + '" data-f="' + f + '">' + C.fmts[f](val) + '</span>' + d + '</div><div class="ks">' + sub + '</div><div class="kspark">' + C.spark(sp, col) + '</div></div>'; };
+      var kpi = function (label, val, f, d, sub, sp, col, go) { return '<a class="kpi tile" href="' + go[0] + '" data-act="kpi-go" data-v="' + go[1] + '" aria-label="' + esc(label) + ': open the list"><div class="kl">' + label + '</div><div class="kv"><span data-count="' + val + '" data-f="' + f + '">' + C.fmts[f](val) + '</span>' + d + '</div><div class="ks">' + sub + '</div><div class="kspark">' + C.spark(sp, col) + '</div></a>'; };
       var hr = new Date().getHours(), greet = hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : 'Good evening';
       var cr = conv(cur);
 
-      return page('Dashboard', greet + ', Aarav · ' + new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }), seg('range', 'range', [[7, '7 days'], [14, '14 days'], [30, '30 days']], range, 'Date range')) +
+      return page('Home', greet + ', ' + C.me().name.split(' ')[0] + ' · ' + new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }), seg('range', 'range', [[7, '7 days'], [14, '14 days'], [30, '30 days']], range, 'Date range')) +
         '<section class="kpis" aria-label="Key metrics">' +
-        kpi('New leads', cur.length, 'int', delta(cur.length, prev.length), (prev.length ? 'vs ' + prev.length + ' in the prior ' + range + ' days' : 'in the last ' + range + ' days'), sNew, ACC) +
-        kpi('First response', avg(cur) == null ? 0 : avg(cur), 'min', delta(avg(cur), avg(prev), true), answered ? Math.round(within / answered * 100) + '% answered within 15 min' : 'No replies yet', sResp, '#0B8F9E') +
-        kpi('Won', cr == null ? 0 : cr, 'pct', delta(cr, conv(prev)), won(cur) + ' of ' + cur.length + ' leads converted', sWon, '#1F9D57') +
-        kpi('Open pipeline', pv, 'money', '', openLeads().length + ' active leads', sPipe, '#8454E8') + '</section>' +
+        kpi('New leads', cur.length, 'int', delta(cur.length, prev.length), (prev.length ? 'vs ' + prev.length + ' in the prior ' + range + ' days' : 'in the last ' + range + ' days'), sNew, ACC, ['#/inbox', 'new']) +
+        kpi('First response', avg(cur) == null ? 0 : avg(cur), 'min', delta(avg(cur), avg(prev), true), answered ? Math.round(within / answered * 100) + '% answered within 15 min' : 'No replies yet', sResp, '#0B8F9E', ['#/inbox', 'reply']) +
+        kpi('Won', cr == null ? 0 : cr, 'pct', delta(cr, conv(prev)), won(cur) + ' of ' + cur.length + ' leads converted', sWon, '#1F9D57', ['#/inbox', 'won']) +
+        kpi('Open pipeline', pv, 'money', '', openLeads().length + ' active leads', sPipe, '#8454E8', ['#/pipeline', 'pipe']) + '</section>' + (C.homeAttention ? C.homeAttention() : '') +
         '<div class="grid g-main"><section class="card"><div class="card-h"><div><h2>New leads</h2><p class="sub">Per day, against the prior ' + range + ' days</p></div><div class="lg"><span><i style="background:' + ACC + '"></i>This period</span><span><i class="dashed"></i>Prior</span></div></div><div class="chart" data-chart="trend"></div></section>' +
         '<section class="card"><div class="card-h"><div><h2>By source</h2><p class="sub">Last ' + range + ' days</p></div></div><div class="donut-wrap"><div class="chart donut" data-chart="donut"></div></div><ul class="srclist">' +
         bySrc.map(function (s) { return '<li>' + C.srcIco(s.k, 13) + '<span class="grow">' + s.label + '</span><b>' + s.value + '</b><em>' + (cur.length ? Math.round(s.value / cur.length * 100) : 0) + '%</em></li>'; }).join('') + '</ul></section></div>' +
         '<div class="grid g-main"><section class="card"><div class="card-h"><div><h2>Funnel</h2><p class="sub">Leads that reached each stage · ' + lostN + ' lost along the way</p></div></div><div class="chart" data-chart="funnel"></div></section>' +
-        '<section class="card"><div class="card-h"><div><h2>Needs attention</h2><p class="sub">Replies and follow-ups on the clock</p></div></div>' +
-        '<h3 class="h3">First reply pending</h3>' +
-        (waiting.length ? '<ul class="mini">' + waiting.map(function (l) { var hrs = (now - l.created) / 36e5; return '<li><a class="lk" href="' + C.leadHref(l.id) + '">' + C.avatar(l.name, 22) + '<span>' + esc(l.name) + '</span></a><span class="grow"></span>' + C.srcIco(l.source, 13) + '<span class="wait ' + (hrs > 4 ? 'bad' : '') + '">' + (hrs < 1 ? Math.round(hrs * 60) + 'm' : hrs.toFixed(1) + 'h') + '</span></li>'; }).join('') + '</ul>' : '<p class="empty">Inbox zero — every lead has a reply.</p>') +
-        '<h3 class="h3">Follow-ups due</h3>' +
-        (tasks.length ? '<ul class="mini">' + tasks.map(function (x) { var l = C.lead(x.leadId); return '<li><a class="lk" href="' + C.leadHref(x.leadId) + '">' + C.avatar(l ? l.name : '?', 22) + '<span>' + esc(l ? l.name : x.leadId) + '</span></a><span class="muted sm grow tr">' + esc(x.text) + '</span><span class="wait ' + (x.due < now ? 'bad' : '') + '">' + C.tm(x.due) + '</span></li>'; }).join('') + '</ul>' : '<p class="empty">Nothing due today.</p>') + '</section></div>' +
+        (C.homeFeed ? C.homeFeed() : '') + '</div>' +
         '<section class="card flush"><div class="card-h pad"><div><h2>Performance by source</h2><p class="sub">Last ' + range + ' days</p></div></div><div class="tablewrap"><table class="tbl"><thead><tr><th scope="col">Source</th><th scope="col" class="num">Leads</th><th scope="col" class="w-bar"><span class="sr">Share</span></th><th scope="col" class="num">Won</th><th scope="col" class="num">Conversion</th><th scope="col" class="num">Avg. response</th><th scope="col" class="num">Est. value</th></tr></thead><tbody>' + srcRows + '</tbody></table></div></section>';
     }
   };
+
+  C.acts['kpi-go'] = function (el) { var v = el.dataset.v; C.ui.inbox = { q: '', src: 'all', st: 'all', owner: 'all', flag: '', sort: 'created', dir: -1 }; if (v === 'reply') C.ui.inbox.flag = 'reply'; else if (v === 'won') C.ui.inbox.st = 'won'; };
 
   // ===== Inbox =============================================================
   function IS() { return C.ui.inbox || (C.ui.inbox = { q: '', src: 'all', st: 'all', owner: 'all', flag: '', sort: 'created', dir: -1 }); }
@@ -96,6 +94,7 @@
   function inboxFiltered() {
     var u = IS(), q = u.q.trim().toLowerCase(), now = Date.now(), SO = { new: 0, contacted: 1, site: 2, quote: 3, won: 4, lost: 5 };
     var a = S().leads.filter(function (l) {
+      if (C.visibleLead && !C.visibleLead(l)) return false;
       if (u.src !== 'all' && l.source !== u.src) return false;
       if (u.st !== 'all' && l.status !== u.st) return false;
       if (u.owner !== 'all' && l.owner !== u.owner) return false;
@@ -116,10 +115,10 @@
   function inboxRes() {
     var a = inboxFiltered(), now = Date.now();
     if (!a.length) return '<div class="empty-st">' + C.ic('inbox', 22) + '<b>No leads match these filters</b><span>Clear the search or pick another source.</span><button type="button" class="btn" data-act="inbox-clear">Clear filters</button></div>';
-    return '<div class="tablewrap"><table class="tbl dense"><thead><tr>' + th('name', 'Lead') + th('src', 'Source') + th('st', 'Stage') + th('budget', 'Budget', 'num') + th('owner', 'Owner') + th('created', 'Received') + th('resp', '1st reply', 'num') + '</tr></thead><tbody>' +
+    return '<div class="tablewrap"><table class="tbl dense"><thead><tr>' + th('name', 'Lead') + th('src', 'Source') + th('st', 'Stage') + th('budget', 'Budget', 'num') + '<th scope="col" class="num">Score</th>' + th('owner', 'Owner') + th('created', 'Received') + th('resp', '1st reply', 'num') + '</tr></thead><tbody>' +
       a.map(function (l) {
         var hrs = (now - l.created) / 36e5;
-        return '<tr tabindex="0" data-id="' + l.id + '" data-href="' + C.leadHref(l.id) + '"' + (C.cur && C.cur.lead === l.id ? ' class="sel"' : '') + '><td class="c-main"><div class="lc">' + C.avatar(l.name, 28) + '<div><a class="lname" href="' + C.leadHref(l.id) + '">' + esc(l.name) + '</a><div class="muted sm">' + esc(l.service) + ' · ' + esc(l.loc) + '</div></div></div></td><td>' + C.srcBadge(l.source) + '</td><td>' + C.pill(l.status) + '</td><td class="num">' + C.money(l.budget) + '</td><td><span class="own">' + C.avatar(l.owner, 18) + esc(l.owner.split(' ')[0]) + '</span></td><td class="muted nw">' + C.rel(l.created) + '</td><td class="num nw">' + (l.resp == null ? '<span class="wait ' + (hrs > 4 ? 'bad' : '') + '">Waiting ' + (hrs < 1 ? Math.round(hrs * 60) + 'm' : hrs.toFixed(0) + 'h') + '</span>' : C.fmtMin(l.resp)) + '</td></tr>';
+        return '<tr tabindex="0" data-id="' + l.id + '" data-href="' + C.leadHref(l.id) + '"' + (C.cur && C.cur.lead === l.id ? ' class="sel"' : '') + '><td class="c-main"><div class="lc">' + C.avatar(l.name, 28) + '<div><a class="lname" href="' + C.leadHref(l.id) + '">' + esc(l.name) + '</a><div class="muted sm">' + esc(l.service) + ' · ' + esc(l.loc) + '</div></div></div></td><td>' + C.srcBadge(l.source) + '</td><td>' + C.pill(l.status) + '</td><td class="num">' + C.money(l.budget) + '</td><td class="num">' + C.scoreChip(l) + '</td><td><span class="own">' + C.avatar(l.owner, 18) + esc(l.owner.split(' ')[0]) + '</span></td><td class="muted nw">' + C.rel(l.created) + '</td><td class="num nw">' + (l.resp == null ? '<span class="wait ' + (hrs > 4 ? 'bad' : '') + '">Waiting ' + (hrs < 1 ? Math.round(hrs * 60) + 'm' : hrs.toFixed(0) + 'h') + '</span>' : C.fmtMin(l.resp)) + '</td></tr>';
       }).join('') + '</tbody></table></div>';
   }
   function inboxTabs() {
@@ -224,14 +223,14 @@
         '<div class="field"><label for="cm-t">What was discussed?</label><textarea id="cm-t" name="text" rows="2" placeholder="Optional — key points from the call"></textarea></div>'; btn = 'Log call';
     } else {
       body = '<div class="tpls" role="group" aria-label="Templates">' + TPL.map(function (t) { return '<button type="button" class="chip" data-act="dr-tpl" data-id="' + t.id + '">' + t.label + '</button>'; }).join('') + '</div>' +
-        '<label class="sr" for="cm-t">Message</label><textarea id="cm-t" name="text" rows="4" required data-in="dr-count" placeholder="Pick a template or write your own…"></textarea><div class="cnt"><span id="cm-n">0 characters</span><span>Simulated — nothing is sent</span></div>';
+        '<label class="sr" for="cm-t">Message</label><textarea id="cm-t" name="text" rows="4" required data-in="dr-count" placeholder="Pick a template or write your own…"></textarea><div class="cnt"><span id="cm-n">0 characters</span><span>Logged on the timeline</span></div>';
       btn = m === 'sms' ? 'Send SMS' : 'Send WhatsApp';
     }
     return '<form class="comp" data-form="dr-comp" data-id="' + l.id + '"><div class="seg" role="group" aria-label="Entry type">' + modes + '</div>' + body + '<div class="comp-f"><button class="btn pri sm">' + (m === 'sms' || m === 'wa' ? C.ic('send', 13) : '') + btn + '</button></div></form>';
   }
   function taskRow(t) {
-    var l = C.lead(t.leadId), late = !t.done && t.due < Date.now();
-    return '<li class="task' + (t.done ? ' done' : '') + '"><input type="checkbox" id="tk-' + t.id + '" data-ch="task-toggle" data-id="' + t.id + '"' + (t.done ? ' checked' : '') + '><div class="tk-b"><label for="tk-' + t.id + '">' + esc(t.text) + '</label><div class="muted sm"><a href="' + C.leadHref(t.leadId) + '">' + esc(l ? l.name : t.leadId) + '</a> · ' + esc(t.owner.split(' ')[0]) + ' · <span class="' + (late ? 'late' : '') + '">' + (t.done ? 'Done ' + C.rel(t.doneAt || Date.now()) : (late ? 'Overdue · ' : '') + dueText(t)) + '</span></div></div></li>';
+    var late = !t.done && t.due < Date.now();
+    return '<li class="task' + (t.done ? ' done' : '') + '"><input type="checkbox" id="tk-' + t.id + '" data-ch="task-toggle" data-id="' + t.id + '"' + (t.done ? ' checked' : '') + '><div class="tk-b"><label for="tk-' + t.id + '">' + esc(t.text) + '</label><div class="muted sm">' + C.taskRefHtml(t) + (t.remind && !t.done ? ' · <span class="rmd" title="Reminder ' + C.dur(t.remind) + ' before">' + C.ic('bell', 11) + C.dur(t.remind) + '</span>' : '') + ' · ' + esc(t.owner.split(' ')[0]) + ' · <span class="' + (late ? 'late' : '') + '">' + (t.done ? 'Done ' + C.rel(t.doneAt || Date.now()) : (late ? 'Overdue · ' : '') + dueText(t)) + '</span></div></div></li>';
   }
   function drawerHTML(l) {
     var D = dState(), tasks = S().tasks.filter(function (t) { return t.leadId === l.id; }).sort(function (a, b) { return (a.done - b.done) || a.due - b.due; });
@@ -251,14 +250,14 @@
     } else if (D.tab === 'details') {
       body = '<dl class="dlist"><dt>Phone</dt><dd>' + esc(l.phone) + ' <span class="muted sm">masked</span></dd><dt>Email</dt><dd>' + esc(l.email || '—') + '</dd><dt>Area</dt><dd>' + esc(l.loc) + '</dd><dt>Owner</dt><dd><select data-ch="dr-owner" class="sel sm" aria-label="Owner">' + C.TEAM.map(function (t) { return '<option' + (t === l.owner ? ' selected' : '') + '>' + t + '</option>'; }).join('') + '</select></dd></dl>' +
         '<h3 class="h3">Requirement</h3><dl class="dlist"><dt>Service</dt><dd>' + esc(l.service) + '</dd><dt>Budget</dt><dd>' + C.money(l.budget) + '</dd></dl><p class="req">' + esc(l.req) + '</p>' +
-        '<h3 class="h3">Attribution</h3><dl class="dlist"><dt>Channel</dt><dd>' + C.srcBadge(l.source) + '</dd><dt>utm_source</dt><dd class="mono">' + esc(l.utm.source) + '</dd><dt>utm_medium</dt><dd class="mono">' + esc(l.utm.medium) + '</dd><dt>utm_campaign</dt><dd class="mono">' + esc(l.utm.campaign || '—') + '</dd><dt>First reply</dt><dd>' + (l.resp == null ? '<span class="wait bad">Waiting</span>' : C.fmtMin(l.resp)) + '</dd><dt>Received</dt><dd>' + C.dt(l.created) + '</dd></dl>' +
+        '<h3 class="h3">Source</h3><dl class="dlist"><dt>Channel</dt><dd>' + C.srcBadge(l.source) + '</dd><dt>utm_source</dt><dd class="mono">' + esc(l.utm.source) + '</dd><dt>utm_medium</dt><dd class="mono">' + esc(l.utm.medium) + '</dd><dt>utm_campaign</dt><dd class="mono">' + esc(l.utm.campaign || '—') + '</dd>' + (C.sourceBlock ? C.sourceBlock(l) : '') + '<dt>First reply</dt><dd>' + (l.resp == null ? '<span class="wait bad">Waiting</span>' : C.fmtMin(l.resp)) + '</dd><dt>Received</dt><dd>' + C.dt(l.created) + '</dd></dl>' +
         (l.notes.length ? '<h3 class="h3">Notes</h3><ul class="notes">' + l.notes.slice().sort(function (a, b) { return b.t - a.t; }).map(function (n) { return '<li><p>' + esc(n.text) + '</p><span class="muted sm">' + esc(n.by) + ' · ' + C.dt(n.t) + '</span></li>'; }).join('') + '</ul>' : '');
     } else {
       body = (tasks.length ? '<ul class="tasks compact">' + tasks.map(taskRow).join('') + '</ul>' : '<p class="empty">No tasks yet.</p>') +
         '<form data-form="add-task" data-id="' + l.id + '" class="stack-form"><div class="field"><label for="tt">New follow-up</label><input id="tt" name="text" required placeholder="e.g. Send revised quote" autocomplete="off"></div><div class="row2"><div class="field"><label for="td">When</label><select id="td" name="when"><option value="today">Today, 6:00 pm</option><option value="tomorrow">Tomorrow, 11:00 am</option><option value="3d">In 3 days</option><option value="week">Next week</option></select></div><button class="btn pri">Add task</button></div></form>';
     }
     return '<div class="dr-head"><div class="dr-id">' + C.avatar(l.name, 40) + '<div><h2 id="dr-t">' + esc(l.name) + '</h2><p>' + esc(l.id) + ' · ' + esc(l.service) + ' · ' + esc(l.loc) + '</p></div></div><button type="button" class="ibtn" data-act="dr-close" aria-label="Close lead panel">' + C.ic('x', 17) + '</button></div>' +
-      '<div class="dr-meta">' + C.srcBadge(l.source) + '<span>' + C.money(l.budget) + '</span><span>' + C.avatar(l.owner, 18) + esc(l.owner.split(' ')[0]) + '</span><span class="muted">' + C.rel(l.created) + '</span></div>' +
+      '<div class="dr-meta">' + C.srcBadge(l.source) + '<span>' + C.money(l.budget) + '</span><span>' + C.avatar(l.owner, 18) + esc(l.owner.split(' ')[0]) + '</span><span class="muted">' + C.rel(l.created) + '</span></div>' + (C.drawerExtra ? C.drawerExtra(l) : '') +
       '<div class="steps" role="group" aria-label="Stage">' + steps + '</div><div class="dr-sub">' + (lost ? '<span class="pill st-lost"><i style="background:#C4C8D0"></i>Lost</span> <button type="button" class="lnk" data-act="dr-stage" data-to="contacted">Reopen as Contacted</button>' : l.status === 'won' ? '<span class="pill st-won"><i style="background:#1F9D57"></i>Won</span>' : '<button type="button" class="lnk" data-act="dr-stage" data-to="lost">Mark as lost</button>') + '</div>' +
       '<div class="dr-actions"><button type="button" class="btn sm" data-act="dr-do" data-v="call">' + C.ic('phone', 14) + 'Call</button><button type="button" class="btn sm" data-act="dr-do" data-v="sms">' + C.ic('sms', 14) + 'SMS</button><button type="button" class="btn sm" data-act="dr-do" data-v="wa">' + C.ic('wa', 14) + 'WhatsApp</button><button type="button" class="btn sm" data-act="dr-do" data-v="note">' + C.ic('note', 14) + 'Note</button><button type="button" class="btn sm" data-act="dr-do" data-v="task">' + C.ic('tasks', 14) + 'Task</button></div>' +
       '<div class="tabs sm" role="tablist" aria-label="Lead sections">' + tabs + '</div><div class="dr-body" id="dr-panel" role="tabpanel" aria-labelledby="dt-' + D.tab + '">' + body + '</div>';
@@ -287,7 +286,7 @@
       var f = $('[data-act="dr-close"]', dr); if (f) f.focus({ preventScroll: true });
     }
   };
-  C.closeDrawer = function () { location.hash = '#/' + C.cur.name; };
+  C.closeDrawer = function () { location.hash = '#/' + C.cur.name + (C.cur.arg ? '/' + C.cur.arg : ''); };
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Tab' || !drOpen || document.querySelector('dialog[open]')) return;
     var dr = $('#drawer'); if (!dr.contains(e.target)) return;
@@ -318,7 +317,7 @@
       var b = $('#drawer [data-to="' + to + '"]') || $('#drawer [data-act="dr-close"]'); if (b) b.focus({ preventScroll: true });
     }
   };
-  C.chs['dr-owner'] = function (el) { var l = C.lead(drLead); l.owner = el.value; C.log(l, 'status', 'Owner changed to ' + el.value); C.save(); afterChange(); C.toast('Owner set to ' + el.value.split(' ')[0]); };
+  C.chs['dr-owner'] = function (el) { var l = C.lead(drLead); if (C.can && !C.can('edit', l)) { el.value = l.owner; C.deny('reassign leads owned by others'); return; } if (C.audit) C.audit('assign', { t: 'lead', id: l.id, name: l.name }, 'Owner', l.owner, el.value); if (C.notify && el.value !== C.me().name) C.notify((C.me().name.split(' ')[0]) + ' assigned you the lead ' + l.name, '#/inbox/' + l.id, 'user', el.value); l.owner = el.value; C.log(l, 'status', 'Owner changed to ' + el.value); C.save(); afterChange(); C.toast('Owner set to ' + el.value.split(' ')[0]); };
   C.forms['dr-comp'] = function (f) {
     var l = C.lead(f.dataset.id), m = dState().mode, txt = (f.elements.text.value || '').trim();
     if (m === 'note') { if (!txt) return; l.notes.push({ t: Date.now(), text: txt, by: l.owner }); C.log(l, 'note', txt); C.toast('Note saved'); }
@@ -330,8 +329,8 @@
       C.toast('Call logged to timeline', { icon: 'phone' });
     } else {
       if (!txt) return; var wa = m === 'wa';
-      C.log(l, 'msg', (wa ? 'WhatsApp' : 'SMS') + ' sent (simulated): ' + txt); if (l.status === 'new') C.setStatus(l, 'contacted');
-      C.toast((wa ? 'WhatsApp' : 'SMS') + ' sent — simulated', { icon: 'send' });
+      C.log(l, 'msg', (wa ? 'WhatsApp' : 'SMS') + ' sent: ' + txt); if (l.status === 'new') C.setStatus(l, 'contacted');
+      C.toast((wa ? 'WhatsApp' : 'SMS') + ' sent', { icon: 'send' });
     }
     C.save(); afterChange(); var t = $('#cm-t'); if (t) t.focus({ preventScroll: true });
   };
@@ -343,6 +342,7 @@
   C.chs['task-toggle'] = function (el) {
     var t = S().tasks.filter(function (x) { return x.id === el.dataset.id; })[0]; t.done = el.checked; t.doneAt = el.checked ? Date.now() : null;
     var l = C.lead(t.leadId); if (l) C.log(l, 'task', (t.done ? 'Completed: ' : 'Re-opened: ') + t.text);
+    if (t.ref && C.pact) { var rd = t.ref.t === 'deal' ? C.deal(t.ref.id) : null; C.pact('task', (t.done ? 'Completed: ' : 'Re-opened: ') + t.text, rd ? { c: rd.c, co: rd.co, d: rd.id } : t.ref.t === 'contact' ? { c: t.ref.id } : { co: t.ref.id }, t.owner); }
     C.save(); C.badges(); afterChange(); var again = $('#tk-' + t.id); if (again) again.focus({ preventScroll: true });
   };
 
@@ -350,7 +350,7 @@
   V.tasks = {
     title: function () { return 'Tasks'; },
     render: function () {
-      var T = S().tasks, td = C.dayStart(), end = td + 864e5, byDue = function (a, b) { return a.due - b.due; };
+      var T = S().tasks.filter(function (t) { return !C.visibleOwner || C.visibleOwner(t.owner); }), td = C.dayStart(), end = td + 864e5, byDue = function (a, b) { return a.due - b.due; };
       var over = T.filter(function (t) { return !t.done && t.due < td; }).sort(byDue), today = T.filter(function (t) { return !t.done && t.due >= td && t.due < end; }).sort(byDue), soon = T.filter(function (t) { return !t.done && t.due >= end; }).sort(byDue), done = T.filter(function (t) { return t.done; }).sort(function (a, b) { return (b.doneAt || 0) - (a.doneAt || 0); }).slice(0, 6);
       var grp = function (title, list, cls, empty) { return '<section class="card ' + (cls || '') + '"><div class="card-h"><h2>' + title + ' <span class="count-b">' + list.length + '</span></h2></div>' + (list.length ? '<ul class="tasks">' + list.map(taskRow).join('') + '</ul>' : '<p class="empty">' + empty + '</p>') + '</section>'; };
       return page('Tasks', 'Follow-ups for the sales team, ordered by when they are due') +
@@ -361,7 +361,7 @@
   // ===== Pipeline ==========================================================
   function ownerSel() { return C.ui.pown || 'all'; }
   function boardHTML() {
-    var L = S().leads.filter(function (l) { return ownerSel() === 'all' || l.owner === ownerSel(); });
+    var L = S().leads.filter(function (l) { return (!C.visibleLead || C.visibleLead(l)) && (ownerSel() === 'all' || l.owner === ownerSel()); });
     return C.STAGES.map(function (s, si) {
       var a = L.filter(function (l) { return l.status === s.id; }).sort(function (x, y) { return y.created - x.created; });
       var prev = C.STAGES[si - 1], next = C.STAGES[si + 1];
@@ -374,10 +374,10 @@
     }).join('');
   }
   V.pipeline = {
-    title: function () { return 'Pipeline'; },
+    title: function () { return 'Lead board'; },
     render: function () {
       var open = openLeads(), tot = open.reduce(function (s, l) { return s + l.budget; }, 0), w = S().leads.filter(function (l) { return l.status === 'won'; });
-      return page('Pipeline', C.money(tot) + ' open across ' + open.length + ' leads · ' + C.money(w.reduce(function (s, l) { return s + l.budget; }, 0)) + ' won', '<label class="sr" for="po">Owner</label><select id="po" class="sel" data-ch="pipe-owner"><option value="all">Everyone</option>' + C.TEAM.map(function (t) { return '<option' + (ownerSel() === t ? ' selected' : '') + '>' + t + '</option>'; }).join('') + '</select>') +
+      return page('Lead board', C.money(tot) + ' open across ' + open.length + ' leads · ' + C.money(w.reduce(function (s, l) { return s + l.budget; }, 0)) + ' won', '<label class="sr" for="po">Owner</label><select id="po" class="sel" data-ch="pipe-owner"><option value="all">Everyone</option>' + C.TEAM.map(function (t) { return '<option' + (ownerSel() === t ? ' selected' : '') + '>' + t + '</option>'; }).join('') + '</select>') +
         '<p class="hint kb-hint">Drag a card to a new stage. With the keyboard: focus a card, then <kbd>⇧</kbd> <kbd>←</kbd> <kbd>→</kbd> moves it, <kbd>↵</kbd> opens it.</p>' +
         '<div class="board" id="board" role="region" aria-label="Pipeline board">' + boardHTML() + '</div><p class="sr" id="live" role="status" aria-live="polite"></p>';
     },
@@ -397,7 +397,7 @@
         if (Math.abs(dx) < 1 && Math.abs(dy) < 1) return; var moved = c.dataset.card === id;
         gsap.fromTo(c, { x: dx, y: dy, scale: moved ? 1.03 : 1 }, { x: 0, y: 0, scale: 1, duration: moved ? .5 : .4, ease: moved ? 'expo.out' : 'power3.out', clearProps: 'transform', zIndex: moved ? 5 : 0 });
       });
-      var col = $('.kcol[data-stage="' + to + '"] .kh'); if (col) gsap.fromTo(col, { backgroundColor: 'rgba(43,89,255,.14)' }, { backgroundColor: 'rgba(43,89,255,0)', duration: .9, clearProps: 'backgroundColor' });
+      var col = $('.kcol[data-stage="' + to + '"] .kh'); if (col) gsap.fromTo(col, { backgroundColor: 'rgba(79,70,229,.14)' }, { backgroundColor: 'rgba(79,70,229,0)', duration: .9, clearProps: 'backgroundColor' });
     }
     var msg = l.name + ' moved to ' + C.stageLabel(to); $('#live').textContent = msg;
     C.toast(msg, { icon: 'pipe', undo: function () { moveTo(id, from); } });

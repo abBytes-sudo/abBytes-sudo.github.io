@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sales office · Aaranya Residences</title>
+<meta name="description" content="The Aaranya sales office: a call queue in focus mode, enquiries with slide-over records, a site-visit board, chat conversations and the live unit inventory.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Aaranya Residences">
+<meta property="og:title" content="Sales office · Aaranya Residences">
+<meta property="og:description" content="The Aaranya sales office: a call queue in focus mode, enquiries with slide-over records, a site-visit board, chat conversations and the live unit inventory.">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/launch/admin.html">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/launch/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Aaranya's three towers rising out of a planted forest, with one floor pulled out like a drawer">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Sales office · Aaranya Residences"><meta name="twitter:description" content="The Aaranya sales office: a call queue in focus mode, enquiries with slide-over records, a site-visit board, chat conversations and the live unit inventory."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/launch/og.jpg">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E1A14">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" href="fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/onest.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="launch.min.css?v=20">
+<link rel="stylesheet" href="admin.css?v=20">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<link rel="stylesheet" href="../assets/vendor/lenis.css">
+<script src="data.js?v=20" defer></script>
+<script src="app.js?v=20" defer></script>
+<script src="admin.js?v=20" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body class="so" data-page="admin">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><pattern id="hatch" width="1.2" height="1.2" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="1.2" height="1.2" fill="#DDD8CF"/><rect width=".45" height="1.2" fill="#B5AFA4"/></pattern></defs></svg>
+<a class="skip" href="#main">Skip to content</a>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<div class="so-shell">
+  <aside class="so-side" aria-label="Sales office">
+    <a class="so-brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15.5" fill="none" stroke="#E8B65A" stroke-opacity=".5"/><circle cx="23" cy="9.5" r="2.6" fill="#E8B65A"/><rect x="8.5" y="9" width="3.6" height="15" fill="#ECE6D9"/><rect x="14" y="12" width="3.6" height="12" fill="#ECE6D9"/><rect x="19.5" y="15" width="3.6" height="9" fill="#ECE6D9"/><path d="M5 24.5h22" stroke="#E8B65A" stroke-width="1.4"/></svg><span><b>Aaranya</b><small>Sales office</small></span></a>
+    <button type="button" class="so-ws" id="so-ws" aria-haspopup="menu"><i aria-hidden="true"></i><span id="so-ws-l">All towers · Sector 109</span><span aria-hidden="true">▾</span></button>
+    <button type="button" class="so-search" id="so-k"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg><span>Search or jump to…</span><span class="so-kbd">⌘K</span></button>
+    <p class="so-grp">Work</p>
+    <nav class="so-nav" aria-label="Work"><a href="#today" data-v="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg>Today<span class="c" id="c-today"></span></a><a href="#queue" data-v="queue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6.6 3.5h2.2l1.4 4-2 1.3a11 11 0 0 0 7 7l1.3-2 4 1.4v2.2a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg>Call queue<span class="c" id="c-queue"></span></a><a href="#leads" data-v="leads"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Enquiries<span class="c" id="c-leads"></span></a><a href="#visits" data-v="visits"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Site visits<span class="c" id="c-visits"></span></a><a href="#inbox" data-v="inbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Conversations<span class="c" id="c-inbox"></span></a></nav>
+    <p class="so-grp">Inventory</p>
+    <nav class="so-nav" aria-label="Inventory"><a href="#units" data-v="units"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="3" width="6" height="18"/><rect x="13" y="8" width="6" height="13"/></svg>Units &amp; holds<span class="c" id="c-units"></span></a></nav>
+    <div class="so-foot">
+      <nav class="so-nav" aria-label="More"><a href="index.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5H5V6h5"/></svg>Open the website</a><a href="#" id="so-keys"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="7" width="18" height="11" rx="2"/><path d="M7 11h1M11 11h1M15 11h1M8 15h8"/></svg>Keyboard shortcuts</a><a href="#" id="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.3-5.4M4.5 4v4h4"/></svg>Start fresh</a></nav>
+      <div class="so-me"><span class="so-av g">RM</span><span>Ritika Menon<small>Sales manager</small></span></div>
+    </div>
+  </aside>
+  <div class="so-main">
+    <header class="so-top">
+      <h1 id="so-title">Today</h1><span class="crumb" id="so-crumb"></span><span class="sp"></span>
+      <button type="button" class="so-ib" id="so-k2" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></button>
+      <button type="button" class="so-btn pri" id="so-new" aria-haspopup="menu" aria-label="New: enquiry, visit or hold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="hide-m">New</span></button>
+      <span class="so-av g hide-m" title="Ritika Menon">RM</span>
+    </header>
+    <main id="main" class="so-view" tabindex="-1"></main>
+  </div>
+</div>
+<nav class="so-tabs" aria-label="Sections"><a href="#today" data-v="today"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg>Today<span class="c" id="t-today" hidden></span></a><a href="#queue" data-v="queue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6.6 3.5h2.2l1.4 4-2 1.3a11 11 0 0 0 7 7l1.3-2 4 1.4v2.2a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg>Queue<span class="c" id="t-queue" hidden></span></a><a href="#leads" data-v="leads"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Enquiries<span class="c" id="t-leads" hidden></span></a><a href="#visits" data-v="visits"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Visits<span class="c" id="t-visits" hidden></span></a><a href="#units" data-v="units"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="3" width="6" height="18"/><rect x="13" y="8" width="6" height="13"/></svg>Units<span class="c" id="t-units" hidden></span></a></nav>
+<div class="so-scrim" id="so-scrim"></div>
+<aside class="so-slide" id="so-slide" aria-hidden="true" aria-label="Record"></aside>
+<div class="so-pop" id="so-pop" role="dialog" aria-label="Actions" hidden></div>
+<div class="so-menu" id="so-menu" role="menu" hidden></div>
+<dialog class="so-cmdk" id="so-cmdk" aria-label="Search and commands"><input id="so-q" placeholder="Type a unit (S-1802), a buyer, or a command" aria-label="Search" autocomplete="off"><ul id="so-l" role="listbox"></ul></dialog>
+</body>
+</html>

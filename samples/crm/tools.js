@@ -90,7 +90,7 @@
     return { d: d, tot: { imp: imp, clicks: clk, ctr: clk / imp * 100, pos: sum(d, function (x) { return x.pos * x.imp; }) / imp }, a: m(a), b: m(b) };
   }
   var GM = {
-    clicks: { label: 'Clicks', f: C.num, v: function (x) { return x.clicks; }, color: '#2B59FF', ff: 'int' },
+    clicks: { label: 'Clicks', f: C.num, v: function (x) { return x.clicks; }, color: '#4F46E5', ff: 'int' },
     imp: { label: 'Impressions', f: C.num, v: function (x) { return x.imp; }, color: '#0B8F9E', ff: 'int' },
     ctr: { label: 'Average CTR', f: function (v) { return v.toFixed(1) + '%'; }, v: function (x) { return x.clicks / x.imp * 100; }, color: '#1F9D57', ff: 'pct1' },
     pos: { label: 'Average position', f: function (v) { return v.toFixed(1); }, v: function (x) { return x.pos; }, color: '#8454E8', low: true, ff: 'dec1' }
@@ -116,9 +116,9 @@
     var g = gscModel(), mk = C.ui.gm || 'clicks', m = GM[mk], labels = g.d.map(function (x) { return C.dshort(x.t); }), Q = C.sim().gsc.queries;
     var organic = S().leads.filter(function (l) { return l.source === 'google'; }).length;
     C.chartSpecs.gsc = function (w) { return C.chart.area({ w: w, h: 260, labels: labels, titles: g.d.map(function (x) { return new Date(x.t).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }); }), series: [{ values: g.d.map(function (x) { return +m.v(x).toFixed(2); }), color: m.color, label: m.label }], invert: !!m.low, fmt: m.f, tick: mk === 'ctr' ? function (v) { return v.toFixed(1) + '%'; } : mk === 'pos' ? function (v) { return v.toFixed(0); } : null, label: m.label + ' per day for the last 28 days' + (m.low ? ' (lower is better)' : '') }); };
-    var band = [['Top 3', 0, 3], ['4–10', 3, 10], ['11–20', 10, 20], ['21+', 20, 99]].map(function (b) { var a = Q.filter(function (x) { return x.pos > b[1] && x.pos <= b[2]; }); return { label: b[0], value: a.length, text: a.length + ' · ' + C.num(sum(a, function (x) { return x.clicks; })) + ' clicks', color: b[0] === 'Top 3' ? '#1F9D57' : b[0] === '4–10' ? '#2B59FF' : b[0] === '11–20' ? '#7B8AB8' : '#C4C8D0' }; });
+    var band = [['Top 3', 0, 3], ['4–10', 3, 10], ['11–20', 10, 20], ['21+', 20, 99]].map(function (b) { var a = Q.filter(function (x) { return x.pos > b[1] && x.pos <= b[2]; }); return { label: b[0], value: a.length, text: a.length + ' · ' + C.num(sum(a, function (x) { return x.clicks; })) + ' clicks', color: b[0] === 'Top 3' ? '#1F9D57' : b[0] === '4–10' ? '#4F46E5' : b[0] === '11–20' ? '#7B8AB8' : '#C4C8D0' }; });
     C.chartSpecs.gband = function (w) { return C.chart.hbars({ w: w, items: band, lw: 54, vw: 110, rowH: 36, name: 'Queries', label: 'Queries by average position: ' + band.map(function (b) { return b.label + ' ' + b.value; }).join(', ') }); };
-    return '<section class="card conn"><div><h2>' + C.ic('search', 15) + 'Google Search Console</h2><p class="sub">Property <b>https://www.lumenhomes.example/</b> · Last 28 days</p></div>' + C.simTag + '<span class="status-ok"><i></i>Connected (demo)</span></section>' +
+    return '<section class="card conn"><div><h2>' + C.ic('search', 15) + 'Google Search Console</h2><p class="sub">Property <b>https://www.lumenhomes.example/</b> · Last 28 days</p></div>' + C.simTag + '<span class="status-ok"><i></i>Connected</span></section>' +
       '<div class="kpis" role="group" aria-label="Choose a metric to chart">' + ['clicks', 'imp', 'ctr', 'pos'].map(function (k) { return gscKpi(k, g); }).join('') + '</div>' +
       '<div class="grid g-main"><section class="card"><div class="card-h"><div><h2>' + m.label + '</h2><p class="sub">Daily' + (m.low ? ' · lower is better, so the axis is flipped' : '') + '</p></div></div><div class="chart" data-chart="gsc"></div></section>' +
       '<section class="card"><div class="card-h"><div><h2>Ranking position</h2><p class="sub">Tracked queries by where they rank</p></div></div><div class="chart" data-chart="gband"></div><p class="note-l">' + C.ic('inbox', 14) + '<span><b>' + organic + ' CRM leads</b> came from Google search. <a href="#/inbox" data-act="goto-src" data-v="google">View in inbox</a></span></p></section></div>' +
@@ -138,7 +138,7 @@
     return S().capi.filter(function (e) { return f === 'all' || e.name === f; }).slice(0, 40).map(function (e, i) {
       var l = e.leadId && C.lead(e.leadId), q = e.match >= 8 ? 'ok' : e.match >= 6.5 ? 'acc' : 'warn', open = C.ui.capiOpen === e.id;
       return '<tr class="ev" data-id="' + e.id + '"><td class="nw">' + C.dt(e.t) + '</td><td><span class="evb ev-' + e.name + '">' + esc(e.name) + '</span>' + (e.value ? ' <span class="muted sm">' + C.inr(e.value) + '</span>' : '') + '</td><td>' + (l ? '<a href="' + C.leadHref(l.id) + '">' + esc(l.name) + '</a>' : '<span class="muted">Test event</span>') + '</td><td class="mono">' + esc(e.id) + '</td><td><span class="mq ' + q + '" title="Event match quality ' + e.match + ' of 10"><i style="width:' + e.match * 10 + '%"></i></span> <span class="mqn">' + e.match + '</span></td><td><span class="tag-p ' + (e.status === 'Delivered' ? 'ok' : 'warn') + '">' + esc(e.status) + '</span></td><td class="num"><button type="button" class="ibtn" data-act="capi-open" data-id="' + e.id + '" aria-expanded="' + open + '" aria-label="' + (open ? 'Hide' : 'Show') + ' payload for ' + esc(e.id) + '">' + C.ic(open ? 'chev-d' : 'chev-r', 14) + '</button></td></tr>' +
-        (open ? '<tr class="pl"><td colspan="7"><div class="pl-h">Simulated payload · hashed identifiers are placeholders</div><pre>' + esc(payload(e)) + '</pre></td></tr>' : '');
+        (open ? '<tr class="pl"><td colspan="7"><div class="pl-h">Payload · hashed identifiers</div><pre>' + esc(payload(e)) + '</pre></td></tr>' : '');
     }).join('') || '<tr><td colspan="7" class="empty">No events of this type yet.</td></tr>';
   }
   function metaPanel() {
@@ -156,7 +156,7 @@
     C.chartSpecs.mcpl = function (w) { return C.chart.hbars({ w: w, items: cpl, lw: Math.min(118, w * .36), vw: 64, rowH: 40, name: 'Cost per lead', label: 'Cost per lead by campaign: ' + cpl.map(function (c) { return c.label + ' ' + c.text; }).join(', ') }); };
     var tile = function (l, v, f, sub, sp) { return '<div class="kpi"><div class="kl">' + l + '</div><div class="kv"><span data-count="' + v + '" data-f="' + f + '">' + C.fmts[f](v) + '</span></div><div class="ks">' + sub + '</div><div class="kspark">' + C.spark(sp, '#8454E8') + '</div></div>'; };
     var cf = C.ui.capiF || 'all';
-    return '<section class="card conn"><div><h2>' + C.ic('mega', 15) + 'Meta Ads</h2><p class="sub">Ad account <b>Lumen Homes — Demo</b> · Last 30 days</p></div>' + C.simTag + '<span class="status-ok"><i></i>Connected (demo)</span></section>' +
+    return '<section class="card conn"><div><h2>' + C.ic('mega', 15) + 'Meta Ads</h2><p class="sub">Ad account <b>Lumen Homes</b> · Last 30 days</p></div>' + C.simTag + '<span class="status-ok"><i></i>Connected</span></section>' +
       '<section class="kpis" aria-label="Meta Ads summary">' + tile('Spend', spend, 'inr', C.num(imp) + ' impressions', M.daily) + tile('Leads (platform)', leads, 'int', crm + ' matched in this CRM', bl) + tile('Cost per lead', spend / leads, 'inr', 'Link CTR ' + (clk / imp * 100).toFixed(2) + '%', cpls) + tile('Events sent (CAPI)', ev.length, 'int', del + ' delivered', evb) + '</section>' +
       '<div class="grid g-main"><section class="card"><div class="card-h"><div><h2>Daily spend</h2><p class="sub">Last 30 days · hover for the day</p></div></div><div class="chart" data-chart="mspend"></div></section><section class="card"><div class="card-h"><div><h2>Cost per lead</h2><p class="sub">By campaign · lower is better</p></div></div><div class="chart" data-chart="mcpl"></div></section></div>' +
       '<section class="card flush"><div class="card-h pad"><div><h2>Campaigns</h2></div></div><div class="tablewrap"><table class="tbl"><thead><tr><th scope="col">Campaign</th><th scope="col">Status</th><th scope="col" class="num">Spend</th><th scope="col" class="num">Impressions</th><th scope="col" class="num">Clicks</th><th scope="col" class="num">CTR</th><th scope="col" class="num">Leads</th><th scope="col" class="num">Cost / lead</th></tr></thead><tbody>' +
@@ -168,8 +168,8 @@
   }
   C.chart_k = function (v) { return v >= 1000 ? (v / 1000).toFixed(v % 1000 ? 1 : 0) + 'k' : String(Math.round(v)); };
   C.acts['capi-test'] = function () {
-    C.capi(null, 'Lead'); C.save(); $('#capi-body').innerHTML = capiRows(); C.toast('Simulated test event logged', { icon: 'bolt' });
-    if (C.motion()) { var r = $('#capi-body tr:first-child'); if (r) gsap.fromTo(r.children, { backgroundColor: 'rgba(43,89,255,.14)', y: -6, opacity: 0 }, { backgroundColor: 'rgba(43,89,255,0)', y: 0, opacity: 1, duration: 1, clearProps: 'all' }); }
+    C.capi(null, 'Lead'); C.save(); $('#capi-body').innerHTML = capiRows(); C.toast('Test event logged', { icon: 'bolt' });
+    if (C.motion()) { var r = $('#capi-body tr:first-child'); if (r) gsap.fromTo(r.children, { backgroundColor: 'rgba(79,70,229,.14)', y: -6, opacity: 0 }, { backgroundColor: 'rgba(79,70,229,0)', y: 0, opacity: 1, duration: 1, clearProps: 'all' }); }
   };
   C.acts['capi-f'] = function (el) { C.ui.capiF = el.dataset.v; C.ui.capiOpen = null; C.rerender(); var b = $('[data-act="capi-f"][aria-pressed="true"]'); if (b) b.focus(); };
   C.acts['capi-open'] = function (el) { C.ui.capiOpen = C.ui.capiOpen === el.dataset.id ? null : el.dataset.id; $('#capi-body').innerHTML = capiRows(); var b = $('[data-act="capi-open"][data-id="' + el.dataset.id + '"]'); if (b) b.focus(); if (C.ui.capiOpen && C.motion()) gsap.from('#capi-body .pl pre', { height: 0, opacity: 0, duration: .3, ease: 'power2.out' }); };
@@ -185,5 +185,5 @@
     }
   };
 
-  C.boot();
+  // boot moved to pro-boot.js so the Pro modules register first
 })();

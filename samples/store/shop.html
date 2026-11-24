@@ -4,41 +4,37 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shop all pieces · Northlane</title>
-<meta name="description" content="Browse twelve considered pieces in leather, cotton and merino. Northlane is a fictional store, a design sample by Abhishek.">
+<meta name="description" content="Browse considered pieces in leather, cotton and merino, filter by size, colour and price.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta property="og:type" content="website"><meta property="og:site_name" content="Northlane (design sample)">
-<meta property="og:title" content="Shop all pieces · Northlane"><meta property="og:description" content="Browse twelve considered pieces in leather, cotton and merino. Northlane is a fictional store, a design sample by Abhishek.">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Northlane">
+<meta property="og:title" content="Shop all pieces · Northlane"><meta property="og:description" content="Browse considered pieces in leather, cotton and merino, filter by size, colour and price.">
 <meta property="og:image" content="https://abbytes-sudo.github.io/samples/store/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Shop all pieces · Northlane"><meta name="twitter:description" content="Browse twelve considered pieces in leather, cotton and merino. Northlane is a fictional store, a design sample by Abhishek."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/store/og.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Shop all pieces · Northlane"><meta name="twitter:description" content="Browse considered pieces in leather, cotton and merino, filter by size, colour and price."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/store/og.jpg">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@400;500&display=swap" media="print" id="gf"><script src="fonts.js" async></script><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@400;500&display=swap"></noscript>
 <link rel="stylesheet" href="../assets/vendor/lenis.css">
-<link rel="stylesheet" href="store.css?v=8">
+<link rel="stylesheet" href="store.css?v=22">
 <link rel="stylesheet" href="../assets/back.css?v=2">
-<script src="../assets/vendor/gsap.min.js" defer></script>
-<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
-<script src="../assets/vendor/SplitText.min.js" defer></script>
-<script src="../assets/vendor/lenis.min.js" defer></script>
-<script src="../assets/motion.js" defer></script>
-<script src="catalog.js?v=8" defer></script>
-<script src="store.js?v=8" defer></script>
-<script src="../assets/back.js?v=1" defer></script>
+<script src="shop-preload.js?v=3"></script>
+<script src="loader.js?v=4" defer data-s="../assets/vendor/gsap.min.js,../assets/vendor/ScrollTrigger.min.js,../assets/vendor/SplitText.min.js,../assets/vendor/lenis.min.js,../assets/motion.js,catalog.js?v=9,nl-data.js?v=21,search.js?v=20,store.js?v=24,../assets/back.js?v=1"></script>
+<script src="concierge.js?v=4" defer data-agent="northlane" data-brand="nl" data-skin="concierge.css?v=5" data-title="Northlane" data-sub="Concierge · online" data-label="Ask the concierge" data-nudge="home,product,shop,checkout"></script>
 </head>
 <body data-page="shop">
 <main id="main">
-<div class="sh-hd"><p class="eyebrow"><span>Northlane / Shop</span><span>Autumn / Winter 2026</span></p><h1><span id="shopH">All pieces</span><span id="shopN" class="num"></span></h1></div>
+<div class="sh-hd"><p class="eyebrow"><span>Northlane / Shop</span><span id="shopSub">Autumn / Winter 2026</span></p><h1><span id="shopH">All pieces</span><span id="shopN" class="num"></span></h1></div>
 <div class="tools">
   <div class="tools-in"><div class="tabs" id="tabs" role="group" aria-label="Category"></div>
-    <div class="tools-r"><span id="count" aria-live="polite"></span><button class="tbtn" id="fBtn" type="button" aria-expanded="false" aria-controls="fPanel"><span>Filters</span><i aria-hidden="true">+</i></button>
-    <label class="sel"><span class="vh">Sort by</span><select id="sort"><option value="featured">Featured</option><option value="low">Price, low to high</option><option value="high">Price, high to low</option></select></label></div></div>
+    <div class="tools-r"><form class="shq" id="shopQf" role="search"><label class="vh" for="shopQ">Search within the shop</label><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8l4.4 4.4"/></svg><input id="shopQ" type="search" placeholder="Search" autocomplete="off" spellcheck="false"></form><span id="count" aria-live="polite"></span><button class="tbtn" id="fBtn" type="button" aria-expanded="false" aria-controls="fPanel"><span>Filters</span><i aria-hidden="true">+</i></button>
+    <label class="sel"><span class="vh">Sort by</span><select id="sort"></select></label></div></div>
   <div class="fpanel" id="fPanel"><div><div class="fp-in">
-    <div><h3>Size</h3><div class="chips" id="fSize"></div></div>
-    <div><h3>Colour</h3><div class="sws" id="fColor"></div></div>
-    <div><h3>Up to <span id="fMaxV">$250</span></h3><input id="fMax" type="range" min="30" max="250" step="10" value="250" aria-label="Maximum price"></div>
+    <div><h2 class="fh">Size</h2><div class="chips" id="fSize"></div></div>
+    <div><h2 class="fh">Colour</h2><div class="sws" id="fColor"></div></div>
+    <div><h2 class="fh">Up to <span id="fMaxV">₹13,000</span></h2><input id="fMax" type="range" min="1000" max="13000" step="500" value="13000" aria-label="Maximum price"><label class="tgl"><input type="checkbox" id="fStock"><span>In stock only</span></label></div>
     <button class="fp-clear" type="button" hidden>Clear all filters</button>
   </div></div></div>
+  <div class="active" id="active" hidden></div>
 </div>
 <ul class="grid g3 shop-g" id="shopGrid"></ul>
 </main>

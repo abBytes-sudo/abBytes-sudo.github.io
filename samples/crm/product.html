@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Lumen CRM Pro — the CRM platform for B2B and service businesses</title>
+<meta name="description" content="Lumen CRM Pro runs leads, accounts, deals, quotes with GST, cases, campaigns, custom objects, flows, forecasts and ad attribution on one platform, for any B2B or service business.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lumen CRM Pro — the CRM platform for B2B and service businesses">
+<meta property="og:description" content="Sales, service and marketing on one set of records: every lead scored, routed and tied to the ad that brought it.">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/crm/og-product.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/crm/product.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0B0D12">
+<link rel="preload" href="fonts/hanken-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/vendor/lenis.css">
+<link rel="stylesheet" href="product.css?v=4">
+<link rel="stylesheet" href="../assets/back.css?v=2"><script src="../assets/back.js?v=1" defer></script>
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="../assets/vendor/SplitText.min.js" defer></script>
+<script src="../assets/vendor/lenis.min.js" defer></script>
+<script src="../assets/motion.js" defer></script>
+<script src="product.js?v=3" defer></script>
+</head>
+<body>
+<div class="demo" role="note"><a class="back-top" href="../../index.html#examples">← Back to portfolio</a>Portfolio project by Abhishek</div>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <a class="brand" href="#top"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#4F46E5"/><path d="M8 17V7m0 10h7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" fill="none"/><circle cx="16" cy="8" r="1.8" fill="#fff"/></svg><span>Lumen</span> <em>Pro</em><span class="vh"> — back to top</span></a>
+  <nav aria-label="Page"><a href="#tour">Product</a><a href="#spec">Platform</a><a href="#tracking">Attribution</a><a href="#india">Built for India</a><a href="#flow">How a lead flows</a></nav>
+  <a class="btn sm" href="index.html#/deals">Open Lumen CRM</a>
+</header>
+
+<main id="main">
+<section class="hero" aria-labelledby="h1">
+  <div class="sky" aria-hidden="true"><canvas id="sky"></canvas></div>
+  <div class="wrap hero-c">
+    <p class="eyebrow"><span class="dot" aria-hidden="true"></span>CRM platform for B2B and service teams</p>
+    <h1 id="h1" data-split data-now>Close more of the leads you&nbsp;already&nbsp;get.</h1>
+    <p class="lede" data-reveal data-now data-delay=".35">One platform for leads, accounts, deals, quotes and cases. Lumen scores and routes every lead in seconds, ties it to the ad that brought it, and keeps each deal on the process that wins it.</p>
+    <div class="ctas" data-reveal data-now data-delay=".5"><a class="btn pri" href="index.html#/deals" data-magnetic>Open Lumen CRM <span aria-hidden="true">→</span></a><a class="btn ghost" href="#tour">Take the tour</a></div>
+  </div>
+
+  <div class="wrap mock-wrap" id="mockwrap">
+    <div class="mock app" id="mock" role="img" aria-label="The Lumen CRM Pro deals board in the Lumen Homes workspace: a new WhatsApp lead arrives, gets scored and assigned, a deal passes a site-visit stage gate, and another is won.">
+      <aside class="m-side" aria-hidden="true">
+        <div class="m-logo"><i></i>Lumen <em>Pro</em></div>
+        <span class="m-grp">Workspace</span><span class="m-l">Home</span><span class="m-l">Lead inbox <b>8</b></span><span class="m-l">Tasks</span>
+        <span class="m-grp">Records</span><span class="m-l on">Deals</span><span class="m-l">Companies</span><span class="m-l">Contacts</span><span class="m-l">Tickets</span>
+        <span class="m-grp">Automation</span><span class="m-l">Workflows</span><span class="m-l">Sequences</span><span class="m-l">Scoring and routing</span>
+        <span class="m-grp">Insights</span><span class="m-l">Reports</span><span class="m-l">Tracking</span>
+      </aside>
+      <div class="m-main" aria-hidden="true">
+        <div class="m-top"><span class="m-crumb">Lumen Homes <i>/</i> <b>Deals</b></span><span class="m-search">Search or jump to… <kbd>⌘K</kbd></span></div>
+        <div class="m-head"><div><b class="m-h1">Deals</b><span class="m-sub">Sales pipeline · drag cards between stages</span></div><span class="m-seg"><i class="on">Sales</i><i>Partnerships</i></span></div>
+        <div class="m-kpis"><div><span>Open pipeline</span><b id="k-open">₹2.22 Cr</b></div><div><span>Weighted</span><b id="k-wt">₹1.21 Cr</b></div><div><span>Won this month</span><b id="k-won">₹56.4 L</b></div><div><span>First reply, median</span><b>12 min</b></div></div>
+        <div class="m-board">
+          <div class="m-col" data-c="q"><div class="m-ch"><i style="background:#98A0B3"></i>Qualified<span>3</span></div>
+            <div class="m-card"><b>Reception refresh</b><span class="v">₹5.6 L</span><small><i class="co">O</i>Orchid Clinics</small><u style="--p:10%"></u></div>
+            <div class="m-card"><b>Library corner</b><span class="v">₹4.6 L</span><small><i class="co">B</i>Brightpath School</small><u style="--p:10%"></u></div>
+          </div>
+          <div class="m-col" data-c="v"><div class="m-ch"><i style="background:#717C95"></i>Site visit<span>6</span></div>
+            <div class="m-card" id="gc"><b>Rooftop seating</b><span class="v">₹6.8 L</span><small><i class="co">T</i>Terrace Café Co.</small><u style="--p:25%"></u><em class="m-chip" id="gchip">Visit: measured ✓</em></div>
+            <div class="m-card"><b>Full-home interiors</b><span class="v">₹18 L</span><small><i class="av">RM</i>Rohan Mehta</small><u style="--p:25%"></u></div>
+          </div>
+          <div class="m-col" data-c="p"><div class="m-ch"><i style="background:#4F46E5"></i>Proposal<svg class="lk" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></svg><span>4</span></div>
+            <div class="m-gate" id="gate">Proposal needs the site-visit outcome</div>
+            <div class="m-card"><b>Members’ lounge</b><span class="v">₹16.6 L</span><small><i class="co">M</i>Meridian Cowork</small><u style="--p:60%"></u></div>
+            <div class="m-card"><b>Modular kitchen</b><span class="v">₹6.5 L</span><small><i class="av">AS</i>Ananya Sharma</small><u style="--p:60%"></u></div>
+          </div>
+          <div class="m-col" data-c="n"><div class="m-ch"><i style="background:#4338CA"></i>Negotiation<span>4</span></div>
+            <div class="m-card" id="wc"><b>Office fit-out, L3</b><span class="v">₹28.7 L</span><small><i class="co">K</i>Kestrel Fintech</small><u style="--p:80%"></u></div>
+            <div class="m-card"><b>Full-home interiors</b><span class="v">₹21 L</span><small><i class="av">GC</i>Gaurav Chopra</small><u style="--p:80%"></u></div>
+          </div>
+          <div class="m-col won" data-c="w"><div class="m-ch"><i style="background:#1F9D57"></i>Won<span>7</span></div>
+            <div class="m-card"><b>Show flat, Tower B</b><span class="v">₹17.4 L</span><small><i class="co">S</i>Skyline Habitats</small><u style="--p:100%"></u></div>
+          </div>
+        </div>
+        <div class="m-toast" id="mtoast"><i></i><span></span></div>
+        <i class="m-cur" id="mcur" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M5 3l14 8.2-6.1 1.3 3.6 6.9-2.6 1.4-3.6-7L5 18z" fill="#15171C" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg></i>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-label="What is inside">
+  <div class="marquee" data-marquee><div><span>Leads, accounts and contacts</span><span>Deals and pipelines</span><span>Lead conversion</span><span>Products and price books</span><span>Quotes with GST</span><span>Cases</span><span>Campaigns</span><span>Custom objects</span><span>Page layouts and record types</span><span>Visual flows</span><span>Approvals</span><span>Forecasts by territory and quota</span><span>Report and dashboard builders</span><span>Integrations marketplace</span><span>Meta Pixel and Conversions API</span><span>WhatsApp and email inbox</span><span>Roles and permissions</span><span>Audit log</span><span>Leads, accounts and contacts</span><span>Deals and pipelines</span><span>Lead conversion</span><span>Products and price books</span><span>Quotes with GST</span><span>Cases</span><span>Campaigns</span><span>Custom objects</span><span>Page layouts and record types</span><span>Visual flows</span><span>Approvals</span><span>Forecasts by territory and quota</span><span>Report and dashboard builders</span><span>Integrations marketplace</span><span>Meta Pixel and Conversions API</span><span>WhatsApp and email inbox</span><span>Roles and permissions</span><span>Audit log</span></div></div>
+</section>
+
+<section class="tour" id="tour" aria-labelledby="tour-h">
+  <div class="wrap">
+    <header class="sec-h"><p class="eyebrow">The product</p><h2 id="tour-h" data-split>Six screens your team will live in.</h2></header>
+    <div class="tour-g">
+      <ol class="chapters">
+        <li class="ch" data-p="0"><span class="ch-n">01 · Inbox</span><h3>Every enquiry lands in one place.</h3><p>WhatsApp, website forms, Meta and Google ads, the chatbot and missed calls. Each lead shows its source, its score and how long it has been waiting.</p><div class="ch-slot"></div></li>
+        <li class="ch" data-p="1"><span class="ch-n">02 · Conversations</span><h3>WhatsApp and email, one shared inbox.</h3><p>Every thread has an owner and a status: open, pending or closed. Reply with a canned template, then log the conversation to the contact or deal in one click, so it shows on their timeline.</p><div class="ch-slot"></div></li>
+        <li class="ch" data-p="2"><span class="ch-n">03 · Score and route</span><h3>The best lead reaches the right person in seconds.</h3><p>Rules you can read add up to a score out of 100. Round-robin skips anyone at capacity, and a 15-minute reply timer turns amber, then red.</p><div class="ch-slot"></div></li>
+        <li class="ch" data-p="3"><span class="ch-n">04 · Deals and quotes</span><h3>Pipelines that follow your process.</h3><p>A pipeline per team, products from a price book with live stock, and quotes with GST, a discount capped by role and a printable PDF. Stage gates stop a deal skipping a step: here, Proposal waits for the site-visit outcome, and the rep sees why.</p><div class="ch-slot"></div></li>
+        <li class="ch" data-p="4"><span class="ch-n">05 · Automate</span><h3>When this happens, do that. Every time.</h3><p>Visual flows assign, create tasks, send WhatsApp templates, update fields and route discounts for approval. Test a flow on a real record first; every run is logged step by step.</p><div class="ch-slot"></div></li>
+        <li class="ch" data-p="5"><span class="ch-n">06 · Reports</span><h3>Know what this month will close.</h3><p>Forecasts by territory and quota, source ROI, a deal funnel and a leaderboard. Build any report yourself and pin it to a dashboard you arrange by dragging.</p><div class="ch-slot"></div></li>
+      </ol>
+      <div class="stage-col"><div class="stage" id="stage">
+        <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span id="fb-t">Lead inbox</span><span class="fb-p" id="fb-p"><b></b><b></b><b></b><b></b><b></b><b></b></span></div>
+        <div class="panels">
+          <!-- 1 inbox -->
+          <div class="panel on" data-p="0" data-t="Lead inbox" role="img" aria-label="Lead inbox with sources, scores and live reply timers">
+            <div class="pi-h"><b>Lead inbox</b><span class="pi-chips"><i class="on">All 41</i><i>WhatsApp 6</i><i>Website 8</i><i>Meta 7</i></span></div>
+            <ul class="pi-rows">
+              <li><span class="av" style="--h:20">KS</span><span class="nm"><b>Kunal Saini</b><small>Wardrobes · Noida</small></span><span class="src wa">WhatsApp</span><span class="sc hot">65</span><span class="tm ok" data-tick="38">00:38</span></li>
+              <li><span class="av" style="--h:200">MR</span><span class="nm"><b>Mohit Rawat</b><small>Wardrobes · Noida</small></span><span class="src ph">Phone</span><span class="sc warm">40</span><span class="tm risk" data-tick="512">08:32</span></li>
+              <li><span class="av" style="--h:120">PV</span><span class="nm"><b>Pooja Verma</b><small>Full-home · Gurugram</small></span><span class="src mt">Meta ads</span><span class="sc warm">55</span><span class="tm met">Replied 6m</span></li>
+              <li><span class="av" style="--h:300">AM</span><span class="nm"><b>Arjun Malhotra</b><small>Kitchen · Indirapuram</small></span><span class="src bt">Chatbot</span><span class="sc cold">20</span><span class="tm met">Replied 1m</span></li>
+              <li><span class="av" style="--h:60">LP</span><span class="nm"><b>Lavanya Pillai</b><small>Bathroom · Gurugram</small></span><span class="src wa">WhatsApp</span><span class="sc warm">35</span><span class="tm bad">Missed 22m</span></li>
+            </ul>
+          </div>
+          <!-- 2 conversations -->
+          <div class="panel" data-p="1" data-t="Conversations" role="img" aria-label="A shared inbox with WhatsApp and email threads; an open WhatsApp thread assigned to Meera with canned replies and a log-to-deal button">
+            <div class="pc">
+              <ul class="pc-list">
+                <li class="on"><span class="pc-ic wa"></span><span class="nm"><b>Jai Oberoi</b><small>Can we do Saturday instead?</small></span><span class="st o">Open</span><i class="dot"></i></li>
+                <li><span class="pc-ic em"></span><span class="nm"><b>Aditi Menon</b><small>Re: Revised furniture schedule</small></span><span class="st p">Pending</span></li>
+                <li><span class="pc-ic wa"></span><span class="nm"><b>Ananya Sharma</b><small>Quote looks good, one question…</small></span><span class="st o">Open</span><i class="dot"></i></li>
+                <li><span class="pc-ic em"></span><span class="nm"><b>Varun Khurana</b><small>Sconce samples received</small></span><span class="st c">Closed</span></li>
+              </ul>
+              <div class="pc-thread">
+                <div class="pc-h"><b>Jai Oberoi</b><span class="as"><span class="av" style="--h:280">MJ</span>Meera</span><span class="seg"><i class="on">Open</i><i>Pending</i><i>Closed</i></span></div>
+                <p class="bub in">Hi, the rooftop visit on Friday clashes with a delivery. Can we do Saturday instead?</p>
+                <p class="bub out">Saturday works. We have 11 am or 4 pm, which suits you? — Meera, Lumen Homes</p>
+                <p class="bub in">11 am please 👍</p>
+                <div class="pc-c"><span>Site-visit slots</span><span>Quote walk-through</span><span>Missed call</span></div>
+                <div class="pc-f"><span class="in">Reply on WhatsApp…</span><span class="lg">Log to D-2044</span></div>
+              </div>
+            </div>
+          </div>
+          <!-- 2 scoring -->
+          <div class="panel" data-p="2" data-t="Scoring and routing" role="img" aria-label="A lead score built from readable rules, and a round-robin pool with the next person highlighted">
+            <div class="ps-g">
+              <div class="ps-card"><span class="lbl">Kunal Saini · score</span><b class="big hot">65</b><ul class="rules"><li><span>Budget ₹10 L or more</span><b>+25</b></li><li><span>Came on WhatsApp</span><b>+15</b></li><li><span>Budget ₹5 L or more</span><b>+10</b></li><li><span>Area we serve fastest</span><b>+5</b></li><li><span>Replied within 15 minutes</span><b>+10</b></li><li class="neg"><span>Unanswered after 24 hours</span><b>−15</b></li></ul></div>
+              <div class="ps-card"><span class="lbl">Round-robin</span><ul class="rr"><li><span class="av" style="--h:228">AK</span>Aarav<i class="off">off</i></li><li class="next"><span class="av" style="--h:280">MJ</span>Meera<i>next up</i></li><li><span class="av" style="--h:20">KA</span>Kabir<i>4 / 10</i></li><li><span class="av" style="--h:150">IB</span>Isha<i>1 / 8</i></li></ul><span class="lbl">First reply target</span><div class="sla"><b class="tm risk" data-tick="497">08:17</b><span class="bar"><i id="slabar"></i></span><small>of 15:00</small></div></div>
+            </div>
+          </div>
+          <!-- 3 deals -->
+          <div class="panel" data-p="3" data-t="Deal · Rooftop seating" role="img" aria-label="A deal with a locked Proposal stage that explains it needs the site-visit outcome, and line items with stock">
+            <div class="pd-h"><div><b>Rooftop seating and lights</b><small>Terrace Café Co. · Sales · D-2044</small></div><b class="pd-v">₹6.8 L</b></div>
+            <div class="pd-steps"><i class="d">Qualified</i><i class="n">Site visit</i><i>Design</i><i class="l"><svg class="lk" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></svg>Proposal</i><i class="l"><svg class="lk" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></svg>Won</i></div>
+            <div class="pd-gate"><b>Proposal needs “Site-visit outcome”</b><span>A proposal is only as good as its measurements.</span><span class="sel">Measured — client keen</span><span class="go">Save and move to Proposal</span></div>
+            <table class="pd-li"><thead><tr><th>Item</th><th>Stock</th><th>Qty</th><th>Total</th></tr></thead><tbody><tr><td><code>HS-CH-002</code> Walnut dining chair</td><td><span class="ok">38 available</span></td><td>14</td><td>₹1,62,400</td></tr><tr><td><code>HS-TB-005</code> Oak dining table, 180 cm</td><td><span class="bad">Short by 1</span></td><td>4</td><td>₹2,08,000</td></tr><tr><td><code>HS-LT-013</code> Opal globe pendant</td><td><span class="ok">64 available</span></td><td>8</td><td>₹51,200</td></tr></tbody></table>
+          </div>
+          <!-- 4 workflow -->
+          <div class="panel" data-p="4" data-t="Workflow · Big WhatsApp enquiries" role="img" aria-label="A workflow: when a new lead arrives, if it came on WhatsApp with a budget of 8 lakh or more, assign it to a senior, set priority and notify the manager">
+            <div class="pw-w"><ol class="pw"><li class="when"><i></i><span class="k">When</span>A new lead arrives</li><li class="if"><i></i><span class="k">If</span>Source is WhatsApp <em>and</em> budget is at least ₹8 L</li><li><i></i><span class="k">Then</span>Assign to Meera Joshi</li><li><i></i><span class="k">Then</span>Set priority to Urgent</li><li><i></i><span class="k">Then</span>Send WhatsApp “First reply”</li><li><i></i><span class="k">Then</span>Notify Aarav Khanna</li></ol><b class="pw-dot" id="pwdot"></b>
+            </div><div class="pw-run"><b>Ran on Kunal Saini · just now</b><span>4 steps · 0.4 s · logged</span></div>
+          </div>
+          <!-- 5 reports -->
+          <div class="panel" data-p="5" data-t="Reports" role="img" aria-label="A revenue forecast by month against a dashed target line, and a team leaderboard">
+            <div class="pr-k"><div><span>Won this month</span><b>₹62.5 L</b></div><div><span>Commit</span><b>₹38 L</b></div><div><span>Projected</span><b>104%</b></div></div>
+            <div class="pr-chart"><span class="tg"></span><i style="--a:52%;--b:0%;--c:6%"></i><i class="now" style="--a:62%;--b:20%;--c:8%"></i><i style="--a:0%;--b:58%;--c:22%"></i><i style="--a:0%;--b:18%;--c:30%"></i><i style="--a:0%;--b:6%;--c:16%"></i></div>
+            <ol class="pr-lb"><li><b>Aarav</b><u style="--w:100%"></u><span>₹49.6 L</span></li><li><b>Kabir</b><u style="--w:62%"></u><span>₹30.8 L</span></li><li><b>Meera</b><u style="--w:44%"></u><span>₹21.9 L</span></li><li><b>Isha</b><u style="--w:24%"></u><span>₹11.8 L</span></li></ol>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="spec" id="spec" aria-labelledby="spec-h">
+  <div class="wrap">
+    <header class="sec-h"><p class="eyebrow">The platform</p><h2 id="spec-h" data-split>Sales, service and marketing on one set of records.</h2><p class="lede sm" data-reveal>Start with the standard objects, then shape Lumen around how your business works, without writing code.</p></header>
+    <h3 class="sp-g">Sell</h3>
+    <dl class="sp">
+      <div class="sp-r"><dt>Leads and conversion</dt><dd>Capture leads from every channel and de-duplicate them by phone or email. Convert in one step to an account, contact and deal, with the history carried over.</dd><dd class="sp-v"><span class="pill">Lead</span><span class="muted">→</span><span class="pill">Account · Contact · Deal</span></dd></div>
+      <div class="sp-r"><dt>Accounts, contacts and deals</dt><dd>Companies, the people in them and every open opportunity, linked, so one record shows the whole relationship.</dd><dd class="sp-v"><span class="pill">Kestrel Fintech</span><span class="muted">4 contacts · 2 deals · 1 case</span></dd></div>
+      <div class="sp-r"><dt>Products and price books</dt><dd>One catalogue with a price book for each way you sell (retail, trade, partner), so every line item picks up the right price.</dd><dd class="sp-v"><code>PB-Trade</code><span class="pill">−12% on list</span></dd></div>
+      <div class="sp-r"><dt>Quotes</dt><dd>Line items from a price book, GST, a discount capped by role, versions, and a printable quote your client can sign.</dd><dd class="sp-v"><span class="pill">Q-2026-041 · v2</span><span class="pill ok">Accepted</span></dd></div>
+      <div class="sp-r"><dt>Forecasting</dt><dd>Territories and quotas for every rep, with commit, best case and pipeline rolled up by month.</dd><dd class="sp-v"><span class="muted">North · ₹38 L of ₹45 L quota</span></dd></div>
+    </dl>
+    <h3 class="sp-g">Serve and market</h3>
+    <dl class="sp">
+      <div class="sp-r"><dt>Cases</dt><dd>Support tickets with an owner, a priority and a response target, on the same account as the deal that sold it.</dd><dd class="sp-v"><span class="pill">CS-1182</span><span class="pill">P2 · reply in 4 h</span></dd></div>
+      <div class="sp-r"><dt>Campaigns</dt><dd>Group leads and contacts by campaign, record the spend, and see cost per lead next to revenue won.</dd><dd class="sp-v"><span class="muted">₹1.8 L spend · 46 leads · 9 won</span></dd></div>
+      <div class="sp-r"><dt>Marketing and tracking</dt><dd>Meta Pixel, Conversions API, Search Console and attribution in one module, so every lead carries its source.</dd><dd class="sp-v"><span class="pill">Pixel + Conversions API</span><span class="pill ok">EMQ 8.3</span></dd></div>
+      <div class="sp-r"><dt>Calendar</dt><dd>Visits, meetings and calls on a week view. Book one from a deal and it lands on the deal’s timeline.</dd><dd class="sp-v"><span class="ev v">Sat 11:00 · Site visit · Terrace Café</span></dd></div>
+    </dl>
+    <h3 class="sp-g">Build and automate</h3>
+    <dl class="sp">
+      <div class="sp-r"><dt>Custom objects and fields</dt><dd>Model what your business tracks (projects, properties, vehicles, policies) with its own fields, relationships and list views. Ten field types, from ₹ currency to multi-select.</dd><dd class="sp-v"><code>Project</code><span class="muted">Object · 12 fields</span></dd></div>
+      <div class="sp-r"><dt>Page layouts and record types</dt><dd>Give each team its own fields, stages and picklists on the same object, arranged in a drag-and-drop layout editor.</dd><dd class="sp-v"><span class="pill">Sales</span><span class="pill">Partner</span><span class="pill">Service</span></dd></div>
+      <div class="sp-r"><dt>Flows and approvals</dt><dd>Build automations on a visual canvas and send discounts above a threshold for sign-off. Every run is logged step by step.</dd><dd class="sp-v"><span class="muted">Discount over 10% → Manager</span><span class="pill ok">Approved</span></dd></div>
+      <div class="sp-r"><dt>Integrations marketplace</dt><dd>Connect accounting, e-signature, telephony and inventory apps. The Stockroom bridge, for example, reserves stock the moment a deal is won.</dd><dd class="sp-v"><span class="pill ok">Stockroom · connected</span></dd></div>
+    </dl>
+    <h3 class="sp-g">Measure and govern</h3>
+    <dl class="sp">
+      <div class="sp-r"><dt>Reports and dashboards</dt><dd>Build a report on any object, group and filter it, then pin the chart to a dashboard you arrange by dragging.</dd><dd class="sp-v"><span class="muted">Won by source · bar chart</span></dd></div>
+      <div class="sp-r"><dt>Roles and permissions</dt><dd>Admin, Manager and Agent. Who sees which records, who can export, edit others’ deals or change settings, enforced on every screen.</dd><dd class="sp-v"><span class="pill">Admin</span><span class="pill">Manager</span><span class="pill">Agent · own records</span></dd></div>
+      <div class="sp-r"><dt>Audit log</dt><dd>Who changed what and when, on every record and across the workspace.</dd><dd class="sp-v"><span class="aud"><b>Meera</b> moved D-2044 <s>Proposal</s> → Won</span></dd></div>
+      <div class="sp-r"><dt>Import and export</dt><dd>A CSV wizard with column mapping and a duplicate check by phone or email that merges instead of duplicating. Export any filtered view.</dd><dd class="sp-v"><span class="muted">42 rows · 3 merged · 0 errors</span></dd></div>
+      <div class="sp-r"><dt>Search everywhere</dt><dd>Every record, note and setting from one command palette, plus every action.</dd><dd class="sp-v"><kbd>⌘</kbd><kbd>K</kbd></dd></div>
+      <div class="sp-r"><dt>Light and dark</dt><dd>Both themes drawn from the same tokens, so tables stay calm at 11 pm too.</dd><dd class="sp-v"><kbd>T</kbd></dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="tracking" id="tracking" aria-labelledby="tracking-h">
+  <div class="wrap">
+    <header class="sec-h"><p class="eyebrow">Marketing and tracking</p><h2 id="tracking-h" data-split>Every lead tied to the ad or search that brought it.</h2><p class="lede sm" data-reveal>Lumen records the click, follows the lead through your pipeline and sends the won revenue back to Meta, so your ads learn to find buyers. Search Console queries and campaign attribution sit in the same module.</p></header>
+    <div class="tl-dia" id="tl-dia" data-reveal>
+      <ol class="tl-steps" role="list" aria-label="The tracking loop, step by step">
+        <li class="tl-step"><i class="tl-port" aria-hidden="true"></i><span class="tl-k">01 · Click</span><h3>Ad click or search</h3><p class="tl-tech">A Meta ad adds <code>fbclid</code>; a Google search adds <code>gclid</code>.</p><p class="tl-why"><span class="vh">Why it matters: </span>You know which ad, keyword and campaign started every enquiry.</p></li>
+        <li class="tl-step"><i class="tl-port" aria-hidden="true"></i><span class="tl-k">02 · Website</span><h3>The Pixel fires Lead</h3><p class="tl-tech">Meta Pixel sends <code>Lead</code> from the browser with an <code>event_id</code>.</p><p class="tl-why"><span class="vh">Why it matters: </span>Meta hears about the enquiry the moment it happens.</p></li>
+        <li class="tl-step"><i class="tl-port" aria-hidden="true"></i><span class="tl-k">03 · Lumen CRM</span><h3>Lead created, source attached</h3><p class="tl-tech"><code>utm_*</code>, <code>fbclid</code> and <code>gclid</code> are saved on the record.</p><p class="tl-why"><span class="vh">Why it matters: </span>Nobody has to ask “how did you hear about us?”</p></li>
+        <li class="tl-step"><i class="tl-port" aria-hidden="true"></i><span class="tl-k">04 · Pipeline</span><h3>Stages move</h3><p class="tl-tech"><span class="tl-stg">Contacted</span> → <span class="tl-stg">Site visit</span> → <span class="tl-stg">Quote</span></p><p class="tl-why"><span class="vh">Why it matters: </span>See which campaigns bring leads that progress, not just leads.</p></li>
+        <li class="tl-step won"><i class="tl-port" aria-hidden="true"></i><span class="tl-k">05 · Won</span><h3>Deal won</h3><p class="tl-tech">D-2044 · Terrace Café Co. · ₹6.8 L</p><p class="tl-why"><span class="vh">Why it matters: </span>Revenue is tied to the original click, to the rupee.</p></li>
+        <li class="tl-step"><i class="tl-port" aria-hidden="true"></i><span class="tl-k">06 · Conversions API</span><h3>The server sends Purchase</h3><p class="tl-tech">₹ value plus SHA-256 hashed email and phone. The server copy of the Lead reuses the Pixel’s <code>event_id</code>, so it counts once.</p><p class="tl-why"><span class="vh">Why it matters: </span>Server events survive ad blockers and browser limits, without double counting.</p></li>
+        <li class="tl-step"><i class="tl-port" aria-hidden="true"></i><span class="tl-k">07 · Back to Meta</span><h3>Meta optimises for revenue</h3><p class="tl-tech">Value-based bidding learns from Purchase value (ROAS).</p><p class="tl-why"><span class="vh">Why it matters: </span>Budget moves to people who pay, not the cheapest clicks, and the loop starts again.</p></li>
+      </ol>
+      <div class="tl-mid">
+        <p class="tl-pay" aria-hidden="true"></p>
+        <ul class="tl-chips" role="list" aria-label="Numbers from the Lumen Homes workspace"><li>Event Match Quality <b>8.3/10</b></li><li>Dedup <b>96%</b></li><li>ROAS <b>25.6×</b></li></ul>
+        <p class="tl-note">From the Lumen Homes workspace, last 90 days</p>
+      </div>
+      <span class="tl-pk" aria-hidden="true"><b></b></span>
+    </div>
+    <div class="ctas tl-cta"><a class="btn pri" href="index.html#/tracking">Open Marketing and tracking <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+
+<section class="assist" id="assistant" aria-labelledby="as-h">
+  <div class="wrap as-g">
+    <div class="as-copy">
+      <h2 id="as-h" data-split>A website assistant that books the visit, not just the chat.</h2>
+      <p class="lede sm" data-reveal>The Lumen Homes design desk prices a kitchen in three questions, books a designer’s visit into a real slot and answers the fifteen things every buyer asks, in English or Hinglish. When someone wants a person, the chat lands in Conversations with the whole transcript.</p>
+      <ul class="as-pts" data-stagger>
+        <li><b>Prices in three questions.</b> Scope, size and finish, then a range with GST and a timeline.</li>
+        <li><b>Books real slots.</b> Taken slots are shown as taken; the booking arrives as a lead with the slot attached.</li>
+        <li><b>Hands over cleanly.</b> Take over, reply, hand back to the assistant, or turn the chat into a deal.</li>
+      </ul>
+      <div class="ctas"><button type="button" class="btn pri" data-assist-open>Ask the design desk <span aria-hidden="true">→</span></button><a class="btn ghost" href="index.html#/conversations">See where chats land</a></div>
+    </div>
+    <figure class="as-fig" aria-hidden="true">
+      <div class="as-b u">3 bhk full home, signature finish</div>
+      <div class="as-b bot">Here’s a first number from our rate card.<span class="as-card"><b>Full home interiors</b><i>3 BHK · Signature finish</i><em>₹6.9 L – ₹9 L</em></span></div>
+      <div class="as-b u">kal shaam site visit in Gurugram?</div>
+      <div class="as-b bot">Tomorrow has 3 open slots. <span class="as-chips"><i>11 am</i><i class="off">1 pm · taken</i><i>4 pm</i><i>6 pm</i></span></div>
+    </figure>
+  </div>
+</section>
+
+<section class="india" id="india" aria-labelledby="india-h">
+  <div class="wrap">
+    <header class="sec-h"><p class="eyebrow">Built for India</p><h2 id="india-h" data-split>Made for how businesses here actually sell.</h2><p class="lede sm" data-reveal>Your customers message on WhatsApp at 10 pm, want a walkthrough or a visit on Saturday and compare three quotes. Lumen is shaped around that. These examples come from Lumen Homes, the interiors workspace.</p></header>
+    <div class="in-g" data-stagger>
+      <article class="in-c"><div class="in-v wa" aria-hidden="true"><p class="b in">Hi, need a quote for a modular kitchen in Noida 🙂</p><p class="b out">Hi Kunal, this is Meera from Lumen Homes. Is now a good time for a 5-minute call?</p><span class="meta">First reply · 0:42 · template “First reply”</span><p class="b in">Yes, call me now. Also, can you share kitchen photos from Noida projects?</p><p class="b out">Calling you in 2 minutes. Sharing 6 recent Noida kitchens now. — Meera</p><span class="meta">Logged to Kunal Saini · D-2088</span></div><h3>WhatsApp first</h3><p>Templates with merge fields, sequences that stop the moment someone replies, and every chat on the customer’s timeline.</p></article>
+      <article class="in-c"><div class="in-v call" aria-hidden="true"><span class="o on">Connected</span><span class="o">No answer</span><span class="o">Busy</span><span class="d">04:30</span><span class="f">✓ Follow up tomorrow, 11 am</span></div><h3>Calls in two taps</h3><p>Pick the outcome, add the duration, and a follow-up task appears for tomorrow. Missed calls become leads, not lost numbers.</p></article>
+      <article class="in-c"><div class="in-v visit" aria-hidden="true"><span class="st">Site visit</span><span class="ar">→</span><span class="st lock"><svg class="lk" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></svg>Proposal</span><span class="o">Outcome: Measured — client keen</span><span class="f">floor-plan.pdf · site-photos.zip</span></div><h3>Stage gates that mean something</h3><p>Make a stage wait for evidence: a logged visit, a walkthrough outcome, a signed scope. Here the site-visit outcome unlocks the proposal, so nobody quotes from guesswork.</p></article>
+    </div>
+    <ul class="facts" data-stagger=".05"><li>₹ lakh and crore everywhere</li><li>GST on every quote</li><li>Reply timers in IST</li><li>Works on a phone as well as a laptop</li></ul>
+  </div>
+</section>
+
+<section class="flow" id="flow" aria-labelledby="flow-h">
+  <div class="wrap">
+    <header class="sec-h"><p class="eyebrow">One lead, start to finish · Lumen Homes</p><h2 id="flow-h" data-split>From “Hi” on WhatsApp to stock reserved.</h2></header>
+    <ol class="fl" data-stagger=".07">
+      <li><span class="t">7:42 pm</span><b>WhatsApp enquiry</b><span>Kunal asks about a kitchen.</span></li>
+      <li><span class="t">+1 s</span><b>Scored 65, hot</b><span>Budget, channel and area add up.</span></li>
+      <li><span class="t">+1 s</span><b>Assigned to Meera</b><span>Round-robin, skipping anyone at capacity.</span></li>
+      <li><span class="t">+42 s</span><b>First reply sent</b><span>WhatsApp template, inside the 15-minute target.</span></li>
+      <li><span class="t">Saturday</span><b>Site visit logged</b><span>Outcome recorded; Proposal unlocks.</span></li>
+      <li><span class="t">Day 9</span><b>Proposal with line items</b><span>Halden Supply products, GST, live stock.</span></li>
+      <li class="won"><span class="t">Day 16</span><b>Won</b><span>Stock reserved in Stockroom automatically.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="cta" aria-labelledby="cta-h">
+  <div class="wrap">
+    <h2 id="cta-h" data-split>See it with real-looking data.</h2>
+    <p class="lede sm" data-reveal>Open the Lumen Homes workspace: a team of four, forty leads, sixty contacts and forty-six deals, with the automations already running. Switch to the B2B or agency template from the workspace menu.</p>
+    <div class="ctas" data-reveal><a class="btn pri lg" href="index.html#/deals" data-magnetic>Open Lumen CRM <span aria-hidden="true">→</span></a><a class="btn ghost" href="index.html#/routing">Start with scoring and routing</a></div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="wordmark" aria-hidden="true">Lumen</p>
+    <div class="foot-r"><p>© Lumen. A portfolio project by Abhishek.</p><p>Type: Hanken Grotesk and IBM Plex Mono (OFL).</p><p><a href="index.html">Open the app</a> · <a href="#top">Back to top</a></p></div>
+  </div>
+</footer>
+<button type="button" class="lx-launch" id="lx-launch" aria-label="Ask the design desk at Lumen Homes" aria-haspopup="dialog" aria-expanded="false" aria-controls="lx-chat"><span class="lx-ring" aria-hidden="true"><i></i></span><span class="lx-l">Ask the design desk</span></button>
+<div class="lx-chat" id="lx-chat" role="dialog" aria-modal="false" aria-labelledby="lx-t" hidden>
+  <div class="lx-hd"><span class="lx-ring sm" aria-hidden="true"><i></i></span><div><b id="lx-t">Lumen Homes · design desk</b><small>Scripted assistant · nothing you type leaves this browser</small></div><button type="button" class="lx-x" data-assist-close aria-label="Close the assistant">×</button></div>
+  <div class="lx-body" id="lx-body"><p class="lx-wait">Opening the design desk…</p></div>
+  <div class="lx-ft"><button type="button" class="lx-wa" data-assist-wa>Continue on WhatsApp</button><a href="index.html#/conversations">Open in Lumen CRM</a></div>
+</div>
+<div class="lx-nudge" id="lx-nudge" hidden><p>Planning a kitchen or a full home? I can give you a first number in under a minute.</p><button type="button" data-assist-open>Price my home</button><button type="button" class="lx-nx" data-nudge-x aria-label="Dismiss">×</button></div>
+</body>
+</html>
