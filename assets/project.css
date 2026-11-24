@@ -1,0 +1,190 @@
+/* Project pages, v2: loads after site.css. Flips the bone "Gallery" frame to the home page's dark frame,
+   scales the type up, and brings in the home header. Each project's own hero wardrobe is kept. */
+:root{
+  --bone:#07070A; --bone-2:#0D0E13; --card:#12131A;
+  --ink:#F3F0EA; --ink-2:#CDC9C1; --mute:#9A968E; --mute-strong:#A8A49C; --rule:rgba(243,240,234,.11); --link-u:rgba(243,240,234,.35);
+  --carbon:#0D0E13; --carbon-2:#14151C;
+  --spectrum:linear-gradient(100deg,#F4B556 0%,#FF4FD8 45%,#9D8CFF 70%,#4BE3C1 100%);
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --gutter:clamp(16px,5vw,96px); --max:1560px;
+  --section:clamp(88px,11vw,180px);
+  --r-card:22px; --r-thumb:14px;
+}
+html{scroll-behavior:smooth;scroll-padding-top:84px;background:#07070A}
+body{background:#07070A;color:var(--ink);font-size:18px}
+body::after{content:"";position:fixed;inset:0;z-index:90;pointer-events:none;background:url(grain.svg);opacity:.05;mix-blend-mode:overlay}
+::selection{background:#FF4FD8;color:#07070A}
+
+/* header (same as home) */
+.hd{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;gap:24px;padding:16px var(--gutter);color:#F3F0EA;
+  transition:background .4s,backdrop-filter .4s,box-shadow .4s,transform .45s var(--ease)}
+.hd.scrolled{background:rgba(7,7,10,.62);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);box-shadow:0 1px 0 var(--rule)}
+.hd.hide{transform:translateY(-100%)}
+.hd a{text-decoration:none}
+.hd-mark{display:inline-flex;align-items:center;gap:12px;font:600 16px/1 'Inter Tight',Inter,sans-serif;letter-spacing:-.01em;white-space:nowrap}
+.hd-dot{width:22px;height:22px;border-radius:50%;background:var(--spectrum);box-shadow:0 0 22px rgba(255,79,216,.45)}
+.hd-nav{display:flex;gap:6px;margin-left:auto}
+.hd-nav a{font:500 14px/1 Inter,sans-serif;color:#CDC9C1;padding:11px 14px;border-radius:999px;transition:background .2s,color .2s}
+.hd-nav a:hover{color:#F3F0EA;background:rgba(243,240,234,.08)}
+.hd-cta{display:inline-flex;align-items:center;gap:10px;font:600 14px/1 'Inter Tight',Inter,sans-serif;padding:12px 18px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(243,240,234,.22);white-space:nowrap;transition:background .2s}
+.hd-cta:hover{background:rgba(243,240,234,.08)}
+.pulse{position:relative;display:inline-block;width:8px;height:8px;border-radius:50%;background:#4BE3C1;flex:none}
+.pulse::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid #4BE3C1;animation:ping 2.2s var(--ease) infinite}
+@keyframes ping{0%{transform:scale(.4);opacity:1}100%{transform:scale(1.6);opacity:0}}
+@media (max-width:860px){.hd-nav{display:none}.hd-cta{margin-left:auto}}
+@media (max-width:420px){.hd-mark{font-size:14px}.hd-cta{padding:10px 14px;font-size:13px}}
+
+/* hero: taller, bigger */
+.p-hero{padding-top:clamp(120px,14vh,170px)!important;padding-bottom:clamp(64px,8vw,120px)!important}
+.p-h1{font-size:clamp(46px,7vw,128px)!important;line-height:.9!important;letter-spacing:-.05em!important}
+.p-h1 .sub{font-size:.5em!important;line-height:1.1!important;margin-top:.35em}
+.p-sum{font-size:clamp(19px,1.6vw,25px)!important;line-height:1.5!important;max-width:44ch}
+.p-eyebrow{font-size:13px!important;letter-spacing:.18em!important}
+.numeral{font-size:clamp(120px,16vw,300px)!important}
+.hnums .n-m{font-size:clamp(38px,4vw,72px)!important;letter-spacing:-.045em;white-space:nowrap}
+.facts dd{font-size:16.5px}
+.crumb{margin-top:8px}
+
+/* body type up a step */
+.h2{font:700 clamp(36px,5.2vw,92px)/.96 'Inter Tight',Inter,sans-serif!important;letter-spacing:-.045em!important}
+.h2 em,.em{background:var(--spectrum);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.lede{font-size:clamp(19px,1.55vw,23px)}
+.prose p{font-size:clamp(18px,1.35vw,21px);line-height:1.65;color:var(--ink-2)}
+.rail-l{font-size:13px!important;letter-spacing:.18em!important}
+.card,.mini{background:var(--card);box-shadow:inset 0 0 0 1px var(--rule);border-radius:22px;transition:box-shadow .3s,transform .5s var(--ease)}
+.card:hover,.mini:hover{box-shadow:inset 0 0 0 1px rgba(243,240,234,.24);transform:translateY(-3px)}
+.card h3,.mini h4{font-size:clamp(20px,1.6vw,26px);letter-spacing:-.025em}
+.card p,.mini p{color:var(--ink-2)}
+.diff li{font-size:clamp(17px,1.3vw,20px);line-height:1.6}
+.diff li b{color:var(--ink)}
+.dl dt{color:var(--ink)}
+.dl dd{color:var(--ink-2)}
+.sgroup > h3{font-size:clamp(24px,2.2vw,36px)!important;letter-spacing:-.03em}
+.shot figcaption{color:var(--ink-2)}
+.frame{border-radius:16px;box-shadow:0 40px 90px -40px rgba(0,0,0,.85),0 0 0 1px rgba(243,240,234,.12)}
+a.frame:hover,a.phone:hover{transform:translateY(-4px)}
+.frame,.phone{transition:transform .6s var(--ease),box-shadow .4s}
+
+/* results band */
+.results-p{background:radial-gradient(1000px 600px at 90% 0%,rgba(255,79,216,.08),transparent 60%),radial-gradient(900px 600px at 0% 100%,rgba(75,227,193,.07),transparent 60%),#0D0E13!important}
+.sgrid .n{font-size:clamp(44px,4.6vw,84px)!important;letter-spacing:-.05em}
+.chart{border-radius:22px}
+
+/* buttons */
+.btn{min-height:52px;padding:14px 26px;font:600 16px/1 'Inter Tight',Inter,sans-serif;transition:transform .35s var(--ease),filter .2s,background .2s}
+.btn:hover{transform:translateY(-2px)}
+.pdf-card{border-radius:22px;background:var(--card);box-shadow:inset 0 0 0 1px var(--rule)}
+.pn a{border-radius:22px;background:var(--card);box-shadow:inset 0 0 0 1px var(--rule);transition:box-shadow .3s,transform .5s var(--ease)}
+.pn a:hover{box-shadow:inset 0 0 0 1px rgba(243,240,234,.26);transform:translateY(-3px)}
+.pn .t{font-size:clamp(20px,1.8vw,30px)!important;letter-spacing:-.03em}
+/* the dark layer draws prev / next as cards, so their text needs room inside (it sat on the card's rounded edge) and
+   the two cards a gap instead of a shared rule */
+.pn{gap:12px}
+.pn a{padding:24px clamp(20px,2.4vw,28px)}
+.pn a + a{border:0}
+
+/* footer */
+.site-foot{background:#07070A!important;border-top:1px solid var(--rule)}
+
+/* gentle reveal for body sections (JS adds .js to <html>) */
+.js .psec .wrap,.js .results-p .wrap{animation:none}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.p-h1 .sub{letter-spacing:-.005em!important;word-spacing:.08em}
+.p02 .p-h1,.p06 .p-h1{letter-spacing:-.02em!important}
+
+
+
+/* ── mobile menu (≤860px): a toggle in the header opens a full-screen menu built from the header's links ── */
+.hd-menu{display:none;place-items:center;flex:none;width:44px;height:44px;margin:0;padding:0;border:0;border-radius:999px;background:transparent;color:#F3F0EA;box-shadow:inset 0 0 0 1px rgba(243,240,234,.22);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s}
+.hd-menu:hover{background:rgba(243,240,234,.08)}
+.hd-menu:focus-visible{outline:2px solid #4BE3C1;outline-offset:3px}
+.hd-menu i{grid-area:1/1;display:block;width:18px;height:1.5px;border-radius:2px;background:currentColor;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.hd-menu i:first-child{transform:translateY(-3.5px)}
+.hd-menu i:last-child{transform:translateY(3.5px)}
+.nav-open .hd-menu i:first-child{transform:rotate(45deg)}
+.nav-open .hd-menu i:last-child{transform:rotate(-45deg)}
+@media (max-width:860px){.hd-menu{display:inline-grid}.hd{gap:10px}}
+@media (max-width:420px){.hd-dot{display:none}.hd-mark{font-size:14.5px}.hd-cta{gap:7px;padding:9px 12px;font-size:12.5px}}
+@media (max-width:359px){.hd-cta{display:none}}
+.mnav{position:fixed;inset:0;z-index:88;display:flex;flex-direction:column;justify-content:flex-end;gap:26px;padding:96px max(20px,5vw) max(30px,env(safe-area-inset-bottom));
+  background:radial-gradient(120% 70% at 100% 0%,rgba(75,227,193,.12),transparent 60%),radial-gradient(110% 60% at 0% 100%,rgba(255,79,216,.12),transparent 62%),rgba(7,7,10,.97);
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);overflow-y:auto;overscroll-behavior:contain;color:#F3F0EA;
+  opacity:0;visibility:hidden;transition:opacity .35s cubic-bezier(.2,.8,.2,1),visibility 0s linear .35s}
+.nav-open .mnav{opacity:1;visibility:visible;transition:opacity .35s cubic-bezier(.2,.8,.2,1)}
+html.nav-open,html.nav-open body{overflow:hidden}
+.nav-open .hd{z-index:89;transform:none}
+.mnav-k{font:500 12px/1 'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase;color:#9A968E}
+.mnav ol{list-style:none;margin:0;padding:0}
+.mnav .ml{display:flex;align-items:baseline;gap:16px;padding:13px 0;font:700 clamp(34px,10.5vw,58px)/1 'Inter Tight',Inter,system-ui,sans-serif;letter-spacing:-.045em;color:#F3F0EA;text-decoration:none;border-bottom:1px solid rgba(243,240,234,.09);
+  opacity:0;transform:translateY(16px);transition:opacity .45s ease,transform .6s cubic-bezier(.2,.8,.2,1),color .2s}
+.mnav .ml span{flex:none;width:2.6em;font:500 12px/1 'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;color:#9A968E}
+.mnav .ml:hover,.mnav .ml:focus-visible{color:#4BE3C1;outline:none}
+.mnav .ml[aria-current]{color:#4BE3C1}
+.nav-open .mnav .ml{opacity:1;transform:none}
+.nav-open .mnav li:nth-child(2) .ml{transition-delay:.04s}
+.nav-open .mnav li:nth-child(3) .ml{transition-delay:.08s}
+.nav-open .mnav li:nth-child(4) .ml{transition-delay:.12s}
+.nav-open .mnav li:nth-child(5) .ml{transition-delay:.16s}
+.nav-open .mnav li:nth-child(6) .ml{transition-delay:.2s}
+.mnav-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:15px 24px;border-radius:999px;background:#F3F0EA;color:#07070A;font:600 16px/1 'Inter Tight',Inter,system-ui,sans-serif;text-decoration:none}
+.mnav-cta:focus-visible{outline:2px solid #4BE3C1;outline-offset:3px}
+@media (min-width:861px){.mnav{display:none}}
+@media (prefers-reduced-motion:reduce){.mnav,.mnav .ml,.hd-menu i{transition:none}}
+
+/* feature cards (.cards > .card) on every case study: the dark layer draws them as boxes, so the text needs room
+   inside (it ran into the rounded edges, worst on phones); the old light-theme top rule goes */
+.card{padding:clamp(20px,2.2vw,30px) clamp(20px,2.2vw,28px);border-top:0}
+.card p{margin-top:10px}
+@media (max-width:767px){.cards{gap:14px}}
+
+/* ── mobile pass: phones, landscape phones and tablets. Wide screens (1200px+) keep their look. Text never drops
+   under 13px (captions 15px), tap targets reach 44px, and nothing covers anything else. ── */
+/* the hero figure overlaps the hero band by 96px, but below 1200px the band's bottom padding was smaller than that,
+   so the figure covered the last fact (Built with, Note, Roofie...). The facts now always clear it. */
+@media (max-width:1199px){.p-hero{padding-bottom:124px!important}}
+/* "How it was built": a step's detail landed in the 40px number column and broke every few letters */
+@media (max-width:1023px){.flow li span{grid-column:2}}
+@media (max-width:899px){
+  .stamp,.label,.eyebrow,.crumb nav,.facts dt,.fig,.pdf-card .meta,.site-foot .r2,.stackline b,.bar .v,.bar .tag,.xax span{font-size:13px}
+  .brief li::before,.diff li::before,.flow li::before{font-size:13px}
+  .shot figcaption,.caption{font-size:15px}
+  /* 44px tap targets: the breadcrumb link (inline, so the padding only grows its hit area; positioned, so the " / 03"
+     after it no longer covers its right edge) and the link list (a note under a link starts below the link's hit area) */
+  .crumb nav a{position:relative;padding:14px 8px;margin-inline:-8px}
+  .llist a{padding-block:10px;margin-block:-10px}
+  .llist a + p{margin-top:10px}
+  /* chart week labels keep whole words: "part week" stacks as two words instead of breaking into "par/t/we/ek" */
+  .xax span{overflow-wrap:normal}
+  .skip{padding:13px 16px}
+  /* the search bar's "/search?q=" prefix stays in one piece */
+  .p02 .searchbar span{flex:none}
+  /* short headings break into even lines instead of leaving one word ("checked", "week", "/ ERP") on its own */
+  .card h3,.mini h4,.pdf-card h3,.pn .t,.chart .ch-head h3,.sgroup > h3,.dl dt{text-wrap:balance}
+  .lede,.p-sum{text-wrap:pretty}
+}
+/* the design studio's gold frame ran along the text and buttons; on phones it sits nearer the screen edge */
+@media (max-width:599px){.p06 .ground::after{inset:8px}}
+/* The Boxx's yellow corner runs under the menu button; the button keeps the page's black behind its lines */
+@media (max-width:860px){.p05 .hd-menu{background:#0A0A0A}.p05 .hd-menu:hover{background:#1C1C1A}}
+
+/* header: the brand and "Open to work" keep their size but answer to a 44px-tall touch; the pill's label is 13px */
+@media (max-width:860px){
+  .hd-mark,.hd-cta{position:relative}
+  .hd-mark::after,.hd-cta::after{content:"";position:absolute;left:-5px;right:-5px;top:50%;height:44px;margin-top:-22px}
+}
+@media (max-width:420px){.hd-cta{font-size:13px}}
+/* menu (same as home.css): 13px label and numbers; the list starts at the top and scrolls when it does not fit, so a
+   landscape phone never loses links off the top; there the links shrink and pair up, and the header keeps a backdrop */
+.mnav{justify-content:flex-start}
+.mnav-k{margin-top:auto;font-size:13px}
+.mnav .ml span{font-size:13px}
+@media (max-height:560px){
+  .mnav{gap:16px;padding-top:88px}
+  .mnav .ml{font-size:clamp(26px,7.4vh,40px);padding:10px 0}
+  .nav-open .hd{background:linear-gradient(rgba(7,7,10,.97) 72%,rgba(7,7,10,0))}
+}
+@media (max-height:560px) and (min-width:560px){.mnav ol{columns:2;column-gap:32px}.mnav li{break-inside:avoid}}
+/* the image viewer on phones and tablets: a darker backdrop, so the page no longer shows through the caption; held
+   upright, the image starts below the Close button instead of under it, and the viewer scrolls if a caption is long */
+@media (max-width:899px){.lb::backdrop{background:rgba(7,7,10,.96)}.lb img{margin-inline:auto}}
+@media (max-width:899px) and (orientation:portrait){.lb{padding-top:62px;overflow:auto}.lb img{max-height:calc(80vh - 62px)}}

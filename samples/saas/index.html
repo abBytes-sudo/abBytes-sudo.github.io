@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orbit Assistants · Chat assistants for web, WhatsApp and Instagram that book and hand over (design sample)</title>
+<meta name="description" content="A product-site design sample by Abhishek: scripted, rule-based assistants for web chat, WhatsApp and Instagram, plus a CRM assistant for your team.">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'none'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Bricolage+Grotesque:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=DM+Serif+Display&family=Caveat:wght@600&display=swap">
+<link rel="stylesheet" href="../assets/vendor/lenis.css">
+<link rel="stylesheet" href="../assets/bots/bots.css?v=22">
+<link rel="stylesheet" href="../assets/bots/crm.css?v=22">
+<link rel="stylesheet" href="story.css?v=22">
+<link rel="stylesheet" href="rows.css?v=22">
+<link rel="stylesheet" href="close.css?v=22">
+<link rel="stylesheet" href="saas.css?v=22">
+<link rel="stylesheet" href="../assets/back.css?v=1">
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="../assets/vendor/SplitText.min.js" defer></script>
+<script src="../assets/vendor/lenis.min.js" defer></script>
+<script src="../assets/motion.js?v=1" defer></script>
+<script src="../assets/bots/engine.js?v=22" defer></script>
+<script src="../assets/bots/agents/support.js?v=22" defer></script>
+<script src="../assets/bots/agents/realty.js?v=22" defer></script>
+<script src="../assets/bots/agents/build.js?v=22" defer></script>
+<script src="../assets/bots/agents/clinic.js?v=22" defer></script>
+<script src="../assets/bots/agents/salon.js?v=22" defer></script>
+<script src="../assets/bots/agents/dining.js?v=22" defer></script>
+<script src="../assets/bots/agents/crm.js?v=22" defer></script>
+<script src="../assets/bots/ui.js?v=22" defer></script>
+<script src="../assets/bots/crm-ui.js?v=22" defer></script>
+<script src="brands.js?v=22" defer></script>
+<script src="story.js?v=22" defer></script>
+<script src="rows.js?v=22" defer></script>
+<script src="close.js?v=22" defer></script>
+<script src="saas.js?v=22" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body class="lt">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="c-web" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 12h17M12 3.5c3 3.5 3 13.5 0 17M12 3.5c-3 3.5-3 13.5 0 17" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="c-whatsapp" viewBox="0 0 24 24"><path d="M4 20l1.3-4A8.2 8.2 0 1 1 8 18.7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 9c.2 2.5 2.2 4.6 5 5.2l1-1.3-1.8-1-.8.7a4 4 0 0 1-1.8-1.8l.7-.8-1-1.8z" fill="currentColor"/></symbol>
+  <symbol id="c-instagram" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="17" cy="7" r="1" fill="currentColor"/></symbol>
+  <symbol id="c-crm" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9 4.5v15M12 9h5M12 12.5h5M12 16h3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="g-brain" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 6 1V4a3 3 0 0 0-3 0zM15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-6 1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <symbol id="g-flow" viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="18" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 6.5h4a3 3 0 0 1 3 3v.5M8.5 17.5h4a3 3 0 0 0 3-3V14" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="g-book" viewBox="0 0 24 24"><path d="M5 5.5A1.5 1.5 0 0 1 6.5 4H19v15H6.5A1.5 1.5 0 0 0 5 20.5zM5 20.5V5.5M9 8h6M9 11.5h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <symbol id="g-hand" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 20c.8-4 3.5-6 7-6s6.2 2 7 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="g-log" viewBox="0 0 24 24"><path d="M5 5h14M5 10h14M5 15h9M5 20h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="g-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+  <symbol id="g-quote" viewBox="0 0 24 24"><path d="M6 3.5h9l4 4V20.5H6zM15 3.5v4h4M9 12h7M9 16h5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <symbol id="g-box" viewBox="0 0 24 24"><path d="M3.5 7.5L12 3.5l8.5 4v9L12 20.5l-8.5-4zM3.5 7.5L12 11.5l8.5-4M12 11.5v9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
+<p class="demo">Orbit Assistants is a fictional product. This page is a design sample by <a href="../../index.html">Abhishek</a>.</p>
+<div class="prog" id="prog" aria-hidden="true"><i></i></div>
+<nav class="rail" id="rail" aria-label="Page sections"></nav>
+
+<header class="hd"><div class="wrap nav">
+  <a class="logo" href="#top" aria-label="Orbit Assistants, back to top"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.2" cy="5.6" r="2.6" fill="var(--acc)"/></svg>Orbit <span>Assistants</span></a>
+  <nav aria-label="Main"><a href="#demo">Live demo</a><a href="#story">The night shift</a><a href="#analytics">Analytics</a><a href="#packages">Packages</a><a href="#faq">FAQ</a></nav>
+  <div class="nav-r"><a class="btn sm" href="../../index.html#contact" data-magnetic>Get one built</a></div>
+</div></header>
+
+<main id="top">
+<!-- 01 HERO -->
+<section class="hero" data-index="01" data-name="The range">
+  <div class="wrap hero-in">
+    <div class="lane top" id="laneTop" aria-hidden="true"></div>
+    <p class="kick" data-reveal data-now><i class="live"></i>Web chat · WhatsApp · Instagram, plus a CRM assistant</p>
+    <h1 data-split data-now data-delay=".1">Assistants that answer, book and <em>hand over.</em></h1>
+    <div class="hero-row">
+      <p class="hero-sub" data-reveal data-now data-delay=".5">Scripted chat assistants that book, track and hand over.</p>
+      <div class="hero-cta" data-reveal data-now data-delay=".65">
+        <a class="btn" href="#demo" data-magnetic>Try the live assistants <svg width="14" height="14" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="btn ghost" href="../../index.html#contact">Get one built</a>
+      </div>
+    </div>
+    <div class="lane bot" id="laneBot" aria-hidden="true"></div>
+    <p class="proof" data-reveal data-now data-delay=".8"><b>85%</b> of chats finished without a human agent <span>on a live real-estate deployment</span></p>
+  </div>
+  <div class="wrap hero-tiles"><ul class="tiles" id="tiles" aria-label="Six sample businesses, tap one to open it in the live demo"></ul></div>
+</section>
+
+<!-- 02 LIVE DEMO -->
+<section class="sec alt" id="demo" data-index="02" data-name="Live demo">
+  <div class="wrap">
+    <div class="sh">
+      <h2 data-split>Pick one. <em>Type like a customer.</em></h2>
+      <p class="lede" data-reveal>Six businesses, three channels, one team assistant. All demo data.</p>
+    </div>
+    <div class="demo-grid" id="demoGrid">
+      <div class="demo-l">
+        <p class="stp-h"><b>1</b> Choose a business</p>
+        <div class="biz" id="agentPick" role="group" aria-label="Business"></div>
+      </div>
+      <div class="demo-m">
+        <p class="stp-h"><b>2</b> Choose a channel</p>
+        <div class="chgroups" aria-hidden="true"><span>Your customers</span><span class="team">Your team</span></div>
+        <div class="seg" id="chTabs" role="group" aria-label="Channel">
+          <span class="seg-ind" aria-hidden="true"></span>
+          <button type="button" data-ch="web" aria-pressed="false"><svg width="18" height="18" aria-hidden="true"><use href="#c-web"/></svg><span>Web chat</span></button>
+          <button type="button" data-ch="whatsapp" aria-pressed="true"><svg width="18" height="18" aria-hidden="true"><use href="#c-whatsapp"/></svg><span>WhatsApp</span></button>
+          <button type="button" data-ch="instagram" aria-pressed="false"><svg width="18" height="18" aria-hidden="true"><use href="#c-instagram"/></svg><span>Instagram</span></button>
+          <i class="seg-div" aria-hidden="true"></i>
+          <button type="button" data-ch="crm" aria-pressed="false"><svg width="18" height="18" aria-hidden="true"><use href="#c-crm"/></svg><span>CRM assistant</span></button>
+        </div>
+        <p class="now" id="nowBar" role="status" aria-live="polite"></p>
+        <div class="annot" id="annot" aria-hidden="true"></div>
+        <div class="device" id="demoDev"></div>
+        <p class="cap" id="chCap"></p>
+        <details class="drawer"><summary>Demo controls</summary>
+          <div class="drawer-in">
+            <div class="side-blk"><p class="lab">Context</p><div class="ctxs" id="ctxs" role="group" aria-label="Context"></div></div>
+            <div class="side-blk"><p class="lab">Arrived from</p><label class="sel"><span class="ob-sr">Lead source</span><select id="srcSel"><option>Google search</option><option>Instagram ad</option><option>WhatsApp click-to-chat</option><option>QR on shop window</option><option>Referral</option><option>Website chat</option></select></label></div>
+            <div class="side-blk wide"><p class="lab">Try typing</p><div class="samples" id="samples"></div></div>
+            <div class="side-blk wide"><p class="lab">Behind the scenes</p>
+              <label class="how"><input type="checkbox" id="howToggle"><span class="how-t"><i></i>Show how it thinks</span></label>
+              <ul class="bts-l" id="bts" aria-live="polite"><li class="mute">Intents, actions and leads show up here.</li></ul><details class="bts-j"><summary>Last lead record</summary><pre id="btsLead">No lead yet</pre></details></div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 THE NIGHT SHIFT -->
+<section id="story" data-module="story" data-index="03" data-name="The night shift"></section>
+<!-- 04 DEPTH -->
+<section id="rows" data-module="rows" data-index="04" data-name="Depth"></section>
+<!-- 05 NUMBERS -->
+<section id="results" data-module="results" data-index="05" data-name="The numbers"></section>
+
+<!-- 06 INSIDE -->
+<section class="sec" id="plug" data-index="06" data-name="Inside">
+  <div class="wrap">
+    <div class="sh"><h2 data-split>One engine. <em>Every channel.</em></h2></div>
+    <div class="plug" id="plugMap">
+      <div class="plug-c"><p class="lab">Customers</p><ul><li><svg width="22" height="22" aria-hidden="true"><use href="#c-web"/></svg>Web chat</li><li><svg width="22" height="22" aria-hidden="true"><use href="#c-whatsapp"/></svg>WhatsApp</li><li><svg width="22" height="22" aria-hidden="true"><use href="#c-instagram"/></svg>Instagram</li></ul></div>
+      <div class="pipes" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="plug-c eng"><p class="lab">The engine</p><ul><li><svg width="22" height="22" aria-hidden="true"><use href="#g-brain"/></svg>Intents</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-flow"/></svg>Flows</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-book"/></svg>FAQ you edit</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-hand"/></svg>Handover</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-log"/></svg>Event log</li></ul></div>
+      <div class="pipes" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="plug-c"><p class="lab">Your team</p><ul><li><svg width="22" height="22" aria-hidden="true"><use href="#c-crm"/></svg>CRM assistant</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-quote"/></svg>Quotes</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-box"/></svg>Orders</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-cal"/></svg>Calendar</li></ul></div>
+    </div>
+    <p class="mnote">Demo data lives in this browser. A real build calls your own systems.</p>
+  </div>
+</section>
+
+<section class="sec alt" id="console" data-index="06">
+  <div class="wrap">
+    <div class="sh"><h2 data-split>One tap, <em>a person takes over.</em></h2></div>
+    <div class="cons-grid">
+      <div class="cons-l">
+        <ol class="cons-steps"><li><b>1</b>Ask for a person</li><li><b>2</b>See it waiting</li><li><b>3</b>Take over</li></ol>
+        <div class="device sm" id="consChat"></div>
+        <button type="button" class="btn ghost sm" id="consTrig">Ask for a person now</button>
+      </div>
+      <div class="cons-r"><div class="cons-box" id="consBox"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="analytics" data-index="06">
+  <div class="wrap">
+    <div class="sh"><h2 data-split>Every chat leaves a <em>record.</em></h2><p class="lede" data-reveal>Live from the event log in this browser, seeded demo history included.</p></div>
+    <div id="anBox"></div>
+    <p class="mnote"><button type="button" class="lnk-b" id="resetBtn">Reset demo data</button></p>
+  </div>
+</section>
+
+<section class="sec alt" id="faqedit" data-index="06">
+  <div class="wrap">
+    <div class="sh"><h2 data-split>Edit an answer. <em>It's live.</em></h2></div>
+    <div class="kb-grid">
+      <div class="kb-l" id="kbBox"></div>
+      <div class="kb-r"><div class="device sm" id="kbChat"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 IMPACT -->
+<section id="without" data-module="split" data-index="07" data-name="Impact"></section>
+<section id="estimate" data-module="estimate" data-index="07"></section>
+
+<section class="sec" id="setup" data-index="07">
+  <div class="wrap">
+    <div class="sh"><h2 data-split>Live in <em>weeks, not months.</em></h2></div>
+    <ol class="steps4" data-stagger=".08">
+      <li><b>01</b><h3>Brief</h3><p>One 30-minute call.</p></li>
+      <li><b>02</b><h3>Map</h3><p>Flows, FAQ, your data.</p></li>
+      <li><b>03</b><h3>Test</h3><p>Your team tries to break it.</p></li>
+      <li><b>04</b><h3>Launch</h3><p>Then we tune weekly.</p></li>
+    </ol>
+    <details class="smart-note"><summary>Want it to understand looser language? <span>Optional</span></summary><p>Smart replies sit behind the scripts as a fallback. They answer only from your approved content and always hand over to a person when unsure. It needs a small backend to hold keys.</p></details>
+  </div>
+</section>
+
+<!-- 08 START -->
+<section id="packages" data-module="packages" data-index="08" data-name="Start"></section>
+<section id="faq" data-module="faq" data-index="08"></section>
+<section id="brief" data-module="brief" data-index="08"></section>
+</main>
+
+<footer class="ft">
+  <div class="wrap ft-in">
+    <div class="ft-r"><p>© 2026 Orbit Assistants (fictional)</p><nav aria-label="Footer"><a href="#demo">Live demo</a><a href="#story">The night shift</a><a href="#analytics">Analytics</a><a href="#packages">Packages</a></nav><p>Photos: Unsplash. Design &amp; build sample by <a href="../../index.html">Abhishek</a>.</p></div>
+  </div>
+  <p class="giant" aria-hidden="true">Orbit</p>
+</footer>
+</body>
+</html>

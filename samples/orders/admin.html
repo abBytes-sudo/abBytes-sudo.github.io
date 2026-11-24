@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-no-lenis>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orders back office · Northlane</title>
+<meta name="description" content="A fictional store back office: fulfilment queue, stock and sales. A design sample by Abhishek.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Northlane (design sample)">
+<meta property="og:title" content="Orders back office · Northlane"><meta property="og:description" content="A fictional store back office: fulfilment queue, stock and sales. A design sample by Abhishek.">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/orders/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Orders back office · Northlane"><meta name="twitter:description" content="A fictional store back office: fulfilment queue, stock and sales. A design sample by Abhishek."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/orders/og.jpg">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/vendor/lenis.css">
+<link rel="stylesheet" href="../store/store.css?v=8">
+<link rel="stylesheet" href="orders.css?v=3">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../store/catalog.js?v=8" defer></script>
+<script src="orders.js?v=3" defer></script>
+<script src="admin.js?v=3" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nl-hd">
+  <div class="nl-bar"><b>Fictional · design sample by <a href="../../index.html">Abhishek</a></b></div>
+  <div class="nl-nav"><nav aria-label="Shop"><a href="../store/shop.html">Shop</a><a href="../store/shop.html?cat=Clothing">Clothing</a><a href="../store/shop.html?cat=Shoes">Shoes</a><a href="../store/shop.html?cat=Bags">Bags</a><a href="../store/shop.html?cat=Accessories">Accessories</a></nav>
+  <a class="nl-logo" href="../store/index.html" aria-label="Northlane, back to the store">Northlane</a>
+  <div class="nl-act"><a class="shop-m" href="../store/shop.html">Shop</a><a href="track.html">Track order</a><a href="admin.html" aria-current="page">Admin</a></div></div>
+</header>
+<main id="main" class="wrap">
+  <div class="a-top">
+    <div><p class="eyebrow" id="today"></p><h1>Orders</h1></div>
+    <div class="a-act"><button class="btn ghost sm" type="button" id="resetBtn">Reset demo data</button><a class="btn sm" href="track.html">Customer tracking page →</a></div>
+  </div>
+  <nav class="subnav" aria-label="Sections"><a href="#overview">Overview</a><a href="#fulfil">Fulfilment</a><a href="#stock">Stock</a><a href="#orders">All orders</a></nav>
+
+  <section id="overview" class="blk" aria-label="Overview">
+    <div class="kpis" id="kpis"></div>
+    <div class="card blk" id="chartCard">
+      <div class="ch-h"><div><h2>Sales</h2><p id="chSum"></p></div><div class="seg" role="group" aria-label="Chart range"><button type="button" data-r="7" aria-pressed="false">7 days</button><button type="button" data-r="14" aria-pressed="true">14 days</button></div></div>
+      <div class="chart" id="chart"></div>
+    </div>
+  </section>
+
+  <div class="two blk">
+    <section id="fulfil" class="card" aria-labelledby="fqH"><div class="cd-h"><h2 id="fqH">Fulfilment queue</h2><span id="fqN"></span></div><div class="q" id="queue"></div></section>
+    <section id="stock" class="card" aria-labelledby="lsH"><div class="cd-h"><h2 id="lsH">Low stock</h2><span id="lsN"></span></div><div class="lo" id="low"></div></section>
+  </div>
+
+  <section id="orders" class="card blk" aria-labelledby="oH">
+    <div class="cd-h"><h2 id="oH">All orders</h2><span id="oCount" aria-live="polite"></span></div>
+    <div class="tb">
+      <div class="search"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M14 14l4 4"/></svg><label class="vh" for="q">Search orders</label><input id="q" type="search" placeholder="Search order #, name or email" autocomplete="off"></div>
+      <div class="chips" id="chips" role="group" aria-label="Filter by status"></div>
+    </div>
+    <div class="tbl-wrap"><table class="tbl"><caption class="vh">Orders, newest first</caption>
+      <thead><tr><th scope="col">Order</th><th scope="col">Placed</th><th scope="col">Customer</th><th scope="col">Items</th><th scope="col" class="num">Total</th><th scope="col">Payment</th><th scope="col">Status</th></tr></thead>
+      <tbody id="rows"></tbody></table></div>
+    <div class="more"><span id="moreN"></span><button class="btn ghost sm" type="button" id="moreBtn">Show more</button></div>
+  </section>
+</main>
+
+<div class="dw" id="dw" hidden>
+  <div class="dw-sh" id="dwSh"></div>
+  <div class="dw-pn" role="dialog" aria-modal="true" aria-labelledby="dwT" id="dwPn">
+    <div class="dw-hd"><div><h2 id="dwT" tabindex="-1"></h2><p id="dwSub"></p></div><button class="dw-x" type="button" id="dwX" aria-label="Close order details">×</button></div>
+    <div class="dw-bd" id="dwBd"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<footer class="nl-ft">
+  <div class="ft-g"><div><p class="ft-t">Made to be lived in.</p><p class="ft-n">Northlane is a fictional brand. This is a design and development sample by <a href="../../index.html">Abhishek</a>. All orders are made up and saved only in this browser.</p></div>
+  <div><h4>Shop</h4><ul><li><a href="../store/shop.html">All pieces</a></li><li><a href="../store/index.html">Home</a></li><li><a href="../store/checkout.html">Checkout (demo)</a></li></ul></div>
+  <div><h4>Help</h4><ul><li><a href="track.html">Track an order</a></li></ul></div>
+  <div><h4>Demo</h4><ul><li><a href="admin.html">Store admin</a></li><li><a href="../../index.html#examples">Back to portfolio</a></li></ul></div></div>
+  <div class="ft-wm" aria-hidden="true">Northlane</div>
+  <div class="ft-b"><span>© Northlane, a fictional brand</span><span>Photos: Unsplash. Video: Pexels.</span></div>
+</footer>
+<script src="../assets/back.js?v=1"></script>
+</body>
+</html>

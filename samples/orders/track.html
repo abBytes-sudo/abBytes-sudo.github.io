@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track your Northlane order</title>
+<meta name="description" content="Follow an order from our studio to your door. Northlane is a fictional store, order tracking is a design sample by Abhishek.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Northlane (design sample)">
+<meta property="og:title" content="Track your Northlane order"><meta property="og:description" content="Follow an order from our studio to your door. Northlane is a fictional store, order tracking is a design sample by Abhishek.">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/orders/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Track your Northlane order"><meta name="twitter:description" content="Follow an order from our studio to your door. Northlane is a fictional store, order tracking is a design sample by Abhishek."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/orders/og.jpg">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/vendor/lenis.css">
+<link rel="stylesheet" href="../store/store.css?v=8">
+<link rel="stylesheet" href="orders.css?v=3">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="../assets/vendor/SplitText.min.js" defer></script>
+<script src="../assets/vendor/lenis.min.js" defer></script>
+<script src="../assets/motion.js" defer></script>
+<script src="../store/catalog.js?v=8" defer></script>
+<script src="orders.js?v=3" defer></script>
+<script src="track.js?v=3" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nl-hd">
+  <div class="nl-bar"><b>Fictional · design sample by <a href="../../index.html">Abhishek</a></b></div>
+  <div class="nl-nav"><nav aria-label="Shop"><a href="../store/shop.html">Shop</a><a href="../store/shop.html?cat=Clothing">Clothing</a><a href="../store/shop.html?cat=Shoes">Shoes</a><a href="../store/shop.html?cat=Bags">Bags</a><a href="../store/shop.html?cat=Accessories">Accessories</a></nav>
+  <a class="nl-logo" href="../store/index.html" aria-label="Northlane, back to the store">Northlane</a>
+  <div class="nl-act"><a class="shop-m" href="../store/shop.html">Shop</a><a href="track.html" aria-current="page">Track order</a><a href="admin.html">Admin</a></div></div>
+</header>
+<main id="main">
+  <section class="wrap t-hero">
+    <div>
+      <p class="eyebrow">Order tracking</p>
+      <h1 data-split data-now>Where’s my <em>order?</em></h1>
+      <p class="lede" data-reveal data-now data-delay=".4">Enter the order number from your confirmation email and the address you used at checkout.</p>
+      <form id="tf" class="tf" novalidate data-reveal data-now data-delay=".55">
+        <label class="fld"><span>Order number</span><input id="tNum" name="num" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="NL-10482" required></label>
+        <label class="fld"><span>Email address</span><input id="tEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></label>
+        <button class="btn" type="submit" data-magnetic>Track order <span class="arrow" aria-hidden="true">→</span></button>
+        <p class="meta"><span>Try <b>NL-10482</b> with <b>maya.okafor@example.com</b></span><button class="lnk" type="button" id="demoFill">Fill in demo details</button></p>
+        <p id="tErr" class="err" role="alert"></p>
+      </form>
+    </div>
+    <figure class="fr t-ph" data-clip><img src="../store/photos/strip-1.jpg" alt="Folded sweaters stacked on a wooden stool in warm light" width="1100" height="1650" decoding="async"></figure>
+  </section>
+  <section id="res" class="wrap res" aria-live="polite" hidden></section>
+</main>
+<footer class="nl-ft">
+  <div class="ft-g"><div><p class="ft-t">Made to be lived in.</p><p class="ft-n">Northlane is a fictional brand. This is a design and development sample by <a href="../../index.html">Abhishek</a>. All orders are made up and saved only in this browser.</p></div>
+  <div><h4>Shop</h4><ul><li><a href="../store/shop.html">All pieces</a></li><li><a href="../store/index.html">Home</a></li><li><a href="../store/checkout.html">Checkout (demo)</a></li></ul></div>
+  <div><h4>Help</h4><ul><li><a href="track.html">Track an order</a></li></ul></div>
+  <div><h4>Demo</h4><ul><li><a href="admin.html">Store admin</a></li><li><a href="../../index.html#examples">Back to portfolio</a></li></ul></div></div>
+  <div class="ft-wm" aria-hidden="true">Northlane</div>
+  <div class="ft-b"><span>© Northlane, a fictional brand</span><span>Photos: Unsplash. Video: Pexels.</span></div>
+</footer>
+<script src="../assets/back.js?v=1"></script>
+</body>
+</html>

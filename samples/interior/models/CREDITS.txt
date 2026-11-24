@@ -1,0 +1,5 @@
+New room set (Nov 2026)
+- wayfair/GlamVelvetSofa.min.glb — "GlamVelvetSofa" © 2021 Wayfair, LLC, CC BY 4.0, via KhronosGroup/glTF-Sample-Assets. Textures recompressed to WebP. Variants: Champagne, Navy, Gray, Black, Pale Pink.
+- wayfair/SheenChair.min.glb — "SheenChair" © 2020 Wayfair, LLC, CC0, via KhronosGroup/glTF-Sample-Assets. Variants: Mango Velvet, Peacock Velvet.
+- *.glb (mid_century_lounge_chair, modern_wooden_cabinet, wooden_display_shelves_01, side_table_01, ceramic_vase_03, potted_plant_04, wicker_basket_02, standing_picture_frame_02, wooden_stool_02) — Poly Haven, CC0.
+- ../tex/* — Poly Haven textures, CC0 (diff = colour, nor = OpenGL normal, arm = AO/roughness/metalness).

@@ -1,0 +1,6 @@
+Poly Haven textures, CC0, 1k (diff = colour, nor = OpenGL normal, arm = AO/roughness/metalness)
+- large_red_bricks → Red clay brick
+- sandstone_blocks_08 → Sandstone (dressed ashlar blocks)
+- white_sandstone_bricks_03 → Limestone
+- dark_brick_wall → Charcoal brick
+../models/trowel_01.glb — Poly Haven, CC0

@@ -1,0 +1,348 @@
+/* 3D Lab page. Loads after home.css (tokens, header, buttons, footer). */
+html{scroll-padding-top:0}   /* chapter links land exactly on the chapter's stage (the header hides itself) */
+.lab{background:#07070A}
+.gl{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;transition:opacity .26s ease;pointer-events:none}
+.gl.idle{opacity:0}
+.gl.cut{opacity:0;transition:none}
+.no-webgl .gl{display:none}
+.lab main,.lab .ft{position:relative;z-index:1}
+.lab .ft{background:#07070A}
+/* phones: a slimmer header on this page (56px instead of 76px; the 44px menu button keeps its size). When it slides
+   back in on a scroll up it stays clear of the subjects the scenes frame from 62–64px down (lotto tube, building roof) */
+@media (max-width:899px){.lab .hd{padding-block:6px}}
+
+/* chapters: tall sections with a sticky full-screen stage */
+.ch{position:relative;min-height:290vh}   /* ~30% longer per chapter (owner, 6 Nov): each scene plays out over more scroll */
+.ch-intro{min-height:310vh}
+.ch-lotto{min-height:340vh}
+.ch-in{position:sticky;top:0;height:100vh;height:100svh;display:grid;align-items:end;padding:96px var(--gut) clamp(28px,6vh,72px);pointer-events:none}
+.ch-in > *{pointer-events:auto}
+.no-webgl .ch{min-height:auto}
+.no-webgl .ch-in{position:relative;height:auto;padding-block:120px 48px}
+/* between two chapters each scene is drawn only inside its own chapter (main.js), so one scene wipes to the next
+   as you scroll; a soft dark band over the seam hides the hard edge (stages sit above it, so panels stay crisp) */
+.ch-in{z-index:1}
+.ch + .ch::before{content:"";position:absolute;left:0;right:0;top:-110px;height:220px;z-index:0;pointer-events:none;
+  background:linear-gradient(rgba(7,7,10,0),rgba(7,7,10,.5) 22%,rgba(7,7,10,.9) 38%,#07070A 50%,rgba(7,7,10,.9) 62%,rgba(7,7,10,.5) 78%,rgba(7,7,10,0))}
+@media (max-width:899px){.ch + .ch::before{top:-72px;height:144px}}
+.no-webgl .ch + .ch::before{display:none}
+
+/* overlay panels */
+.panel{max-width:min(540px,100%);padding:clamp(20px,2.4vw,32px);border-radius:26px;background:rgba(7,7,10,.5);
+  backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);box-shadow:inset 0 0 0 1px rgba(243,240,234,.1)}
+.panel-right{justify-self:end}
+.panel-center{justify-self:center;text-align:center;align-self:center}
+.panel-center .btns{justify-content:center}
+.panel-hero{max-width:min(620px,100%);background:rgba(7,7,10,.35)}
+@media (min-width:900px){.panel-left{align-self:center}.panel-right{align-self:center}}
+.lab-h{font:800 clamp(40px,6vw,96px)/.92 var(--display);letter-spacing:-.05em;margin-top:18px}
+.lab-h2{font:800 clamp(34px,4.6vw,72px)/.95 var(--display);letter-spacing:-.045em;margin-top:14px;text-wrap:balance}
+.lab-h em,.lab-h2 em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.02em;background:var(--spectrum);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.lab-lede{font:400 clamp(16px,1.3vw,19px)/1.55 var(--text);color:var(--ink-2);margin-top:16px}
+.tech{font:400 14px/1.5 var(--text);color:var(--mute);margin-top:14px}
+.tech span{display:block;margin-bottom:6px;font:500 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ti)}
+.panel-hero .tech{margin-top:22px;padding-top:18px;border-top:1px solid rgba(243,240,234,.12)}
+.note-s{margin-top:14px;font:400 12.5px/1.5 var(--text);color:var(--mute)}
+.scroll-hint{display:inline-flex;gap:8px;margin-top:18px;font:500 13px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-decoration:none}
+.scroll-hint[hidden]{display:none}
+.scroll-hint span{animation:cue2 1.6s var(--ease) infinite}
+@keyframes cue2{50%{transform:translateY(4px)}}
+
+/* phones: the 3D owns the top of the screen, the panel sits at the bottom, compact. The scenes measure the
+   panel and frame their subject in the space above it, so every line saved here is screen won for the 3D;
+   the height steps below keep a panel to roughly 42% of the screen on short phones. Text stays >= 13px. */
+@media (max-width:899px){
+  .ch-in{grid-template-columns:minmax(0,1fr);padding-bottom:max(12px,env(safe-area-inset-bottom))}
+  .panel{min-width:0;padding:16px;border-radius:20px}
+  .panel > :first-child{margin-top:0}
+  .lab-h2{font-size:clamp(28px,7.8vw,32px);margin-top:8px}
+  .lab-lede{font-size:14.5px;line-height:1.45;margin-top:8px}
+  .tech{font-size:13px;line-height:1.42;margin-top:8px}
+  .tech span{margin-bottom:4px;font-size:13px;letter-spacing:.1em}
+  .note-s{margin-top:8px;font-size:13px;line-height:1.4}
+  .panel .stamp{margin-top:8px;font-size:13px}
+}
+@media (max-width:899px) and (orientation:portrait) and (max-height:760px){
+  .lab-h2{font-size:28px}
+  .lab-lede{font-size:14px;line-height:1.42}
+}
+@media (max-width:899px) and (orientation:portrait) and (max-height:720px){
+  .panel{padding:14px}
+  .lab-h2{font-size:27px;margin-top:6px}
+  .lab-lede{font-size:13.5px;line-height:1.4;margin-top:6px}
+  .tech{line-height:1.38;margin-top:6px}
+  .note-s{margin-top:6px;line-height:1.35}
+  .panel .stamp{margin-top:6px}
+}
+@media (max-width:899px) and (orientation:portrait) and (max-height:640px){
+  .lab-h2{font-size:26px}
+}
+/* landscape phones: the panel moves to the left half (the scenes put the 3D on the right), compact */
+@media (max-width:899px) and (orientation:landscape) and (max-height:540px){
+  .ch-in{padding:12px var(--gut) 12px;align-items:end}   /* bottom-aligned: the header, when it slides back in, stays clear */
+  .panel{max-width:min(420px,50vw);padding:13px 15px;border-radius:18px}
+  .lab-h2{font-size:24px;margin-top:5px}
+  .lab-lede{font-size:13px;line-height:1.4;margin-top:5px}
+  .tech{font-size:13px;line-height:1.36;margin-top:5px}
+  .tech span{margin-bottom:3px}
+  .note-s{margin-top:5px;line-height:1.35}
+  .panel .stamp{margin-top:5px}
+}
+
+/* chapter rail: hairline track + ticks; the active chapter's name shows as a pill when you arrive (and on hover) */
+.lab-dots{position:fixed;right:clamp(14px,2.2vw,32px);top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:0;padding:8px 0}
+.lab-dots::before{content:"";position:absolute;right:11.5px;top:22px;bottom:22px;width:1px;background:rgba(243,240,234,.16)}
+.lab-dots a{position:relative;display:flex;align-items:center;justify-content:center;width:24px;min-height:40px;padding:0;text-decoration:none;color:var(--ink)}
+.lab-dots a span{display:none}
+.lab-dots a::after{content:"";width:7px;height:7px;border-radius:50%;background:rgba(243,240,234,.38);transition:width .3s var(--ease),height .3s var(--ease),background .3s,box-shadow .3s}
+.lab-dots a:hover::after{background:rgba(243,240,234,.75)}
+.lab-dots a.on::after{width:11px;height:11px;background:#4BE3C1;box-shadow:0 0 0 5px rgba(75,227,193,.16)}
+.lab-dots a b{position:absolute;right:32px;top:50%;transform:translate(6px,-50%);opacity:0;pointer-events:none;
+  font:500 11.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);padding:8px 12px;border-radius:999px;
+  background:rgba(7,7,10,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1px rgba(243,240,234,.14);white-space:nowrap;transition:opacity .25s,transform .25s var(--ease)}
+/* the pill shows for a moment when a chapter becomes active (main.js sets .peek), then gets out of the 3D's way */
+.lab-dots.peek a.on b,.lab-dots a:hover b,.lab-dots a:focus-visible b{opacity:1;transform:translate(0,-50%)}
+.lab-dots a:focus-visible{outline-offset:2px}
+@media (max-width:899px){
+  /* phones: the rail is a progress indicator only. Its dots and hairline live in the right gutter, but a 44px link
+     there would reach over the panels' right edge (a tap on the GF floor or a finish jumped to Contact on 360px
+     screens), so the links take no taps; each chapter is a scroll away and keyboard focus still works */
+  .lab-dots{right:0;width:44px;padding:0;pointer-events:none}
+  .lab-dots::before{right:calc(var(--gut) / 2 - .5px);top:22px;bottom:22px}
+  .lab-dots a{width:44px;min-height:44px;pointer-events:none}
+  .lab-dots a::after{position:absolute;right:calc(var(--gut) / 2);top:50%;transform:translate(50%,-50%)}
+  .lab-dots a.on::after{width:9px;height:9px;box-shadow:0 0 0 3px rgba(75,227,193,.2)}
+  .lab-dots a b{display:none}
+}
+/* landscape phones: the seven 44px rows need 308px, so the rail sits at the bottom and above the header, whose bottom
+   edge the first dot reaches (beside, not over, its menu button; the rail takes no taps either way) */
+@media (max-width:899px) and (orientation:landscape) and (max-height:540px){
+  .lab-dots{top:auto;bottom:0;transform:none;z-index:85}
+}
+.no-webgl .lab-dots{display:none}
+
+/* studio (chapter 01): product pills, a colour dot per product; the selected one fills with its colour */
+.prd-ui{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.prd{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0 17px 0 14px;border-radius:999px;
+  font:600 14.5px/1 var(--display);letter-spacing:-.01em;color:var(--ink-2);background:rgba(243,240,234,.05);box-shadow:inset 0 0 0 1px rgba(243,240,234,.2);
+  transition:background .25s,color .25s,box-shadow .25s;-webkit-tap-highlight-color:transparent}
+.prd::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--c,#F3F0EA);box-shadow:0 0 0 3px rgba(243,240,234,.08);transition:background .25s,box-shadow .25s}
+.prd[data-product="kettlebell"]{--c:#E8B931}
+.prd[data-product="coffee"]{--c:#C9A45F}
+.prd[data-product="key"]{--c:#4BE3C1}
+.prd:hover{color:var(--ink);background:rgba(243,240,234,.09)}
+.prd.on{color:#07070A;background:var(--c);box-shadow:none}
+.prd.on::before{background:#07070A;box-shadow:none}
+.prd:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+@media (max-width:899px){
+  .ch-studio .panel-hero{padding:16px}
+  .ch-studio .lab-h{font-size:clamp(34px,10vw,40px);margin-top:12px}
+  .ch-studio .lab-lede{font-size:14.5px;line-height:1.45;margin-top:8px}
+  .ch-studio .panel-hero .tech{margin-top:10px;padding-top:10px}
+  .ch-studio .note-s{display:none}   /* repeats the tech line's "Concept products" */
+  /* the three products on one row; a screen too narrow for all three scrolls the row sideways instead of wrapping
+     (vertical padding inside the scroller keeps the focus ring visible) */
+  .prd-ui{flex-wrap:nowrap;gap:6px;margin:6px -16px -4px;padding:4px 16px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent);mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent)}
+  .prd-ui::-webkit-scrollbar{display:none}
+  .prd{flex:none;gap:7px;padding:0 13px 0 11px;font-size:13.5px}
+}
+@media (max-width:420px){.prd{gap:6px;padding:0 11px 0 9px;font-size:13px}}
+@media (max-width:370px){.prd{padding:0 11px}.prd::before{display:none}}   /* the colour dots give way so all three fit */
+@media (max-width:899px) and (orientation:portrait) and (max-height:760px){
+  .ch-studio .eyebrow{display:none}   /* the page's label: the header and the rail already say where you are */
+  .ch-studio .lab-h{font-size:36px;margin-top:0}
+  .ch-studio .lab-lede{font-size:14px;line-height:1.42}
+  .ch-studio .panel-hero .tech{margin-top:9px;padding-top:8px}
+}
+@media (max-width:899px) and (orientation:portrait) and (max-height:720px){
+  .ch-studio .panel-hero{padding:14px}
+  .ch-studio .lab-h{font-size:34px}
+  .ch-studio .lab-lede{margin-top:6px}
+  .ch-studio .panel-hero .tech{margin-top:8px}
+  .ch-studio .prd-ui{margin-inline:-14px;padding-inline:14px}
+}
+@media (max-width:899px) and (orientation:portrait) and (max-height:640px){
+  .ch-studio .lab-h{font-size:32px}
+}
+/* landscape phones: the opener sits below the header (it is showing at the top of the page) */
+@media (max-width:899px) and (orientation:landscape) and (max-height:540px){
+  .ch-studio .ch-in{padding-top:72px;align-items:end}
+  .ch-studio .panel-hero{padding:13px 15px}
+  .ch-studio .eyebrow{display:none}
+  .ch-studio .lab-h{font-size:28px;margin-top:0}
+  .ch-studio .lab-lede{font-size:13px;line-height:1.4;margin-top:6px}
+  .ch-studio .panel-hero .tech{margin-top:7px;padding-top:7px}
+  .ch-studio .prd-ui{margin:3px -15px -4px;padding:4px 15px}
+}
+
+/* lotto */
+.lotto-ui{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:22px}
+.btn.draw{min-width:200px;justify-content:center}
+.btn.draw:disabled{opacity:.5;cursor:progress;transform:none}
+.lotto-status{font:400 14px/1.4 var(--mono);color:var(--mute)}
+.lotto-card{--c:#F4B556;position:absolute;right:var(--gut);bottom:clamp(28px,6vh,72px);width:min(420px,calc(100% - 2 * var(--gut)));padding:26px;border-radius:24px;
+  background:rgba(13,14,19,.86);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:inset 0 0 0 1.5px var(--c),0 30px 80px -20px rgba(0,0,0,.8);
+  animation:cardin .7s var(--ease)}
+@keyframes cardin{from{opacity:0;transform:translateY(24px) scale(.97)}}
+.lc-n{display:inline-grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--c);color:#07070A;font:700 16px/1 var(--mono)}
+.lc-h{font:800 clamp(26px,2.6vw,36px)/1 var(--display);letter-spacing:-.04em;margin-top:16px}
+.lc-h small{display:block;margin-top:6px;font:italic 400 .62em/1.1 var(--serif);letter-spacing:-.01em;color:var(--c)}
+.lc-s{display:flex;align-items:center;gap:8px;margin-top:12px;font:500 13.5px/1.4 var(--text);color:var(--ink)}
+.lc-s::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+.lc-b{margin-top:10px;font:400 15px/1.55 var(--text);color:var(--ink-2)}
+.lc-go{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:18px;padding:13px 20px;border-radius:999px;background:var(--c);color:#07070A;font:700 15px/1 var(--display);text-decoration:none}
+.lc-go:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.lc-again{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;min-height:44px;cursor:pointer;margin-left:14px;font:600 14px/1 var(--display);color:var(--ink-2);padding:12px 6px}
+.lc-again:hover{color:var(--ink)}
+.lc-again:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:6px}
+@media (max-width:899px){
+  .ch-lotto .ch-in{align-content:end;gap:10px}
+  /* the button and its status share one row; on a narrow screen the status drops under the button */
+  .lotto-ui{margin-top:12px;gap:8px 12px}
+  .btn.draw{flex:none;min-width:0;min-height:48px;padding:12px 20px}
+  .lotto-status{flex:1 1 140px;min-width:0;font-size:13px}
+  .lotto-card{position:relative;right:auto;bottom:auto;width:100%;justify-self:stretch;padding:16px 16px 14px;border-radius:20px}
+  /* the project number sits beside the title instead of above it */
+  .lc-n{float:left;width:40px;height:40px;margin:1px 12px 0 0;font-size:15px}
+  .lc-h{display:flow-root;font-size:22px;margin-top:0}
+  .lc-s{clear:left;margin-top:10px}
+  .lc-b{margin-top:8px;font-size:14px;line-height:1.48}
+  .lc-go{margin-top:12px;padding:12px 18px;font-size:14.5px}
+  .lc-again{margin-left:8px}
+  /* while a project card is open, the panel keeps only its heading and the button */
+  .ch-lotto.lotto-drawn .panel .tech,.ch-lotto.lotto-drawn .panel .lab-lede{display:none}
+}
+/* short phones: while a card is up the panel keeps just its button, so the drawn ball has room above; the heading
+   steps aside and the status, which repeats the card's number and title, is still read out but not shown */
+@media (max-width:899px) and (orientation:portrait) and (max-height:760px){
+  .ch-lotto.lotto-drawn .panel .lab-h2{display:none}
+  .ch-lotto.lotto-drawn .panel .lotto-ui{margin-top:0}
+  .ch-lotto.lotto-drawn .lotto-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+}
+@media (max-width:380px){.lc-go{padding-inline:15px}}   /* "Read the case study" and "Draw again" share a row */
+@media (max-width:899px) and (orientation:landscape) and (max-height:540px){
+  .lotto-ui{margin-top:10px}
+  .btn.draw{min-width:0}
+  /* the card overlays the right side (the tray close-up frames itself beside it) instead of stacking under the panel */
+  .lotto-card{position:absolute;right:var(--gut);bottom:12px;top:auto;width:min(330px,40vw);max-height:calc(100% - 24px);overflow:auto;padding:14px 16px}
+  .lc-n{width:34px;height:34px;margin-right:10px;font-size:14px}
+  .lc-h{font-size:20px;margin-top:0}
+  .lc-s{margin-top:8px;font-size:13px}
+  .lc-b{margin-top:6px;font-size:13px;line-height:1.45}
+  .lc-go{margin-top:10px}
+}
+.no-webgl .lotto-ui{display:none}
+/* text-only fallback: the six projects in the drum, read from the scene data */
+.no-webgl .scene-data[hidden]#lotto-items{display:grid;gap:2px;width:100%;max-width:min(540px,100%);margin-top:10px;padding:0 clamp(20px,2.4vw,32px)}
+.no-webgl #lotto-items li{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(243,240,234,.1);font:500 15px/1.4 var(--text);color:var(--ink)}
+.no-webgl #lotto-items li::before{content:attr(data-n);flex:none;font:500 12px/1.75 var(--mono);color:var(--mute)}
+.no-webgl #lotto-items li::after{content:attr(data-title) " · " attr(data-sub)}
+
+/* room: finish buttons with "material chip" swatches (wall / floor planks / sofa + accent ring / metal dot);
+   the scene sets the --sw-* colours from #room-palettes, so the chips always match the 3D room */
+.room-ui{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:420px;margin-top:22px}
+.fin{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:11px;min-height:48px;padding:6px 16px 6px 6px;border-radius:999px;cursor:pointer;
+  font:600 14.5px/1.1 var(--display);letter-spacing:-.01em;white-space:nowrap;color:var(--ink-2);background:rgba(243,240,234,.05);box-shadow:inset 0 0 0 1px rgba(243,240,234,.14);
+  transition:background .3s,color .3s,box-shadow .3s,transform .2s;-webkit-tap-highlight-color:transparent}
+.fin:hover{color:var(--ink);background:rgba(243,240,234,.09);box-shadow:inset 0 0 0 1px rgba(243,240,234,.24)}
+.fin.on{color:#07070A;background:#F3F0EA;box-shadow:0 8px 24px -10px rgba(243,240,234,.45)}
+.fin:focus-visible{outline:2px solid #4BE3C1;outline-offset:3px}
+.fin:active{transform:scale(.98)}
+.sw{position:relative;flex:none;width:36px;height:36px;border-radius:50%;overflow:hidden;
+  background:linear-gradient(135deg,var(--sw-wall) 0 49%,rgba(0,0,0,.18) 49% 51%,transparent 51%),
+    repeating-linear-gradient(115deg,rgba(0,0,0,.13) 0 1px,transparent 1px 6px),var(--sw-floor);
+  box-shadow:inset 0 0 0 1px rgba(7,7,10,.28),0 1px 2px rgba(0,0,0,.5);transition:transform .35s var(--ease)}
+.sw::after{content:"";position:absolute;left:7px;bottom:7px;width:14px;height:14px;border-radius:50%;background:var(--sw-sofa);
+  box-shadow:0 0 0 1.5px var(--sw-accent),0 2px 5px rgba(0,0,0,.45)}
+.sw::before{content:"";position:absolute;right:8px;top:8px;width:7px;height:7px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.75),transparent 60%),var(--sw-metal);box-shadow:0 0 0 1px rgba(0,0,0,.18)}
+.fin.on .sw{transform:rotate(-12deg) scale(1.04)}
+.fin[data-palette=pale]{--sw-wall:#F2EEE7;--sw-floor:#E6DCCB;--sw-sofa:#D9D2C5;--sw-accent:#B9A88F;--sw-metal:#C9C3B8}
+.fin[data-palette=walnut]{--sw-wall:#E7DCCB;--sw-floor:#5A3A28;--sw-sofa:#3D2C24;--sw-accent:#C9A45F;--sw-metal:#B08D57}
+.fin[data-palette=saffron]{--sw-wall:#F3E2BF;--sw-floor:#C49A63;--sw-sofa:#E2A73A;--sw-accent:#7A4B16;--sw-metal:#D3A84F}
+.fin[data-palette=carmine]{--sw-wall:#E9DAD2;--sw-floor:#6A4939;--sw-sofa:#8C1C2B;--sw-accent:#C9A45F;--sw-metal:#C9A45F}
+.no-webgl .room-ui,.scene-failed .room-ui,.no-webgl .prd-ui,.scene-failed .prd-ui{display:none}
+@media (max-width:899px){.room-ui{gap:8px;margin-top:12px;max-width:none}.fin{min-height:46px;font-size:14px;padding-right:12px;gap:9px}.sw{width:34px;height:34px}}
+@media (max-width:380px){.fin{gap:7px;padding-right:8px;font-size:13.5px;letter-spacing:-.02em}.sw{width:32px;height:32px}.sw::after{left:6px;bottom:6px}.sw::before{right:7px;top:7px}}
+/* short phones and landscape: the four finishes on one row that scrolls sideways (the fade at the edge shows there
+   is more), instead of a two-row grid */
+@media (max-width:899px) and (orientation:portrait) and (max-height:760px),(max-width:899px) and (orientation:landscape) and (max-height:540px){
+  .room-ui{display:flex;flex-wrap:nowrap;gap:6px;margin:6px -16px -4px;padding:4px 16px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 22px),transparent)}
+  .room-ui::-webkit-scrollbar{display:none}
+  .fin{flex:none;min-height:44px;padding:4px 13px 4px 4px;gap:8px;font-size:13.5px;letter-spacing:-.01em}
+  .sw{width:34px;height:34px}.sw::after{left:7px;bottom:7px}.sw::before{right:8px;top:8px}
+}
+@media (max-width:899px) and (orientation:portrait) and (max-height:720px){.room-ui{margin-inline:-14px;padding-inline:14px}}
+@media (max-width:899px) and (orientation:landscape) and (max-height:540px){.room-ui{margin-inline:-15px;padding-inline:15px}}
+
+/* building: floor buttons and the listing card the scene fills */
+.bld-ui{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.flr{all:unset;box-sizing:border-box;cursor:pointer;min-width:60px;min-height:44px;padding:0 16px;display:inline-grid;place-items:center;border-radius:999px;
+  font:600 14px/1 var(--mono);letter-spacing:.08em;color:var(--ink-2);box-shadow:inset 0 0 0 1px rgba(243,240,234,.2);transition:background .2s,color .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}
+.flr:hover{color:var(--ink);box-shadow:inset 0 0 0 1px rgba(75,227,193,.6)}
+.flr.on{background:var(--k7);color:#07070A;box-shadow:0 8px 22px -10px rgba(75,227,193,.6)}
+.flr:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.bld-card{margin-top:16px;padding:16px 18px;border-radius:18px;background:rgba(13,14,19,.72);box-shadow:inset 0 0 0 1px rgba(75,227,193,.32)}
+.bld-card:empty,.bld-card:not(:has(.bc-h:not(:empty))){display:none}
+.bc-k{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--k7)}
+.bc-h{font:700 clamp(20px,1.9vw,26px)/1.1 var(--display);letter-spacing:-.03em;margin-top:9px}
+.bc-s{margin-top:8px;font:600 14.5px/1.4 var(--text);color:var(--ink)}
+.bc-b{margin-top:3px;font:400 14px/1.45 var(--text);color:var(--ink-2)}
+.ch-building .note-s{margin-top:12px}
+@media (max-width:899px){.bld-ui{flex-wrap:nowrap;margin-top:10px;gap:6px}.flr{min-width:0;flex:1 1 0}.bld-card{margin-top:8px;padding:10px 14px 11px;border-radius:16px}
+  .bc-k{font-size:13px;letter-spacing:.1em}.bc-h{font-size:19px;margin-top:5px}.bc-s{margin-top:4px;font-size:13.5px;line-height:1.35}.bc-b{margin-top:2px;font-size:13px;line-height:1.35}.ch-building .note-s{margin-top:8px}}
+@media (max-width:899px) and (orientation:portrait) and (max-height:720px){.bld-ui{margin-top:8px}.bld-card{margin-top:6px;padding:8px 12px 9px}.bc-h{font-size:18px;margin-top:3px}.bc-s{margin-top:3px}.ch-building .note-s{margin-top:6px}}
+@media (max-width:899px) and (orientation:landscape) and (max-height:540px){.bld-ui{margin-top:7px}.ch-building .note-s{margin-top:5px}
+  /* the floor label and the listing title share the card's first row, so the panel clears the header */
+  .bld-card{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:10px;align-items:baseline;margin-top:6px;padding:7px 12px 8px}
+  .bc-h{font-size:16px;margin-top:0}.bc-s,.bc-b{grid-column:1 / -1}.bc-s{margin-top:2px;font-size:13px}.bc-b{margin-top:1px;font-size:13px}}
+.no-webgl .bld-ui,.no-webgl .bld-card,.scene-failed .bld-ui,.scene-failed .bld-card{display:none}
+
+.no-gl-note{display:none}
+.no-webgl .no-gl-note{display:block}
+
+@media (prefers-reduced-motion:reduce){.scroll-hint span{animation:none}.lotto-card{animation:none}.fin,.sw,.flr,.prd,.prd::before,.lab-dots a b,.lab-dots a::after{transition:none}.fin.on .sw{transform:none}}
+
+/* contact chapter v2: one pinned screen, geometric two-column grid (text | 3D card) */
+.ch-contact{min-height:190vh}
+.ci{align-items:center;padding-block:84px 28px}
+.ci .hfr{inset:78px calc(var(--gut) * .45) 18px}
+.ci-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,72px);align-items:center;width:100%;max-width:var(--max);margin-inline:auto}
+.ci-tx{max-width:620px}
+.ci-h{font:800 clamp(40px,4.4vw,78px)/.95 var(--display);letter-spacing:-.045em;margin-top:18px;text-wrap:balance}
+.ci-h em{display:block;font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.02em;background:var(--spectrum);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.06em}
+.ci-lede{font:400 clamp(16px,1.2vw,19px)/1.55 var(--text);color:var(--ink-2);margin-top:18px;max-width:46ch}
+.ci-rule{height:1px;margin:26px 0 4px;background:linear-gradient(90deg,rgba(243,240,234,.3),rgba(243,240,234,.06) 70%,transparent)}
+.ci-rows{margin:0}
+.ci-rows > div{display:grid;grid-template-columns:110px minmax(0,1fr);align-items:center;gap:12px;min-height:56px;border-bottom:1px solid rgba(243,240,234,.11)}
+.ci-rows dt{font:500 11.5px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.ci-rows dd{margin:0;display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-width:0}
+.ci-rows a{font:600 clamp(15px,1.25vw,20px)/1.3 var(--display);letter-spacing:-.015em;text-decoration:none;color:var(--ink);overflow-wrap:anywhere}
+.ci-rows a:hover{color:var(--k1)}
+.ci-rows a i{font-style:normal;color:var(--mute)}
+.ci-mail{white-space:nowrap}
+.ci-rows .copy{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;font-size:13px}
+.ci-rows dd > a{padding-block:10px}   /* 44px-tall tap targets */
+.ch-in > .hfr{pointer-events:none}   /* the frame is decoration: keep it from catching taps meant for the links under it */
+.ci-fine{margin-top:16px;font:400 12.5px/1.55 var(--text);color:var(--mute);max-width:60ch}
+.ci-stage{position:relative;min-height:62vh;display:flex;align-items:flex-end;justify-content:center}
+.ci-tag{font:500 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);padding:8px 12px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(243,240,234,.14)}
+.ci-fine.no-gl-note{display:none}
+.no-webgl .ci-fine.no-gl-note{display:block}
+.no-webgl .ci-stage{display:none}
+@media (max-width:899px){
+  .ch-contact{min-height:auto}
+  .ch-contact .ch-in{position:relative;height:auto;padding-top:76px}
+  .ci-grid{grid-template-columns:1fr}
+  .ci-stage{order:-1;min-height:44vh}
+  .ci-rows > div{grid-template-columns:84px minmax(0,1fr)}
+  .ci-mail{white-space:normal}
+  .ci-rows dt{font-size:13px;letter-spacing:.1em}
+  .ci-rows dd > a{padding-block:12.5px}   /* 44px-tall tap targets at the phone font size */
+  .ci-fine{font-size:13px}
+  .ci-tag{font-size:13px;letter-spacing:.12em}
+}
+
+
