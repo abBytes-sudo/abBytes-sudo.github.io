@@ -1,0 +1,4 @@
+kestrel.glb — "Car Concept" by Eric Chadwick / Darmstadt Graphics Group GmbH (2024), from the Khronos glTF Sample Assets,
+licensed CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Derived from "Free Concept Car 004" by Unity Fan (CC0).
+Modified for Revv: Khronos and 3D Commerce logo textures replaced with plain colours, licence plate and steering emblem removed,
+material variants dropped, hidden interior parts removed, geometry simplified, textures re-encoded as WebP.

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sell your bike or car · instant valuation · Revv</title>
+<meta name="description" content="Get an instant price range for your superbike or car in under a minute, then book a free 150-point inspection at home.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Revv"><meta property="og:title" content="Sell yours · Revv"><meta property="og:description" content="Model, year, km, condition: an instant range, then a free inspection."><meta property="og:image" content="https://abbytes-sudo.github.io/samples/revv/og.jpg"><meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A0B0D">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" href="fonts/archivo-sub.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="revv.min.css?v=35">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="data.js?v=10" defer></script>
+<script src="app.js?v=7" defer></script>
+<script src="sell.js?v=6" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+<script src="concierge.js?v=1" defer data-agent="revv" data-skin="concierge.css?v=1" data-brand="rv" data-title="Pit crew" data-sub="Revv · instant answers" data-label="Ask the pit crew" data-nudge="vehicle,listings,sell" data-v="3"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<header class="hdr solid">
+  <a class="logo" href="index.html" aria-label="Revv, home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#FF5B1F"/><path d="M8 24V8h9a5 5 0 0 1 1.6 9.7L23 24h-4.4l-3.9-6H12v6zM12 14.5h4.6a1.75 1.75 0 0 0 0-3.5H12z" fill="#0A0B0D"/></svg>Revv</a>
+  <nav class="nav" aria-label="Main"><a class="ul" href="listings.html">Buy</a><a class="ul" href="listings.html?type=bike">Superbikes</a><a class="ul" href="listings.html?type=car">Cars</a><a class="ul" href="sell.html" aria-current="page">Sell</a><a class="ul" href="dealers.html">Dealers</a><a class="ul" href="dealer.html">Dealer login</a></nav>
+  <div class="hdr-r">
+    <a class="pill" href="listings.html?saved=1" aria-label="Saved vehicles"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="n" data-count-wish hidden>0</span></a>
+    <button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  </div>
+</header>
+<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="listings.html">Buy</a><a href="listings.html?type=bike">Superbikes</a><a href="listings.html?type=car">Cars</a><a href="sell.html">Sell</a><a href="dealers.html">Dealers</a><a href="dealer.html">Dealer login</a><a href="admin.html">Admin</a></nav></div>
+
+<main id="main">
+  <section class="phead" aria-labelledby="h1">
+    <ol class="crumbs"><li><a href="index.html">Revv</a></li><li>Sell</li></ol>
+    <h1 class="disp" id="h1">What's it <span class="ser">worth?</span></h1>
+    <p class="lead" style="margin-top:18px">Five taps for an instant range. Then a free inspection at your door, and verified dealers bid on the report.</p>
+  </section>
+  <div class="wiz">
+    <ol class="wiz-steps" id="steps" aria-label="Steps"></ol>
+    <div id="panes" aria-live="polite"></div>
+  </div>
+</main>
+<footer class="ftr" style="padding-top:48px">
+  <p class="credits"><span>Photos: Unsplash (badges and plates blurred) · Valuations are indicative, not a quote</span><span>© Revv. A portfolio project by Abhishek.</span></p>
+</footer>
+</body>
+</html>

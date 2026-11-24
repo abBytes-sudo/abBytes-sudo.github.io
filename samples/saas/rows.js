@@ -59,7 +59,7 @@
     { ch: 'instagram', text: 'white sneakers under $150 size 42', parts: [['white sneakers', 'item', 'Sneakers · white'], ['under $150', 'budget', '≤ $150'], ['size 42', 'size', 'EU 42']] }
   ];
   function mkA(box) {
-    box.innerHTML = '<div class="rw-d rw-a is-final"><div class="rw-d-bar"><span class="rw-chan"></span><span class="rw-tag">demo</span></div>' +
+    box.innerHTML = '<div class="rw-d rw-a is-final"><div class="rw-d-bar"><span class="rw-chan"></span><span class="rw-tag">preview</span></div>' +
       '<p class="rw-a-text"></p><p class="rw-a-cap">What the assistant understood</p><ul class="rw-a-chips"></ul></div>';
     var root = box.firstChild, chan = root.querySelector('.rw-chan'), txt = root.querySelector('.rw-a-text'), chips = root.querySelector('.rw-a-chips'), idx = 0;
     function parsed(s) {
@@ -134,11 +134,11 @@
 
   /* c. does things (paper) */
   function mkC(box) {
-    box.innerHTML = '<div class="rw-d rw-c is-final"><div class="rw-c-hd"><b>Book a visit</b><span>Lakeview Court · demo</span></div>' +
+    box.innerHTML = '<div class="rw-d rw-c is-final"><div class="rw-c-hd"><b>Book a visit</b><span>Lakeview Court · viewing</span></div>' +
       '<ol class="rw-c-steps">' +
       '<li data-s="slot"><span class="rw-c-dot">' + TICK + '</span><span class="rw-c-k">Slot</span><span class="rw-c-v"><span class="rw-c-opt">Sat 11 am</span><span class="rw-c-opt" data-pick>Sun 11 am</span><span class="rw-c-opt">Sun 12 pm</span></span></li>' +
       '<li data-s="name"><span class="rw-c-dot">' + TICK + '</span><span class="rw-c-k">Name</span><span class="rw-c-v"><span class="rw-c-nm"></span></span></li>' +
-      '<li data-s="phone"><span class="rw-c-dot">' + TICK + '</span><span class="rw-c-k">Phone</span><span class="rw-c-v"><span class="rw-c-ph">••••• ••417</span><span class="rw-c-code"><i>4</i><i>8</i><i>2</i><i>0</i><small>demo code</small></span><span class="rw-c-ok">Verified</span></span></li>' +
+      '<li data-s="phone"><span class="rw-c-dot">' + TICK + '</span><span class="rw-c-k">Phone</span><span class="rw-c-v"><span class="rw-c-ph">••••• ••417</span><span class="rw-c-code"><i>4</i><i>8</i><i>2</i><i>0</i><small>code</small></span><span class="rw-c-ok">Verified</span></span></li>' +
       '</ol><ul class="rw-c-out">' +
       '<li><span class="rw-c-tick">' + TICK + '</span>Visit booked<em>Sun 11 am</em></li>' +
       '<li><span class="rw-c-tick">' + TICK + '</span>Lead created<em>hot · ₹1.5 L</em></li>' +
@@ -178,7 +178,7 @@
 
   /* d. FAQ you edit (paper) */
   function mkD(box) {
-    box.innerHTML = '<div class="rw-d rw-dd"><div class="rw-d-bar"><span>Admin · FAQ editor</span><span class="rw-tag">demo</span></div><div class="rw-d-cols">' +
+    box.innerHTML = '<div class="rw-d rw-dd"><div class="rw-d-bar"><span>Admin · FAQ editor</span><span class="rw-tag">preview</span></div><div class="rw-d-cols">' +
       '<div class="rw-d-col"><h4>Answer: delivery</h4><div class="rw-d-field"><span class="rw-d-tx"></span><i class="rw-caret is-off"></i></div><span class="rw-d-save">Save</span></div>' +
       '<div class="rw-d-col rw-d-chat"><h4>Live chat</h4><div class="rw-d-b c">How long is delivery?</div><div class="rw-d-b a"></div><span class="rw-d-up">Updated just now</span></div></div></div>';
     var root = box.firstChild, field = root.querySelector('.rw-d-field'), tx = root.querySelector('.rw-d-tx'), caret = root.querySelector('.rw-caret'), save = root.querySelector('.rw-d-save'), ans = root.querySelector('.rw-d-b.a'), up = root.querySelector('.rw-d-up');
@@ -203,7 +203,7 @@
 
   /* e. hands over cleanly */
   function mkE(box) {
-    box.innerHTML = '<div class="rw-d rw-e is-col is-join"><div class="rw-d-bar"><span>Conversation · handover</span><span class="rw-tag">demo</span></div>' +
+    box.innerHTML = '<div class="rw-d rw-e is-col is-join"><div class="rw-d-bar"><span>Conversation · handover</span><span class="rw-tag">preview</span></div>' +
       '<div class="rw-e-stage"><div class="rw-e-tr"><p class="rw-e-m c">Can I contest the fine on this notice? It says 15 days.</p><p class="rw-e-m b">That needs a person. I’m passing you to the team with this whole chat.</p></div>' +
       '<div class="rw-e-sum"><b><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h12M12 7l5 5-5 5M20 5v14"/></svg>Handed over: legal question</b><small>2 messages · priority: normal · 09:05</small></div></div>' +
       '<div class="rw-e-join"><span class="rw-e-av">N</span><div class="rw-e-who"><b>Nora joined</b><small>sees the full history</small></div><span class="rw-e-take">Take over</span></div>' +
@@ -238,7 +238,7 @@
     var pts = F_Y.map(function (y, i) { return [i * (300 / (F_Y.length - 1)), 4 + (y / 31) * 34]; });
     var d = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join('');
     var last = pts[pts.length - 1];
-    box.innerHTML = '<div class="rw-d rw-f"><div class="rw-d-bar"><span class="rw-chan"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Event log</span><span class="rw-f-n">events <span class="rw-f-c">0</span></span><span class="rw-tag">demo</span></div>' +
+    box.innerHTML = '<div class="rw-d rw-f"><div class="rw-d-bar"><span class="rw-chan"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Event log</span><span class="rw-f-n">events <span class="rw-f-c">0</span></span><span class="rw-tag">preview</span></div>' +
       '<ul class="rw-f-log"></ul><svg class="rw-f-spark" viewBox="0 0 300 44" aria-hidden="true" focusable="false"><path class="base" d="M0 42H300"/><path class="ln" pathLength="1" d="' + d + '"/><circle cx="' + last[0] + '" cy="' + last[1].toFixed(1) + '" r="3"/></svg>' +
       '<div class="rw-f-sl"><span>23:42</span><span>events per minute</span><span>09:05</span></div></div>';
     var root = box.firstChild, log = root.querySelector('.rw-f-log'), cnt = root.querySelector('.rw-f-c'), ln = root.querySelector('.ln'), dot = root.querySelector('circle'), TOTAL = 128;
@@ -269,22 +269,22 @@
   var ROWS = [
     { id: 'a', t: 't1', fs: 'clamp(42px,7.6vw,116px)', pad: 'clamp(80px,10vw,150px)', side: 'r', h: 'It reads <em>sentences.</em>',
       sub: 'Budget, place, size and date, pulled from messy text.',
-      sr: 'Demo: a messy message such as \u201C3bhk indiranagar under 1.5 lakh a month, furnished\u201D is typed, then split into labelled parts: 3 BHK, Indiranagar, up to 1.5 lakh a month, furnished.', demo: mkA },
+      sr: 'Animation: a messy message such as \u201C3bhk indiranagar under 1.5 lakh a month, furnished\u201D is typed, then split into labelled parts: 3 BHK, Indiranagar, up to 1.5 lakh a month, furnished.', demo: mkA },
     { id: 'b', t: 't2', fs: 'clamp(42px,8.4vw,128px)', pad: 'clamp(72px,8vw,110px)', side: 'l', h: 'It knows <em>where</em> you are.',
       sub: 'It greets people with the page they are on.',
-      sr: 'Demo: a browser window shows a home listing, a jacket and a clinic booking page in turn. A chat opens with a greeting that names the page, for example \u201CI can see you\u2019re looking at the Harbor Jacket\u201D.', demo: mkB },
+      sr: 'Animation: a browser window shows a home listing, a jacket and a clinic booking page in turn. A chat opens with a greeting that names the page, for example \u201CI can see you\u2019re looking at the Harbor Jacket\u201D.', demo: mkB },
     { id: 'c', t: 't3', fs: 'clamp(44px,9vw,140px)', pad: 'clamp(90px,11vw,160px)', side: 'r', h: 'It <em>does</em> things.',
       sub: 'Books the visit, creates the lead, queues the reminder.',
-      sr: 'Demo: a booking card fills in step by step. A Sunday 11 am slot is chosen, the name Meera K. is entered, a demo code verifies the phone, then three ticks appear: visit booked, lead created, reminder queued.', demo: mkC },
+      sr: 'Animation: a booking card fills in step by step. A Sunday 11 am slot is chosen, the name Meera K. is entered, a code verifies the phone, then three ticks appear: visit booked, lead created, reminder queued.', demo: mkC },
     { id: 'd', t: 't4', fs: 'clamp(42px,7.4vw,112px)', pad: 'clamp(72px,8.5vw,120px)', side: 'l', h: 'Answers from <em>your</em> FAQ.',
       sub: 'Edit one line. Every channel updates.',
-      sr: 'Demo: in an admin field the text \u201CDelivery takes 3 to 5 days\u201D is retyped to \u201CDelivery now takes 1 day\u201D. After pressing Save, the chat bubble beside it shows the new answer.', demo: mkD },
+      sr: 'Animation: in an admin field the text \u201CDelivery takes 3 to 5 days\u201D is retyped to \u201CDelivery now takes 1 day\u201D. After pressing Save, the chat bubble beside it shows the new answer.', demo: mkD },
     { id: 'e', t: 't5', fs: 'clamp(42px,7.8vw,120px)', pad: 'clamp(90px,10.5vw,150px)', side: 'r', h: 'Hands over, <em>cleanly.</em>',
       sub: 'The teammate sees the whole chat.',
-      sr: 'Demo: a chat transcript collapses into a card reading \u201CHanded over: legal question\u201D. Nora joins and sees the full history, then presses Take over.', demo: mkE },
+      sr: 'Animation: a chat transcript collapses into a card reading \u201CHanded over: legal question\u201D. Nora joins and sees the full history, then presses Take over.', demo: mkE },
     { id: 'f', t: 't6', fs: 'clamp(42px,8.2vw,124px)', pad: 'clamp(80px,10vw,140px)', side: 'l', h: 'Records <em>everything.</em>',
       sub: 'Every intent, action, lead and booking.',
-      sr: 'Demo, simulated data: a live event log streams lines such as intent, action, lead and booking, with a small sparkline of events per minute.', demo: mkF }
+      sr: 'Animation: a live event log streams lines such as intent, action, lead and booking, with a small sparkline of events per minute.', demo: mkF }
   ];
 
   window.OrbitSections.rows = {
@@ -359,7 +359,7 @@
       el.setAttribute('aria-labelledby', 'rs-title');
 
       function fig(cls, valHTML, sr, title) {
-        return '<article class="rs-fig ' + cls + '"><span class="rs-rule"></span><div class="rs-fh"><span class="rs-demo">Demo</span></div>' +
+        return '<article class="rs-fig ' + cls + '"><span class="rs-rule"></span><div class="rs-fh"><span class="rs-demo">Example</span></div>' +
           '<p class="rs-v"><span class="rs-sr">' + sr + '</span><span aria-hidden="true" class="rs-vv">' + valHTML + '</span></p><h3 class="rs-ft">' + title + '</h3></article>';
       }
       var items = SNIP.map(function (s) {
@@ -378,14 +378,14 @@
         fig('rs-f2', '62<small>%</small>', '62 percent', 'of chats start after 6 pm') +
         fig('rs-f3', '1 in 4', '1 in 4', 'become a lead or booking') +
         '</div>' +
-        '<figure class="rs-chart" role="img" aria-label="Chart, demo data: conversations by hour of day. Volume is lowest overnight, dips through the working day and peaks between 8 and 10 pm, inside the after-hours bands."><span class="rs-rule"></span>' +
-        '<div class="rs-ch-h"><h3>Conversations by hour</h3><span class="rs-demo">Demo</span></div>' +
+        '<figure class="rs-chart" role="img" aria-label="Chart: conversations by hour of day. Volume is lowest overnight, dips through the working day and peaks between 8 and 10 pm, inside the after-hours bands."><span class="rs-rule"></span>' +
+        '<div class="rs-ch-h"><h3>Conversations by hour</h3><span class="rs-demo">Example</span></div>' +
         '<div class="rs-ch-box" aria-hidden="true"><div class="rs-band b1"><span>after hours</span></div><div class="rs-band b2"><span>after hours</span></div><svg><path class="rs-line" pathLength="1" d=""/></svg><i class="rs-pt-v"></i><i class="rs-pt"></i><span class="rs-pt-l">11:42 pm \u00B7 one message</span></div>' +
         '<div class="rs-ax" aria-hidden="true"><span>00</span><span style="left:25%">06</span><span style="left:37.5%">09</span><span style="left:50%">12</span><span style="left:75%">18</span><span style="left:100%">24</span></div></figure></div>' +
         '<div class="rs-mq" role="group" aria-label="Real message snippets from the six example businesses"><div class="rs-mq-in"><button type="button" class="rs-pause" aria-pressed="false" aria-label="Pause the scrolling messages">' +
         '<svg class="ps" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.4" height="14" rx="1"/><rect x="13.6" y="5" width="3.4" height="14" rx="1"/></svg><svg class="pl" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg></button>' +
         '<div class="rs-mq-view"><div class="rs-mq-track"><ul class="rs-set">' + items + '</ul><ul class="rs-set" aria-hidden="true">' + items + '</ul></div></div></div></div>' +
-        '<div class="rs-wrap"><p class="rs-note">Everything marked demo is illustrative.</p></div>';
+        '<div class="rs-wrap"><p class="rs-note">Figures marked example are illustrative.</p></div>';
 
       var $ = function (s) { return el.querySelector(s); };
 

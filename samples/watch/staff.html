@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Staff · Ghatika back office</title>
+<meta name="description" content="The Ghatika back office: today's floor queue, viewing confirmations, the concierge inbox, orders through the 38-day atelier build, the service bench and the warranty register. A portfolio project by Abhishek.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Ghatika">
+<meta property="og:title" content="Ghatika back office">
+<meta property="og:description" content="Today's floor queue, viewing confirmations, the concierge inbox, orders, the service bench and the warranty register for a Udaipur watch maison. A portfolio project by Abhishek.">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/watch/staff.html">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/watch/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="A Ghatika Prahar watch with a blue guilloché dial, coming apart into its crystal, dial, movement and strap">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Ghatika back office"><meta name="twitter:description" content="Today's floor queue, viewing confirmations, the concierge inbox, orders, the service bench and the warranty register for a Udaipur watch maison."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/watch/og.jpg">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#08151f">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" href="fonts/jost.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/prata.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="watch.min.css?v=9">
+<link rel="stylesheet" href="staff.css?v=9">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="data.js?v=9" defer></script>
+<script src="app.js?v=9" defer></script>
+<script src="staff.js?v=9" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body class="bo" data-own-k>
+<a class="skip" href="#main">Skip to content</a>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<div class="app">
+  <aside class="side" aria-label="Back office">
+    <a class="side-brand" href="#today" aria-label="Ghatika back office, Today">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="#c9ad7c" stroke-width="1"/><path d="M6.5 13.5h19a9.5 9.5 0 0 1-19 0z" fill="#c9ad7c"/><circle cx="16" cy="26.6" r="1.3" fill="#c9ad7c"/></svg>
+      <span><b>Ghatika</b><small>Back office · Udaipur</small></span>
+    </a>
+    <button class="side-search" type="button" data-open-pal>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+      <span>Search or jump to…</span><kbd data-modk>⌘K</kbd>
+    </button>
+    <nav class="side-nav" aria-label="Sections">
+      <a href="#today" data-nav="today"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span>Today</span><em data-cnt="today"></em></a>
+      <a href="#confirm" data-nav="confirm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4h3l1.5 4-2 1.5a10 10 0 0 0 5.5 5.5l1.5-2 4 1.5v3a1.5 1.5 0 0 1-1.6 1.5A15.5 15.5 0 0 1 5 5.6 1.5 1.5 0 0 1 6.5 4z"/></svg><span>Confirm viewings</span><em data-cnt="confirm"></em></a>
+      <a href="#inbox" data-nav="inbox"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.5h15v10h-8l-4.5 3.5v-3.5h-2.5z"/><path d="M8.5 9.5h7M8.5 12.5h4"/></svg><span>Conversations</span><em data-cnt="inbox"></em></a>
+      <p class="side-k">Clients and watches</p>
+      <a href="#orders" data-nav="orders"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5z"/><path d="M4 8.5 12 13l8-4.5M12 13v7"/></svg><span>Orders</span><em data-cnt="orders"></em></a>
+      <a href="#appointments" data-nav="appointments"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="1.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg><span>Appointments</span><em data-cnt="appointments"></em></a>
+      <a href="#service" data-nav="service"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="5.5"/><path d="m14 14 6 6M10 7.5V10h2"/></svg><span>Service</span><em data-cnt="service"></em></a>
+      <a href="#warranty" data-nav="warranty"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 19 6v5.5c0 4.2-3 7.4-7 9-4-1.6-7-4.8-7-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg><span>Warranty</span><em data-cnt="warranty"></em></a>
+    </nav>
+    <div class="side-views">
+      <p class="side-k">Saved views</p>
+      <ul id="side-views"></ul>
+    </div>
+    <div class="side-ft">
+      <a class="side-link" href="index.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.3 3.6 5.1 3.6 8.5s-1.2 6.2-3.6 8.5c-2.4-2.3-3.6-5.1-3.6-8.5s1.2-6.2 3.6-8.5z"/></svg>View site <span aria-hidden="true">↗</span><span class="sr"> (opens in a new tab)</span></a>
+      <button class="side-link" type="button" data-open-help><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6.5" width="18" height="11" rx="1.5"/><path d="M7 10h1M10.5 10h1M14 10h1M17 10h.5M7.5 14h9"/></svg>Keyboard shortcuts <kbd>?</kbd></button>
+      <button class="side-link" type="button" data-reset><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4.5v4h4"/></svg>Start fresh</button>
+      <div class="me"><span class="av av-lg" aria-hidden="true">KP</span><span><b>Kavya Paliwal</b><small>Client advisor · The Atelier</small></span></div>
+    </div>
+  </aside>
+  <div class="main" id="scroller">
+    <header class="top">
+      <a class="top-brand" href="#today" aria-label="Ghatika back office, Today"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="#c9ad7c" stroke-width="1"/><path d="M6.5 13.5h19a9.5 9.5 0 0 1-19 0z" fill="#c9ad7c"/><circle cx="16" cy="26.6" r="1.3" fill="#c9ad7c"/></svg></a>
+      <p class="trail" id="trail"><span>Ghatika</span><span aria-hidden="true">/</span><b>Today</b></p>
+      <div class="top-r">
+        <label class="sr" for="ctx">Boutique</label>
+        <select class="ctx" id="ctx"></select>
+        <button class="top-search" type="button" data-open-pal aria-label="Search or jump to (Ctrl K)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+          <span class="ts-t">Search orders, clients, serials</span><kbd data-modk>⌘K</kbd>
+        </button>
+        <div class="popwrap">
+          <button class="b primary sm" type="button" id="new-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="new-pop" aria-label="New"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="nb-t">New</span></button>
+          <div class="pop" id="new-pop" role="menu" aria-label="Create" hidden>
+            <button type="button" role="menuitem" data-new="order">Manual order <kbd>N</kbd></button>
+            <button type="button" role="menuitem" data-new="appt">Viewing appointment</button>
+            <button type="button" role="menuitem" data-new="ticket">Service ticket</button>
+          </div>
+        </div>
+        <button class="ib more-btn" type="button" id="more-btn" aria-label="More options"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18.5" cy="12" r="1.3"/></svg></button>
+      </div>
+    </header>
+    <main class="view" id="main" tabindex="-1" aria-busy="true">
+      <div class="vh"><div><span class="skl" style="width:260px;height:12px"></span><span class="skl" style="width:120px;height:18px;margin-top:10px"></span></div></div>
+      <div class="kpis" aria-hidden="true"><div class="kpi skel"><span class="skl" style="width:60%"></span><span class="skl" style="width:34%;height:22px;margin-top:12px"></span></div><div class="kpi skel"><span class="skl" style="width:50%"></span><span class="skl" style="width:30%;height:22px;margin-top:12px"></span></div><div class="kpi skel"><span class="skl" style="width:66%"></span><span class="skl" style="width:28%;height:22px;margin-top:12px"></span></div><div class="kpi skel"><span class="skl" style="width:54%"></span><span class="skl" style="width:24%;height:22px;margin-top:12px"></span></div><div class="kpi skel"><span class="skl" style="width:48%"></span><span class="skl" style="width:30%;height:22px;margin-top:12px"></span></div></div>
+      <div class="today-grid" aria-hidden="true"><div class="skl skl-card" style="height:420px"></div><div class="skl skl-card" style="height:420px"></div></div>
+      <p class="sr">Opening the back office…</p>
+    </main>
+  </div>
+</div>
+<nav class="tabbar" aria-label="Sections">
+  <a href="#today" data-nav="today"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span>Today</span><em data-cnt="today"></em></a>
+  <a href="#confirm" data-nav="confirm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4h3l1.5 4-2 1.5a10 10 0 0 0 5.5 5.5l1.5-2 4 1.5v3a1.5 1.5 0 0 1-1.6 1.5A15.5 15.5 0 0 1 5 5.6 1.5 1.5 0 0 1 6.5 4z"/></svg><span>Confirm</span><em data-cnt="confirm"></em></a>
+  <a href="#inbox" data-nav="inbox"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.5h15v10h-8l-4.5 3.5v-3.5h-2.5z"/><path d="M8.5 9.5h7M8.5 12.5h4"/></svg><span>Chats</span><em data-cnt="inbox"></em></a>
+  <a href="#orders" data-nav="orders"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5z"/><path d="M4 8.5 12 13l8-4.5M12 13v7"/></svg><span>Orders</span><em data-cnt="orders"></em></a>
+  <a href="#service" data-nav="service"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="5.5"/><path d="m14 14 6 6M10 7.5V10h2"/></svg><span>Service</span><em data-cnt="service"></em></a>
+</nav>
+<div class="so-scrim" id="so-scrim" hidden></div>
+<aside class="so" id="so" role="dialog" aria-modal="true" aria-labelledby="so-h" hidden></aside>
+<div class="dlg-wrap" id="dlg" hidden></div>
+<div class="bo-pal" id="pal" hidden></div>
+<p class="sr" id="live" aria-live="polite"></p>
+</body>
+</html>

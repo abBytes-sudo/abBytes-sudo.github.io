@@ -1,5 +1,5 @@
-/* Sample projects.
-   Desktop (wide, mouse, motion allowed): a pinned 3D ring. The seven sample sites float as browser windows on a ring
+/* Projects ring.
+   Desktop (wide, mouse, motion allowed): a pinned 3D ring. The sample sites float as browser windows on a ring
    that turns as you scroll; the window at the front comes alive and scrolls through its own site, the caption below
    follows it, and a numbered bar jumps to any project. Click a side window to bring it to the front; click the front
    one to open it. Arrow keys turn the ring.
@@ -39,7 +39,8 @@
     var warmed = false;
     function warm() {
       if (warmed) return; warmed = true;
-      [0, 1, N - 1, 2, N - 2, 3, 4].forEach(function (i, k) {
+      var order = [0, 1, N - 1, 2, N - 2]; for (var j = 3; j < N - 2; j++) order.push(j);
+      order.forEach(function (i, k) {
         var im = cards[i] && cards[i].querySelector('.ex-long'); if (!im) return;
         setTimeout(function () { im.loading = 'eager'; if (im.decode) im.decode().catch(function () {}); }, k * 120);
       });
@@ -50,7 +51,7 @@
     grid.parentNode.insertBefore(stage, grid); stage.appendChild(tilt); tilt.appendChild(grid);
     var cap = document.createElement('div'); cap.className = 'ring-cap'; cap.setAttribute('aria-live', 'polite');
     cap.innerHTML = '<p class="ex-k"></p><h3></h3><p class="ring-d"></p><a class="ring-go" href="#"></a>';
-    var nav = document.createElement('div'); nav.className = 'ring-nav'; nav.setAttribute('role', 'group'); nav.setAttribute('aria-label', 'Jump to a sample project');
+    var nav = document.createElement('div'); nav.className = 'ring-nav'; nav.setAttribute('role', 'group'); nav.setAttribute('aria-label', 'Jump to a project');
     cards.forEach(function (c, i) {
       var b = document.createElement('button'); b.type = 'button';
       b.innerHTML = '<span>' + String(i + 1).padStart(2, '0') + '</span>' + c.querySelector('h3').textContent;
@@ -86,7 +87,7 @@
     var tween = G.to(grid, {
       rotationY: -(N - 1) * STEP, ease: 'none',
       scrollTrigger: {
-        trigger: stage, start: 'top top', end: '+=' + (N - 1) * 60 + '%', pin: true, scrub: 0.7, anticipatePin: 1,
+        trigger: stage, start: 'top top', end: '+=' + (N - 1) * (N > 8 ? 42 : 60) + '%', pin: true, scrub: 0.7, anticipatePin: 1,
         snap: { snapTo: 1 / (N - 1), inertia: false, duration: { min: 0.25, max: 0.7 }, delay: 0.12, ease: 'power2.inOut' },
         onUpdate: function (s) { setActive(Math.round(s.progress * (N - 1))); hint.classList.toggle('gone', s.progress > 0.02); },
         onRefresh: function (s) { st = s; }

@@ -3,27 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ashlar &amp; Co. · Stone, laid slowly (design sample)</title>
-<meta name="description" content="Brick, stone and hardscape for houses meant to be kept. A fictional masonry practice, built as a design sample by Abhishek: pinned project gallery, 3D material lab and cost estimator.">
+<title>Ashlar &amp; Co. · Stone, laid slowly</title>
+<meta name="description" content="Brick, stone and hardscape for houses meant to be kept.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="theme-color" content="#151311">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Ashlar &amp; Co. (design sample)">
+<meta property="og:site_name" content="Ashlar &amp; Co.">
 <meta property="og:title" content="Ashlar &amp; Co. · Stone, laid slowly">
-<meta property="og:description" content="A fictional masonry and hardscape practice: cinematic hero, pinned project gallery, 3D material lab and cost estimator. Design sample by Abhishek.">
+<meta property="og:description" content="">
 <meta property="og:url" content="https://abbytes-sudo.github.io/samples/masonry/">
 <meta property="og:image" content="https://abbytes-sudo.github.io/samples/masonry/og.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ashlar &amp; Co. · Stone, laid slowly">
-<meta name="twitter:description" content="A fictional masonry practice with a pinned gallery, 3D material lab and estimator. Design sample.">
+<meta name="twitter:description" content="Brick, stone and hardscape for houses meant to be kept.">
 <meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/masonry/og.jpg">
 <meta name="robots" content="noindex">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="../assets/vendor/lenis.css">
-<link rel="stylesheet" href="build.css?v=9">
+<link rel="stylesheet" href="build.css?v=11">
 <link rel="stylesheet" href="../assets/back.css?v=2">
 <script src="../assets/vendor/gsap.min.js" defer></script>
 <script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
@@ -32,9 +32,10 @@
 <script src="../assets/motion.js?v=1" defer></script>
 <script src="build.js?v=7" defer></script>
 <script src="../assets/back.js?v=1" defer></script>
+<script src="concierge.js?v=4" defer data-agent="ashlar" data-brand="as" data-skin="concierge.css?v=5" data-title="Ashlar &amp; Co." data-sub="The estimator’s desk" data-label="Ask the mason" data-nudge="estimate,lab,projects,cases,renewal,quote"></script>
 </head>
 <body>
-<p class="demo">Fictional · design sample by <a href="../../index.html">Abhishek</a></p>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
 <div class="gl" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 
 <header class="hd" id="hd"><div class="hd-in">
@@ -144,7 +145,7 @@
         <div><dt>Duration</dt><dd>Six weeks</dd></div>
       </dl>
       <ul class="sw" aria-label="Materials used"><li style="--c:#9C4A32">Red clay</li><li style="--c:#D8D2C4">Lime mortar</li></ul>
-      <blockquote class="pq" data-reveal>“It looks like it was always there.”<footer>Homeowner (sample text)</footer></blockquote>
+      <blockquote class="pq" data-reveal>“It looks like it was always there.”<footer>Homeowner, Hillcrest</footer></blockquote>
     </div>
   </article>
 
@@ -164,7 +165,7 @@
         <div><dt>Duration</dt><dd>Five weeks</dd></div>
       </dl>
       <ul class="sw" aria-label="Materials used"><li style="--c:#5b5750">Fieldstone</li><li style="--c:#2b2824">Slate</li><li style="--c:#8a4a30">Firebrick</li></ul>
-      <blockquote class="pq" data-reveal>“The room is built around it now.”<footer>Homeowner (sample text)</footer></blockquote>
+      <blockquote class="pq" data-reveal>“The room is built around it now.”<footer>Homeowner, Old Town</footer></blockquote>
     </div>
   </article>
 </div></section>
@@ -204,6 +205,7 @@
     <canvas id="wall" role="img" aria-label="A 3D corner of wall that builds itself in the chosen material. Drag to turn it."></canvas>
     <p class="prog" id="prog" aria-live="polite">Preparing the site</p>
     <button type="button" class="rb" id="rebuild">Rebuild ↻</button>
+    <a class="rb rb-kit" href="#lab" data-concierge="flow:kit" data-concierge-label="Send me stone samples">Free sample kit →</a>
   </div>
 </div></section>
 
@@ -242,7 +244,7 @@
       <p class="big" id="eOut"></p>
       <ul><li id="eMat"></li><li id="eDays"></li><li id="eInc"></li></ul>
       <a class="btn" href="#quote" data-magnetic>Book a free site visit <span aria-hidden="true">→</span></a>
-      <p class="fine">Sample figures for this demo. A real price depends on access, ground and design, and comes after a visit.</p>
+      <p class="fine">A real price depends on access, ground and design, and comes after a visit.</p>
     </div>
   </div>
 </div></section>
@@ -251,9 +253,9 @@
 <section class="sec" id="words"><div class="wrap">
   <div class="g12 sech"><p class="idx c-a">(10) In their words</p><h2 class="c-b" data-split>Neighbors <em>say.</em></h2></div>
   <div class="quotes" data-stagger="0.12">
-    <blockquote><p>“The terrace looks like it has always been there. They cleaned up every single day.”</p><footer><b>Homeowner</b> Terrace and steps · sample text</footer></blockquote>
-    <blockquote><p>“The quote was exact, the finish was early, and the stonework is beautiful.”</p><footer><b>Builder</b> Townhouse facade · sample text</footer></blockquote>
-    <blockquote><p>“They solved a drainage problem two other firms had missed.”</p><footer><b>Homeowner</b> Retaining wall · sample text</footer></blockquote>
+    <blockquote><p>“The terrace looks like it has always been there. They cleaned up every single day.”</p><footer><b>Homeowner</b> Terrace and steps</footer></blockquote>
+    <blockquote><p>“The quote was exact, the finish was early, and the stonework is beautiful.”</p><footer><b>Builder</b> Townhouse facade</footer></blockquote>
+    <blockquote><p>“They solved a drainage problem two other firms had missed.”</p><footer><b>Homeowner</b> Retaining wall</footer></blockquote>
   </div>
   <div class="areas g12">
     <p class="idx c-a">Service areas</p>
@@ -274,7 +276,8 @@
     <label class="f"><span>Project type</span><select name="t"><option>Terrace or walkway</option><option>Wall or facade</option><option>Foundations or concrete</option><option>Retaining wall</option><option>Hearth or outdoor kitchen</option><option>Restoration</option></select></label>
     <label class="f"><span>Tell us more</span><textarea name="m" rows="4"></textarea></label>
     <button class="btn" type="submit" data-magnetic>Request my quote <span aria-hidden="true">→</span></button>
-    <p id="qDone" role="status" hidden>Thank you. On a live site this would send your request to the team and log it as a lead. This demo stops here.</p>
+    <p class="q-chat">Rather pick the time yourself? <a href="#quote" data-concierge="flow:visit" data-concierge-label="Book a site visit">Book the visit in chat →</a></p>
+    <p id="qDone" role="status" hidden>Thank you. Sana will call within a working day to book your visit.</p>
   </form>
 </div></section>
 </main>
@@ -285,7 +288,7 @@
     <div class="c-b ft-links"><a href="#services">Services</a><a href="#projects">Work</a><a href="#lab">Material lab</a><a href="#estimate">Estimate</a><a href="#quote">Contact</a></div>
   </div>
   <p class="ft-word" aria-hidden="true" id="ftWord">Ashlar &amp; Co.</p>
-  <div class="wrap ft-bot"><p>Fictional company · Photos: Unsplash · Video: Pexels · Textures and 3D: Poly Haven (CC0) · Design sample by <a href="../../index.html">Abhishek</a></p></div>
+  <div class="wrap ft-bot"><p>© Ashlar &amp; Co. A portfolio project by <a href="../../index.html">Abhishek</a> · Photos: Unsplash · Video: Pexels · Textures and 3D: Poly Haven (CC0)</p></div>
 </footer>
 </body>
 </html>

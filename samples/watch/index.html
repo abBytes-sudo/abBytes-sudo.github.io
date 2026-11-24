@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ghatika · Mechanical watches made by hand in Udaipur</title>
+<meta name="description" content="Ghatika makes 300 hand-finished mechanical watches a year in Udaipur. Take a Prahar apart in 3D, configure your own, and book a viewing.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Ghatika">
+<meta property="og:title" content="Ghatika · The hour, held by hand">
+<meta property="og:description" content="Ghatika makes 300 hand-finished mechanical watches a year in Udaipur. Take a Prahar apart in 3D, configure your own, and book a viewing.">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/watch/">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/watch/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="A Ghatika Prahar watch with a blue guilloché dial, coming apart into its crystal, dial, movement and strap">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Ghatika · The hour, held by hand"><meta name="twitter:description" content="Ghatika makes 300 hand-finished mechanical watches a year in Udaipur. Take a Prahar apart in 3D, configure your own, and book a viewing."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/watch/og.jpg">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0d0d0f">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" href="fonts/prata.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="img/poster-m.webp" as="image" media="(max-aspect-ratio: 4/5)" fetchpriority="high">
+<link rel="preload" href="img/poster.webp" as="image" media="(min-aspect-ratio: 4.01/5)" fetchpriority="high">
+<link rel="stylesheet" href="watch.min.css?v=9">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="../assets/vendor/SplitText.min.js" defer></script>
+<script src="../assets/vendor/lenis.min.js" defer></script>
+<script src="../assets/motion.js?v=1" defer></script>
+<script src="data.js?v=9" defer></script>
+<script src="app.js?v=9" defer></script>
+<script src="home.js?v=9" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+<script src="concierge.js?v=9" defer data-agent="watch" data-skin="concierge.css?v=9" data-brand="gh" data-title="Ghatika concierge" data-sub="Replies from the atelier, Udaipur" data-label="Ask the concierge" data-nudge="watch,index,collection" data-v="9"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<header class="hdr">
+  <a class="logo" href="index.html" aria-label="Ghatika, home"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="#c9a25a" stroke-width="1.2"/><path d="M6.5 13.5h19a9.5 9.5 0 0 1-19 0z" fill="#c9a25a"/><circle cx="16" cy="26.6" r="1.3" fill="#c9a25a"/></svg>GHATIKA</a>
+  <nav class="nav" aria-label="Main"><a class="ul" href="collection.html">Collection</a><a class="ul" href="watch.html?m=prahar">Configure</a><a class="ul" href="craft.html">Craft</a><a class="ul" href="boutiques.html">Boutiques</a><a class="ul" href="journal.html">Journal</a></nav>
+  <div class="hdr-r">
+    <a class="btn sm ghost" href="boutiques.html#book">Book a viewing</a>
+    <a class="bagbtn" href="checkout.html" data-open-bag aria-label="Open your bag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="t">Bag</span><span class="n" data-bag-n hidden>0</span></a>
+    <button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  </div>
+</header>
+<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="collection.html">Collection</a><a href="watch.html?m=prahar">Configure</a><a href="craft.html">Craft</a><a href="boutiques.html">Boutiques</a><a href="journal.html">Journal</a><a href="boutiques.html#book">Book a viewing</a><a href="service.html">Care and service</a></nav><p class="k">Client care</p><nav aria-label="Client care" style="display:grid"><a href="warranty.html" style="font-size:1.3rem">Register a warranty</a><a href="service.html#track" style="font-size:1.3rem">Track a service ticket</a><a href="staff.html" style="font-size:1.3rem">Staff</a></nav></div>
+<main id="main">
+<section class="reveal studio-bg" id="reveal" aria-labelledby="h1">
+  <div class="reveal-stage" id="stage">
+    <picture><source media="(max-aspect-ratio: 4/5)" srcset="img/poster-m.webp"><img class="poster" src="img/poster.webp" alt="" width="1800" height="1100" fetchpriority="high"></picture>
+    <canvas id="watch3d" role="img" aria-label="A live 3D model of the Ghatika Prahar. As you scroll it comes apart into crystal, hands, dial, case, movement and strap, then closes again."></canvas>
+    <div class="callouts" id="callouts" aria-hidden="true"><svg id="leaders"></svg></div>
+    <div class="hero-top"><p class="k">Udaipur · since 2019 · <b>300 watches a year</b></p><p class="k">On the bench today: <b>Prahar No. 0128</b></p></div>
+    <div class="chapters" id="chapters" aria-hidden="true"><span class="on">The watch</span><span>Crystal, hands</span><span>Dial</span><span>Case</span><span>Movement</span><span>Strap, back</span><span>Closed</span></div>
+    <div class="hero-copy" id="heroCopy">
+      <h1 id="h1" class="disp">The hour, <span class="l2">held by hand.</span></h1>
+      <div class="hero-side">
+        <p>Ghatika makes three hundred mechanical watches a year in Udaipur. One watchmaker, thirty-eight days, every part finished by hand. Scroll, and take one apart.</p>
+        <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center"><a class="btn" data-magnetic href="watch.html?m=prahar">Configure Prahar <span class="ar" aria-hidden="true">→</span></a><span class="scrollcue k" aria-hidden="true"><i></i>Scroll</span></div>
+      </div>
+    </div>
+    <div class="reveal-end" id="revealEnd"><p class="k br">Thirty-eight days later</p><p class="h2" style="margin:12px 0 28px">And then it closes.</p><a class="btn" href="watch.html?m=prahar" tabindex="-1" id="endCta">Make it yours <span class="ar" aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+<ol class="reveal-list" id="revealList" aria-label="Inside a Ghatika Prahar">
+  <li><span class="ring" data-n="I" aria-hidden="true"></span>
+      <h2 class="h3">Domed sapphire</h2><p>A 1.1 mm dome, anti-reflective on the inside only, so the outside never scuffs cloudy.</p></li>
+  <li><span class="ring" data-n="II" aria-hidden="true"></span>
+      <h2 class="h3">Dauphine, faceted</h2><p>Two facets per hand, polished on a tin wheel until they catch the light from any angle.</p></li>
+  <li><span class="ring" data-n="III" aria-hidden="true"></span>
+      <h2 class="h3">Lehariya guilloché</h2><p>Cut in 120 passes on a 1931 rose engine. The waves come from the monsoon turbans of Mewar.</p></li>
+  <li><span class="ring" data-n="IV" aria-hidden="true"></span>
+      <h2 class="h3">39 mm, 9.8 mm thin</h2><p>Brushed flanks, a polished bevel, and lugs that curve down to meet the wrist.</p></li>
+  <li><span class="ring" data-n="V" aria-hidden="true"></span>
+      <h2 class="h3">Six beats a second</h2><p>A free-sprung balance regulated in five positions, to within four seconds a day.</p></li>
+  <li><span class="ring" data-n="VI" aria-hidden="true"></span>
+      <h2 class="h3">Finished by hand</h2><p>Côtes de Genève, bevelled edges, blued screws and 21 rubies. Four hours of bevelling alone.</p></li>
+  <li><span class="ring" data-n="VII" aria-hidden="true"></span>
+      <h2 class="h3">Vegetable-tanned calf</h2><p>Cut and saddle-stitched in Jodhpur. It softens to your wrist in about a month.</p></li>
+  <li><span class="ring" data-n="VIII" aria-hidden="true"></span>
+      <h2 class="h3">Numbered, signed inside</h2><p>Sapphire, so the movement stays on show. Your watchmaker’s initials sit beneath it.</p></li>
+</ol>
+
+<section class="ghati paper" id="ghati" aria-labelledby="ghati-h">
+  <div class="ghati-copy">
+    <span class="ring" data-n="XII" aria-hidden="true"></span>
+      <h2 id="ghati-h" class="h2" data-split>Twenty-four minutes, measured by a bowl.</h2>
+    <p>Before clock towers, India kept time with a ghati: a copper bowl with a hole the width of a hair, floated on water. It fills, and sinks, in exactly one ghatika. Someone lifts it out, empties it and strikes a gong.</p>
+    <p>A watch is the same idea, made small: energy let go at a steady rate, and counted. We named the maison after the bowl because both only work if someone takes care of them.</p>
+    <div class="ghati-stats">
+      <div><b><span data-count="24">24</span> min</b><span>one ghatika</span></div>
+      <div><b data-count="60">60</b><span>ghatikas in a day and night</span></div>
+      <div><b><span data-count="38">38</span> days</b><span>to make one watch</span></div>
+    </div>
+  </div>
+  <figure class="ghati-art" aria-labelledby="ghati-cap">
+    <svg viewBox="0 0 420 420" role="img" aria-label="Illustration: a copper bowl floating in a tub of water, slowly sinking as it fills">
+      <defs><linearGradient id="cu" x1="0" x2="1"><stop offset="0" stop-color="#8a4a26"/><stop offset=".45" stop-color="#d0875a"/><stop offset="1" stop-color="#6d3418"/></linearGradient>
+        <clipPath id="tub"><rect x="40" y="150" width="340" height="230" rx="4"/></clipPath></defs>
+      <rect x="40" y="150" width="340" height="230" rx="4" fill="none" stroke="#0d0d0f" stroke-opacity=".28"/>
+      <g clip-path="url(#tub)"><path id="water" d="M40 196 Q 125 188 210 196 T 380 196 V 380 H 40 Z" fill="#28477a" fill-opacity=".16"/></g>
+      <g id="bowl" transform="translate(0 0)">
+        <path d="M150 190 h120 a60 52 0 0 1 -120 0z" fill="url(#cu)"/>
+        <ellipse cx="210" cy="190" rx="60" ry="9" fill="#5a2a12"/>
+        <ellipse id="fill" cx="210" cy="198" rx="40" ry="5" fill="#28477a" fill-opacity=".55"/>
+        <circle cx="210" cy="242" r="1.8" fill="#0d0d0f"/>
+      </g>
+      <g font-family="Inter Tight, sans-serif" font-size="11" letter-spacing="2" fill="#645e55"><text x="40" y="404">0 MIN</text><text x="380" y="404" text-anchor="end">24 MIN</text></g>
+      <rect x="40" y="410" width="340" height="1" fill="#0d0d0f" fill-opacity=".18"/><rect id="tbar" x="40" y="410" width="0" height="1.6" fill="#7a5c22"/>
+      <text id="tmin" x="210" y="120" text-anchor="middle" font-family="Bodoni Moda, serif" font-size="56" fill="#0d0d0f">00:00</text>
+    </svg>
+    <figcaption id="ghati-cap" class="k">The ghati, after a 12th-century description. It sinks as you scroll.</figcaption>
+  </figure>
+</section>
+
+<div class="caliper" data-m="24 minutes · one ghatika" aria-hidden="true"></div>
+<div class="marq" data-marquee aria-hidden="true"><div><span>Cut by hand</span><b>·</b><span>Wound by hand</span><b>·</b><span>Regulated in five positions</span><b>·</b><span>Numbered, three hundred a year</span><b>·</b><span>Made in Udaipur</span><b>·</b><span>Cut by hand</span><b>·</b><span>Wound by hand</span><b>·</b><span>Regulated in five positions</span><b>·</b><span>Numbered, three hundred a year</span><b>·</b><span>Made in Udaipur</span><b>·</b></div></div>
+
+<section class="sec" aria-labelledby="col-h">
+  <div class="sec-h"><span class="ring" data-n="II" aria-hidden="true"></span><h2 id="col-h" class="h2" data-split>Three watches. No more.</h2><p>We make one hand-wound, one moon and one traveller. Each is built to order around the dial, metal and strap you choose, and engraved on the back if you wish.</p></div>
+  <div class="models" id="models" data-stagger="0.12"></div>
+</section>
+
+<section class="sec" aria-labelledby="cfg-h" style="padding-top:0">
+  <div class="tease">
+    <div class="tease-art" id="teaseArt"><img id="teaseImg" src="img/dial-pichola.webp" alt="Prahar with a Pichola blue dial" width="1200" height="825" loading="lazy" decoding="async"></div>
+    <div class="tease-copy">
+      <span class="ring" data-n="IV" aria-hidden="true"></span>
+      <h2 id="cfg-h" class="h2">Five dials. One is yours.</h2>
+      <p class="muted">Turn it in a studio lit like ours, put it on a wrist your size, and engrave the back. Every combination is made to order in six weeks.</p>
+      <div class="dots" id="teaseDots" role="group" aria-label="Preview a dial colour"></div>
+      <a class="btn" href="watch.html?m=prahar">Open the configurator <span class="ar" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="craft-band paper" aria-labelledby="craft-h">
+  <div class="craft-media arch" data-clip><video data-lazy muted loop playsinline preload="none" poster="video/macro-poster.jpg" data-src="video/macro.mp4" aria-label="Macro film: the balance wheel beating, gears turning and the bridges of calibre GH-01 under a moving light" width="1280" height="960"></video></div>
+  <div class="craft-copy">
+    <span class="ring" data-n="VI" aria-hidden="true"></span>
+      <h2 id="craft-h" class="h2" data-split>One watchmaker, start to finish.</h2>
+    <p>Our watchmakers don’t work on a line. One person finishes, assembles, regulates and cases your watch, and signs it inside the back.</p>
+    <ol class="steps" aria-label="How a Ghatika is made">
+      <li><span>Finish the bridges by hand</span><span>9 days</span></li>
+      <li><span>Cut and lacquer the dial</span><span>8 days</span></li>
+      <li><span>Assemble the calibre</span><span>7 days</span></li>
+      <li><span>Regulate in five positions</span><span>6 days</span></li>
+      <li><span>Case, then a 72-hour run</span><span>4 days</span></li>
+    </ol>
+    <a class="lnk" href="craft.html">How a Ghatika is made <span class="ar" aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<section class="sec bone" aria-labelledby="bq-h">
+  <div class="sec-h"><span class="ring" data-n="VIII" aria-hidden="true"></span><h2 id="bq-h" class="h2" data-split>Come and wind one.</h2><p>Four rooms, one hour each, no obligation. Bring the watch you wear every day and we’ll show you the difference a hand-finished movement makes.</p></div>
+  <div class="bq-list" id="bqList" data-stagger="0.08"></div>
+  <p style="margin-top:var(--s7)"><a class="btn" href="boutiques.html#book">Book a private viewing <span class="ar" aria-hidden="true">→</span></a></p>
+</section>
+
+<section class="sec paper" aria-labelledby="j-h">
+  <div class="sec-h"><span class="ring" data-n="X" aria-hidden="true"></span><h2 id="j-h" class="h2">From the journal</h2><p><a class="lnk" href="journal.html">All stories <span class="ar" aria-hidden="true">→</span></a></p></div>
+  <div class="jgrid" id="jgrid" data-stagger="0.1"></div>
+</section>
+</main>
+<footer class="ftr">
+  <div class="ftr-grid">
+    <div><p class="h3" style="margin-bottom:12px">Letters from the atelier</p><p class="muted" style="max-width:40ch">One letter a season: new dials, bench notes and evenings at the boutiques. Never more.</p>
+      <form class="news" data-news novalidate><label class="sr" for="nl">Email address</label><input id="nl" type="email" placeholder="Your email" autocomplete="email"><button type="submit">Subscribe</button></form></div>
+    <div><h2>Watches</h2><ul><li><a class="ul" href="watch.html?m=prahar">Prahar</a></li><li><a class="ul" href="watch.html?m=nimisha">Nimisha</a></li><li><a class="ul" href="watch.html?m=yantra">Yantra</a></li><li><a class="ul" href="collection.html">Compare all three</a></li></ul></div>
+    <div><h2>Maison</h2><ul><li><a class="ul" href="craft.html">Craftsmanship</a></li><li><a class="ul" href="journal.html">Journal</a></li><li><a class="ul" href="boutiques.html">Boutiques</a></li><li><a class="ul" href="staff.html">Staff</a></li></ul></div>
+    <div><h2>Client care</h2><ul><li><a class="ul" href="boutiques.html#book">Book a viewing</a></li><li><a class="ul" href="warranty.html">Register a warranty</a></li><li><a class="ul" href="service.html">Service request</a></li><li><a class="ul" href="service.html#track">Track a ticket</a></li><li><a class="ul" href="legal.html">Terms, privacy, returns</a></li></ul></div>
+  </div>
+  <svg class="wordmark" viewBox="0 0 1240 180" aria-hidden="true" focusable="false"><text x="620" y="160" text-anchor="middle">GHATIKA</text></svg>
+  <div class="ftr-base"><span>© 2026 Ghatika, Udaipur. A portfolio project by Abhishek.</span><span>Watches modelled in three.js · Studio light: Poly Haven · Photographs: Unsplash</span></div>
+</footer>
+</body>
+</html>

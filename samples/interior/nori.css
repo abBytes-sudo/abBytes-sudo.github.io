@@ -197,3 +197,5 @@ html.motion-off .hero h1{opacity:1;animation:none}
 @media print{.demo,header{display:none}}
 
 @media(max-width:600px){.nav .bk{display:none}.mbtn{margin-left:auto}}
+/* concierge hook (opens the scripted chat at the booking step) */
+.b-l .cg-hook{margin-top:14px!important}.cg-hook a{color:#E5C9A8;display:inline-block;padding:8px 0}

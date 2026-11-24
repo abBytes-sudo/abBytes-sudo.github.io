@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Stockroom · Inventory for Halden Supply</title>
+<meta name="description" content="Stockroom runs inventory for Halden Supply, a furniture and lighting distributor: bins across two warehouses, a stock ledger with FIFO valuation, purchase and sales orders, camera barcode scanning and reservations from Lumen CRM.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stockroom · inventory that knows what the CRM just sold">
+<meta property="og:description" content="Bins, a FIFO stock ledger, purchase orders, pick lists, camera barcode scanning and reservations from won CRM deals.">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/stockroom/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/stockroom/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F6F4EF">
+<link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="stockroom.css?v=66">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<style>
+  html, body { margin: 0; height: 100%; background: var(--paper); }
+  body { overflow: hidden; }
+  .demo { height: 28px; display: flex; align-items: center; justify-content: center; gap: 6px; font: 500 11.5px/1 var(--f); color: var(--ink-2); background: var(--paper-2); border-bottom: 1px solid var(--rule); padding: 0 12px; white-space: nowrap; overflow: hidden; }
+  .demo a { color: var(--ink); }
+  .demo .back-top { padding: 0; }
+  .shell { height: calc(100vh - 28px); height: calc(100dvh - 28px); }
+  .skip { position: absolute; left: 8px; top: -60px; z-index: 100; background: var(--ink); color: #fff; padding: 10px 14px; border-radius: 6px; }
+  .skip:focus { top: 8px; }
+  body { --to-home-bottom: 16px; }
+  @media (max-width: 860px) { .to-home { display: none; } .demo { font-size: 11px; gap: 4px; } .demo .about { display: none; } }
+</style>
+<script src="data.js?v=66" defer></script>
+<script src="engine.js?v=66" defer></script>
+<script src="code128.js?v=66" defer></script>
+<script src="views.js?v=66" defer></script>
+<script src="app.js?v=66" defer></script>
+<script src="boot.js?v=66" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body class="sr-ui">
+<div class="demo" role="note">Portfolio project by Abhishek <span class="about">· <a href="product.html">About Stockroom</a></span></div>
+<a class="skip" href="#view">Skip to content</a>
+<div class="shell">
+  <aside class="side" id="side" aria-label="Sidebar">
+    <a class="ws" href="#/overview"><span class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h14M5 12h9.5M5 17.5h12" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span><span><b>Stockroom</b><small>Halden Supply</small></span></a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#/overview" data-nav="overview"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 3.5h7v7h-7zM13.5 3.5h7v4h-7zM13.5 10.5h7v10h-7zM3.5 13.5h7v7h-7z"/></svg>Today</a>
+      <a href="#/items" data-nav="items"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9zM4 7.5 12 12l8-4.5M12 12v9"/></svg>Items<span class="n" data-badge="items" hidden></span></a>
+      <a href="#/locations" data-nav="locations"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20.5V9l9-5.5L21 9v11.5M7 20.5V13h10v7.5M7 16.8h10"/></svg>Locations</a>
+      <div class="grp">Warehouse</div>
+      <a href="#/receive" data-nav="receive"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>Receive<span class="n" data-badge="purchasing-open" hidden></span></a>
+      <a href="#/sales" data-nav="sales"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 6.5h11v9h-11zM13.5 9.5h4l3 3.2v2.8h-7M6.5 18.5a1.8 1.8 0 1 0 0-.01M17 18.5a1.8 1.8 0 1 0 0-.01"/></svg>Pick and pack<span class="n" data-badge="sales" hidden></span></a>
+      <a href="#/count" data-nav="count"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14v15H5zM8.5 9h7M8.5 13h7M8.5 17h4"/></svg>Count</a>
+      <a href="#/scan" data-nav="scan"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16M8 9v6M11 9v6M13.5 9v6M16.5 9v6"/></svg>Scan</a>
+      <div class="grp">Buying</div>
+      <a href="#/purchasing" data-nav="purchasing"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3.5h6v3H9zM7.5 5H5v15.5h14V5h-2.5M8.5 11.5h7M8.5 15.5h4.5"/></svg>Purchase orders<span class="n" data-badge="purchasing" hidden></span></a>
+      <a href="#/labels" data-nav="labels"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1 1 0 0 1 0 1.4l-7.3 7.3a1 1 0 0 1-1.4 0zM8 8h.01"/></svg>Labels</a>
+      <div class="grp">More detail</div>
+      <a href="#/ledger" data-nav="ledger"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>Stock ledger</a>
+      <a href="#/reports" data-nav="reports"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V11M10 20V5M16 20v-6M2.5 20.5h19"/></svg>Reports</a>
+    </nav>
+    <div class="side-foot">
+      <div class="link-card"><div class="t"><span class="crm" style="padding:0;background:none"><i aria-hidden="true"></i></span>Lumen CRM</div><div style="display:flex;align-items:center;gap:7px"><span class="dot" id="crm-dot"></span><span id="crm-state">Listening for won deals</span></div><a href="../crm/">Open the CRM →</a></div>
+      <div class="foot-links"><button type="button" data-act="tour">Help &amp; tour</button><button type="button" data-act="keys">Shortcuts <span class="kbd">?</span></button><a href="product.html">About</a><a href="system.html">Design system</a></div>
+      <div class="me"><span class="av" aria-hidden="true">MR</span><span><b>Meera Rao</b><small>Inventory lead · <button type="button" class="linkish" data-act="reset">Start fresh</button></small></span></div>
+    </div>
+  </aside>
+  <div class="side-scrim" id="side-scrim"></div>
+  <div class="main">
+    <div class="canvas">
+      <header class="top">
+        <button type="button" class="ibtn menu" data-act="menu" aria-label="Open navigation" aria-controls="side"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <h1 id="title">Overview</h1>
+        <span class="sp"></span>
+        <div class="seg hide-m" role="group" aria-label="Warehouse"><button data-act="wh" data-v="" aria-pressed="true">All</button><button data-act="wh" data-v="BHW" aria-pressed="false">Bhiwandi</button><button data-act="wh" data-v="BLR" aria-pressed="false">Hoskote</button></div>
+        <button type="button" class="cmdk-btn" data-act="cmdk" aria-label="Search ⌘K"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 17.5a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20.5 20.5l-4.6-4.6"/></svg><span class="lbl">Search</span><kbd>⌘K</kbd></button>
+        <a class="btn primary" href="#/scan" aria-label="Scan a barcode"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16M8 9v6M11 9v6M13.5 9v6M16.5 9v6"/></svg><span class="hide-m">Scan</span></a>
+        <div class="newwrap"><button type="button" class="btn newbtn" data-act="newmenu" aria-label="New" aria-haspopup="true" aria-expanded="false" aria-controls="newmenu"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="hide-m">New</span></button>
+          <div class="menu newmenu" id="newmenu" role="menu" hidden>
+            <button type="button" role="menuitem" data-act="new-po">Purchase order <span class="kbd">N</span></button>
+            <button type="button" role="menuitem" data-act="new-receive">Receive a delivery</button>
+            <button type="button" role="menuitem" data-act="new-count">Cycle count</button>
+            <button type="button" role="menuitem" data-act="new-adjust">Stock adjustment…</button>
+            <button type="button" role="menuitem" data-act="new-transfer">Transfer between bins…</button>
+            <hr><button type="button" role="menuitem" data-act="new-deal">Add a won deal from Lumen</button>
+          </div></div>
+        <span class="av topav hide-m" title="Meera Rao · Inventory lead">MR</span>
+      </header>
+      <main id="view" tabindex="-1"><div class="page skel" role="status" aria-busy="true" aria-label="Loading"><div class="sk sk-h"></div><div class="sk-row"><div class="sk sk-pill"></div><div class="sk sk-pill"></div><div class="sk sk-pill"></div><div class="sk sk-pill"></div></div><div class="sk-grid"><div class="sk sk-card"></div><div class="sk sk-card"></div></div><div class="sk sk-line"></div><div class="sk sk-line"></div><div class="sk sk-line"></div><div class="sk sk-line short"></div><p class="skel-slow">Taking longer than usual. <a href="index.html">Reload Stockroom</a></p></div></main>
+    </div>
+  </div>
+</div>
+<div class="sheet-wrap" id="sheet-wrap"><div class="sheet-scrim" id="sheet-scrim"></div><section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-t"></section></div>
+<dialog class="modal" id="modal" aria-label="Dialog"></dialog>
+<div class="bulk" id="bulk" role="toolbar" aria-label="Bulk actions" hidden></div>
+<nav class="tabbar" aria-label="Warehouse">
+  <a href="#/overview" data-nav="overview"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 3.5h7v7h-7zM13.5 3.5h7v4h-7zM13.5 10.5h7v10h-7zM3.5 13.5h7v7h-7z"/></svg>Today</a>
+  <a href="#/pick" data-nav="pick"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5zM3.5 7.5 12 12l8.5-4.5M12 12v9"/></svg>Pick<span class="n" data-badge="sales" hidden></span></a>
+  <a href="#/scan" data-nav="scan" class="tb-scan" aria-label="Scan"><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16M8 9v6M11 9v6M13.5 9v6M16.5 9v6"/></svg></span></a>
+  <a href="#/receive" data-nav="receive"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>Receive<span class="n" data-badge="purchasing-open" hidden></span></a>
+  <a href="#/count" data-nav="count"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14v15H5zM8.5 9h7M8.5 13h7M8.5 17h4"/></svg>Count</a>
+</nav>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div id="print" aria-hidden="true"></div>
+</body>
+</html>

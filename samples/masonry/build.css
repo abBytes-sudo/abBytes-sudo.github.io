@@ -330,3 +330,6 @@ label.f input:focus,label.f select:focus,label.f textarea:focus{outline:0;border
 }
 @media (max-width:899px){.hd.open .hd-in{position:relative;z-index:2}}
 @media (max-width:899px){.hd nav{font:600 clamp(40px,12vw,64px)/1.05 var(--disp);letter-spacing:.01em;text-transform:uppercase;gap:2px}}
+/* concierge hooks (open the scripted chat at a step) */
+.rb-kit{right:auto;left:18px;display:inline-flex;align-items:center;background:transparent;color:var(--bone);box-shadow:inset 0 0 0 1px rgba(237,231,219,.4)}.rb-kit:hover{background:var(--bone);color:var(--ink)}
+.q-chat{font-size:14px;color:var(--mute);margin-top:4px}.q-chat a{color:#8A3518;text-decoration:underline;text-underline-offset:3px;display:inline-block;padding:10px 0}

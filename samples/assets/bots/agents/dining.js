@@ -218,7 +218,7 @@
     }), parse: function (t, bot, s) { var m = String(t).match(/TR[- ]?(\d{4})/i); return m && findBks(bot, s.key).some(function (b) { return b.ref === 'TR-' + m[1]; }) ? 'TR-' + m[1] : undefined; } };
   }
   function bkLine(b) { return b.ref + ' for ' + b.party + ' ' + onDay(b.date) + ' at ' + tl(b.time); }
-  function reminder(bot, name, s) { bot.say('Reminder preview, simulated and not actually sent: “Hi ' + name.split(' ')[0] + ', your table for ' + s.party + ' at Tamarind Row is ' + dayLong(s.date) + ' at ' + tl(s.time) + '. Reply C to cancel or R to change.” We send it the day before.', { delay: 500 }); }
+  function reminder(bot, name, s) { bot.say('Reminder preview: “Hi ' + name.split(' ')[0] + ', your table for ' + s.party + ' at Tamarind Row is ' + dayLong(s.date) + ' at ' + tl(s.time) + '. Reply C to cancel or R to change.” We send it the day before.', { delay: 500 }); }
   function notifyWait(bot, b) { var w = bot.db('waitlist'), t = TBL.filter(function (x) { return x.id === b.table; })[0], hit = null; w.forEach(function (x) { if (!hit && x.status === 'waiting' && x.date === b.date && Math.abs(idxOf(x.time) - idxOf(b.time)) <= 1 && t && fits(t, x.party)) hit = x; }); if (hit) { hit.status = 'notified'; bot.save('waitlist', w); } return hit; }
 
   /* ---------- menu answers ---------- */
@@ -377,7 +377,7 @@
         wl.push({ ref: ref, name: s.name, phone: s.phone, party: s.party, date: s.date, time: s.time, status: 'waiting', at: Date.now() }); bot.save('waitlist', wl); bot.user.name = s.name; bot.user.phone = s.phone;
         bot.lead({ name: s.name, phone: s.phone, intent: 'waitlist', payload: { ref: ref, party: s.party, date: s.date, time: s.time, estWaitMin: est } }); bot.event('action', { action: 'waitlist_join' });
         bot.say('You are on the waitlist, ' + s.name.split(' ')[0] + '. Reference **' + ref + '**. At ' + tl(s.time) + ' ' + onDay(s.date) + ', ' + (n === 0 ? 'every table that suits ' + s.party + ' is taken' : (tot - n) + ' of the ' + tot + ' tables that suit ' + s.party + ' are taken') + '. ' + (est ? 'If you arrive then, expect a wait of about ' + est + ' minutes.' : 'Tables stay busy for the rest of that service, so I cannot promise a seat, but cancellations do happen.') + ' We will message ' + 'the number ending ' + last4(s.phone) + ' the moment a table opens, and hold it for ten minutes.', { cards: [{ title: 'Waitlist ' + ref, sub: 'Party of ' + s.party + ', ' + dayLong(s.date) + ' around ' + tl(s.time), badge: 'Waiting', meta: [est ? 'Estimated wait: about ' + est + ' minutes' : 'No table expected at that time', 'We message you first'] }], buttons: [B('Show other times', 'intent:table'), B('That is all', 'say:bye')] });
-        bot.say('Message preview, simulated and not actually sent: “Tamarind Row: a table for ' + s.party + ' has opened at ' + tl(s.time) + '. Reply YES in ten minutes to hold it.”', { delay: 500 });
+        bot.say('Message preview: “Tamarind Row: a table for ' + s.party + ' has opened at ' + tl(s.time) + '. Reply YES in ten minutes to hold it.”', { delay: 500 });
       } },
       reschedule: { intent: 'reschedule', slots: [sKey('reschedule'), sWhich('reschedule'), sParty('reschedule', true), sDate('reschedule'), sTime('reschedule'), sFit('reschedule'),
         sConfirm('reschedule', function (bot, s) { var b = getBk(bot, s.which); return 'Move **' + b.ref + '** from ' + dayLong(b.date) + ' at ' + tl(b.time) + ' to ' + dayLong(s.date) + ' at ' + tl(s.time) + ', for ' + s.party + '?'; })

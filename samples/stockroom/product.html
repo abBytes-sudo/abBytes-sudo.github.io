@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Stockroom · inventory that hears the deal close</title>
+<meta name="description" content="Stockroom is inventory software for furniture and lighting distributors: bins, a FIFO stock ledger, purchase orders, pick lists, camera barcode scanning, and stock reserved the moment a deal is won in Lumen CRM.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stockroom · inventory that hears the deal close">
+<meta property="og:description" content="Deal won → stock reserved → picked → dispatched. Inventory that hears the deal close.">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/stockroom/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/stockroom/product.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0D0D0C">
+<link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/vendor/lenis.css">
+<link rel="stylesheet" href="stockroom.css?v=66">
+<link rel="stylesheet" href="product.css?v=67">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="../assets/vendor/SplitText.min.js" defer></script>
+<script src="../assets/vendor/lenis.min.js" defer></script>
+<script src="../assets/motion.js?v=1" defer></script>
+<script src="product.js?v=66" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body class="pp">
+<div class="demo" role="note">Portfolio project by Abhishek</div>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="pnav">
+  <a class="brand" href="product.html" aria-label="Stockroom home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6.5h14M5 12h9.5M5 17.5h12" stroke="#0D0D0C" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>Stockroom</a>
+  <nav aria-label="Page"><a href="#story">How it works</a><a href="#features">Product</a><a href="#spec">Details</a></nav>
+  <a class="cta sm" href="index.html">Open the app</a>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="hero-copy">
+      <p class="slab" data-reveal data-now><i aria-hidden="true"></i><b>BHW-00</b><span>Inventory for furniture and lighting distributors</span></p>
+      <h1 id="hero-h">Inventory that hears the deal close.</h1>
+      <p class="lede" data-reveal data-now data-delay=".25">Stockroom keeps every bin, cost layer and pick list for Halden Supply’s two warehouses, and reserves stock the moment a deal is won in Lumen CRM.</p>
+      <div class="ctas" data-reveal data-now data-delay=".35"><a class="cta" href="index.html" data-magnetic>Open Stockroom <span aria-hidden="true">→</span></a><a class="cta ghost" href="#story">See a deal go out the door</a></div>
+    </div>
+    <figure class="hero-ui" id="hero-ui">
+      <div class="tilt" id="tilt"><div class="frame" id="frame" inert><div class="frame-in sr-ui" id="frame-in"></div></div></div>
+      <figcaption>The real app, rendered live. Not a screenshot.</figcaption>
+    </figure>
+  </section>
+
+  <section class="facts" aria-label="Stockroom in numbers">
+    <div><b data-fact="skus">20</b><span>SKUs with variants, photos and units of measure</span></div>
+    <div><b data-fact="bins">36</b><span>bin locations across Bhiwandi and Hoskote</span></div>
+    <div><b data-fact="moves">800+</b><span>ledger movements, each with a running balance</span></div>
+    <div><b data-fact="value">₹31 L</b><span>of stock valued at FIFO cost</span></div>
+  </section>
+
+  <!-- signature moment: pinned and scrubbed -->
+  <section class="story" id="story" aria-labelledby="story-h">
+    <div class="story-pin" id="story-pin">
+      <div class="story-copy">
+        <p class="slab"><i aria-hidden="true"></i><b>SO-2262</b><span>One deal, four beats</span></p>
+        <h2 id="story-h">From won to on the truck.</h2>
+        <ol class="beats" id="beats">
+          <li class="on"><span class="bn">01</span><div><b>Deal won</b><p>Saffron Residences signs for their clubhouse lounge in Lumen CRM. Nobody re-types the order.</p></div></li>
+          <li><span class="bn">02</span><div><b>Stock reserved</b><p>Stockroom reads the won deal and holds 18 units. The oak chairs dip under their reorder point, so the draft PO grows on its own.</p></div></li>
+          <li><span class="bn">03</span><div><b>Picked</b><p>The pick list follows the walk order of the bins. Scan each label and the line ticks itself off.</p></div></li>
+          <li><span class="bn">04</span><div><b>Dispatched</b><p>Stock leaves at FIFO cost, the ledger records every unit, and the CRM sees the new availability.</p></div></li>
+        </ol>
+        <div class="rail" aria-hidden="true"><i id="rail"></i></div>
+      </div>
+
+      <div class="stage sr-ui" id="stage" aria-label="Illustration of the four beats">
+        <!-- Lumen CRM deal card -->
+        <article class="deal" id="deal">
+          <header><span class="crm"><i aria-hidden="true"></i>Lumen CRM</span><span class="sp"></span><span class="stagepill" id="deal-stage"><span class="s1">Proposal</span><span class="s2">Won</span></span></header>
+          <h3>Saffron Residences</h3>
+          <p class="muted">Clubhouse lounge · ₹2,79,200</p>
+          <ul class="deal-lines">
+            <li><img class="thumb xs" src="photos/t/hs-ch-001.jpg" alt="" width="22" height="22"><span>12 × Oak dining chair</span><em class="sync"><span class="a">26 in stock</span><span class="b">14 left</span></em></li>
+            <li><img class="thumb xs" src="photos/t/hs-tb-006.jpg" alt="" width="22" height="22"><span>2 × Oak dining table, 220 cm</span><em class="sync"><span class="a">3 in stock</span><span class="b">1 left</span></em></li>
+            <li><img class="thumb xs" src="photos/t/hs-lt-014.jpg" alt="" width="22" height="22"><span>4 × Brass pendant lamp</span><em class="sync"><span class="a">6 in stock</span><span class="b">2 left</span></em></li>
+          </ul>
+          <div class="deal-foot"><span class="dl-owner"><span class="av" aria-hidden="true">AK</span>Aarav · close date today</span><span class="dl-btn" id="won-btn"><span class="w1">Mark as won</span><span class="w2"><svg class="ic sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Won</span></span></div>
+          <div class="deal-sync" id="deal-sync"><span class="dot on"></span><span class="ds1">Sent to Stockroom · 18 units reserved</span><span class="ds2">Stock synced from Stockroom · just now</span></div>
+        </article>
+        <span class="cursor" id="cursor" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6.2 1.6L10 19z" fill="#fff" stroke="#17171A" stroke-width="1.4" stroke-linejoin="round"/></svg><i class="ripple"></i></span>
+
+        <svg class="wire" id="wire" viewBox="0 0 120 200" preserveAspectRatio="none" aria-hidden="true"><path id="wire-p" d="M0 100 C 60 100, 60 100, 120 100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4" vector-effect="non-scaling-stroke"/></svg>
+        <span class="packet p1" aria-hidden="true"></span><span class="packet p2" aria-hidden="true"></span><span class="packet p3" aria-hidden="true"></span><span class="packet back" aria-hidden="true"></span>
+
+        <!-- Stockroom panel with three scenes -->
+        <article class="sr-panel">
+          <header><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6.5h14M5 12h9.5M5 17.5h12" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span><b>Stockroom</b><span class="sc-title" aria-hidden="true"><span class="t1">Items</span><span class="t2">Pick list</span><span class="t3">Dispatch</span></span><span class="sp"></span><span class="mono faint" id="so-id">SO-2262</span></header>
+
+          <div class="scene sc-res" id="sc-res">
+            <div class="listen" id="listen"><span class="pulse" aria-hidden="true"></span><span class="l1">Listening for won deals in Lumen CRM</span><span class="l2">Won deal received · <b class="mono">SO-2262</b> reserved in 0.4 s</span></div>
+            <table class="tbl">
+              <thead><tr><th>Item</th><th class="num">Reserved</th><th class="num">Available</th></tr></thead>
+              <tbody>
+                <tr><td><div class="it"><img class="thumb" src="photos/t/hs-ch-001.jpg" alt="" width="32" height="32"><span><b>Oak dining chair</b><small>HS-CH-001</small></span></div></td><td class="num"><span class="resv"><span class="crm"><i aria-hidden="true"></i>12</span></span></td><td class="num"><b class="cnt" data-from="26" data-to="14">26</b><span class="lowflag pill low">Below reorder</span></td></tr>
+                <tr><td><div class="it"><img class="thumb" src="photos/t/hs-tb-006.jpg" alt="" width="32" height="32"><span><b>Oak dining table, 220 cm</b><small>HS-TB-006</small></span></div></td><td class="num"><span class="resv"><span class="crm"><i aria-hidden="true"></i>2</span></span></td><td class="num"><b class="cnt" data-from="3" data-to="1">3</b></td></tr>
+                <tr><td><div class="it"><img class="thumb" src="photos/t/hs-lt-014.jpg" alt="" width="32" height="32"><span><b>Brass pendant lamp</b><small>HS-LT-014</small></span></div></td><td class="num"><span class="resv"><span class="crm"><i aria-hidden="true"></i>4</span></span></td><td class="num"><b class="cnt" data-from="6" data-to="2">6</b></td></tr>
+              </tbody>
+            </table>
+            <div class="po-toast" id="po-toast"><span class="mv adjustment"><b><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.8 19.5h18.4zM12 10v4M12 17h.01"/></svg></b></span><div><b>Draft PO updated</b><span>+24 Oak dining chairs · Kaveri Woodcraft · one click to approve</span></div></div>
+          </div>
+
+          <div class="scene sc-pick" id="sc-pick">
+            <div class="mini-floor">
+              <svg class="route" id="route-svg" aria-hidden="true"><path id="route" d="M0 0" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="mrow"><span class="mz">A</span><i class="b hit" data-k="1">A-01</i><i class="b">A-02</i><i class="b">A-03</i><i class="b hit" data-k="3">A-04</i><i class="b">A-05</i><i class="b">A-06</i></div>
+              <div class="mrow"><span class="mz">B</span><i class="b">B-01</i><i class="b hit" data-k="2">B-02</i><i class="b">B-03</i><i class="b">B-04</i><i class="b">B-05</i><i class="b">B-06</i></div>
+            </div>
+            <ul class="picks">
+              <li data-k="1"><span class="tick" aria-hidden="true"></span><span class="mono">BHW-A-01</span><span>Oak dining chair</span><b>× 12</b></li>
+              <li data-k="2"><span class="tick" aria-hidden="true"></span><span class="mono">BHW-B-02</span><span>Brass pendant lamp</span><b>× 4</b></li>
+              <li data-k="3"><span class="tick" aria-hidden="true"></span><span class="mono">BHW-A-04</span><span>Oak dining table, 220 cm</span><b>× 2</b></li>
+            </ul>
+            <div class="scanlabel" aria-hidden="true"><canvas data-bc="HS-CH-001" width="240" height="70"></canvas><i class="beam"></i></div>
+          </div>
+
+          <div class="scene sc-out" id="sc-out">
+            <div class="ship" id="ship"><span class="truck" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><path d="M2.5 6.5h11v9h-11zM13.5 9.5h4l3 3.2v2.8h-7M6.5 18.5a1.8 1.8 0 1 0 0-.01M17 18.5a1.8 1.8 0 1 0 0-.01"/></svg></span><div><b>On the truck</b><span>Saffron Residences · Bhiwandi → Thane</span></div><span class="mono">HLD284163</span></div>
+            <div class="track"><div class="on"><b>Reserved</b>10:02</div><div class="on"><b>Picking</b>10:40</div><div class="on"><b>Picked</b>11:05</div><div class="now"><b>Dispatched</b>11:20</div></div>
+            <dl class="kv"><dt>Cost of goods · FIFO</dt><dd data-fill="cogs">₹1,05,960</dd></dl>
+            <table class="tbl ledger-mini">
+              <thead><tr><th>Ledger</th><th class="num">Qty</th><th class="num">Unit cost</th><th class="num">Balance</th></tr></thead>
+              <tbody>
+                <tr><td><span class="mv sale"><b><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V8M7 12.5l5-5 5 5M5 4h14"/></svg></b>HS-CH-001</span></td><td class="num neg">−12</td><td class="num" data-fill="c1">₹6,346</td><td class="num">19</td></tr>
+                <tr><td><span class="mv sale"><b><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V8M7 12.5l5-5 5 5M5 4h14"/></svg></b>HS-TB-006</span></td><td class="num neg">−2</td><td class="num" data-fill="c2">₹37,050</td><td class="num">1</td></tr>
+                <tr><td><span class="mv sale"><b><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V8M7 12.5l5-5 5 5M5 4h14"/></svg></b>HS-LT-014</span></td><td class="num neg">−4</td><td class="num" data-fill="c3">₹5,320</td><td class="num">7</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features" aria-labelledby="feat-h">
+    <div class="sec-h"><p class="slab" data-reveal><i aria-hidden="true"></i><b>A-01</b><span>The product</span></p><h2 id="feat-h" data-split>Built like a ledger, used like a phone.</h2></div>
+
+    <div class="bento">
+      <article class="b-wide" data-reveal>
+        <div class="b-copy"><h3>A stock ledger you can audit</h3><p>Every receipt, transfer, sale and adjustment is a line with a reason, a bin, a running balance and the FIFO cost it consumed. Valuation is never a guess at month end.</p></div>
+        <div class="b-ui sr-ui" id="f-ledger"></div>
+      </article>
+      <article data-reveal>
+        <div class="b-copy"><h3>Low stock drafts the PO</h3><p>When an item crosses its reorder point, Stockroom adds it to the supplier’s draft, sized in their buying unit. You approve with one click.</p></div>
+        <div class="b-ui sr-ui po-demo" id="f-po"></div>
+      </article>
+      <article data-reveal>
+        <div class="b-copy"><h3>Scan with the phone you have</h3><p>Code 128 labels are drawn in the browser. The camera reads them with the built-in barcode detector, with a typed fallback everywhere else.</p></div>
+        <div class="b-ui sr-ui phone"><div class="phone-in"><div class="cam-mini"><canvas data-bc="HS-LT-014" width="240" height="70"></canvas><i class="beam"></i></div><div class="phone-res"><img class="thumb" src="photos/t/hs-lt-014.jpg" alt="" width="32" height="32" loading="lazy"><span><b>Brass pendant lamp</b><small class="mono">HS-LT-014 · BHW-B-02</small></span></div></div></div>
+      </article>
+      <article data-reveal>
+        <div class="b-copy"><h3>Two warehouses, every bin</h3><p>A floor plan per warehouse shows what sits where and how full each bin is. Transfers carry their cost layers with them.</p></div>
+        <div class="b-ui sr-ui" id="f-bins"></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="spec" id="spec" aria-labelledby="spec-h">
+    <div class="sec-h"><p class="slab" data-reveal><i aria-hidden="true"></i><b>A-02</b><span>Details</span></p><h2 id="spec-h" data-split>Feature depth of a real system.</h2></div>
+    <dl class="speclist" data-stagger>
+      <div><dt>Items and variants</dt><dd>Families with variants (finish, size, colour), photos, dimensions and weight, supplier, cost and list price.</dd></div>
+      <div><dt>Units of measure</dt><dd>Sell by the piece or pack, buy by the carton or box; receipts convert automatically.</dd></div>
+      <div><dt>Bins</dt><dd>36 locations in pallet racking, shelving and textile zones; stock by bin and bin-to-bin moves.</dd></div>
+      <div><dt>Valuation</dt><dd>FIFO cost layers per warehouse; every outbound movement records the cost it consumed.</dd></div>
+      <div><dt>Purchasing</dt><dd>Drafts from reorder points, approval, expected dates, late flags and partial goods receipts.</dd></div>
+      <div><dt>Sales</dt><dd>Reservations, backorders, transfers to cover shortfalls, pick lists in walk order and dispatch with margin.</dd></div>
+      <div><dt>Barcodes</dt><dd>Item, bin and order labels; camera scanning with BarcodeDetector; pick-by-scan.</dd></div>
+      <div><dt>Reports</dt><dd>Stock value by warehouse and category, receipts versus dispatches, slow movers, stock-outs and missed demand.</dd></div>
+      <div><dt>Lumen CRM</dt><dd>Won deals become reserved orders; availability flows back to the deal after every change.</dd></div>
+    </dl>
+  </section>
+
+  <section class="close" aria-labelledby="close-h">
+    <h2 id="close-h" data-split>Open the stockroom.</h2>
+    <p>Everything on this page works in the app: approve the draft PO, receive goods, pick by scanning, dispatch. Then win a deal in Lumen CRM and watch it arrive.</p>
+    <div class="ctas"><a class="cta" href="index.html" data-magnetic>Open Stockroom <span aria-hidden="true">→</span></a><a class="cta ghost" href="../crm/">Open Lumen CRM</a><a class="cta ghost" href="system.html">Design system</a></div>
+    <svg class="wordmark" viewBox="0 0 1000 200" aria-hidden="true" focusable="false"><text x="500" y="170" text-anchor="middle" textLength="980" lengthAdjust="spacingAndGlyphs">Stockroom</text></svg>
+  </section>
+</main>
+<footer class="foot"><span>© Stockroom. A portfolio project by Abhishek.</span><span>Photos: Unsplash.</span></footer>
+</body>
+</html>

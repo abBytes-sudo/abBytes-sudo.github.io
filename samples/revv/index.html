@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revv · Certified pre-owned superbikes and cars</title>
+<meta name="description" content="Revv is a marketplace for inspected, certified pre-owned superbikes and cars across India: a 150-point report on every listing, test rides booked online, a 7-day return.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Revv">
+<meta property="og:title" content="Revv · Certified to the last bolt">
+<meta property="og:description" content="Inspect a live 3D car with an x-ray lens, then browse certified superbikes and cars from verified dealers.">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/revv/">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/revv/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="A dark sports car in a studio under an orange inspection lens, with the Revv wordmark">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Revv · Certified to the last bolt"><meta name="twitter:description" content="A live 3D car with an inspection lens, certified listings, test-ride booking and a dealer CRM."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/revv/og.jpg">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A0B0D">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" href="fonts/archivo-sub.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="photos/x-shape.jpg" imagesrcset="photos/x-shape-s.jpg 720w, photos/x-shape.jpg 1600w" imagesizes="100vw" fetchpriority="high">
+<link rel="stylesheet" href="revv.min.css?v=35">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="../assets/vendor/SplitText.min.js" defer></script>
+<script src="../assets/vendor/lenis.min.js" defer></script>
+<script src="../assets/motion.js?v=1" defer></script>
+<script src="data.js?v=10" defer></script>
+<script src="app.js?v=7" defer></script>
+<script src="home.js?v=7" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+<script src="concierge.js?v=1" defer data-agent="revv" data-skin="concierge.css?v=1" data-brand="rv" data-title="Pit crew" data-sub="Revv · instant answers" data-label="Ask the pit crew" data-nudge="vehicle,listings,sell" data-v="3"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<header class="hdr">
+  <a class="logo" href="index.html" aria-label="Revv, home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#FF5B1F"/><path d="M8 24V8h9a5 5 0 0 1 1.6 9.7L23 24h-4.4l-3.9-6H12v6zM12 14.5h4.6a1.75 1.75 0 0 0 0-3.5H12z" fill="#0A0B0D"/></svg>Revv</a>
+  <nav class="nav" aria-label="Main"><a class="ul" href="listings.html">Buy</a><a class="ul" href="listings.html?type=bike">Superbikes</a><a class="ul" href="listings.html?type=car">Cars</a><a class="ul" href="sell.html">Sell</a><a class="ul" href="dealers.html">Dealers</a><a class="ul" href="dealer.html">Dealer login</a></nav>
+  <div class="hdr-r">
+    <a class="pill" href="listings.html?saved=1" aria-label="Saved vehicles"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="n" data-count-wish hidden>0</span></a>
+    <a class="btn sm" data-magnetic href="sell.html">Sell yours <span class="ar" aria-hidden="true">→</span></a>
+    <button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  </div>
+</header>
+<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="listings.html">Buy</a><a href="listings.html?type=bike">Superbikes</a><a href="listings.html?type=car">Cars</a><a href="sell.html">Sell</a><a href="dealers.html">Dealers</a><a href="dealer.html">Dealer login</a><a href="admin.html">Admin</a></nav></div>
+
+<main id="main">
+<!-- 01 · HERO: live 3D car + inspection lens, a three-chapter camera move -->
+<section class="hero" id="hero" aria-labelledby="h1">
+  <div class="hero-stage" id="stage">
+    <img class="hero-poster" src="photos/x-shape.jpg" srcset="photos/x-shape-s.jpg 720w, photos/x-shape.jpg 1600w" sizes="100vw" alt="" width="1600" height="914" fetchpriority="high">
+    <canvas id="car" role="img" aria-label="A live 3D model of a Kestrel GT coupé in a dark studio. Move the pointer over it and an inspection lens reads out the part underneath."></canvas>
+    <div class="hero-shade"></div>
+    <div class="lens-read" id="read" aria-hidden="true" data-on="0"></div>
+    <div class="callout" data-anchor="paint" aria-hidden="true"><span><b>Paint</b> 112 µm · factory</span></div>
+    <div class="callout" data-anchor="wheel" aria-hidden="true"><span><b>Tyres</b> 6.4 mm · even wear</span></div>
+    <div class="callout" data-anchor="brake" aria-hidden="true"><span><b>Brakes</b> discs 0.2 mm · pass</span></div>
+    <div class="callout" data-anchor="glass" aria-hidden="true"><span><b>Glass</b> no chips · pass</span></div>
+    <div class="callout" data-anchor="lamp" aria-hidden="true"><span><b>Lamps</b> aim + seal · pass</span></div>
+    <div class="hero-prog" aria-hidden="true"><span class="on">00 Showroom</span><span>01 Inspected</span><span>02 Certified</span></div>
+    <p class="hero-meta">On the turntable<br><b>2023 Kestrel GT Coupé</b><br>Redline Pre-Owned · Mumbai<br><b>₹68.5 L</b> · 148/150 points</p>
+    <p class="hero-hint" id="hint" aria-hidden="true">Move to inspect</p>
+    <div class="hero-copy" id="hcopy">
+      <h1 class="disp" id="h1" data-split data-now>Certified <span class="l2">to the</span> <span class="ser">last bolt.</span></h1>
+      <div class="hero-sub">
+        <p data-reveal data-now data-delay=".5">Superbikes and cars from verified dealers in eight cities. Every listing is inspected on 150 points, with the report out in the open and a 7-day return.</p>
+        <div class="hero-cta" data-reveal data-now data-delay=".65"><a class="btn" data-magnetic href="listings.html">Browse 21 certified <span class="ar" aria-hidden="true">→</span></a><a class="btn ghost" href="vehicle.html?id=kestrel-gt-carmine">This car, ₹68.5 L</a></div>
+      </div>
+    </div>
+    <div class="chap" aria-hidden="true">
+      <div class="chap-t" id="ch1"><p class="idx">01 · Inspected</p><p class="odo"><span id="odo">0</span></p><p class="disp" style="font-size:clamp(28px,3.2vw,48px)">points. <span class="ser">No guesswork.</span></p><p>Paint depth on every panel, tread on every tyre, a road test with a data logger. Anything that isn't right gets fixed or written down.</p></div>
+      <div class="chap-t r" id="ch2"><p class="idx">02 · Certified</p><p class="disp">The report <span class="ser">travels with it.</span></p><p>You read exactly what our inspector read. If the car or bike isn't what the report says, return it within 7 days.</p></div>
+      <div class="paints" id="paints"><button type="button" style="--c:#a3231a" aria-pressed="true" aria-label="Carmine" data-c="#a3231a"></button><button type="button" style="--c:#2a2c30" aria-pressed="false" aria-label="Graphite" data-c="#2a2c30"></button><button type="button" style="--c:#c9c6bf" aria-pressed="false" aria-label="Pearl" data-c="#c9c6bf" data-f="pearl"></button><button type="button" style="--c:#1d3b5c" aria-pressed="false" aria-label="Deep blue" data-c="#1d3b5c"></button></div>
+    </div>
+  </div>
+</section>
+
+<div class="mq" aria-hidden="true"><div class="mq-t" data-marquee><span>150-point inspection</span><span>7-day return</span><span>Service history verified</span><span>Finance approved in 24 h</span><span>Test rides at home</span><span>Verified dealers only</span><span>150-point inspection</span><span>7-day return</span><span>Service history verified</span><span>Finance approved in 24 h</span><span>Test rides at home</span><span>Verified dealers only</span></div></div>
+
+<!-- 02 · BROWSE BY -->
+<section class="sec" aria-labelledby="browse-h">
+  <div class="sec-head"><p class="k">Browse by</p><h2 class="disp h2" id="browse-h" data-split>Two wheels <span class="ser">or four.</span></h2><p class="lead" data-reveal>Start with the machine, the budget or the city. Every result below is inspected, priced by the dealer and checked against the market by us.</p></div>
+  <div class="browse">
+    <a class="tile t-bikes" href="listings.html?type=bike" data-clip><img src="photos/b-rosso.jpg" alt="A red superbike in a white tunnel" loading="lazy" decoding="async" width="1600" height="1025"><span class="go" aria-hidden="true">↗</span><p class="k" id="n-bikes">Superbikes</p><span class="disp">Superbikes</span></a>
+    <a class="tile t-cars" href="listings.html?type=car" data-clip><img src="photos/c-phantom.jpg" alt="A dark grand tourer under a skylight" loading="lazy" decoding="async" width="1600" height="2000"><span class="go" aria-hidden="true">↗</span><p class="k" id="n-cars">Cars</p><span class="disp">Cars</span></a>
+    <div class="tile t-budget"><p class="k">By budget</p><div class="chips" id="budget"></div><p class="k" style="margin-top:auto">Or say it in words on the <a class="ul" href="listings.html">search page</a>: "650 under 5 L in Bengaluru".</p></div>
+    <div class="tile t-city"><p class="k">By city</p><ul class="cities" id="cities"></ul></div>
+  </div>
+</section>
+
+<!-- 03 · FEATURED (pinned horizontal gallery on desktop) -->
+<section class="feat sec-light" data-pin-scrub aria-labelledby="feat-h">
+  <div class="sec-head"><p class="k">This week, certified</p><h2 class="disp h2" id="feat-h" data-split>Fresh off <span class="ser">the bay.</span></h2><p class="lead" data-reveal>Passed inspection in the last fortnight. Scores are out of 150; the full report is one tap away.</p></div>
+  <div class="feat-wrap"><div class="feat-track" data-track id="feat"></div></div>
+</section>
+
+<!-- 04 · HOW CERTIFICATION WORKS -->
+<section class="sec" id="how" aria-labelledby="how-h">
+  <div class="sec-head"><p class="k">How certification works</p><h2 class="disp h2" id="how-h" data-split>Read it <span class="ser">like we did.</span></h2><p class="lead" data-reveal>Our inspectors don't work for the dealer. They work for the report, and the report works for you.</p></div>
+  <div class="cert">
+    <figure class="cert-media" data-clip><img src="photos/d-mech.jpg" alt="A technician working on an adventure motorcycle in a dim workshop" loading="lazy" decoding="async" width="1600" height="1067"><figcaption>Bay 2, Baner · inspection in progress</figcaption></figure>
+    <ol class="steps">
+      <li><span class="n">01</span><h3>The dealer lists it</h3><p>Only KYC-verified dealers can list. Each listing starts as a draft with the asking price, papers and photos.</p><p class="meta"><span>Dealer KYC</span><span>RC + insurance checked</span></p></li>
+      <li><span class="n">02</span><h3>We inspect 150 points</h3><p>Two hours on a lift: paint depth on every panel, compression, brake and tyre wear, electricals, then a logged road test.</p><p class="meta"><span>8 groups</span><span>Paint gauge</span><span>OBD scan</span></p></li>
+      <li><span class="n">03</span><h3>Fix it or flag it</h3><p>Anything below spec is repaired by the dealer or written into the report as an advisory. Nothing is left unsaid.</p><p class="meta"><span>Advisories public</span><span>Re-check after repair</span></p></li>
+      <li><span class="n">04</span><h3>Certified, and returnable</h3><p>The listing goes live with its score. Buy it, ride it for a week, and if it isn't what the report says, return it.</p><p class="meta"><span>7-day return</span><span>6-month powertrain cover</span></p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 05 · DEALERS -->
+<section class="sec" id="dealers" aria-labelledby="dl-h">
+  <div class="sec-head"><p class="k">Verified dealers</p><h2 class="disp h2" id="dl-h" data-split>Eight cities, <span class="ser">one standard.</span></h2><p class="lead" data-reveal>Independent dealers who agreed to have every vehicle inspected by someone else. Commission is paid only when a sale closes.</p></div>
+  <ul class="dealers" id="dealer-list"></ul>
+  <img class="dl-peek" id="peek" alt="" aria-hidden="true" width="260" height="173">
+</section>
+
+<!-- 06 · SELL CTA -->
+<section class="sell" aria-labelledby="sell-h">
+  <img src="photos/x-tunnel.jpg" alt="" loading="lazy" decoding="async" width="1600" height="1067" data-parallax="0.12">
+  <div class="sell-c">
+    <h2 class="disp" id="sell-h" data-split>Sell it to people who'll <span class="ser">check it properly.</span></h2>
+    <div class="r" data-reveal><p>Get an instant range for your bike or car in under a minute, then book a free inspection at home. Dealers bid on the report, not on a guess.</p><a class="btn" data-magnetic href="sell.html">Get an instant valuation <span class="ar" aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+</main>
+
+<footer class="ftr">
+  <div class="ftr-g">
+    <div><p>Inspected to 150 points, priced in the open, returnable for seven days. Superbikes and cars from verified dealers across India.</p></div>
+    <div><h2>Buy</h2><ul><li><a class="ul" href="listings.html?type=bike">Superbikes</a></li><li><a class="ul" href="listings.html?type=car">Cars</a></li><li><a class="ul" href="listings.html?max=500000">Under ₹5 L</a></li></ul></div>
+    <div><h2>Sell</h2><ul><li><a class="ul" href="sell.html">Instant valuation</a></li><li><a class="ul" href="dealer.html">Dealer dashboard</a></li><li><a class="ul" href="admin.html">Admin</a></li></ul></div>
+    <div><h2>Company</h2><ul><li><a class="ul" href="#how">How we inspect</a></li><li><a class="ul" href="dealers.html">Dealers</a></li></ul></div>
+  </div>
+  <svg class="wordmark" viewBox="0 0 1000 250" aria-hidden="true" focusable="false"><text x="-12" y="228" textLength="1000" lengthAdjust="spacingAndGlyphs">REVV<tspan>.</tspan></text></svg>
+  <p class="credits"><span>Photos: Unsplash (badges and plates blurred) · 3D: "Car Concept" by Eric Chadwick / DGG, Khronos glTF samples, CC BY 4.0, modified</span><span>© Revv. A portfolio project by Abhishek.</span></p>
+</footer>
+<div class="tray" id="tray" hidden><div class="tray-items"></div><button type="button" class="btn sm dark" data-open-cmp>Compare</button><button type="button" class="x" data-clear-cmp aria-label="Clear compare">×</button></div>
+<dialog id="cmpdlg" aria-labelledby="cmp-h"><div class="dlg-h"><h2 id="cmp-h">Compare</h2><button type="button" class="x" data-close aria-label="Close">×</button></div><div class="cmp-body"></div></dialog>
+</body>
+</html>

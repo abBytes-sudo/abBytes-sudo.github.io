@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forge Ops · front desk</title>
+<meta name="description" content="Forge Ops, the front-desk app for Forge Athletic Club: today’s classes, trial follow-ups, check-in, members, renewals, 1:1s, messages and reports.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Forge Athletic Club">
+<meta property="og:title" content="Forge Ops · front desk"><meta property="og:description" content="The front-desk operating app for a strength and HYROX club.">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/gym/staff.html">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/gym/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/gym/og.jpg">
+<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" as="font" type="font/woff2" href="fonts/archivo-100-900.woff2" crossorigin>
+<link rel="stylesheet" href="forge.css?v=22">
+<link rel="stylesheet" href="forge-ops.css?v=22">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="forge-data.js?v=22" defer></script>
+<script src="forge-ui.js?v=22" defer></script>
+<script src="forge-ops.js?v=22" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body class="ops-body">
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<a class="skip" href="#view">Skip to content</a>
+<div class="ops">
+  <aside class="ops-side" aria-label="Forge Ops">
+    <a class="ops-logo" href="index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v4H8v3h10v4H8v7H3z"/></svg><span>Forge</span> <em>Ops</em></a>
+    <nav class="ops-nav" id="opsNav" aria-label="Sections"></nav>
+    <div class="ops-me"><span class="av" aria-hidden="true">PS</span><div><b>Priya Sharma</b><p class="mono">Front desk · <span id="meBranch">Saket</span></p></div></div>
+  </aside>
+  <div class="ops-main">
+    <header class="ops-top">
+      <a class="ops-mlogo" href="index.html" aria-label="Forge website"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h18v4H8v3h10v4H8v7H3z"/></svg></a>
+      <div class="ops-title"><h1 id="viewTitle">Today</h1><p class="mono" id="viewSub"></p></div>
+      <div class="seg ops-branch" id="branchSeg" role="group" aria-label="Branch"><button type="button" class="on" data-b="" aria-pressed="true">Both</button><button type="button" data-b="saket" aria-pressed="false">Saket</button><button type="button" data-b="gurugram" aria-pressed="false">Gurugram</button></div>
+      <button class="ops-search" type="button" id="openK" aria-keyshortcuts="Meta+K"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Search members, leads, classes</span><kbd data-k="⌘K" aria-hidden="true"></kbd></button>
+      <div class="ops-newwrap"><button class="btn volt sm" type="button" id="newBtn" aria-haspopup="menu" aria-expanded="false"><span>+ New</span></button>
+        <div class="ops-menu" id="newMenu" role="menu" hidden><button role="menuitem" type="button" data-new="walkin"><b>Walk-in</b><span>Day pass + check-in</span></button><button role="menuitem" type="button" data-new="trial"><b>Trial</b><span>New lead on the board</span></button><button role="menuitem" type="button" data-new="member"><b>Member</b><span>Quick add to the roster</span></button></div></div>
+    </header>
+    <main class="ops-view" id="view" tabindex="-1" aria-live="polite"></main>
+  </div>
+</div>
+<nav class="ops-tabs" id="opsTabs" aria-label="Front desk"></nav>
+<div class="ops-sheet" id="moreSheet" hidden><div class="ops-sheet-in" role="dialog" aria-label="More sections"></div></div>
+<aside class="slide" id="slide" aria-hidden="true" tabindex="-1"></aside>
+<div class="slide-bg" id="slideBg" hidden></div>
+<dialog class="focus" id="focus" aria-labelledby="fqTitle"><div class="fq" id="fq"></div></dialog>
+<dialog class="dlg ops-dlg" id="modal"><div class="dlg-in" id="modalIn"></div></dialog>
+<dialog class="ck-pal" id="pal" aria-label="Command palette"><div class="pal-in"><label class="pal-q"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="palQ" placeholder="Search members, leads, classes or type a command" autocomplete="off" aria-label="Search" role="combobox" aria-controls="palList" aria-expanded="true"></label><ul id="palList" role="listbox"></ul><p class="mono pal-hint">↑ ↓ to move · Enter to open · Esc to close</p></div></dialog>
+<div class="otoast" id="otoast" role="status" aria-live="polite"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

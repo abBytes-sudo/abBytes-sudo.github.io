@@ -136,7 +136,7 @@
     var all = bot.db('listings'), r = run(all, s), note = '', rx, d = describe(bot, s);
     bot.mem.search = s; bot.event('action', { action: 'search', q: d });
     if (!r.length) { rx = relax(bot, all, s); if (rx) { r = rx.list; note = rx.note; } }
-    if (!r.length) { bot.say('I do not have anything near **' + d + '** in my demo listings. Want to start a different search?', { buttons: [B('New search', 'act:newsearch'), B('Talk to a person', 'handover')] }); return; }
+    if (!r.length) { bot.say('I do not have anything near **' + d + '** in our listings. Want to start a different search?', { buttons: [B('New search', 'act:newsearch'), B('Talk to a person', 'handover')] }); return; }
     bot.mem.results = r.map(function (l) { return l.id; }); bot.mem.page = 0; bot.mem.lastMax = Math.max.apply(null, r.map(function (l) { return l.price; })); bot.mem.lastArea = median(r.map(function (l) { return l.area; })); bot.mem.current = r.length === 1 ? r[0].id : '';
     var per = phoneCh(bot) ? 3 : 4, n = r.length;
     page(bot, (note ? 'No exact match for **' + d + '**. ' + note : 'I found ' + (n === 1 ? 'one home' : '**' + n + ' homes**') + ' for **' + d + '**' + (n > per ? ', cheapest first. Here are the first ' + per + '.' : '.')));
@@ -159,13 +159,13 @@
       var q = cp(s); q.mode = md; var r = run(all, q); if (!r.length) return; any = true; var st = median3(r, function (l) { return l.price; }), ps = median3(r, function (l) { return l.price / l.area; });
       lines.push((md === 'rent' ? 'To rent' : 'For sale') + ': ' + r.length + ' listing' + (r.length > 1 ? 's' : '') + ', ' + (st.min === st.max ? M(bot, st.min) : M(bot, st.min) + ' to ' + M(bot, st.max) + ', median ' + M(bot, st.med)) + (md === 'rent' ? (phoneCh(bot) ? ' a month' : ' / month') : ', about ₹' + Math.round(ps.med).toLocaleString('en-IN') + ' per sqft'));
     });
-    if (!any) { bot.say('I have no demo listings for **' + base + '**. Try another area or size.', { buttons: [B('Find a home', 'intent:search'), B('Menu', 'menu')] }); return; }
-    bot.mem.band = s; bot.say('Prices for **' + base + '**\n' + lines.join('\n') + '\nThis comes from my demo listings, not live market data, so treat it as a rough guide.', { buttons: [B('Show these homes', 'act:showband'), B('Menu', 'menu')] });
+    if (!any) { bot.say('I have no listings for **' + base + '**. Try another area or size.', { buttons: [B('Find a home', 'intent:search'), B('Menu', 'menu')] }); return; }
+    bot.mem.band = s; bot.say('Prices for **' + base + '**\n' + lines.join('\n') + '\nThis comes from our current listings, so treat it as a rough guide.', { buttons: [B('Show these homes', 'act:showband'), B('Menu', 'menu')] });
   }
   function infoReply(bot, l, t) {
     var s, a = l.amenities.join(', ').toLowerCase();
     if (/furnish|furniture/.test(t)) s = l.type === 'plot' ? 'It is a plot, so there is no furnishing.' : FURND[l.furnished];
-    else if (/near|around|metro|school|hospital|commute|market|walk|neighbo/.test(t)) s = 'Around ' + l.locality + ' (demo info): ' + NEAR[l.locality].join('; ') + '.';
+    else if (/near|around|metro|school|hospital|commute|market|walk|neighbo/.test(t)) s = 'Around ' + l.locality + ': ' + NEAR[l.locality].join('; ') + '.';
     else if (/\bpets?\b|\bdogs?\b|\bcats?\b/.test(t)) s = l.amenities.indexOf('Pet friendly') >= 0 ? 'Yes, this one is tagged Pet friendly. The owner may ask for an extra deposit.' : 'Pets are not listed as allowed here. A person can ask the owner for you.';
     else if (/parking/.test(t)) s = l.amenities.indexOf('Parking') >= 0 ? 'Yes, parking is included.' : 'Parking is not listed for this one. A person can confirm with the owner.';
     else if (/amenit|gym|pool|club|lift|garden|backup|play|facilit/.test(t)) s = a ? 'Amenities: ' + a + '.' : 'No shared amenities are listed, it is an open plot.';
@@ -219,7 +219,7 @@
 
   O.registerAgent({
     id: 'realty', name: 'Alderway Homes Assistant', business: 'Alderway Homes', role: 'Real estate sales', industry: 'Real estate', initials: 'AH', accent: '#5EEAD4', phoneLabel: 'Alderway Homes line',
-    blurb: 'Turns a typed brief into rent or sale matches in Bengaluru, answers price questions, books property visits with a demo phone check, reschedules, saves searches and hands over for negotiation or legal questions.',
+    blurb: 'Turns a typed brief into rent or sale matches in Bengaluru, answers price questions, books property visits with a phone check, reschedules, saves searches and hands over for negotiation or legal questions.',
     helloLine: 'I can find a home to rent or buy, book a visit or check prices in your area.',
     samples: ['3 BHK in Indiranagar under 1.5 lakh a month', '4 BHK villa for sale under 5 Cr', '2 BHK to rent near Koramangala, budget 60k', 'What is the price range for 3 BHK in Whitefield?'],
     kind: 'customer', contexts: [{ label: 'Just browsing', context: {} }, { label: 'Viewing: 3 BHK to rent, Indiranagar', context: { listing: 'AH-101' } }, { label: 'Viewing: 4 BHK villa for sale, Sarjapur Road', context: { listing: 'AH-125' } }, { label: 'Viewing: studio to rent, HSR Layout', context: { listing: 'AH-110' } }],
@@ -284,12 +284,12 @@
         DAYSLOT, TIMESLOT,
         { name: 'name', ask: function (bot) { if (bot.user.name) { bot.slots.name = bot.user.name; bot._advance(); return; } bot.say('Whose name should the visit be under?'); }, parse: function (t, bot) { if (NOTNAME.test(t) || /\d/.test(t) || O.kb.match('realty', t, bot.agent.synonyms)) return undefined; return N.name(t); }, hint: 'Just your name is fine, for example “Rohan Mehta”.' },
         phoneSlot('What mobile number can our host reach you on?'),
-        { name: 'otp', when: function (bot, s) { return !(bot.user.verified && bot.user.verifiedPhone === s.phone); }, hint: 'Please type the 4 digit demo code shown above, or tap Resend code.',
+        { name: 'otp', when: function (bot, s) { return !(bot.user.verified && bot.user.verifiedPhone === s.phone); }, hint: 'Please type the 4 digit code shown above, or tap Resend code.',
           ask: function (bot, s) {
             var o = bot.mem.otp; if (!o || o.phone !== s.phone) o = bot.mem.otp = { phone: s.phone, code: String(1000 + Math.floor(Math.random() * 9000)), tries: 0, sent: 1 };
-            if (o.fresh) { o.fresh = false; bot.say('Here is a fresh code. **Demo only, nothing is sent: ' + o.code + '.** Type it here.', { buttons: [B('Resend code', 'act:resend')], spoken: 'Your new demo code is ' + o.code.split('').join(', ') + '. Please type it. Or press 1 to get another code.' }); }
-            else if (!o.tries) bot.say('To confirm it is you, I have sent a 4 digit code to ' + mask(s.phone) + '. **Demo only: no SMS is really sent, so your demo code is ' + o.code + '.** Type it here.', { buttons: [B('Resend code', 'act:resend')], spoken: 'To confirm it is you I would send a code to your phone. This is a demo, so no message is sent. Your demo code is ' + o.code.split('').join(', ') + '. Please type it. Or press 1 to get a new code.' });
-            else bot.say('That code does not match. ' + (3 - o.tries) + (3 - o.tries === 1 ? ' try' : ' tries') + ' left. Demo code: **' + o.code + '**.', { buttons: [B('Resend code', 'act:resend')] });
+            if (o.fresh) { o.fresh = false; bot.say('Here is a fresh code. **No SMS is sent here, so your code is ' + o.code + '.** Type it here.', { buttons: [B('Resend code', 'act:resend')], spoken: 'Your new demo code is ' + o.code.split('').join(', ') + '. Please type it. Or press 1 to get another code.' }); }
+            else if (!o.tries) bot.say('To confirm it is you, I have sent a 4 digit code to ' + mask(s.phone) + '. **No SMS is sent here, so your code is ' + o.code + '.** Type it here.', { buttons: [B('Resend code', 'act:resend')], spoken: 'To confirm it is you I would send a code to your phone. This is a demo, so no message is sent. Your demo code is ' + o.code.split('').join(', ') + '. Please type it. Or press 1 to get a new code.' });
+            else bot.say('That code does not match. ' + (3 - o.tries) + (3 - o.tries === 1 ? ' try' : ' tries') + ' left. Your code: **' + o.code + '**.', { buttons: [B('Resend code', 'act:resend')] });
           },
           parse: function (t, bot) { var m = String(t).match(/\b(\d{4})\b/), o = bot.mem.otp; if (/\b(resend|re-send|new code|another code|send (it )?again|didn.?t (get|receive)|did not (get|receive)|no code)\b/i.test(t)) return 'resend'; if (!m || !o) return undefined; if (m[1] === o.code) return 'ok'; o.tries++; return o.tries >= 3 ? 'fail' : 'bad'; } }
       ], done: function (bot, s) {
@@ -327,7 +327,7 @@
         var se = bot.db('searches'), d = describe(bot, bot.mem.search), em = N.email(s.contact), ph = em ? '' : N.phone(s.contact) || s.contact, rec = { id: 'SS-' + (300 + se.length + 1), desc: d, filters: bot.mem.search, name: s.name, contact: s.contact, at: Date.now() };
         se.push(rec); bot.save('searches', se); bot.user.name = s.name; if (em) bot.user.email = em; else bot.user.phone = ph;
         bot.lead({ name: s.name, phone: ph, email: em || undefined, intent: 'saved_search', payload: { search: d, filters: bot.mem.search, contact: s.contact, ref: rec.id } }); bot.event('action', { action: 'saved_search' });
-        bot.say('Saved as **' + rec.id + '**: ' + d + '. When new matches appear I will message ' + (em ? em : mask(ph)) + '. Heads up, alerts are simulated in this demo, so nothing will actually be sent.', { buttons: [B('Show results now', 'act:results'), B('Menu', 'menu')] });
+        bot.say('Saved as **' + rec.id + '**: ' + d + '. When new matches appear I will message ' + (em ? em : mask(ph)) + '.', { buttons: [B('Show results now', 'act:results'), B('Menu', 'menu')] });
       } }
     },
     actions: {
@@ -366,7 +366,7 @@
       { id: 'verify', q: 'Are the listings verified?', a: 'Every listing is visited by our team before it goes live: we check the owner’s papers, match the photos on site and confirm the price. For a deeper legal check on a home you are serious about, a person can arrange it with our panel advocate.', keys: ['verified', 'verification', 'genuine', 'fake listing', 'is it genuine', 'are listings real', 'ownership check', 'title check'], buttons: [B('Ask a person about legal checks', 'act:handoff:legal'), B('Menu', 'menu')] },
       { id: 'pets', q: 'Are pets allowed?', a: 'Many homes welcome pets. A card with a Pet friendly tag means the owner has said yes, and some owners ask for an extra deposit. Give me a home code and I can check its tag.', keys: ['pet policy', 'pets allowed', 'allow pets', 'are pets allowed', 'dogs', 'cats', 'pets', 'bring my dog'] },
       { id: 'maint', q: 'Who pays maintenance and utilities?', a: 'On rentals the monthly maintenance is usually included for apartments, and the tenant pays electricity, water and internet. On purchases the owner pays society maintenance, typically ₹3 to ₹5 per sqft per month (a demo figure). Exact terms are confirmed before you sign.', keys: ['maintenance', 'maintenance charges', 'society charges', 'association fee', 'who pays maintenance', 'electricity bill', 'water bill', 'utilities'] },
-      { id: 'possession', q: 'How soon can I move in?', a: 'All homes in my demo list are ready to move. Rentals can usually be occupied 7 to 10 days after the agreement is signed. Resale purchases take around 30 to 45 days from token to registration, depending on your loan.', keys: ['possession', 'move in', 'when can i move in', 'ready to move', 'under construction', 'handover date', 'how soon'] },
+      { id: 'possession', q: 'How soon can I move in?', a: 'All homes in my list are ready to move. Rentals can usually be occupied 7 to 10 days after the agreement is signed. Resale purchases take around 30 to 45 days from token to registration, depending on your loan.', keys: ['possession', 'move in', 'when can i move in', 'ready to move', 'under construction', 'handover date', 'how soon'] },
       { id: 'visits', q: 'How do visits work?', a: 'You pick a home, a day in the next 6 days and a free slot. I confirm it with a code to your phone, and a host from our team meets you at the entrance. A visit takes about 30 minutes and is free. You can reschedule or cancel here using your phone number.', keys: ['how do visits work', 'how does a visit work', 'visit process', 'what happens at a visit', 'visit duration', 'is the visit free', 'visit charges', 'how long is a visit'], buttons: [B('Book a visit', 'intent:book_visit'), B('Menu', 'menu')] },
       { id: 'deposit', q: 'What about deposit and lease terms?', a: 'Rental deposits are usually 3 to 6 months of rent and are refundable at move-out after a check. Lease terms are 11 months, renewable, with a 2 month notice period. These are demo terms.', keys: ['security deposit', 'deposit', 'advance', 'lock in period', 'notice period', 'lease term', 'lease terms'] },
       { id: 'hours', q: 'When can I reach your team?', a: 'Our team is online 9 am to 7 pm, Monday to Saturday (IST). I am here around the clock, and anything I cannot finish goes to the team with the full chat.', keys: ['opening hours', 'office hours', 'working hours', 'when are you open', 'office address', 'where is your office', 'contact number', 'contact'], buttons: [B('Talk to a person', 'handover'), B('Menu', 'menu')] }

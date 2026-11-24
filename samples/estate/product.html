@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<title>Chaukhat — the CRM that goes on site visits</title>
+<meta name="description" content="Chaukhat is the workflow CRM for rental and resale brokerages: leads matched to verified homes, calling queues, trips on a map, visit outcomes from the agent’s phone, and deals that close with every paper in place.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Chaukhat — the CRM that goes on site visits">
+<meta property="og:description" content="Lead at 10:02, matched to 6 homes, trip planned, 3 visits, token at 6:40 pm.">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/estate/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/estate/product.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F7F5F0">
+<link rel="preload" href="fonts/newsreader-italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="product.min.css?v=9">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../assets/back.js?v=1" defer></script>
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="product.min.js?v=9" defer></script>
+</head>
+<body>
+<div class="demo" role="note">Portfolio project by Abhishek</div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav">
+  <a class="logo" href="product.html" aria-label="Chaukhat home"><span class="logo-t" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20V5.5A1.5 1.5 0 0 1 7.5 4h9A1.5 1.5 0 0 1 18 5.5V20M3.5 20h17"/></svg></span>chaukhat</a>
+  <nav aria-label="Page"><a href="#story">A day</a><a href="#features">Features</a><a href="#field">Field app</a><a href="#roles">Roles</a></nav>
+  <a class="btn primary" href="index.html">Open Chaukhat</a>
+</header>
+<main id="main">
+  <section class="hero">
+    <div class="hero-c">
+      <a class="tagline" href="#features"><span>New</span>Map, survey master and listing-sheet import</a>
+      <h1 id="hero-h"><span class="ln"><span>The CRM that goes</span></span> <span class="ln"><span>on site visits.</span></span></h1>
+      <p class="lede">Chaukhat runs a brokerage end to end: leads matched to verified homes, calling queues, trips planned on a map, visit outcomes from the agent’s phone, and deals that close with every paper in place.</p>
+      <div class="cta"><a class="btn primary big" href="index.html">Open Chaukhat<svg class="ic" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13.5 6.5 19 12l-5.5 5.5"/></svg></a><a class="btn big" href="field.html">Try the field app</a></div>
+      <p class="note">Shown with Amaltas Estates, a 10-person brokerage in South Delhi and Gurugram.</p>
+    </div>
+    <div class="hero-v" aria-label="The Chaukhat app">
+      <figure class="browser"><div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>chaukhat · Today</span></div><img src="shots/ui-today.webp" width="1440" height="900" alt="Chaukhat’s Today screen: new leads to call, calls due, trips out now, listings to verify and the team queue" fetchpriority="high"></figure>
+      <figure class="phone-s"><img src="shots/field-today.webp" width="375" height="812" alt="The field app on a phone: the next stop, a Visit outcome button and today’s trips"></figure>
+    </div>
+  </section>
+
+  <section class="rules" aria-label="How it thinks">
+    <div class="rule"><b>30 / 45 days</b><span>Rent listings are re-checked every 30 days, sale every 45. One clock drives the Verified badge, matching and the desk.</span></div>
+    <div class="rule"><b>±10% fits</b><span>Budget is a band, the way brokers negotiate. A home 8% over still matches; 15% over is “close”.</span></div>
+    <div class="rule"><b>15 minutes</b><span>Every new lead is assigned round-robin and has a first-call clock.</span></div>
+    <div class="rule"><b>3 misses</b><span>A missed call comes back in 2 hours; after three, a person decides. It never unpublishes a listing.</span></div>
+  </section>
+
+  <section class="story" id="story" aria-labelledby="story-h">
+    <div class="story-pin">
+      <div class="story-copy">
+        <p class="idx">01 — One Tuesday in South Delhi</p>
+        <h2 id="story-h">From a WhatsApp at 10:02 to a token at 6:40 pm.</h2>
+        <ol class="steps">
+          <li data-s="0"><time>10:02 am</time><b>Ananya messages on WhatsApp.</b><span>Round-robin hands her to Pooja and a 15-minute first-call clock starts. By 10:24 her brief is in: 3 BHK, ₹1.1 L a month, near her children’s school.</span></li>
+          <li data-s="1"><time>10:31 am</time><b>Matched to 6 verified homes.</b><span>Each one scored against the brief, with reasons: within budget, on her list of colonies, free before her move-in date, verified this month.</span></li>
+          <li data-s="2"><time>11:15 am</time><b>A trip, planned on a map.</b><span>Three homes put in driving order — 35 minutes at the wheel, back by 4:30 — and sent to Kabir’s phone. Owners get a heads-up.</span></li>
+          <li data-s="3"><time>2:30 – 4:40 pm</time><b>Three visits, logged at the gate.</b><span>Check-in with location, photos, and an outcome per home: shortlisted, liked, rejected for poor light. Owners hear back the same evening.</span></li>
+          <li data-s="4"><time>6:40 pm</time><b>Token paid. Home blocked.</b><span>₹55,000 to the owner, police verification and the rent agreement on the checklist, the commission split worked out to the rupee.</span></li>
+        </ol>
+      </div>
+      <div class="stage" aria-hidden="true">
+        <div class="stage-top"><span class="clock" id="clock">10:02 am</span><span class="stage-k" id="stage-k">New lead · WhatsApp</span></div>
+        <div class="stage-map"><!--STORYMAP--><svg class="map" viewBox="-94 55 757 626" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Route"><defs><pattern id="blk-sd" width="46" height="92" patternUnits="userSpaceOnUse"><rect x="6" y="6" width="34" height="34" rx="4" class="m-blk"/><rect x="29" y="52" width="34" height="34" rx="4" class="m-blk"/><rect x="-17" y="52" width="34" height="34" rx="4" class="m-blk"/></pattern></defs><rect x="-800" y="-800" width="2600" height="2420" class="m-bg"/><rect x="-800" y="-800" width="2600" height="2420" fill="url(#blk-sd)"/><ellipse cx="441" cy="420" rx="52" ry="34" class="m-park"/><ellipse cx="655" cy="16" rx="70" ry="26" class="m-park"/><ellipse cx="668" cy="446" rx="48" ry="30" class="m-park"/><ellipse cx="355" cy="83" rx="46" ry="22" class="m-park"/><ellipse cx="191" cy="675" rx="90" ry="54" class="m-park"/><ellipse cx="609" cy="716" rx="36" ry="22" class="m-park"/><ellipse cx="145" cy="270" rx="30" ry="18" class="m-park"/><path d="M0 259 Q0 259 100 244 Q200 228 291 213 Q382 197 455 228 Q527 259 614 244 Q700 228 791 223 Q882 218 941 259 T1000 301" class="m-road-o"/><path d="M0 259 Q0 259 100 244 Q200 228 291 213 Q382 197 455 228 Q527 259 614 244 Q700 228 791 223 Q882 218 941 259 T1000 301" class="m-road" id="rd-sd0"/><path d="M0 467 Q0 467 77 452 Q155 436 245 467 Q336 498 427 540 Q518 581 609 592 Q700 602 850 581 T1000 561" class="m-road-o"/><path d="M0 467 Q0 467 77 452 Q155 436 245 467 Q336 498 427 540 Q518 581 609 592 Q700 602 850 581 T1000 561" class="m-road" id="rd-sd1"/><path d="M582 0 Q582 0 555 130 Q527 259 527 327 Q527 394 505 477 Q482 561 464 690 T445 820" class="m-road-o"/><path d="M582 0 Q582 0 555 130 Q527 259 527 327 Q527 394 505 477 Q482 561 464 690 T445 820" class="m-road" id="rd-sd2"/><path d="M800 0 Q800 0 800 109 Q800 218 809 348 Q818 477 855 649 T891 820" class="m-road-o"/><path d="M800 0 Q800 0 800 109 Q800 218 809 348 Q818 477 855 649 T891 820" class="m-road" id="rd-sd3"/><path d="M255 176 Q255 176 209 337 Q164 498 127 659 T91 820" class="m-road-o"/><path d="M255 176 Q255 176 209 337 Q164 498 127 659 T91 820" class="m-road" id="rd-sd4"/><path d="M0 664 Q0 664 191 675 Q382 685 573 690 Q764 695 882 706 T1000 716" class="m-road-o"/><path d="M0 664 Q0 664 191 675 Q382 685 573 690 Q764 695 882 706 T1000 716" class="m-road" id="rd-sd5"/><path d="M109 799 Q109 799 291 804 Q473 810 736 830 T1000 851" class="m-road-o"/><path d="M109 799 Q109 799 291 804 Q473 810 736 830 T1000 851" class="m-road" id="rd-sd6"/><text class="m-rname" dy="-6"><textPath href="#rd-sd0" startOffset="18%">Ring Road</textPath></text><text class="m-rname" dy="-6"><textPath href="#rd-sd1" startOffset="62%">Outer Ring Road</textPath></text><text class="m-rname" dy="-6"><textPath href="#rd-sd2" startOffset="18%">Aurobindo Marg</textPath></text><text class="m-rname" dy="-6"><textPath href="#rd-sd3" startOffset="62%">Lala Lajpat Rai Marg</textPath></text><text class="m-rname" dy="-6"><textPath href="#rd-sd4" startOffset="18%">Nelson Mandela Marg</textPath></text><text x="109" y="383" class="m-area">VASANT VIHAR</text><text x="182" y="186" class="m-area">ANAND NIKETAN</text><text x="268" y="238" class="m-area">SHANTI NIKETAN</text><text x="627" y="92" class="m-area">JOR BAGH</text><text x="409" y="341" class="m-area">SAFDARJUNG ENCL.</text><text x="541" y="388" class="m-area">GREEN PARK</text><text x="482" y="492" class="m-area">HAUZ KHAS</text><text x="464" y="570" class="m-area">SARVODAYA ENCL.</text><text x="627" y="570" class="m-area">PANCHSHEEL PARK</text><text x="764" y="243" class="m-area">DEFENCE COLONY</text><text x="873" y="315" class="m-area">LAJPAT NAGAR</text><text x="795" y="502" class="m-area">GK I</text><text x="864" y="684" class="m-area">GK II</text><text x="927" y="606" class="m-area">CR PARK</text><text x="555" y="658" class="m-area">MALVIYA NAGAR</text><text x="527" y="762" class="m-area">SAKET</text><text x="91" y="772" class="m-area">VASANT KUNJ</text><path d="M514 368 Q339 293 156 347 Q133 362 124 388 Q94 365 56 365" class="m-route-o"/><path d="M514 368 Q339 293 156 347 Q133 362 124 388 Q94 365 56 365" class="m-route" pathLength="1000"/><g class="m-leg"><rect x="315" y="314" width="44" height="22" rx="11"/><text x="337" y="330">21m</text></g><g class="m-leg"><rect x="114" y="353" width="44" height="22" rx="11"/><text x="136" y="369">7m</text></g><g class="m-leg"><rect x="70" y="360" width="44" height="22" rx="11"/><text x="92" y="375">7m</text></g><g class="m-stop " data-stop="0"><circle cx="156" cy="347" r="15"/><text x="156" y="352">1</text></g><g class="m-stop " data-stop="1"><circle cx="124" cy="388" r="15"/><text x="124" y="393">2</text></g><g class="m-stop " data-stop="2"><circle cx="56" cy="365" r="15"/><text x="56" y="370">3</text></g><g class="m-office"><rect x="503" y="357" width="22" height="22" rx="6"/><path d="M509 373V364h10V373" /></g><text x="530" y="372" class="m-olbl">Office</text></svg></div>
+        <div class="card c-lead"><div class="bub">Hi! Saw your Vasant Vihar listing. We need a 3 BHK by mid-December, two kids, school nearby. Budget around 1.1 lakh.</div><div class="who"><span class="av">AI</span><div><b>Ananya Iyer</b><small>WhatsApp · assigned to Pooja · call by 10:17</small></div></div></div>
+        <div class="card c-match"><p class="ck">6 homes match · ranked by fit</p><!--STORYMATCHES--><ul><li><img src="photos/t/ext-16.webp" alt="" width="46" height="34" loading="lazy"><span><b>VV-108 · Vasant Vihar</b><small>3 BHK builder floor · ₹1.04 L/mo</small></span><span class="sc">99%</span></li><li><img src="photos/t/ext-13.webp" alt="" width="46" height="34" loading="lazy"><span><b>VV-112 · Vasant Vihar</b><small>3 BHK builder floor · ₹96k/mo</small></span><span class="sc">96%</span></li><li><img src="photos/t/ext-08.webp" alt="" width="46" height="34" loading="lazy"><span><b>VV-109 · Vasant Vihar</b><small>3 BHK apartment · ₹1.12 L/mo</small></span><span class="sc">95%</span></li><li><img src="photos/t/ext-06.webp" alt="" width="46" height="34" loading="lazy"><span><b>AN-122 · Anand Niketan</b><small>3 BHK apartment · ₹1.09 L/mo</small></span><span class="sc">94%</span></li><li><img src="photos/t/ext-14.webp" alt="" width="46" height="34" loading="lazy"><span><b>VV-119 · Vasant Vihar</b><small>3 BHK builder floor · ₹99k/mo</small></span><span class="sc">93%</span></li><li><img src="photos/t/ext-04.webp" alt="" width="46" height="34" loading="lazy"><span><b>VV-103 · Vasant Vihar</b><small>3 BHK builder floor · ₹1.18 L/mo</small></span><span class="sc">92%</span></li></ul></div>
+        <div class="card c-trip"><p class="ck">TR-163 · Kabir · tomorrow 2:30 pm</p><ul><li><i>1</i>VV-109 · 2:51 pm</li><li><i>2</i>VV-108 · 3:18 pm</li><li><i>3</i>VV-112 · 3:45 pm</li></ul><p class="saved">Route optimised · 35 min driving</p></div>
+        <div class="card c-visit"><p class="ck">Visit outcomes</p><ul><li><span class="pp v">Shortlisted</span>VV-109</li><li><span class="pp g">Liked</span>VV-108</li><li><span class="pp r">Rejected · Poor light</span>VV-112</li></ul></div>
+        <div class="card c-deal"><p class="ck">D-319 · Ananya Iyer · VV-109</p><b class="tok">Token ₹55,000</b><ol class="dstep"><li class="d">Shortlist</li><li class="d">Negotiation</li><li class="c">Token</li><li>Agreement</li><li>Move-in</li></ol><div class="split"><span style="flex:20"></span><span style="flex:80"></span></div><p class="sm">Brokerage ₹2.24 L · Kabir 20% · Amaltas 80%</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="feat" id="features" aria-labelledby="feat-h">
+    <div class="sec-h"><span class="idx">02</span><div><h2 id="feat-h">Everything a field brokerage runs on.</h2><p>Leads, homes, people on the road and the money, in one place that feeds itself.</p></div></div>
+    <div class="fgrid">
+      <article class="f f-wide"><div class="f-t"><h3>Leads, matched the moment the brief is in</h3><p>Portals, the website, WhatsApp, walk-ins and partners land in one list with a source and a “how they found us”. A requirement profile scores every verified home and says why.</p></div><img src="shots/ui-matches.webp" width="1440" height="900" loading="lazy" decoding="async" alt="A lead’s panel with six matched homes, each with a fit score and reasons"></article>
+      <article class="f"><div class="f-t"><h3>Calling queues and call mode</h3><p>Queues worked out fresh each time, a script per queue, last notes, one-key outcomes and “save and next”.</p></div><img src="shots/ui-calling.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Call mode with a script, last notes and outcome buttons"></article>
+      <article class="f"><div class="f-t"><h3>Verification desk</h3><p>New and stale listings queue up with photos, a pin check and a checklist. Approve and the Verified badge goes on.</p></div><img src="shots/ui-verify.webp" width="1440" height="900" loading="lazy" decoding="async" alt="The verification desk with a checklist and field photos"></article>
+      <article class="f f-wide"><div class="f-t"><h3>Trips, live</h3><p>A trip turns “Out now” at the first check-in. Stops, outcomes, photos and the agent’s position update as the field app reports in.</p></div><img src="shots/ui-trip.webp" width="1440" height="900" loading="lazy" decoding="async" alt="A trip out now with five stops, outcomes and a route map"></article>
+      <article class="f"><div class="f-t"><h3>Deals with gates</h3><p>Token blocks the home. KYC and police verification gate move-in. Commission split and collections tracked per side.</p></div><img src="shots/ui-deal.webp" width="1440" height="900" loading="lazy" decoding="async" alt="A deal with its stage stepper, document checklist and commission split"></article>
+      <article class="f"><div class="f-t"><h3>A print issue from verified stock</h3><p>The monthly magazine is built from listings checked this month; anything stale is flagged before it goes to print.</p></div><img src="shots/ui-print.webp" width="1440" height="900" loading="lazy" decoding="async" alt="A magazine-style printable listing issue"></article>
+      <article class="f"><div class="f-t"><h3>Map, with demand on it</h3><p>Listings clustered by colony, where open leads want to live, today’s routes. Drag a box to search an area and shortlist it for a client.</p></div><img src="shots/ui-map.webp" width="1440" height="900" loading="lazy" decoding="async" alt="The map with listing clusters, lead demand and trip routes"></article>
+      <article class="f"><div class="f-t"><h3>Listing sheets in, safely</h3><p>Drop a broker’s PDF sheet. The reader understands print shorthand, flags the unsure lines, matches existing listings and shows what it will change before anything does.</p></div><img src="shots/ui-import.webp" width="1440" height="900" loading="lazy" decoding="async" alt="An import review with confidence highlights and decisions per line"></article>
+      <article class="f"><div class="f-t"><h3>Survey master</h3><p>Coverage by colony, a surveyor leaderboard and a focus mode for owner check calls: last remark first, one-tap outcomes, save and next.</p></div><img src="shots/ui-survey.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Survey master focus mode for an owner check call"></article>
+      <article class="f f-wide"><div class="f-t"><h3>Conversations</h3><p>WhatsApp and website chat in one inbox. The assistant answers first; take over, use a template, turn the chat into an enquiry with the brief already filled in.</p></div><img src="shots/ui-inbox.webp" width="1440" height="900" loading="lazy" decoding="async" alt="The conversations inbox with a chat thread and an enquiry panel"></article>
+      <article class="f f-wide"><div class="f-t"><h3>Website and search, first-party</h3><p>Sessions to enquiries per listing page, what people search for on the site, and Google rankings with a striking-distance list.</p></div><img src="shots/ui-seo.webp" width="1440" height="900" loading="lazy" decoding="async" alt="Search rankings with positions, changes and striking-distance queries"></article>
+      <article class="f"><div class="f-t"><h3>Projects, units, cost sheets</h3><p>Tower grids with holds that release themselves, a price list per project and a cost sheet per unit.</p></div><img src="shots/ui-projects.webp" width="1440" height="900" loading="lazy" decoding="async" alt="A project tower grid with unit availability and a cost sheet"></article>
+    </div>
+    <ul class="more">
+      <li><b>Owners</b> — one owner, one call; “update your listing” links and visit feedback on WhatsApp templates.</li>
+      <li><b>Partners</b> — an independent field-partner network with shared leads and a commission ledger.</li>
+      <li><b>Reports and admin</b> — funnel by source, leaderboard, freshness, routing rules, templates, SLA timers, export.</li>
+      <li><b>⌘K, saved views, bulk actions, undo</b> — and a dark theme for the late shift.</li>
+    </ul>
+  </section>
+
+  <section class="field" id="field" aria-labelledby="field-h">
+    <div class="sec-h"><span class="idx">03</span><div><h2 id="field-h">The agent’s phone, wired to the office.</h2><p>Borrowed from how construction teams run sites: today’s work on one screen, big buttons, a photo log, attendance and an end-of-day report. It works with no signal and syncs when the bars come back.</p></div></div>
+    <div class="phones">
+      <figure><img src="shots/field-today.webp" width="375" height="812" loading="lazy" decoding="async" alt="Field app home: start day, the next stop, today’s trips"><figcaption><b>Today</b>Attendance, the next stop, every trip.</figcaption></figure>
+      <figure><img src="shots/field-stop.webp" width="375" height="812" loading="lazy" decoding="async" alt="A stop: check in at the gate, photos, visit outcome"><figcaption><b>At the gate</b>Check in, photos, outcome — in that order.</figcaption></figure>
+      <figure><img src="shots/field-outcome.webp" width="375" height="812" loading="lazy" decoding="async" alt="The visit outcome sheet with Visited and Not visited buttons"><figcaption><b>Visit outcome</b>Nothing pre-picked. A reason for every no.</figcaption></figure>
+      <figure><img src="shots/field-report.webp" width="375" height="812" loading="lazy" decoding="async" alt="The end-of-day report filled in from today’s check-ins"><figcaption><b>End of day</b>Filled in from the check-ins.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="roles" id="roles" aria-labelledby="roles-h">
+    <div class="sec-h"><span class="idx">04</span><div><h2 id="roles-h">Everyone sees their own day.</h2><p>Roles with a permissions matrix, territories and working hours. One extra permission for one person, without a new role.</p></div></div>
+    <div class="rgrid">
+      <div><b>Admin</b><span>Every screen, settings, roles and the activity log.</span></div>
+      <div><b>Sales manager</b><span>Plans trips, moves deals, watches the field live.</span></div>
+      <div><b>Telecaller</b><span>Queues, call mode, leads and owners. No deals.</span></div>
+      <div><b>Field agent</b><span>Trips, checks and the phone app. Their own deals.</span></div>
+      <div><b>Partner</b><span>Their referrals, what happened to each, their ledger.</span></div>
+    </div>
+  </section>
+
+  <section class="end">
+    <h2>Open the door.</h2>
+    <p>A brokerage’s full day is already inside. Take the one-minute tour, or just start calling.</p>
+    <div class="cta"><a class="btn primary big" href="index.html">Open Chaukhat</a><a class="btn big" href="field.html">Field app</a></div>
+  </section>
+</main>
+<footer class="foot">
+  <p class="word" aria-hidden="true">chaukhat</p>
+  <p>© Chaukhat. A portfolio project by Abhishek. Photos: Unsplash.</p>
+</footer>
+</body>
+</html>

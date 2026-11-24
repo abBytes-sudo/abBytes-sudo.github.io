@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Configure your Ghatika · Prahar, Nimisha, Yantra</title>
+<meta name="description" content="Choose the dial, case metal and strap of a hand-made Ghatika watch in a real-time 3D studio, see it on a wrist your size, engrave the caseback and order.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Ghatika">
+<meta property="og:title" content="Configure a Ghatika in 3D">
+<meta property="og:description" content="Choose the dial, case metal and strap of a hand-made Ghatika watch in a real-time 3D studio, see it on a wrist your size, engrave the caseback and order.">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/watch/watch.html">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/watch/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="A Ghatika Prahar watch with a blue guilloché dial, coming apart into its crystal, dial, movement and strap">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Configure a Ghatika in 3D"><meta name="twitter:description" content="Choose the dial, case metal and strap of a hand-made Ghatika watch in a real-time 3D studio, see it on a wrist your size, engrave the caseback and order."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/watch/og.jpg">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0d0d0f">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" href="fonts/prata.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="watch.min.css?v=9">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="../assets/vendor/SplitText.min.js" defer></script>
+<script src="../assets/vendor/lenis.min.js" defer></script>
+<script src="../assets/motion.js?v=1" defer></script>
+<script src="data.js?v=9" defer></script>
+<script src="app.js?v=9" defer></script>
+<script src="model.js?v=9" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+<script src="concierge.js?v=9" defer data-agent="watch" data-skin="concierge.css?v=9" data-brand="gh" data-title="Ghatika concierge" data-sub="Replies from the atelier, Udaipur" data-label="Ask the concierge" data-nudge="watch,index,collection" data-v="9"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<header class="hdr">
+  <a class="logo" href="index.html" aria-label="Ghatika, home"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="#c9a25a" stroke-width="1.2"/><path d="M6.5 13.5h19a9.5 9.5 0 0 1-19 0z" fill="#c9a25a"/><circle cx="16" cy="26.6" r="1.3" fill="#c9a25a"/></svg>GHATIKA</a>
+  <nav class="nav" aria-label="Main"><a class="ul" href="collection.html">Collection</a><a class="ul" href="watch.html?m=prahar" aria-current="page">Configure</a><a class="ul" href="craft.html">Craft</a><a class="ul" href="boutiques.html">Boutiques</a><a class="ul" href="journal.html">Journal</a></nav>
+  <div class="hdr-r">
+    <a class="btn sm ghost" href="boutiques.html#book">Book a viewing</a>
+    <a class="bagbtn" href="checkout.html" data-open-bag aria-label="Open your bag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 12H6.2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="t">Bag</span><span class="n" data-bag-n hidden>0</span></a>
+    <button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  </div>
+</header>
+<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="collection.html">Collection</a><a href="watch.html?m=prahar">Configure</a><a href="craft.html">Craft</a><a href="boutiques.html">Boutiques</a><a href="journal.html">Journal</a><a href="boutiques.html#book">Book a viewing</a><a href="service.html">Care and service</a></nav><p class="k">Client care</p><nav aria-label="Client care" style="display:grid"><a href="warranty.html" style="font-size:1.3rem">Register a warranty</a><a href="service.html#track" style="font-size:1.3rem">Track a service ticket</a><a href="staff.html" style="font-size:1.3rem">Staff</a></nav></div>
+<main id="main">
+<div class="pdp">
+  <div class="stage studio-bg" id="stage">
+    <img class="poster" id="poster" src="img/prahar.webp" alt="" width="960" height="1200" fetchpriority="high">
+    <canvas id="cfg3d" tabindex="0" role="img" aria-label="Live 3D view of your configured watch. Drag or use the arrow keys to turn it."></canvas>
+    <div class="loadbar" aria-hidden="true"><i></i>Lighting the studio</div>
+    <div class="stage-top"><p class="k">Udaipur time · <b id="ist">--:--</b></p><p class="k" id="hint">Drag to turn · arrow keys</p></div>
+    <div class="wristbox" id="wristbox" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><label class="k" for="wrist">Your wrist</label><output id="wristOut" for="wrist">16.5 cm</output></div>
+      <input type="range" id="wrist" min="14" max="20.5" step="0.5" value="16.5" aria-describedby="fit">
+      <p class="fit" id="fit"></p>
+    </div>
+    <div class="stage-ui">
+      <div class="modes" role="group" aria-label="View">
+        <button type="button" data-mode="studio" aria-pressed="true">Studio</button><button type="button" data-mode="turntable" aria-pressed="false">Turntable</button><button type="button" data-mode="wrist" aria-pressed="false">On the wrist</button>
+      </div>
+      <div class="stage-tools">
+        <button type="button" id="flip" aria-pressed="false" aria-label="Turn it over to see the movement" title="Caseback"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg></button>
+        <button type="button" id="zin" aria-label="Zoom in"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button type="button" id="zout" aria-label="Zoom out"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Ghatika</a><span aria-hidden="true">/</span><a href="collection.html">Collection</a><span aria-hidden="true">/</span><span id="crumb">Prahar</span></nav>
+      <h1 class="disp" id="name" style="margin-top:28px">Prahar</h1>
+    <p class="k" id="ref" style="margin:0 0 18px">GH-01.39 · Hand-wound · small seconds</p>
+    <p class="lead" id="desc"></p>
+    <div class="pricebar"><span class="price" id="price" aria-live="polite">₹3,85,000</span><small>incl. GST<br><span id="emi"></span></small></div>
+
+    <div class="opt"><div class="opt-h"><span class="lbl" id="l-dial">Dial</span><span class="sel" id="s-dial"></span></div><div class="sw" role="group" aria-labelledby="l-dial" id="o-dial"></div></div>
+    <div class="opt"><div class="opt-h"><span class="lbl" id="l-metal">Case</span><span class="sel" id="s-metal"></span></div><div class="sw" role="group" aria-labelledby="l-metal" id="o-metal"></div></div>
+    <div class="opt"><div class="opt-h"><span class="lbl" id="l-strap">Strap</span><span class="sel" id="s-strap"></span></div><div class="sw" role="group" aria-labelledby="l-strap" id="o-strap"></div></div>
+    <div class="opt engr"><div class="opt-h"><label class="lbl" for="engr">Engrave the caseback</label><span class="sel"><small>complimentary</small></span></div>
+      <input class="inp" id="engr" maxlength="22" placeholder="For A., 12.01.2027" autocomplete="off" aria-describedby="engrN">
+      <p class="count" id="engrN">0 of 22 letters · shown live on the back</p></div>
+
+    <div class="buy"><button class="btn" type="button" id="add">Add to bag <span class="ar" aria-hidden="true">→</span></button><a class="btn ghost" href="boutiques.html#book" id="tryon">Try it on</a></div>
+    <div class="eta" id="eta"></div>
+    <p style="margin:18px 0 0"><button class="lnk" type="button" id="share">Copy a link to this watch <span class="ar" aria-hidden="true">→</span></button></p>
+
+    <div class="acc">
+      <details open><summary>Specifications</summary><div class="body"><dl class="specs" id="specs"></dl></div></details>
+      <details><summary>The story</summary><div class="body"><p id="story"></p></div></details>
+      <details><summary>Delivery, returns and payment</summary><div class="body"><p>Insured delivery anywhere in India is complimentary, hand-delivered by our concierge in Udaipur, Mumbai, New Delhi and Bengaluru. Watches in stock leave the atelier in three days; commissions take about six weeks.</p><p>Return an unworn, unengraved watch within 14 days for a full refund. Pay by UPI, card, bank transfer or no-cost EMI over 12 months.</p></div></details>
+      <details><summary>Warranty and service</summary><div class="body"><p>Five years from purchase, extended to eight when you <a class="ul" href="warranty.html">register your watch</a>. We recommend a full service every five to seven years, with free courier collection from anywhere in India.</p></div></details>
+    </div>
+  </div>
+</div>
+<div class="sticky-buy" id="sticky" aria-hidden="true"><div><span class="price" id="sPrice">₹3,85,000</span><small id="sLine">Prahar</small></div><button class="btn sm" type="button" id="sAdd" tabindex="-1">Add to bag</button></div>
+
+<section class="sec" aria-labelledby="det-h">
+  <div class="sec-h"><h2 id="det-h" class="h2">Look closer.</h2><p>Rendered from the same model you are turning above: nothing retouched, nothing hidden.</p></div>
+  <div class="detail-band" id="details" data-stagger="0.1"></div>
+</section>
+
+<section class="sec paper" aria-labelledby="more-h">
+  <div class="sec-h"><h2 id="more-h" class="h2">Also in the collection</h2><p><a class="lnk" href="collection.html">Compare all three <span class="ar" aria-hidden="true">→</span></a></p></div>
+  <div class="models two" id="others"></div>
+</section>
+</main>
+<footer class="ftr">
+  <div class="ftr-grid">
+    <div><p class="h3" style="margin-bottom:12px">Letters from the atelier</p><p class="muted" style="max-width:40ch">One letter a season: new dials, bench notes and evenings at the boutiques. Never more.</p>
+      <form class="news" data-news novalidate><label class="sr" for="nl">Email address</label><input id="nl" type="email" placeholder="Your email" autocomplete="email"><button type="submit">Subscribe</button></form></div>
+    <div><h2>Watches</h2><ul><li><a class="ul" href="watch.html?m=prahar">Prahar</a></li><li><a class="ul" href="watch.html?m=nimisha">Nimisha</a></li><li><a class="ul" href="watch.html?m=yantra">Yantra</a></li><li><a class="ul" href="collection.html">Compare all three</a></li></ul></div>
+    <div><h2>Maison</h2><ul><li><a class="ul" href="craft.html">Craftsmanship</a></li><li><a class="ul" href="journal.html">Journal</a></li><li><a class="ul" href="boutiques.html">Boutiques</a></li><li><a class="ul" href="staff.html">Staff</a></li></ul></div>
+    <div><h2>Client care</h2><ul><li><a class="ul" href="boutiques.html#book">Book a viewing</a></li><li><a class="ul" href="warranty.html">Register a warranty</a></li><li><a class="ul" href="service.html">Service request</a></li><li><a class="ul" href="service.html#track">Track a ticket</a></li><li><a class="ul" href="legal.html">Terms, privacy, returns</a></li></ul></div>
+  </div>
+  <svg class="wordmark" viewBox="0 0 1240 180" aria-hidden="true" focusable="false"><text x="620" y="160" text-anchor="middle">GHATIKA</text></svg>
+  <div class="ftr-base"><span>© 2026 Ghatika, Udaipur. A portfolio project by Abhishek.</span><span>Watches modelled in three.js · Studio light: Poly Haven · Photographs: Unsplash</span></div>
+</footer>
+</body>
+</html>

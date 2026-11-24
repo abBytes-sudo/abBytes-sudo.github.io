@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Certified listing · Revv</title>
+<meta name="description" content="A certified pre-owned listing on Revv: a drag-to-rotate walk-around, the full 150-point inspection report, service history, EMI calculator and test-ride booking.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Revv"><meta property="og:title" content="Certified listing · Revv"><meta property="og:description" content="Drag to walk around it, read the 150-point report, book a test ride."><meta property="og:image" content="https://abbytes-sudo.github.io/samples/revv/og.jpg"><meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A0B0D">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" href="fonts/archivo-sub.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="revv.min.css?v=35">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="../assets/vendor/gsap.min.js" defer></script>
+<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="../assets/vendor/SplitText.min.js" defer></script>
+<script src="../assets/motion.js?v=1" defer></script>
+<script src="data.js?v=10" defer></script>
+<script src="app.js?v=7" defer></script>
+<script src="report.js?v=5" defer></script>
+<script src="vehicle.js?v=13" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+<script src="concierge.js?v=1" defer data-agent="revv" data-skin="concierge.css?v=1" data-brand="rv" data-title="Pit crew" data-sub="Revv · instant answers" data-label="Ask the pit crew" data-nudge="vehicle,listings,sell" data-v="3"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<header class="hdr solid">
+  <a class="logo" href="index.html" aria-label="Revv, home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#FF5B1F"/><path d="M8 24V8h9a5 5 0 0 1 1.6 9.7L23 24h-4.4l-3.9-6H12v6zM12 14.5h4.6a1.75 1.75 0 0 0 0-3.5H12z" fill="#0A0B0D"/></svg>Revv</a>
+  <nav class="nav" aria-label="Main"><a class="ul" href="listings.html">Buy</a><a class="ul" href="listings.html?type=bike">Superbikes</a><a class="ul" href="listings.html?type=car">Cars</a><a class="ul" href="sell.html">Sell</a><a class="ul" href="dealers.html">Dealers</a><a class="ul" href="dealer.html">Dealer login</a></nav>
+  <div class="hdr-r">
+    <a class="pill" href="listings.html?saved=1" aria-label="Saved vehicles"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="n" data-count-wish hidden>0</span></a>
+    <a class="btn sm" href="sell.html">Sell yours <span class="ar" aria-hidden="true">→</span></a>
+    <button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  </div>
+</header>
+<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="listings.html">Buy</a><a href="listings.html?type=bike">Superbikes</a><a href="listings.html?type=car">Cars</a><a href="sell.html">Sell</a><a href="dealers.html">Dealers</a><a href="dealer.html">Dealer login</a><a href="admin.html">Admin</a></nav></div>
+
+<main id="main">
+  <div style="padding:24px var(--m) 0"><ol class="crumbs" id="crumbs"><li><a href="index.html">Revv</a></li><li><a href="listings.html">Buy</a></li></ol></div>
+  <section class="vd" aria-label="Vehicle">
+    <div class="gal">
+      <div class="gal-main" id="stage">
+        <div class="gal-tabs" role="tablist" aria-label="View" id="gtabs"></div>
+        <img id="mainimg" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="" width="1600" height="1000" fetchpriority="high">
+        <script src="vehicle-pre.js?v=2"></script>
+        <div class="gal-load" id="gload" hidden><span>Loading the 3D walk-around</span></div>
+        <canvas id="studio" tabindex="0" hidden></canvas>
+        <p class="gal-hint" id="ghint" hidden>Drag to walk around</p>
+        <p class="gal-cap" id="gcap" aria-live="polite">Full vehicle</p>
+        <button type="button" class="gal-zoom" id="gzoom" aria-label="Open the photo full screen to zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>Zoom</button>
+        <div class="conf" id="conf" hidden>
+          <p class="k">Paint preview · respray quote</p>
+          <div class="sw" id="sw"></div>
+          <div class="fin" id="fin"><button type="button" data-f="gloss" aria-pressed="true">Gloss</button><button type="button" data-f="matte" aria-pressed="false">Satin</button><button type="button" data-f="pearl" aria-pressed="false">Pearl</button></div>
+          <button type="button" class="xbtn" id="xray" aria-pressed="false">Inspection view</button>
+        </div>
+      </div>
+      <div class="thumbs" id="thumbs"></div>
+    </div>
+    <aside class="vd-side" id="side"></aside>
+  </section>
+
+  <section class="vsec ir" id="report" aria-labelledby="rep-h">
+    <div class="ir-head"><div><p class="idx">01 · Inspection report</p><h2 class="disp h3" id="rep-h" data-split>150 points, <span class="ser">in the open.</span></h2></div><div><p class="lead" id="ir-intro"></p><p class="ir-ctx" id="ir-ctx"></p></div></div>
+    <div class="ir-mini" id="ir-mini" aria-hidden="true"></div>
+    <div class="ir-grid">
+      <div class="ir-left"><div class="ir-sticky">
+        <figure class="ir-media" id="ir-media"><img id="ir-img" alt="" draggable="false"><span class="ir-hot" id="ir-hot" aria-hidden="true"><i></i><b id="ir-hot-l"></b></span></figure>
+        <div class="ir-score" id="ir-score"><svg class="ir-ring" id="ir-ring" viewBox="0 0 200 200" role="img" aria-label="150 checkpoints, passed in ink, findings in orange"></svg><div class="ir-num"><b id="ir-n">0</b><span>of 150 passed</span><em id="ir-sub"></em></div><div class="ir-seal" id="ir-seal" aria-hidden="true"></div></div>
+      </div></div>
+      <div class="ir-right">
+        <div class="ir-adv" id="ir-adv"></div>
+        <div class="ir-chips" id="ir-chips" aria-label="Jump to a category"></div>
+        <ol class="ir-cats" id="ir-cats"></ol>
+        <div class="ir-foot">
+          <div class="ir-insp" id="ir-insp"></div>
+          <div class="ir-acts"><p class="k">Report <span id="ir-rid" class="mono"></span></p><button type="button" class="btn ghost sm" id="ir-verify-b">Verify this report</button><button type="button" class="btn ghost sm" id="ir-print">Download report</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="vsec" aria-labelledby="svc-h">
+    <div class="vgrid">
+      <div class="l"><p class="idx">02 · History</p><h2 class="disp h3" id="svc-h" data-split>Every service, <span class="ser">stamped.</span></h2><p class="lead" style="margin-top:20px">We match each entry against the workshop's own records before a listing goes live.</p><dl class="facts" id="specs" style="margin-top:28px;grid-template-columns:1fr 1fr"></dl></div>
+      <div class="r"><ol class="svc" id="svc"></ol></div>
+    </div>
+  </section>
+
+  <section class="vsec" id="emi-sec" aria-labelledby="emi-h">
+    <p class="idx">03 · Finance</p><h2 class="disp h3" id="emi-h" data-split style="margin-bottom:32px">What it costs <span class="ser">a month.</span></h2>
+    <div class="emi">
+      <form id="emi">
+        <div class="fld"><label for="e-down">Down payment <b id="e-downv" style="color:var(--bone)"></b></label><input type="range" id="e-down" min="10" max="60" step="5" value="20"></div>
+        <div class="fld"><label for="e-rate">Interest rate</label><select class="sel" id="e-rate"><option value="9.5">9.5% · bank, salaried</option><option value="10.5" selected>10.5% · Revv partner NBFC</option><option value="12">12% · self-employed</option><option value="14">14% · first-time borrower</option></select></div>
+        <div class="fld"><span class="lab" id="e-ten-l">Tenure</span><div class="seg" role="radiogroup" aria-labelledby="e-ten-l" style="grid-template-columns:repeat(5,1fr)"><label><input type="radio" name="ten" value="12"><span>1 yr</span></label><label><input type="radio" name="ten" value="24"><span>2</span></label><label><input type="radio" name="ten" value="36"><span>3</span></label><label><input type="radio" name="ten" value="48"><span>4</span></label><label><input type="radio" name="ten" value="60" checked><span>5</span></label></div></div>
+      </form>
+      <div class="emi-out" aria-live="polite"><p class="k">Your EMI · estimate</p><b id="e-out">₹0</b><dl><dt>Loan amount</dt><dd id="e-loan"></dd><dt>Total interest</dt><dd id="e-int"></dd><dt>Total payable</dt><dd id="e-tot"></dd></dl></div>
+    </div>
+  </section>
+
+  <section class="vsec" id="book" aria-labelledby="book-h">
+    <p class="idx">04 · Test ride</p><h2 class="disp h3" id="book-h" data-split style="margin-bottom:32px">Pick a slot. <span class="ser">We'll have it warm.</span></h2>
+    <div class="book">
+      <div>
+        <p class="k" id="days-l" style="margin-bottom:12px">Day</p><div class="days" id="days" role="group" aria-labelledby="days-l"></div>
+        <p class="k" id="slots-l" style="margin:22px 0 0">Time</p><div class="slots" id="slots" role="group" aria-labelledby="slots-l"></div>
+      </div>
+      <form class="form" id="bookf" novalidate>
+        <div class="row"><div class="fld"><label for="b-name">Your name</label><input class="inp" id="b-name" autocomplete="name" aria-describedby="b-name-e"><p class="ferr" id="b-name-e"></p></div><div class="fld"><label for="b-phone">Mobile number</label><input class="inp" id="b-phone" inputmode="tel" autocomplete="tel" placeholder="98xxx xxxxx" aria-describedby="b-phone-e"><p class="ferr" id="b-phone-e"></p></div></div>
+        <div class="fld"><span class="lab" id="where-l">Where</span><div class="radio-row" role="radiogroup" aria-labelledby="where-l"><label><input type="radio" name="where" value="At the dealer" checked>At the dealer</label><label><input type="radio" name="where" value="At my home">At my home (free in the city)</label></div></div>
+        <label class="checks" style="display:flex;gap:10px;align-items:center;font-size:14.5px"><input type="checkbox" id="b-lic" aria-describedby="b-lic-e" style="width:18px;height:18px;accent-color:var(--sig)"> I hold a valid licence for this vehicle</label><p class="ferr" id="b-lic-e"></p>
+        <p id="b-err" class="ferr" role="alert"></p>
+        <button class="btn" type="submit" id="b-go">Book the test ride <span class="ar" aria-hidden="true">→</span></button>
+        <div id="b-ok" hidden></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="vsec" aria-labelledby="dlr-h">
+    <p class="idx">05 · Sold by</p><h2 class="sr" id="dlr-h">Dealer</h2>
+    <div class="dcard" id="dcard"></div>
+  </section>
+
+  <section class="vsec" aria-labelledby="sim-h">
+    <p class="idx">06 · Similar</p><h2 class="disp h3" id="sim-h" data-split style="margin-bottom:40px">Also <span class="ser">on the lot.</span></h2>
+    <div class="grid" id="sim"></div>
+  </section>
+</main>
+
+<footer class="ftr" style="padding-top:48px">
+  <p class="credits"><span>Photos: Unsplash (badges and plates blurred) · 3D: "Car Concept" by Eric Chadwick / DGG, Khronos glTF samples, CC BY 4.0, modified</span><span>© Revv. A portfolio project by Abhishek.</span></p>
+</footer>
+<div class="mbar" id="mbar" aria-hidden="true"><div><b id="mb-p"></b><span id="mb-t"></span></div><a class="btn" href="#book" tabindex="-1">Test ride</a></div>
+<div class="tray" id="tray" hidden><div class="tray-items"></div><button type="button" class="btn sm dark" data-open-cmp>Compare</button><button type="button" class="x" data-clear-cmp aria-label="Clear compare">×</button></div>
+<dialog id="cmpdlg" aria-labelledby="cmp-h"><div class="dlg-h"><h2 id="cmp-h">Compare</h2><button type="button" class="x" data-close aria-label="Close">×</button></div><div class="cmp-body"></div></dialog>
+<dialog id="zv" class="zv" aria-label="Photo viewer">
+  <div class="zv-stage" id="zv-stage"><img id="zv-img" alt="" draggable="false"></div>
+  <div class="zv-top"><p class="zv-cap" id="zv-cap"></p><button type="button" class="x" id="zv-x" aria-label="Close the viewer">×</button></div>
+  <div class="zv-bar"><button type="button" id="zv-prev" aria-label="Previous photo">←</button><button type="button" id="zv-out" aria-label="Zoom out">−</button><span id="zv-lvl" aria-live="polite">100%</span><button type="button" id="zv-in" aria-label="Zoom in">+</button><button type="button" id="zv-fit" aria-label="Fit to screen">Fit</button><button type="button" id="zv-next" aria-label="Next photo">→</button></div>
+  <p class="zv-help">Drag or pinch to move · double-tap to zoom · arrow keys pan · Esc or swipe down to close</p>
+</dialog>
+<dialog id="ir-verify" aria-labelledby="ir-vh" style="max-width:560px"><div class="dlg-h"><h2 id="ir-vh">Verify this report</h2><button type="button" class="x" data-close aria-label="Close">×</button></div><div id="ir-vbody" style="padding:22px"></div></dialog>
+<dialog id="ask" aria-labelledby="ask-h" style="max-width:560px"><div class="dlg-h"><h2 id="ask-h">Ask the dealer</h2><button type="button" class="x" data-close aria-label="Close">×</button></div>
+  <form class="form" id="askf" style="padding:22px" novalidate>
+    <p class="k" id="ask-sub"></p>
+    <div class="fld"><label for="a-name">Your name</label><input class="inp" id="a-name" autocomplete="name" aria-describedby="a-name-e"><p class="ferr" id="a-name-e"></p></div>
+    <div class="fld"><label for="a-phone">Mobile number</label><input class="inp" id="a-phone" inputmode="tel" autocomplete="tel" placeholder="98xxx xxxxx" aria-describedby="a-phone-e"><p class="ferr" id="a-phone-e"></p></div>
+    <div class="fld"><label for="a-msg">Your question</label><textarea class="inp" id="a-msg">Is the price negotiable, and can I see the original invoice?</textarea></div>
+    
+    <button class="btn" type="submit">Send to the dealer <span class="ar" aria-hidden="true">→</span></button>
+  </form>
+</dialog>
+</body>
+</html>

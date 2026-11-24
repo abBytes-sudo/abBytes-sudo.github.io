@@ -78,7 +78,7 @@
 
   /* ========================================================= FAQ */
   var QS = [
-    ['Is this AI?', 'No: it\u2019s scripted and rule-based. An optional Smart replies add-on brings AI and needs a small backend. Demo data stays in your browser.'],
+    ['Is this AI?', 'No: it\u2019s scripted and rule-based. An optional Smart replies add-on brings AI and needs a small backend. Your data stays in your browser.'],
     ['What if it doesn\u2019t know the answer?', 'It asks to rephrase, then offers a person. Three misses always hand over to your team.'],
     ['Does it work on WhatsApp and Instagram?', 'Yes, with your real business accounts. Pro connects both; Starter covers one channel.'],
     ['Can my team take over a chat?', 'Yes. One tap in the agent console, with the full history in view.'],

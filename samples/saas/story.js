@@ -49,7 +49,7 @@
   }
   function booking() {
     return '<div class="stv-bk"><div class="stv-bk-h">' + I.ok + 'Visit booked</div><div class="stv-bk-d"><b>Saturday</b><span>11:00 am</span></div>' +
-      '<div class="stv-bk-f"><span>Lakeview Court</span><span>Ref AV-4821 (demo)</span></div></div>';
+      '<div class="stv-bk-f"><span>Lakeview Court</span><span>Ref AV-4821</span></div></div>';
   }
   function waHead() {
     return '<div class="stv-wa-h">' + av('AH') + '<span class="stv-wa-n"><b>Alderway Homes</b><small><i class="stv-on"></i>online</small></span><span class="stv-wa-c">' + I.wa + 'WhatsApp</span></div>';
@@ -86,7 +86,7 @@
       '<p class="stv-lab"><span>03</span> The night shift <i>·</i> demo</p>' +
       '<div class="stv-clock" aria-hidden="true"><span class="stv-ck">11:42</span><span class="stv-ap">pm</span></div>' +
       '<h2 class="stv-h">' + HEAD + '</h2><div class="stv-caps" aria-live="off">' + caps + '</div></div>' +
-      '<div class="stv-cast" role="group" aria-label="One enquiry, from the customer\'s phone to the team\'s CRM (demo)">' +
+      '<div class="stv-cast" role="group" aria-label="One enquiry, from the customer\'s phone to the team\'s CRM">' +
       '<i class="stv-gl stv-gl--wa" aria-hidden="true"></i><i class="stv-gl stv-gl--crm" aria-hidden="true"></i><i class="stv-gl stv-gl--rk" aria-hidden="true"></i>' +
       '<div class="stv-wa">' + waHead() + '<div class="stv-wa-b">' +
       bub('me', '<p>3 BHK in Indiranagar under 1.5 lakh a month</p>', '11:42 pm') +
@@ -97,7 +97,7 @@
       '<div class="stv-crm">' + crm(true) + '</div>' +
       '<div class="stv-rk">' + rank() + '</div>' +
       '<div class="stv-toast">' + toast() + '</div></div>' +
-      '<div class="stv-rail" aria-hidden="true"><div class="stv-ghost"><i class="stv-gln"></i><i class="stv-gdot"></i><span class="stv-glab">Without an assistant · first reply 6 h (demo)</span></div>' +
+      '<div class="stv-rail" aria-hidden="true"><div class="stv-ghost"><i class="stv-gln"></i><i class="stv-gdot"></i><span class="stv-glab">Without an assistant · first reply 6 h</span></div>' +
       '<div class="stv-main"><i class="stv-ln"></i><i class="stv-fill"></i><ol>' + ticks + '</ol></div></div>' +
       '</div></div>';
   }
@@ -119,7 +119,7 @@
       '<p class="stv-fclock" aria-hidden="true"><span>11:42 pm</span><span><i>→</i> 9:05 am</span></p><p class="stv-sr">11:42 pm to 9:05 am</p>' +
       '<h2 class="stv-h">' + HEAD + '</h2>' +
       '<nav class="stv-hr" aria-label="The five steps of the night"><ol>' + nav + '</ol><i class="stv-hr-ln"></i><i class="stv-hr-f"></i>' +
-      '<p class="stv-hr-g"><i></i><span>Without an assistant: first reply 6 h (demo)</span></p></nav>' +
+      '<p class="stv-hr-g"><i></i><span>Without an assistant: first reply 6 h</span></p></nav>' +
       '</div></div><div class="stv-fr stv-pal"><ol class="stv-steps">' + li + '</ol></div></div></div>';
   }
 
@@ -281,7 +281,7 @@
     if (wo) {
       evs = [enq,
         { x: xOf(nudge[0], nudge[1]), dir: 'dn', n: 1, time: clock12(nudge[0], nudge[1]), title: 'Nobody answers', sub: esc(d.cold), cls: 'spl-ev--bad' },
-        { x: xOf(late[0], late[1]), dir: 'dn', n: 2, time: '6 h later', title: 'First reply (demo)', sub: esc(d.late) }, call];
+        { x: xOf(late[0], late[1]), dir: 'dn', n: 2, time: '6 h later', title: 'First reply', sub: esc(d.late) }, call];
     } else {
       evs = [enq,
         { x: xOf(t[0], t[1]), dir: 'dn', n: 1, time: clock12(t[0], t[1]), title: 'Instant reply', sub: esc(d.reply) },
@@ -352,7 +352,7 @@
       cur = id; var b = B.byId[id], d = DAYS[id], m = b.msgs[0];
       stage.style.setProperty('--spl-acc', b.acc); stage.style.setProperty('--spl-ink', b.ink); stage.style.setProperty('--spl-tx', b.tx || b.acc); stage.style.setProperty('--spl-soft', b.soft || '#EFEBE3'); stage.style.setProperty('--spl-disp', b.display);
       chipEls.forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute('data-id') === id)); });
-      enqM.textContent = (CHANNEL[m.ch] || 'Chat') + ' · ' + clock12(d.t[0], d.t[1]) + ' · ' + b.name + ' (demo)';
+      enqM.textContent = (CHANNEL[m.ch] || 'Chat') + ' · ' + clock12(d.t[0], d.t[1]) + ' · ' + b.name + '';
       enqQ.textContent = '“' + m.msg + '”'; enqQ.style.fontFamily = b.display;
       if (dotTl) { dotTl.kill(); dotTl = null; }
       wo.innerHTML = layerHTML('wo', d, m); wi.innerHTML = layerHTML('wi', d, m);
