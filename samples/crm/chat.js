@@ -57,7 +57,9 @@
   // ---- mirror Orbit chats into Conversations ----------------------------------------------------------------------------
   var CH = { web: 'web', whatsapp: 'wa', instagram: 'ig' };
   function meta(id) { var p = P(); p.cvMeta = p.cvMeta || {}; return p.cvMeta[id] || (p.cvMeta[id] = { owner: null, read: false }); }
+  function isLumen() { return !C.WS || C.WS.tpl === 'services'; }
   C.orbitSync = function () {
+    if (!isLumen()) return;
     var O = window.Orbit; if (!O || !O.convos) { C.orbit(function () { if (C.cur && /^(conversations|bot|inbox)$/.test(C.cur.name)) C.rerender(); }); return; }
     var p = P(); p.convos = p.convos || [];
     O.convos.list().filter(function (c) { return c.agent === 'lumen' && (c.engaged || c.seed) && c.messages.length > 1; }).forEach(function (c) {
@@ -128,13 +130,14 @@
     done();
   };
   try { window.addEventListener('storage', function (e) { if (/^orbit-(convos|leads)$/.test(e.key) && C.cur && /^(conversations|inbox|bot)$/.test(C.cur.name)) { if (window.Orbit) window.Orbit.convos.reload(); C.rerender(); } }); } catch (e) { }
-  C.onRoute = (function (prev) { return function (n, a) { if (prev) prev(n, a); if (/^(conversations|bot)$/.test(n) || (n === 'inbox' && window.Orbit)) C.orbit(function () { var before = (S().leads || []).length; C.orbitSync(); if (S().leads.length !== before || n === 'conversations' || n === 'bot') C.rerender(); }); }; })(C.onRoute);
+  C.onRoute = (function (prev) { return function (n, a) { if (prev) prev(n, a); if (isLumen() && (/^(conversations|bot)$/.test(n) || (n === 'inbox' && window.Orbit))) C.orbit(function () { var before = (S().leads || []).length; C.orbitSync(); if (S().leads.length !== before || n === 'conversations' || n === 'bot') C.rerender(); }); }; })(C.onRoute);
 
   // chats from the website keep arriving: pick them up once the browser is idle, well after the first paint
-  setTimeout(function () { (window.requestIdleCallback || function (f) { setTimeout(f, 300); })(function () { C.orbit(function () { var n = S().leads.length; C.orbitSync(); if (S().leads.length !== n && C.cur && /^(inbox|dashboard|pipeline)$/.test(C.cur.name)) C.rerender(); }); }, { timeout: 4000 }); }, 12000);
+  setTimeout(function () { if (!isLumen()) return; (window.requestIdleCallback || function (f) { setTimeout(f, 300); })(function () { C.orbit(function () { var n = S().leads.length; C.orbitSync(); if (S().leads.length !== n && C.cur && /^(inbox|dashboard|pipeline)$/.test(C.cur.name)) C.rerender(); }); }, { timeout: 4000 }); }, 12000);
 
   // ---- the agent as a read-only tree ------------------------------------------------------------------------------------
   C.orbitTree = function () {
+    if (!isLumen()) return '<section class="card"><div class="card-h"><div><h2>The website assistant lives in the Services workspace</h2><p class="sub">Lumen Homes’ own assistant answers its website, WhatsApp and Instagram. This workspace has no assistant connected yet.</p></div><button type="button" class="btn" data-act="ws-go" data-id="">Open Lumen Homes</button></div></section>';
     var O = window.Orbit, a = O && O.agents && O.agents.lumen;
     if (!a) return '<div class="sk-page" aria-busy="true"><div class="sk sk-h"></div><div class="sk sk-b"></div></div>';
     var conv = O.convos.list().filter(function (c) { return c.agent === 'lumen'; }), leads = O.leads.list({ agent: 'lumen' }), hand = conv.filter(function (c) { return c.handedOver; }).length;
