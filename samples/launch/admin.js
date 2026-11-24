@@ -234,7 +234,7 @@
   function gap(btn) {
     var k = btn.dataset.gap, id = btn.dataset.lead, dd = btn.parentNode, l = lead(id);
     var opts = { interest: ['2 BHK', '3 BHK', '3 BHK + study', '4 BHK'], budget: ['Under ₹2.5 Cr', '₹2.5–3.5 Cr', '₹3.5–5 Cr', '₹5 Cr +'] }[k];
-    dd.innerHTML = k === 'unit' ? '<input class="so-in" style="min-height:28px;width:120px" aria-label="Unit" placeholder="S-1802" id="so-gap">' : '<select class="so-in" style="min-height:28px" id="so-gap" aria-label="' + k + '"><option value="">Choose…</option>' + opts.map(function (o) { return '<option>' + o + '</option>'; }).join('') + '</select>';
+    dd.innerHTML = k === 'unit' ? '<input class="so-in" style="min-height:28px;width:120px" aria-label="Unit" placeholder="A-4002" id="so-gap">' : '<select class="so-in" style="min-height:28px" id="so-gap" aria-label="' + k + '"><option value="">Choose…</option>' + opts.map(function (o) { return '<option>' + o + '</option>'; }).join('') + '</select>';
     var inp = $('#so-gap'); inp.focus();
     var done = false, commit = function () {
       if (done) return; done = true; var v = inp.value.trim(); if (k === 'unit') { v = v.toUpperCase(); if (v && !A.unit(v)) { A.toast('There is no home called ' + v + '.'); render(); if (cur) openLead(cur); return; } }
@@ -310,7 +310,7 @@
   function seedChats() {
     if (!window.Orbit || !Orbit.createSession || A.get('chats-seeded', 0)) return; A.set('chats-seeded', 1);
     try {
-      var a = Orbit.createSession('launch', { channel: 'web', context: { page: 'picker', unit: 'K-1403' }, source: 'Google search' }); a.start(); a.send('3 bhk under 3.5 cr forest facing'); a.send('can someone call me about K-1403?'); a.send('talk to a person');
+      var a = Orbit.createSession('launch', { channel: 'web', context: { page: 'picker', unit: 'B-3403' }, source: 'Google search' }); a.start(); a.send('3 bhk under 3.5 cr east facing'); a.send('can someone call me about B-3403?'); a.send('talk to a person');
       var b = Orbit.createSession('launch', { channel: 'whatsapp', context: { page: 'nri' }, source: 'Instagram ad' }); b.start(); b.send('I live in Dubai, kitne ka hai 3 bhk'); b.send('EMI on 3.1 crore for 20 years');
     } catch (e) { }
   }
@@ -339,7 +339,7 @@
 
   /* ================= UNITS & HOLDS ================= */
   function unitsView() {
-    var tid = ctxTower || A.get('so-units-t', 'S'), T = A.tower(tid), c = A.counts(function (u) { return u.tower === tid; }), hx = holds();
+    var tid = ctxTower || A.get('so-units-t', 'A'), T = A.tower(tid), c = A.counts(function (u) { return u.tower === tid; }), hx = holds();
     var units = T.units.map(function (u) { return u[0]; }), rows = '';
     for (var f = T.floors; f >= 1; f--) rows += '<tr><th scope="row">' + f + '</th>' + units.map(function (p) { var id = T.id + '-' + f + p, st = A.status(id), m = A.statusMeta(id), exp = st === 'hold' && m && m.until && m.until - now() < DAY; return '<td><button type="button" class="so-cell st-' + st + (picked.indexOf(id) >= 0 ? ' picked' : '') + (exp ? ' exp' : '') + '" data-cell="' + id + '" aria-label="' + id + ', ' + A.TYPES[A.unit(id).type].short + ', ' + A.STATUS[st].label + (exp ? ', hold ends within a day' : '') + '">' + f + p + '</button></td>'; }).join('') + '</tr>';
     var html = '<div class="so-toolbar">' + (ctxTower ? '' : '<div class="so-seg" role="group" aria-label="Tower">' + A.TOWERS.map(function (t) { var cc = A.counts(function (u) { return u.tower === t.id; }); return '<button type="button" data-tower="' + t.id + '" aria-pressed="' + (t.id === tid) + '">' + t.name + '<span class="n">' + cc.avail + ' open</span></button>'; }).join('') + '</div>') +
@@ -394,7 +394,7 @@
     var f = menu.querySelector('button,input'); f && f.focus();
   }
   $('#so-new').addEventListener('click', function (e) { e.stopPropagation(); menuAct = { enq: newEnquiry, visit: function () { location.hash = '#leads'; A.toast('Open a buyer, then “Book a site visit” on their record.'); }, hold: function () { location.hash = '#units'; } }; openMenu(this, [['enq', 'New enquiry', 'N'], ['visit', 'Book a site visit'], ['hold', 'Hold a home']]); });
-  $('#so-ws').addEventListener('click', function (e) { e.stopPropagation(); var r = function (t) { return function () { ctxTower = t; A.set('so-tower', t); $('#so-ws-l').textContent = (t ? A.tower(t).name : 'All towers') + ' · Sector 109'; render(); }; }; menuAct = { all: r(''), S: r('S'), K: r('K'), A: r('A') }; openMenu(this, [['all', 'All towers'], '-', ['S', 'Sal', '34 floors'], ['K', 'Kadamb', '30 floors'], ['A', 'Arjun', '26 floors']], true); });
+  $('#so-ws').addEventListener('click', function (e) { e.stopPropagation(); var r = function (t) { return function () { ctxTower = t; A.set('so-tower', t); $('#so-ws-l').textContent = (t ? A.tower(t).name : 'All towers') + ' · Sector 109'; render(); }; }; menuAct = { all: r(''), A: r('A'), B: r('B'), C: r('C') }; openMenu(this, [['all', 'All towers'], '-', ['A', 'Tower A', '46 floors'], ['B', 'Tower B', '44 floors'], ['C', 'Tower C', '42 floors']], true); });
   menu.addEventListener('click', function (e) { var b = e.target.closest('[data-mi]'); if (!b) return; var f = menuAct[b.dataset.mi]; closeMenu(); if (f) f(); });
   menu.addEventListener('change', function (e) { var k = e.target.dataset.col; if (!k) return; cols[k] = e.target.checked ? 1 : 0; A.set('so-cols', cols); leadsView(); });
   function newEnquiry() {
@@ -447,7 +447,7 @@
     if (t.closest('[data-cvback]')) { inboxOpenM = false; return inboxView(); }
     if ((k = t.closest('[data-cvact]'))) { var a = k.dataset.cvact, O = window.Orbit; if (a === 'take') { O.convos.setStatus(inboxSel, 'human', { person: 'Ritika (sales)' }); O.convos.append(inboxSel, { from: 'system', kind: 'system', text: 'Ritika from the sales lounge has joined the chat.' }); } else if (a === 'bot') { O.convos.setStatus(inboxSel, 'bot', { person: null }); O.convos.append(inboxSel, { from: 'system', kind: 'system', text: 'You are back with the concierge. Anything else I can help with?' }); } else if (a === 'resolve') { O.convos.setStatus(inboxSel, 'resolved'); O.convos.append(inboxSel, { from: 'system', kind: 'system', text: 'Conversation resolved by Ritika.' }); } inboxView(); counts(); var r1 = $('#so-rt'); if (r1) r1.focus(); return; }
     if ((k = t.closest('[data-tower]'))) { A.set('so-units-t', k.dataset.tower); picked = []; return unitsView(); }
-    if ((k = t.closest('[data-cellbtn]'))) { var cid = k.dataset.cellbtn; if (cid[0] !== (ctxTower || A.get('so-units-t', 'S'))) { A.set('so-units-t', cid[0]); unitsView(); } var cb = document.querySelector('[data-cell="' + cid + '"]'); if (cb) { cb.scrollIntoView({ block: 'center' }); cellPop(cid, cb); } return; }
+    if ((k = t.closest('[data-cellbtn]'))) { var cid = k.dataset.cellbtn; if (cid[0] !== (ctxTower || A.get('so-units-t', 'A'))) { A.set('so-units-t', cid[0]); unitsView(); } var cb = document.querySelector('[data-cell="' + cid + '"]'); if (cb) { cb.scrollIntoView({ block: 'center' }); cellPop(cid, cb); } return; }
     if ((k = t.closest('[data-cell]'))) {
       var c = k.dataset.cell;
       if (e.shiftKey || e.metaKey || e.ctrlKey || picked.length) {
@@ -485,7 +485,7 @@
     }
     return out.slice(0, 12);
   }
-  function paintCmd() { cl.innerHTML = items.map(function (it, i) { return '<li><button type="button" role="option" data-ci="' + i + '" aria-selected="' + (i === ci) + '">' + A.esc(it.label) + '<small>' + it.hint + '</small></button></li>'; }).join('') || '<li style="padding:14px;color:var(--so-mute)">No match. Try a home like S-1802 or a buyer’s name.</li>'; }
+  function paintCmd() { cl.innerHTML = items.map(function (it, i) { return '<li><button type="button" role="option" data-ci="' + i + '" aria-selected="' + (i === ci) + '">' + A.esc(it.label) + '<small>' + it.hint + '</small></button></li>'; }).join('') || '<li style="padding:14px;color:var(--so-mute)">No match. Try a home like A-4002 or a buyer’s name.</li>'; }
   function openCmd() { cq.value = ''; items = cmdItems(''); ci = 0; paintCmd(); cmdk.showModal(); cq.focus(); }
   function runCmd(i) { var it = items[i]; if (!it) return; cmdk.close(); it.run(); }
   cq.addEventListener('input', function () { items = cmdItems(cq.value); ci = 0; paintCmd(); });

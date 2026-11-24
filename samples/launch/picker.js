@@ -5,13 +5,13 @@
   var stage = $('#stage'), canvas = $('#pk3d'), tipEl = $('#pktip');
   var stack = $('#stack'), floorbox = $('#floorbox'), unitbox = $('#unitbox');
   var api = null;
-  var S = { tower: 'S', floor: 18, unit: null, f: { type: '', budget: '', facing: '', band: '' } };
+  var S = { tower: A.PROJECT.story.tower, floor: A.PROJECT.story.floor, unit: null, f: { type: '', budget: '', facing: '', band: '' } };
 
   /* ---------- state <-> URL ---------- */
   var q = new URLSearchParams(location.search);
   ['type', 'budget', 'facing', 'band'].forEach(function (k) { if (q.get(k)) S.f[k] = q.get(k); });
   if (q.get('tower') && A.tower(q.get('tower'))) S.tower = q.get('tower');
-  if (q.get('floor')) S.floor = Math.max(1, Math.min(A.tower(S.tower).floors, +q.get('floor') || 18));
+  if (q.get('floor')) S.floor = Math.max(1, Math.min(A.tower(S.tower).floors, +q.get('floor') || A.PROJECT.story.floor));
   if (q.get('unit') && A.unit(q.get('unit'))) { var u0 = A.unit(q.get('unit')); S.tower = u0.tower; S.floor = u0.floor; S.unit = u0.id; }
   function syncURL() {
     var p = new URLSearchParams();
@@ -25,7 +25,7 @@
     var f = S.f;
     if (f.type && u.type !== f.type) return false;
     if (f.budget) { var b = f.budget.split('-'), pr = A.price(u).total; if (pr < +b[0] || pr >= +b[1]) return false; }
-    if (f.facing) { if (f.facing === 'forest') { if (!u.forest) return false; } else if (u.facingFull.indexOf(f.facing) < 0) return false; }
+    if (f.facing) { if (f.facing === 'garden') { if (!u.garden) return false; } else if (u.facingFull.indexOf(f.facing) < 0) return false; }
     if (f.band) { var r = f.band.split('-'); if (u.floor < +r[0] || u.floor > +r[1]) return false; }
     return true;
   }
@@ -127,8 +127,8 @@
       holdNote +
       (st !== 'sold' ? '<details class="breakdown"><summary>How the price adds up</summary><table><tr><td>Basic price (' + A.sqft(t.carpet) + ' × ' + A.inrFull(pr.base) + ')</td><td>' + A.inrFull(t.carpet * pr.base) + '</td></tr>' +
         (pr.floorPLC ? '<tr><td>Floor rise (' + A.inrFull(pr.floorPLC) + '/sq ft)</td><td>' + A.inrFull(pr.floorPLC * t.carpet) + '</td></tr>' : '') +
-        (pr.plc ? '<tr><td>Location premium (' + (u.forest ? 'forest view' : '') + (u.forest && u.corner ? ', ' : '') + (u.corner ? 'corner' : '') + ')</td><td>' + A.inrFull(pr.plc * t.carpet) + '</td></tr>' : '') +
-        '<tr><td>Covered parking × ' + t.parking + '</td><td>' + A.inrFull(pr.parking) + '</td></tr><tr><td>Canopy Club membership</td><td>' + A.inrFull(pr.club) + '</td></tr><tr><td>Maintenance security (IFMS)</td><td>' + A.inrFull(pr.ifms) + '</td></tr><tr><td>GST at 5%</td><td>' + A.inrFull(pr.gst) + '</td></tr><tr class="t"><td>All-inclusive</td><td>' + A.inrFull(pr.total) + '</td></tr></table><p class="muted" style="font-size:12.5px;margin-top:8px">Stamp duty and registration are extra and paid to the government. Indicative until your cost sheet is signed.</p></details>' : '') +
+        (pr.plc ? '<tr><td>Location premium (' + (u.garden ? 'garden view' : '') + (u.garden && u.corner ? ', ' : '') + (u.corner ? 'corner' : '') + ')</td><td>' + A.inrFull(pr.plc * t.carpet) + '</td></tr>' : '') +
+        '<tr><td>Covered parking × ' + t.parking + '</td><td>' + A.inrFull(pr.parking) + '</td></tr><tr><td>Club membership</td><td>' + A.inrFull(pr.club) + '</td></tr><tr><td>Maintenance security (IFMS)</td><td>' + A.inrFull(pr.ifms) + '</td></tr><tr><td>GST at 5%</td><td>' + A.inrFull(pr.gst) + '</td></tr><tr class="t"><td>All-inclusive</td><td>' + A.inrFull(pr.total) + '</td></tr></table><p class="muted" style="font-size:12.5px;margin-top:8px">Stamp duty and registration are extra and paid to the government. Indicative until your cost sheet is signed.</p></details>' : '') +
       '<div class="acts">' + (st === 'avail' ? '<button type="button" class="btn" id="hold-btn">Hold it for 48 hours <span class="ar" aria-hidden="true">→</span></button>' : '') +
       '<a class="btn ghost" href="visit.html?unit=' + u.id + '">Book a visit for ' + u.id + '</a>' +
       '<a class="btn ghost" href="payment.html?unit=' + u.id + '">Cost sheet &amp; EMI</a>' +
@@ -174,7 +174,7 @@
   $$('.pk-ctl button').forEach(function (b) {
     b.addEventListener('click', function () { if (!api) return; var z = b.dataset.z; if (z === 'in') api.zoom(0.8); else if (z === 'out') api.zoom(1.25); else { api.clearFloor(); api.overview(); } });
   });
-  A.V3D = 10;
+  A.V3D = 11;
   A.load3D(function () {
     if (!window.Aaranya3D) return;
     try {

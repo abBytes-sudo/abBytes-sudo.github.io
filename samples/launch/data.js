@@ -21,7 +21,7 @@
   /* ---------------- project ---------------- */
   A.PROJECT = {
     name: 'Aaranya Residences', developer: 'Saptaparni Developers', sector: 'Sector 109, Dwarka Expressway, Gurugram',
-    rera: 'HRERA-GGM-XX-0109-2025', reraSite: 'haryanarera.gov.in', acres: 4.6, openPct: 70, trees: 1140,
+    rera: 'HRERA-GGM-XX-0109-2025', reraSite: 'haryanarera.gov.in', acres: 4.6, openPct: 79, homes: 612, story: { tower: 'A', floor: 40 },
     launch: 'September 2025', possession: 'December 2029', possessionTarget: 'June 2029',
     floorH: 3.25, lobbyH: 5.2
   };
@@ -51,19 +51,19 @@
   /* ---------------- towers + floor plates ---------------- */
   // rect = [x0, z0, x1, z1] in tower-local metres; face = which z edge is the exterior facade ('n' = -z, 's' = +z); m = mirror rooms.
   A.TOWERS = [
-    { id: 'S', name: 'Sal', floors: 34, w: 48, d: 28, x: -42, z: -24, rot: 0, rate: 1.06, core: [-6, -6, 6, 6],
-      note: 'The tallest of the three. Four residences a floor, every one a corner.',
+    { id: 'A', name: 'Tower A', floors: 46, w: 48, d: 28, x: -42, z: -24, rot: 0, rate: 1.06, core: [-6, -6, 6, 6],
+      note: 'The tallest of the three: 46 floors, four corner homes on each, and the Sky Club on the roof.',
       units: [['01', 'D', [-24, -14, -6, 0], 'n', 0], ['02', 'C', [6, -14, 24, 0], 'n', 1], ['03', 'D', [6, 0, 24, 14], 's', 1], ['04', 'C', [-24, 0, -6, 14], 's', 0]] },
-    { id: 'K', name: 'Kadamb', floors: 30, w: 44, d: 26, x: 32, z: -38, rot: 0, rate: 1.02, core: [-5, -5, 5, 5],
-      note: 'Faces the forest court on the south and the sector greens on the north.',
+    { id: 'B', name: 'Tower B', floors: 44, w: 44, d: 26, x: 32, z: -38, rot: 0, rate: 1.02, core: [-5, -5, 5, 5],
+      note: 'Looks south over the podium gardens and north across the sector to the Expressway skyline.',
       units: [['01', 'B', [-22, -13, -5, 0], 'n', 0], ['02', 'C', [5, -13, 22, 0], 'n', 1], ['03', 'B', [5, 0, 22, 13], 's', 1], ['04', 'B', [-22, 0, -5, 13], 's', 0]] },
-    { id: 'A', name: 'Arjun', floors: 26, w: 52, d: 22, x: 56, z: 22, rot: Math.PI / 2, rate: 1.0, core: [18, -11, 26, 11],
-      note: 'Six homes a floor along a daylit corridor; the west side looks straight into the forest.',
+    { id: 'C', name: 'Tower C', floors: 42, w: 52, d: 22, x: 56, z: 22, rot: Math.PI / 2, rate: 1.0, core: [18, -11, 26, 11],
+      note: 'Six homes a floor along a daylit corridor; the west side watches the sun go down over the podium.',
       units: [['01', 'A', [-26, -11, -12, -1.2], 'n', 0], ['02', 'B', [-12, -11, 4, -1.2], 'n', 0], ['03', 'A', [4, -11, 18, -1.2], 'n', 1],
         ['04', 'A', [4, 1.2, 18, 11], 's', 1], ['05', 'B', [-12, 1.2, 4, 11], 's', 0], ['06', 'A', [-26, 1.2, -12, 11], 's', 0]] }
   ];
   A.tower = function (id) { for (var i = 0; i < A.TOWERS.length; i++) if (A.TOWERS[i].id === id) return A.TOWERS[i]; return null; };
-  A.CLUB = { x: -44, z: 36, w: 38, d: 20, h: 9.5 };
+  A.CLUB = { x: -44, z: 36, w: 38, d: 20, h: 9.5, name: 'Podium Club' };
   A.SITE = { x0: -86, z0: -64, x1: 86, z1: 62, centre: [6, 4] };
 
   /* ---------------- units ---------------- */
@@ -83,12 +83,12 @@
       var fdx = nn[0] * 1.2 + off[0] / (T.w / 2), fdz = nn[1] * 1.2 + off[1] / (T.w / 2);
       var ci = compass(fdx, fdz);
       var toC = [A.SITE.centre[0] - wx, A.SITE.centre[1] - wz], L = Math.hypot(toC[0], toC[1]) || 1;
-      var forest = (nn[0] * toC[0] + nn[1] * toC[1]) / L > 0.35;
-      var view = forest ? 'Forest court' : ({ N: 'Sector greens', NE: 'Sector greens', E: 'Sunrise side', SE: 'Clubhouse lawns', S: 'Clubhouse lawns', SW: 'Sunset side', W: 'Sunset · Expressway', NW: 'Sunset side' })[WIND_S[ci]];
+      var garden = (nn[0] * toC[0] + nn[1] * toC[1]) / L > 0.35;
+      var view = garden ? 'Podium garden' : ({ N: 'City skyline', NE: 'City skyline', E: 'Sunrise side', SE: 'Podium club', S: 'Podium club', SW: 'Sunset side', W: 'Expressway · sunset', NW: 'City skyline' })[WIND_S[ci]];
       for (var f = 1; f <= T.floors; f++) {
         var id = T.id + '-' + f + u[0];
-        var unit = { id: id, tower: T.id, floor: f, pos: u[0], type: u[1], rect: r, face: u[3], mirror: u[4], facing: WIND[ci], facingS: WIND_S[ci][0], facingFull: WIND_S[ci], view: view, forest: forest,
-          corner: T.id !== 'A' || u[0] === '01' || u[0] === '06' || u[0] === '03' || u[0] === '04' };
+        var unit = { id: id, tower: T.id, floor: f, pos: u[0], type: u[1], rect: r, face: u[3], mirror: u[4], facing: WIND[ci], facingS: WIND_S[ci][0], facingFull: WIND_S[ci], view: view, garden: garden,
+          corner: T.id !== 'C' || u[0] === '01' || u[0] === '06' || u[0] === '03' || u[0] === '04' };
         units.push(unit); byId[id] = unit;
       }
     });
@@ -105,7 +105,7 @@
     var T = A.tower(u.tower), t = A.TYPES[u.type];
     var base = A.RATE * T.rate;
     var floorPLC = Math.max(0, u.floor - 4) * 55;
-    var plc = (u.forest ? 450 : 0) + (u.corner ? 200 : 0);
+    var plc = (u.garden ? 450 : 0) + (u.corner ? 200 : 0);
     var top = u.floor > T.floors - 3 ? 600 : 0;
     var rate = Math.round(base + floorPLC + plc + top);
     var basic = rate * t.carpet;
@@ -118,14 +118,14 @@
   /* ---------------- availability: seeded + overrides from the back office ---------------- */
   function seedStatus(u) {
     var r = rng(hash(u.id))(); var T = A.tower(u.tower);
-    var pSold = 0.5 + (u.floor <= 8 ? 0.16 : 0) + (u.forest ? 0.1 : 0) - (u.floor > T.floors - 4 ? 0.14 : 0) + (u.type === 'A' ? 0.08 : 0) - (u.type === 'D' ? 0.06 : 0);
+    var pSold = 0.5 + (u.floor <= 8 ? 0.16 : 0) + (u.garden ? 0.1 : 0) - (u.floor > T.floors - 4 ? 0.14 : 0) + (u.type === 'A' ? 0.08 : 0) - (u.type === 'D' ? 0.06 : 0);
     if (r < pSold) return 'sold';
     if (r < pSold + 0.07) return 'hold';
     return 'avail';
   }
   var seeded = {}; units.forEach(function (u) { seeded[u.id] = seedStatus(u); });
-  // the story floor in the hero (Sal, 18th) keeps a readable mix
-  seeded['S-1801'] = 'sold'; seeded['S-1802'] = 'avail'; seeded['S-1803'] = 'hold'; seeded['S-1804'] = 'avail';
+  // the story floor in the hero (Tower A, 40th) keeps a readable mix
+  seeded['A-4001'] = 'sold'; seeded['A-4002'] = 'avail'; seeded['A-4003'] = 'hold'; seeded['A-4004'] = 'avail';
 
   A.inv = function () { return A.get('inv', {}); };
   A.status = function (id) {
@@ -212,11 +212,11 @@
   var REMARKS = [
     'Wants an east-facing 3 BHK above the 15th; asked twice about winter sun in the living room.',
     'Comparing with a ready-to-move tower on Golf Course Extension. Price is the objection, not the product.',
-    'Husband in Dubai, joins on video. Prefers Sal for the corner living room. Send the NRI payment note.',
-    'Liked the forest court view in the 3D model. Wants the cost sheet for K-1403 with two parkings.',
+    'Husband in Dubai, joins on video. Prefers Tower A for the corner living room. Send the NRI payment note.',
+    'Liked the skyline from the 34th floor in the 3D model. Wants the cost sheet for B-3403 with two parkings.',
     'Visited last Sunday with parents. Mother wants a lower floor; asked for 6th–9th options.',
     'Home-loan pre-approved for ₹1.6 Cr. Asked if the subvention plan is still open.',
-    'Channel partner lead. Partner wants to hold two Arjun 2 BHKs till Friday.',
+    'Channel partner lead. Partner wants to hold two Tower C 2 BHKs till Friday.',
     'Downloaded the brochure at 11:40 pm. Not picked up twice; try after 6 pm.',
     'Investor; asking about rental demand near the Expressway and resale lock-in.',
     'Wants a video walkthrough of the show apartment; in London time zone.'
@@ -264,17 +264,23 @@
     ['11:30', '11:30', '11:30', '15:00', '15:00'].forEach(function (s, k) { visits.push({ id: 'V' + (731 + vi++), lead: null, name: 'Weekend visitor ' + (k + 1), unit: null, slot: A.slotKey(sun, s), mode: 'lounge', party: 3, rm: ['KA', 'SQ', 'DM'][k % 3], outcome: null, source: 'Phone', created: now - k * 36e5 }); });
     // a couple of live holds so the back office has something to act on
     var inv = {};
-    inv['K-1403'] = { s: 'hold', at: now - 20 * 36e5, until: now + 28 * 36e5, by: 'Sana Qureshi', note: 'Varun Sethi · cost sheet sent, cheque on Friday' };
-    inv['A-701'] = { s: 'hold', at: now - 40 * 36e5, until: now + 8 * 36e5, by: 'Channel partner · Arora Homes Desk', note: 'Two Arjun 2 BHKs for a family' };
-    inv['A-706'] = { s: 'hold', at: now - 40 * 36e5, until: now + 8 * 36e5, by: 'Channel partner · Arora Homes Desk', note: 'Two Arjun 2 BHKs for a family' };
-    inv['S-2204'] = { s: 'sold', at: now - 3 * DAY, by: 'Ritika Menon', note: 'Booked · Pallavi Joshi, cheque cleared' };
+    inv['B-3403'] = { s: 'hold', at: now - 20 * 36e5, until: now + 28 * 36e5, by: 'Sana Qureshi', note: 'Varun Sethi · cost sheet sent, cheque on Friday' };
+    inv['C-701'] = { s: 'hold', at: now - 40 * 36e5, until: now + 8 * 36e5, by: 'Channel partner · Arora Homes Desk', note: 'Two Tower C 2 BHKs for a family' };
+    inv['C-706'] = { s: 'hold', at: now - 40 * 36e5, until: now + 8 * 36e5, by: 'Channel partner · Arora Homes Desk', note: 'Two Tower C 2 BHKs for a family' };
+    inv['A-2204'] = { s: 'sold', at: now - 3 * DAY, by: 'Ritika Menon', note: 'Booked · Pallavi Joshi, cheque cleared' };
     return { leads: leads, visits: visits, inv: inv };
   }
 
   A.init = function (force) {
-    if (!force && A.get('v', 0) === 3) return;
+    if (!force && A.get('v', 0) === 4) return;
+    try { Object.keys(localStorage).forEach(function (k) { if (k.indexOf(P) === 0 && k !== P + 'hour') localStorage.removeItem(k); }); } catch (e) { }
+    // the concierge keeps its chats, leads and events under "orbit-*" (shared with other sites): drop only this site's old ones
+    try {
+      ['orbit-convos', 'orbit-leads', 'orbit-events'].forEach(function (k) { var a = JSON.parse(localStorage.getItem(k) || 'null'); if (Array.isArray(a)) localStorage.setItem(k, JSON.stringify(a.filter(function (x) { return !x || x.agent !== 'launch'; }))); });
+      Object.keys(localStorage).forEach(function (k) { if (k === 'orbit-kb-launch' || k.indexOf('orbit-data-launch-') === 0) localStorage.removeItem(k); });
+    } catch (e) { }
     var s = seed();
-    set('leads', s.leads); set('visits', s.visits); set('inv', s.inv); set('log', []); set('v', 3);
+    set('leads', s.leads); set('visits', s.visits); set('inv', s.inv); set('log', []); set('v', 4);
     try { localStorage.removeItem('demo-bridge:site-visits'); } catch (e) { }
     s.visits.filter(function (v) { return v.lead && A.slotTime(v.slot) > Date.now(); }).slice(0, 4).forEach(bridge);
   };
@@ -390,7 +396,7 @@
   };
 
   /* ---------------- construction progress (slabs cast) ---------------- */
-  A.PROGRESS = { S: 22, K: 26, A: 26, club: 'Structure complete · façade in progress', asOf: 'November 2026' };
+  A.PROGRESS = { A: 27, B: 23, C: 21, club: 'Podium slab cast · façade in progress', asOf: 'November 2026' };
 
   A.init();
 })();

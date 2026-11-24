@@ -15,8 +15,8 @@
   var TYPEIMG = { A: 'i-family', B: 'i-bed-study', C: 'i-living', D: 'i-sunroom' };
   var BHK = { A: '2 BHK', B: '3 BHK', C: '3 BHK + study', D: '4 BHK' };
   var BUDGETS = { u25: [0, 2.5e7, 'Under ₹2.5 Cr'], m35: [2.5e7, 3.5e7, '₹2.5–3.5 Cr'], m50: [3.5e7, 5e7, '₹3.5–5 Cr'], o50: [5e7, 9e9, '₹5 Cr +'], any: [0, 9e9, 'Any budget'] };
-  var BANDS = { low: [1, 8, 'Lower floors (1–8)'], mid: [9, 20, 'Middle floors (9–20)'], high: [21, 40, 'High floors (21 +)'], any: [1, 40, 'Any floor'] };
-  var FACE = { forest: 'Forest court', N: 'North', E: 'East', S: 'South', W: 'West', any: 'Any facing' };
+  var BANDS = { low: [1, 12, 'Lower floors (1–12)'], mid: [13, 28, 'Middle floors (13–28)'], high: [29, 46, 'High floors (29 +)'], any: [1, 46, 'Any floor'] };
+  var FACE = { garden: 'Podium garden', N: 'North', E: 'East', S: 'South', W: 'West', any: 'Any facing' };
 
   /* ---------- reading what people type ---------- */
   function typeFrom(t) {
@@ -32,7 +32,7 @@
     if (mn >= 5e7) return 'o50'; if (mn >= 3.5e7) return 'm50';
   }
   function crFrom(t) { var m = String(t).toLowerCase().match(/(\d+(?:\.\d+)?)\s*(cr|crore|c\b)/); if (m) return +m[1] * 1e7; var l = String(t).toLowerCase().match(/(\d+(?:\.\d+)?)\s*(l|lakh|lac)/); if (l) return +l[1] * 1e5; var x = N.money(t); return x && (x.max || x.min) ? ((x.max || x.min) < 1e3 ? (x.max || x.min) * 1e7 : (x.max || x.min)) : undefined; }
-  function faceFrom(t) { t = ' ' + String(t).toLowerCase() + ' '; if (/forest|green|garden|park|court|trees/.test(t)) return 'forest'; if (/\b(east|purab|poorab|sunrise)\b/.test(t)) return 'E'; if (/\b(north|uttar)\b/.test(t)) return 'N'; if (/\b(west|paschim|sunset)\b/.test(t)) return 'W'; if (/\b(south|dakshin)\b/.test(t)) return 'S'; }
+  function faceFrom(t) { t = ' ' + String(t).toLowerCase() + ' '; if (/garden|green|podium|park|court|lawn/.test(t)) return 'garden'; if (/\b(east|purab|poorab|sunrise)\b/.test(t)) return 'E'; if (/\b(north|uttar)\b/.test(t)) return 'N'; if (/\b(west|paschim|sunset)\b/.test(t)) return 'W'; if (/\b(south|dakshin)\b/.test(t)) return 'S'; }
   function bandFrom(t) { t = String(t).toLowerCase(); if (/high|top|upper|above 20|view|oonch/.test(t)) return 'high'; if (/low|ground|lower|parents|elderly|neeche|first few/.test(t)) return 'low'; if (/mid|middle|10th|12th|15th/.test(t)) return 'mid'; }
   function unitFrom(t) { var m = String(t).toUpperCase().match(/\b([SKA])\s*-?\s*(\d{3,4})\b/); if (!m) return; var id = m[1] + '-' + m[2]; return A() && A().unit(id) ? id : undefined; }
 
@@ -43,7 +43,7 @@
     var L = a.UNITS.filter(function (u) {
       if (a.status(u.id) !== 'avail') return false; if (s.type && s.type !== 'any' && u.type !== s.type) return false;
       if (u.floor < fb[0] || u.floor > fb[1]) return false;
-      if (s.face && s.face !== 'any') { if (s.face === 'forest') { if (!u.forest) return false; } else if (u.facingFull.indexOf(s.face) < 0) return false; }
+      if (s.face && s.face !== 'any') { if (s.face === 'garden') { if (!u.garden) return false; } else if (u.facingFull.indexOf(s.face) < 0) return false; }
       var p = a.price(u).total; return p >= b[0] && p < b[1];
     });
     // spread the answer across towers and floors, best value first
@@ -56,7 +56,7 @@
     var a = A(), t = a.TYPES[u.type], st = a.status(u.id), pr = a.price(u), T = a.tower(u.tower);
     var mates = a.floorUnits(u.tower, u.floor).filter(function (x) { return a.status(x.id) === 'avail'; }).length;
     return { title: u.id + ' · ' + t.short, sub: T.name + ' · ' + a.ord(u.floor) + ' floor · ' + u.facing.toLowerCase() + ' facing', img: img(TYPEIMG[u.type]),
-      badge: st === 'hold' ? 'On hold' : st === 'sold' ? 'Sold' : mates === 1 ? 'Last on this floor' : u.forest ? 'Forest view' : '',
+      badge: st === 'hold' ? 'On hold' : st === 'sold' ? 'Sold' : mates === 1 ? 'Last on this floor' : u.garden ? 'Garden view' : u.floor >= 36 ? 'High floor' : '',
       price: st === 'sold' ? 'Sold' : a.inr(pr.total), priceLabel: 'all-inclusive',
       meta: [t.carpet.toLocaleString('en-IN') + ' sq ft carpet', u.view, t.parking + ' covered parking'],
       buttons: extra || [B('Open in the picker', 'act:go:picker.html?unit=' + u.id), B('Visit this home', 'act:visit:' + u.id), B('EMI for it', 'act:emi:' + u.id)] };
@@ -97,7 +97,7 @@
     helloLine: 'I can find you a home, book a site visit, work out an EMI or connect you to the NRI desk.',
     samples: ['3 bhk under 3.5 cr east facing', 'kitne ka hai 4 bhk', 'kal subah site visit', 'EMI on 3 crore for 20 years'],
     kind: 'customer', menu: MENU,
-    contexts: [{ label: 'Home page', context: { page: 'index' } }, { label: 'Unit picker, S-1802', context: { page: 'picker', unit: 'S-1802' } }, { label: 'NRI desk', context: { page: 'nri' } }],
+    contexts: [{ label: 'Home page', context: { page: 'index' } }, { label: 'Unit picker, A-4002', context: { page: 'picker', unit: 'A-4002' } }, { label: 'NRI desk', context: { page: 'nri' } }],
     synonyms: {
       'how much': ['kitne ka hai', 'kitne ki hai', 'kitna hai', 'kitne ka', 'kitna lagega', 'price kya hai', 'rate kya hai', 'cost kya hai', 'daam'],
       'tomorrow': ['kal'], 'morning': ['subah'], 'evening': ['shaam', 'sham'], 'afternoon': ['dopahar'],
@@ -131,7 +131,7 @@
       if (c.page === 'nri') { bot.say(hi + ' Buying from abroad? Farah runs our NRI desk: video walkthroughs at your hour, NRE payments, and the power of attorney for registration.', { buttons: [B('Set up a video walkthrough', 'intent:nri'), B('Prices in my currency', 'say:prices in dollars'), B('Find me a home', 'flow:find')] }); return; }
       if (c.page === 'visit') { bot.say(hi + ' I can book your visit right here, with a pickup from the metro if you like.', { buttons: [B('Book a site visit', 'flow:visit'), B('Where is it?', 'say:where is aaranya'), B('Something else', 'menu')] }); return; }
       var n = a.counts();
-      bot.say(hi + ' I’m Aaranya’s concierge. **' + n.avail + ' homes** are open today across Sal, Kadamb and Arjun. Tell me what you’re looking for in your own words, like “3 BHK under 3.5 crore, east facing”.', { buttons: MENU });
+      bot.say(hi + ' I’m Aaranya’s concierge. **' + n.avail + ' homes** are open today across Towers A, B and C. Tell me what you’re looking for in your own words, like “3 BHK under 3.5 crore, east facing”.', { buttons: MENU });
     },
     extract: function (text) {
       text = String(text).replace(/\bkal\b/gi, 'tomorrow').replace(/\bparson\b/gi, 'day after tomorrow').replace(/\bsubah\b/gi, 'morning').replace(/\bshaam\b/gi, 'evening');
@@ -148,7 +148,7 @@
       { id: 'price', label: 'Prices', kw: ['how much', 'price', 'prices', 'rate', 'cost', 'starting price', 'price list'], priority: 2,
         run: function (bot, m) {
           var a = A(); if (!a) return; if (m.ent.unit) { bot.agent.actions.unit(bot, m.ent.unit); return; }
-          if (m.ent.type) { var mp = a.minPrice(m.ent.type); bot.say('A **' + a.TYPES[m.ent.type].short + '** starts at **' + (mp ? a.inr(mp) : 'sold out') + '** all-inclusive today, with ' + a.counts(function (u) { return u.type === m.ent.type; }).avail + ' open. Prices rise about ₹55 per sq ft a floor above the 4th, and forest-facing homes carry a premium.', { buttons: [B('Show me the open ones', 'act:findtype:' + m.ent.type), B('EMI on that', 'act:emitype:' + m.ent.type), B('Book a visit', 'flow:visit')] }); return; }
+          if (m.ent.type) { var mp = a.minPrice(m.ent.type); bot.say('A **' + a.TYPES[m.ent.type].short + '** starts at **' + (mp ? a.inr(mp) : 'sold out') + '** all-inclusive today, with ' + a.counts(function (u) { return u.type === m.ent.type; }).avail + ' open. Prices rise about ₹55 per sq ft a floor above the 4th, and garden-facing homes carry a premium.', { buttons: [B('Show me the open ones', 'act:findtype:' + m.ent.type), B('EMI on that', 'act:emitype:' + m.ent.type), B('Book a visit', 'flow:visit')] }); return; }
           bot.say('All-inclusive prices today (parking, club and GST included):\n' + ['A', 'B', 'C', 'D'].map(function (k) { var mp = a.minPrice(k); return '• **' + a.TYPES[k].short + '** from ' + (mp ? a.inr(mp) : 'sold out'); }).join('\n'), { buttons: [B('Find one in my budget', 'flow:find'), B('How the price adds up', 'say:what is included in the price'), B('Payment plans', 'intent:pay')] });
         } },
       { id: 'visit', label: 'Site visit', kw: ['site visit', 'book a visit', 'visit', 'come and see', 'appointment', 'meet', 'see the flat', 'walkthrough'], priority: 2,
@@ -171,8 +171,8 @@
       find: { intent: 'find', slots: [
         { name: 'type', ask: function (bot) { bot.say('How many bedrooms?', { buttons: [B('2 BHK', 'slot:type=A'), B('3 BHK', 'slot:type=B'), B('3 BHK + study', 'slot:type=C'), B('4 BHK', 'slot:type=D'), B('Show me all', 'slot:type=any')] }); }, parse: function (t) { return typeFrom(t) || (/any|all|koi bhi|doesn.?t matter/i.test(t) ? 'any' : undefined); } },
         { name: 'budget', ask: function (bot) { bot.say('And the budget, all-inclusive?', { buttons: Object.keys(BUDGETS).map(function (k) { return B(BUDGETS[k][2], 'slot:budget=' + k); }) }); }, parse: function (t) { return budgetFrom(t) || (/any|no limit|flexible/i.test(t) ? 'any' : undefined); } },
-        { name: 'face', ask: function (bot) { bot.say('Any preference on facing? Forest-court homes look straight into the trees.', { buttons: Object.keys(FACE).map(function (k) { return B(FACE[k], 'slot:face=' + k); }) }); }, parse: function (t) { return faceFrom(t) || (/any|doesn.?t matter|no/i.test(t) ? 'any' : undefined); } },
-        { name: 'band', ask: function (bot) { bot.say('Which floors suit you? Higher floors see over the forest; lower ones are quicker for parents.', { buttons: Object.keys(BANDS).map(function (k) { return B(BANDS[k][2], 'slot:band=' + k); }) }); }, parse: function (t) { return bandFrom(t) || (/any|doesn.?t matter/i.test(t) ? 'any' : undefined); } }
+        { name: 'face', ask: function (bot) { bot.say('Any preference on facing? Podium-garden homes look down onto the landscaped decks; the others look out to the skyline.', { buttons: Object.keys(FACE).map(function (k) { return B(FACE[k], 'slot:face=' + k); }) }); }, parse: function (t) { return faceFrom(t) || (/any|doesn.?t matter|no/i.test(t) ? 'any' : undefined); } },
+        { name: 'band', ask: function (bot) { bot.say('Which floors suit you? Higher floors see further over the skyline; lower ones are quicker for parents.', { buttons: Object.keys(BANDS).map(function (k) { return B(BANDS[k][2], 'slot:band=' + k); }) }); }, parse: function (t) { return bandFrom(t) || (/any|doesn.?t matter/i.test(t) ? 'any' : undefined); } }
       ], done: function (bot, s) {
         var r = search(s), loosened = '';
         if (!r.list.length && s.band && s.band !== 'any') { r = search(Object.assign({}, s, { band: 'any' })); loosened = 'Nothing on those floors, so I opened up every floor. '; }
@@ -189,7 +189,7 @@
         { name: 'slot', ask: function (bot, s) { var b = slotButtons(s.day, s.mode); if (!b.length) { bot.say('That day is full. Pick another?', { buttons: dayButtons() }); bot.slots.day = undefined; return; } bot.say('What time on **' + A().fmtDay(s.day, { weekday: 'long', day: 'numeric', month: 'short' }) + '**?' + (s.mode === 'video' ? ' (India time)' : ''), { buttons: b }); },
           parse: function (t, bot, s) { if (/^\d{4}-\d\d-\d\d \d\d:\d\d$/.test(String(t).trim())) return String(t).trim(); var w = N.when(t), a = A(), tm = w && w.time; if (!tm && w && w.part) tm = w.part === 'morning' ? '11:30' : w.part === 'afternoon' ? '15:00' : '18:00'; if (!tm) return; var best = a.SLOTS.slice().sort(function (x, y) { return Math.abs(+x.replace(':', '') - +tm.replace(':', '')) - Math.abs(+y.replace(':', '') - +tm.replace(':', '')); })[0]; return a.slotKey(s.day, best); },
           validate: function (v, bot, s) { var a = A(); if (a.slotTime(v) < Date.now() + 36e5) return 'That time has passed or is too soon. Pick a later one.'; if (s.mode !== 'video' && a.slotUsed(v) >= a.SLOT_CAP) return 'That slot just filled. Pick another.'; } },
-        { name: 'unit', optional: true, when: function (bot, s) { return !s.unit && !bot.mem.askedUnit; }, ask: function (bot) { bot.mem.askedUnit = 1; var sh = []; try { sh = JSON.parse(localStorage.getItem('aaranya:short') || '[]'); } catch (e) {} bot.say('Any home you’d like open on the big screen? Type a unit (like S-1802) or skip.', { buttons: sh.slice(0, 3).map(function (id) { return B(id, 'slot:unit=' + id); }).concat([B('Skip', 'slot:unit=none')]) }); }, parse: function (t) { return unitFrom(t) || (/skip|no|none|not yet|later/i.test(t) ? 'none' : undefined); } },
+        { name: 'unit', optional: true, when: function (bot, s) { return !s.unit && !bot.mem.askedUnit; }, ask: function (bot) { bot.mem.askedUnit = 1; var sh = []; try { sh = JSON.parse(localStorage.getItem('aaranya:short') || '[]'); } catch (e) {} bot.say('Any home you’d like open on the big screen? Type a unit (like A-4002) or skip.', { buttons: sh.slice(0, 3).map(function (id) { return B(id, 'slot:unit=' + id); }).concat([B('Skip', 'slot:unit=none')]) }); }, parse: function (t) { return unitFrom(t) || (/skip|no|none|not yet|later/i.test(t) ? 'none' : undefined); } },
         { name: 'name', ask: function (bot) { bot.say('Who should we expect? Your full name.'); }, parse: function (t) { var n = N.name(t) || String(t).trim(); return n.length >= 2 && !/\d/.test(n) ? n.replace(/\b[a-z]/g, function (c) { return c.toUpperCase(); }).slice(0, 40) : undefined; }, hint: 'Just your name, like “Aditi Khurana”.' },
         { name: 'phone', ask: function (bot, s) { bot.say('And a WhatsApp number for ' + first(s.name) + '? The confirmation and one reminder go there, nothing else.'); }, parse: function (t) { return N.phone(t); }, validate: function (v) { var d = String(v).replace(/\D/g, ''); if (d.length < 10) return 'That number looks short. Include the country code if you’re abroad.'; } }
       ], done: function (bot, s) {
@@ -234,34 +234,34 @@
     },
     actions: {
       go: function (bot, url) { go(bot, url); },
-      unit: function (bot, id) { var a = A(), u = a.unit(id); if (!u) { bot.say('I can’t find ' + id + '. Units look like S-1802: tower, floor, home.'); return; } bot.say(id + ' is **' + a.STATUS[a.status(id)].label.toLowerCase() + '**.', { cards: [unitCard(u)] }); },
+      unit: function (bot, id) { var a = A(), u = a.unit(id); if (!u) { bot.say('I can’t find ' + id + '. Units look like A-4002: tower, floor, home.'); return; } bot.say(id + ' is **' + a.STATUS[a.status(id)].label.toLowerCase() + '**.', { cards: [unitCard(u)] }); },
       visit: function (bot, id) { bot.startFlow('visit', { unit: id }); },
       emi: function (bot, id) { var a = A(); bot.startFlow('emi', { price: a.price(id).total }); },
       emitype: function (bot, k) { var mp = A().minPrice(k); bot.startFlow('emi', { price: mp }); },
       emiy: function (bot, arg) { var p = arg.split('|'); bot.startFlow('emi', { price: +p[0], years: +p[1] }); },
       findtype: function (bot, k) { bot.startFlow('find', { type: k, budget: 'any', face: 'any', band: 'any' }); },
       findbudget: function (bot, p) { p = +p; var k = p <= 2.5e7 ? 'u25' : p <= 3.5e7 ? 'm35' : p <= 5e7 ? 'm50' : 'o50'; bot.startFlow('find', { budget: k, face: 'any', band: 'any' }); },
-      similar: function (bot, id) { var u = A().unit(id); bot.startFlow('find', { type: u.type, budget: 'any', face: u.forest ? 'forest' : 'any', band: 'any' }); },
+      similar: function (bot, id) { var u = A().unit(id); bot.startFlow('find', { type: u.type, budget: 'any', face: u.garden ? 'garden' : 'any', band: 'any' }); },
       picker: function (bot, arg) { var p = arg.split('|'), q = []; if (p[0] && p[0] !== 'any' && p[0] !== 'undefined') q.push('type=' + p[0]); if (/^max:/.test(p[1] || '')) q.push('budget=0-' + p[1].slice(4)); else if (p[1] && BUDGETS[p[1]] && p[1] !== 'any') q.push('budget=' + BUDGETS[p[1]][0] + '-' + BUDGETS[p[1]][1]); if (p[2] && p[2] !== 'any' && p[2] !== 'undefined') q.push('facing=' + p[2]); if (p[3] && BANDS[p[3]] && p[3] !== 'any') q.push('band=' + BANDS[p[3]][0] + '-' + BANDS[p[3]][1]); go(bot, 'picker.html?' + q.join('&'), 'Opening the picker with your filters…'); }
     },
     kb: [
-      { id: 'possession', q: 'When is possession?', a: 'The RERA possession date is **31 December 2029**; our target is June 2029. Arjun has topped out, Kadamb is at slab 26 of 30 and Sal at 22 of 34.', keys: ['possession', 'ready', 'handover date', 'when will it be ready', 'completion', 'kab milega'], buttons: [B('Construction photos', 'act:go:progress.html')] },
+      { id: 'possession', q: 'When is possession?', a: 'The RERA possession date is **31 December 2029**; our target is June 2029. Tower A is at slab 27 of 46, Tower B at 23 of 44 and Tower C at 21 of 42.', keys: ['possession', 'ready', 'handover date', 'when will it be ready', 'completion', 'kab milega'], buttons: [B('Construction photos', 'act:go:progress.html')] },
       { id: 'rera', q: 'Is it RERA registered?', a: 'Yes, with the Haryana RERA in Gurugram, registration **HRERA-GGM-XX-0109-2025**. 70% of what you pay goes into a project escrow account used only for this project.', keys: ['rera', 'registered', 'registration', 'approved', 'legal'], buttons: [B('Legal and RERA page', 'act:go:legal.html')] },
       { id: 'carpet', q: 'Carpet or super area?', a: 'Every area we quote is **RERA carpet**: wall to wall inside the home. A 3 BHK is 1,468 sq ft carpet plus 212 sq ft of balconies. We don’t price on super area.', keys: ['carpet', 'super area', 'built up', 'sq ft', 'size', 'area'] },
-      { id: 'included', q: 'What is included in the price?', a: 'The all-inclusive price covers the basic price, floor rise, location premium, covered parking, the Canopy Club membership, maintenance security and GST at 5%. Only stamp duty and registration are paid separately, to the state.', keys: ['included', 'all inclusive', 'hidden charges', 'extra charges', 'gst', 'plc'] },
+      { id: 'included', q: 'What is included in the price?', a: 'The all-inclusive price covers the basic price, floor rise, location premium, covered parking, the club membership, maintenance security and GST at 5%. Only stamp duty and registration are paid separately, to the state.', keys: ['included', 'all inclusive', 'hidden charges', 'extra charges', 'gst', 'plc'] },
       { id: 'parking', q: 'How much parking?', a: 'One covered bay with a 2 BHK, two with a 3 BHK, three with a 4 BHK, all in the basement, each with an EV charging point. 40 guest bays are at grade.', keys: ['parking', 'car park', 'ev charging', 'garage'] },
       { id: 'maintenance', q: 'What is the maintenance?', a: 'Estimated at **₹6.5 per sq ft of carpet a month** after possession, with the first year’s maintenance security (₹150 per sq ft) included in the price.', keys: ['maintenance', 'monthly charges', 'association', 'society charges'] },
-      { id: 'club', q: 'What is in the club?', a: 'The Canopy Club: a heated 25 m pool, a gym that looks into the trees, squash and badminton, a library lounge, work pods, a banquet hall and four guest suites. Membership is included.', keys: ['club', 'clubhouse', 'amenities', 'pool', 'gym', 'swimming'], buttons: [B('See the amenities', 'act:go:amenities.html')] },
-      { id: 'pets', q: 'Are pets allowed?', a: 'Yes. There’s a fenced pet park in the forest court and a separate service lift in every tower for pets.', keys: ['pet', 'pets', 'dog', 'cat'] },
+      { id: 'club', q: 'What is in the club?', a: 'The **Sky Club** on the roof of Tower A has an infinity-edge pool, a lounge and private dining. The **Podium Club** has a heated 25 m pool, a gym, squash and badminton, a library lounge, work pods, a banquet hall and four guest suites. Membership is included.', keys: ['club', 'clubhouse', 'amenities', 'pool', 'gym', 'swimming'], buttons: [B('See the amenities', 'act:go:amenities.html')] },
+      { id: 'pets', q: 'Are pets allowed?', a: 'Yes. There’s a fenced pet park on the podium and a service lift in every tower you can use with a pet.', keys: ['pet', 'pets', 'dog', 'cat'] },
       { id: 'metro', q: 'Is there a metro?', a: 'A Sector 109 station is **proposed** on the Dwarka Expressway line, about 900 m away, but not yet sanctioned. Today the nearest is Dwarka Sector 21, 14 minutes off-peak.', keys: ['metro', 'station', 'public transport'] },
-      { id: 'schools', q: 'Schools nearby?', a: 'Two CBSE schools and one IB school within 3 km, and a pre-school inside the Canopy Club.', keys: ['school', 'schools', 'education', 'kids school'] },
+      { id: 'schools', q: 'Schools nearby?', a: 'Two CBSE schools and one IB school within 3 km, and a pre-school inside the Podium Club.', keys: ['school', 'schools', 'education', 'kids school'] },
       { id: 'hospital', q: 'Hospital nearby?', a: 'A 450-bed multi-speciality hospital with a 24-hour emergency is 8 minutes away in Sector 110.', keys: ['hospital', 'medical', 'emergency', 'doctor'] },
       { id: 'power', q: 'Power and water?', a: '100% power back-up for homes and common areas, piped gas, a sewage treatment plant and rainwater harvesting.', keys: ['power backup', 'electricity', 'water', 'gas', 'backup'] },
       { id: 'loan', q: 'Which banks give loans?', a: 'Most major banks and housing-finance companies have approved the project, so loans of up to 80% are routine. Your relationship manager will share the list on the visit.', keys: ['bank', 'banks', 'approved', 'loan approval', 'hdfc', 'sbi'] },
       { id: 'stamp', q: 'Stamp duty?', a: 'In Haryana it’s **7%** if registered to a man, **5%** to a woman and **6%** jointly, plus a registration fee of up to ₹50,000.', keys: ['stamp duty', 'registration charges', 'registry'] },
       { id: 'cancel', q: 'Can I cancel a booking?', a: 'Before the agreement for sale, a booking can be cancelled with the booking amount refunded minus processing. After it, the terms in the agreement and RERA apply.', keys: ['cancel booking', 'refund', 'cancellation', 'exit'] },
       { id: 'vastu', q: 'Vastu and facing?', a: 'Many homes have east or north entrances, and every living room faces between south-east and south-west for winter sun. Tell me “east facing” and I’ll show you the open ones.', keys: ['vastu', 'vaastu', 'entrance direction', 'main door'] },
-      { id: 'hours', q: 'Sales lounge hours?', a: 'Open every day, **10:00 to 19:00**, with the show apartment, the model and a forest walk.', keys: ['timing', 'timings', 'open', 'hours', 'sunday', 'office'] },
+      { id: 'hours', q: 'Sales lounge hours?', a: 'Open every day, **10:00 to 19:00**, with the show apartment, the 3D model and a hard-hat walk on a tower floor.', keys: ['timing', 'timings', 'open', 'hours', 'sunday', 'office'] },
       { id: 'docs', q: 'NRI documents?', a: 'PAN card, passport with visa or OCI, an overseas address proof, an NRE or NRO account, and a power of attorney if you won’t be here to register. The NRI page has a checklist you can tick.', keys: ['nri documents', 'documents', 'paperwork', 'kyc'], buttons: [B('Open the NRI checklist', 'act:go:nri.html')] },
       { id: 'fx', q: 'Prices in my currency?', a: 'At this week’s reference rates, a 2 BHK starts around **USD 2.4 L (240,000)** or **AED 8.9 L**, and a 3 BHK around **USD 3.5 L**. The NRI page converts every price for your country.', keys: ['dollars', 'usd', 'aed', 'dirham', 'pounds', 'currency', 'my currency'], buttons: [B('Open the NRI desk', 'act:go:nri.html')] }
     ],

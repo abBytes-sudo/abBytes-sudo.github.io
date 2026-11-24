@@ -65,9 +65,9 @@ html.cg-lock,html.cg-lock body{overflow:hidden!important}
 @media (prefers-reduced-motion:reduce){.cg *,.cg *::before,.cg *::after{animation:none!important;transition:none!important}.cg-panel,.cg-launch,.cg-nudge{transition:none!important}}
 
 
-/* ───────── Aaranya: the brand layer ("Forest and light") ─────────
+/* ───────── Aaranya: the brand layer ("Height and light") ─────────
    The launcher is the sun on its path: a dotted arc with a gold sun that climbs on hover and sets into a close mark when open.
-   The panel is a forest clearing at dusk; cards are bone "drawings"; the typing indicator is three leaves turning in the light. */
+   The panel is a night-green lounge; cards are bone "drawings"; the typing indicator is three windows lighting up one by one. */
 .cg--ar{--c-ink:#ECE6D9;--c-mute:#9AA699;--c-bg:#0E1A14;--c-iron:#132219;--c-iron2:#1C2E23;--c-line:rgba(236,230,217,.12);--c-line2:rgba(236,230,217,.24);--c-acc:#E8B65A;--c-on-acc:#0E1A14;
   --c-sans:'Onest','Rupee',system-ui,sans-serif;--c-serif:'Fraunces','Rupee',Georgia,serif;
   --c-r:3px;--c-ease:cubic-bezier(.22,.9,.24,1);--c-w:410px;--c-launch-h:62px;--c-gap:12px;--c-z:940}
@@ -125,11 +125,11 @@ html.cg-lock,html.cg-lock body{overflow:hidden!important}
 .cg.cg--ar .ob-user .ob-ts{color:rgba(14,26,20,.6)}
 .cg.cg--ar .ob-sys{background:none;border:0;border-top:1px dashed var(--c-line2);border-radius:0;padding:8px 2px 0;font:400 12px/1.4 var(--c-sans);color:var(--c-mute);max-width:100%}
 .cg.cg--ar .ob-person{background:var(--c-iron2);border:1px solid var(--c-line2);border-left:3px solid #9CC7FF}.cg.cg--ar .ob-who{font:500 12px/1 var(--c-sans);color:#9CC7FF;margin-bottom:6px}
-/* typing: three leaves turning in the light */
+/* typing: three windows lighting up one by one */
 .cg.cg--ar .ob-typing{background:var(--c-iron);border:1px solid var(--c-line);border-radius:3px 12px 12px 12px;padding:12px 14px;width:auto;gap:6px;align-items:center}
-.cg.cg--ar .ob-typing span{width:9px;height:14px;border-radius:0 100% 0 100%;background:var(--c-acc);animation:arLeaf 1.3s var(--c-ease) infinite;transform-origin:50% 100%}
+.cg.cg--ar .ob-typing span{width:7px;height:12px;border-radius:1px;background:var(--c-acc);animation:arWin 1.3s var(--c-ease) infinite}
 .cg.cg--ar .ob-typing span:nth-child(2){animation-delay:.14s;background:#C9B98F}.cg.cg--ar .ob-typing span:nth-child(3){animation-delay:.28s;background:#6FBF8A}
-@keyframes arLeaf{0%,100%{transform:rotate(-14deg) scale(.86);opacity:.55}45%{transform:rotate(16deg) scale(1);opacity:1}}
+@keyframes arWin{0%,100%{opacity:.25}45%{opacity:1}}
 /* quick replies */
 .cg.cg--ar .ob-qr{gap:6px;padding:4px 14px 12px}
 .cg.cg--ar .ob-chip{min-height:40px;border-radius:var(--c-r);border:1px solid var(--c-line2);background:transparent;color:var(--c-ink);font:500 13.5px/1.2 var(--c-sans);padding:8px 12px;transition:background-color .2s,border-color .2s,color .2s,transform .15s}

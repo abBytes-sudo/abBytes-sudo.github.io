@@ -6,7 +6,7 @@
   var plan = 'clp';
   var avail = A.UNITS.filter(function (u) { return A.status(u.id) !== 'sold'; });
   var want = A.qs('unit');
-  var start = (want && A.unit(want)) ? want : (A.status('S-1802') !== 'sold' ? 'S-1802' : avail[0].id);
+  var start = (want && A.unit(want)) ? want : (A.status('A-4002') !== 'sold' ? 'A-4002' : avail[0].id);
   sel.innerHTML = A.TOWERS.map(function (T) {
     return '<optgroup label="' + T.name + '">' + avail.filter(function (u) { return u.tower === T.id; }).sort(function (a, b) { return b.floor - a.floor; }).map(function (u) {
       return '<option value="' + u.id + '"' + (u.id === start ? ' selected' : '') + '>' + u.id + ' · ' + A.TYPES[u.type].short + ' · ' + A.inr(A.price(u).total) + (A.status(u.id) === 'hold' ? ' (on hold)' : '') + '</option>';
@@ -17,10 +17,10 @@
 
   var DUTY = { m: 0.07, f: 0.05, j: 0.06 };
   var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  function est(slab, done, cycle) { var d = new Date(2026, 10, 15); d.setDate(d.getDate() + Math.max(0, slab - done) * cycle); return MONTHS[d.getMonth()] + ' ' + d.getFullYear(); }
+  function est(slab, done, cycle, top) { var d = new Date(2026, 10, 15); d.setDate(d.getDate() + Math.max(0, Math.min(slab, top) - done) * cycle); if (slab > top) d.setMonth(d.getMonth() + Math.round((slab - top) * 1.6)); return MONTHS[d.getMonth()] + ' ' + d.getFullYear(); }
 
   function schedule(u, pr) {
-    var T = A.tower(u.tower), done = A.PROGRESS[u.tower], top = T.floors, cyc = u.tower === 'K' ? 8 : 9;
+    var T = A.tower(u.tower), done = A.PROGRESS[u.tower], top = T.floors, cyc = u.tower === 'B' ? 7 : 8;
     var base = pr.preGst - pr.ifms - (plan === 'dp' ? Math.round(pr.basic * 0.06) : 0); // agreement value before GST and IFMS
     var rows;
     if (plan === 'clp') rows = [['On booking', 10, 0], ['Within 45 days of booking', 10, 0], ['On the raft foundation', 10, 0.01], ['On the podium slab', 7.5, 0.02],
@@ -34,7 +34,7 @@
       var reached = r[2] < 1 || r[2] <= done, cls = '', when;
       if (r[2] === 0) when = r[0].indexOf('45') > 0 || r[0].indexOf('60') > 0 ? 'Fixed date' : 'Today';
       else if (reached) { cls = 'reached'; when = 'Reached · due at booking'; }
-      else { when = 'Est. ' + est(r[2], done, cyc); if (!nextSet) { cls = 'next'; nextSet = true; } }
+      else { when = 'Est. ' + est(r[2], done, cyc, top); if (!nextSet) { cls = 'next'; nextSet = true; } }
       sum += amt + gst;
       return '<tr class="' + cls + '"><td>' + r[0] + '</td><td class="r mono">' + r[1] + '%</td><td class="r mono">' + A.inrFull(amt + gst) + '</td><td>' + when + '</td></tr>';
     }).join('');

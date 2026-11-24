@@ -18,7 +18,7 @@
     ['NH-48 at Kherki Daula', 'commute', 618, 690, [12, 20, null], 'For Jaipur and Manesar', [[470, 470], [540, 590], [618, 690]]],
     ['Shishukunj Public School (CBSE)', 'school', 470, 470, [5, 8, null], 'Sector 109, 1.6 km', [[430, 430], [470, 470]]],
     ['Meridian Hills International (IB)', 'school', 360, 520, [9, 14, null], 'Sector 106, 3 km', [[430, 430], [395, 470], [360, 520]]],
-    ['Pre-school in the Canopy Club', 'school', 420, 440, [1, 1, null], 'Inside the gates', [[430, 432], [420, 440]]],
+    ['Pre-school in the Podium Club', 'school', 420, 440, [1, 1, null], 'Inside the gates', [[430, 432], [420, 440]]],
     ['Multi-speciality hospital, 450 beds', 'health', 520, 420, [8, 14, null], 'Sector 110, with a 24-hour emergency', [[432, 400], [560, 382], [520, 420]]],
     ['Clinic and pharmacy', 'health', 452, 452, [3, 4, null], 'Sector 109 market', [[430, 430], [452, 452]]],
     ['Sector 109 market', 'daily', 452, 452, [3, 4, null], 'Grocery, bakery, bank branches', [[430, 430], [452, 452]]],

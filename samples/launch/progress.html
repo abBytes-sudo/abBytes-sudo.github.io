@@ -10,14 +10,14 @@
 <meta property="og:title" content="Construction progress · monthly photo log · Aaranya">
 <meta property="og:description" content="Monthly construction updates for Aaranya Residences: slabs cast per tower, the site engineer's notes and a photo log since the raft pour.">
 <meta property="og:url" content="https://abbytes-sudo.github.io/samples/launch/progress.html">
-<meta property="og:image" content="https://abbytes-sudo.github.io/samples/launch/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Aaranya's three towers rising out of a planted forest, with one floor pulled out like a drawer">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/launch/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Aaranya's three towers on Dwarka Expressway at golden hour, with one floor pulled out like a drawer">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Construction progress · monthly photo log · Aaranya"><meta name="twitter:description" content="Monthly construction updates for Aaranya Residences: slabs cast per tower, the site engineer's notes and a photo log since the raft pour."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/launch/og.jpg">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0E1A14">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="preload" href="fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/onest.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="launch.min.css?v=22">
+<link rel="stylesheet" href="launch.min.css?v=24">
 <link rel="stylesheet" href="../assets/back.css?v=2">
 <link rel="stylesheet" href="../assets/vendor/lenis.css">
 <script src="../assets/vendor/gsap.min.js" defer></script>
@@ -25,11 +25,11 @@
 <script src="../assets/vendor/SplitText.min.js" defer></script>
 <script src="../assets/vendor/lenis.min.js" defer></script>
 <script src="../assets/motion.js?v=1" defer></script>
-<script src="data.js?v=22" defer></script>
-<script src="app.js?v=22" defer></script>
-<script src="identity.js?v=22" defer></script>
-<script src="progress.js?v=22" defer></script>
-<script src="concierge.js?v=22" defer data-agent="launch" data-v="22" data-skin="concierge.css?v=22" data-brand="ar" data-title="Aaranya concierge" data-sub="Sales lounge · replies instantly" data-label="Ask the concierge" data-nudge="index,picker,residences,payment,nri"></script>
+<script src="data.js?v=24" defer></script>
+<script src="app.js?v=24" defer></script>
+<script src="identity.js?v=24" defer></script>
+<script src="progress.js?v=24" defer></script>
+<script src="concierge.js?v=24" defer data-agent="launch" data-v="24" data-skin="concierge.css?v=24" data-brand="ar" data-title="Aaranya concierge" data-sub="Sales lounge · replies instantly" data-label="Ask the concierge" data-nudge="index,picker,residences,payment,nri"></script>
 <script src="../assets/back.js?v=1" defer></script>
 </head>
 <body class="" data-page="progress">
@@ -58,24 +58,25 @@
 </section>
 <section class="sec" aria-labelledby="log-h">
   <div class="wrap">
-    <div class="sec-head"><p class="k">Photo log</p><h2 class="disp h2" id="log-h">Eight months since the raft.</h2><div class="act"><div class="seg" role="group" aria-label="Filter the log" id="logf"><button type="button" data-t="" aria-pressed="true">All</button><button type="button" data-t="S" aria-pressed="false">Sal</button><button type="button" data-t="K" aria-pressed="false">Kadamb</button><button type="button" data-t="A" aria-pressed="false">Arjun</button></div></div></div>
+    <div class="sec-head"><p class="k">Photo log</p><h2 class="disp h2" id="log-h">Seven months since the raft.</h2><div class="act"><div class="seg" role="group" aria-label="Filter the log" id="logf"><button type="button" data-t="" aria-pressed="true">All</button><button type="button" data-t="A" aria-pressed="false">Tower A</button><button type="button" data-t="B" aria-pressed="false">Tower B</button><button type="button" data-t="C" aria-pressed="false">Tower C</button></div></div></div>
     <div class="log" id="log"></div>
   </div>
 </section>
 </main>
 <dialog class="lightbox" id="lb" aria-labelledby="lb-h"><form method="dialog" class="dlg-h"><h2 id="lb-h">Photo</h2><button class="x" value="cancel" aria-label="Close">×</button></form><div class="dlg-b"><img id="lb-img" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACw="></div></dialog>
 <footer class="ftr">
-  <svg class="canopy" id="canopy" viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+  <svg class="skyline" id="skyline" viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
     <defs><linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E1A14"/><stop offset=".72" stop-color="#1F2E22"/><stop offset="1" stop-color="#3A3522"/></linearGradient></defs>
     <rect class="sky" width="1440" height="300"/>
     <circle class="sun" id="ftr-sun" cx="1080" cy="150" r="26"/>
-    <g class="towers"><rect class="tw" x="560" y="40" width="96" height="260"/><rect class="tw" x="700" y="78" width="88" height="222"/><rect class="tw" x="828" y="112" width="104" height="188"/></g>
+    <path class="far" d="M0 300V130H48V195H79V174H128V187H182V136H234V154H276V121H334V199H378V123H437V130H473V173H534V185H565V175H635V127H687V124H730V167H797V199H838V166H881V167H947V156H1013V193H1063V180H1098V181H1139V177H1206V143H1246V188H1287V206H1337V145H1400V134H1440V300Z"/>
+    <g class="towers"><rect class="tw" x="560" y="22" width="90" height="278"/><rect class="tw" x="574" y="12" width="62" height="10"/><rect class="tw" x="603" y="0" width="2" height="12"/><rect class="tw" x="664" y="36" width="84" height="264"/><rect class="tw" x="676" y="28" width="56" height="8"/><rect class="tw" x="768" y="52" width="96" height="248"/><rect class="tw" x="782" y="44" width="68" height="8"/></g>
     <g class="lit" id="ftr-lit"></g>
-    <path class="trees" d="M0 300V236c26-14 44-22 64-10 14-22 40-30 60-12 18-20 44-18 58 2 24-18 52-14 66 8 16-16 46-14 58 6 20-22 52-20 66 4 22-18 50-12 62 10 20-16 44-12 56 8 18-20 48-18 60 4 24-16 50-10 62 12 18-18 46-16 58 6 22-20 52-16 66 8 18-14 44-12 58 6 20-18 50-14 62 8 16-12 40-10 52 6 22-18 52-14 64 10 18-16 46-12 58 8 24-18 52-14 66 10 20-14 44-12 56 6 22-20 52-16 64 8 16-10 34-10 46 2V300z"/>
+    <path class="city" d="M0 300V202H27V194H76V225H115V203H158V226H203V248H244V223H279V203H310V253H339V232H376V202H407V211H453V194H503V243H528V192H575V218H607V218H629V258H654V201H704V192H748V252H794V194H828V223H854V260H905V248H939V217H979V203H1006V259H1038V222H1075V243H1103V191H1135V233H1185V211H1233V198H1281V259H1318V244H1358V228H1406V226H1431V193H1440V300Z"/>
   </svg>
   <div class="wrap">
     <div class="ftr-g">
-      <div><p>Aaranya Residences by Saptaparni Developers. 412 homes in three towers around a planted forest, Sector 109, Dwarka Expressway, Gurugram.</p><p class="hour" id="ftr-hour"></p>
+      <div><p>Aaranya Residences by Saptaparni Developers. 612 homes in three towers of 42 to 46 floors, Sector 109, Dwarka Expressway, Gurugram.</p><p class="hour" id="ftr-hour"></p>
         <p class="rera">HRERA-GGM-XX-0109-2025<br>Sales lounge · Sector 109, Dwarka Expressway, Gurugram</p></div>
       <div><h2>Homes</h2><ul><li><a class="ul" href="residences.html">Residences</a></li><li><a class="ul" href="picker.html">Unit picker</a></li><li><a class="ul" href="payment.html">Payment plans &amp; EMI</a></li><li><a class="ul" href="brochure.html">Brochure</a></li></ul></div>
       <div><h2>Visit</h2><ul><li><a class="ul" href="visit.html">Book a site visit</a></li><li><a class="ul" href="location.html">Location</a></li><li><a class="ul" href="nri.html">NRI desk</a></li><li><a class="ul" href="progress.html">Construction progress</a></li></ul></div>

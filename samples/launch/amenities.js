@@ -4,22 +4,26 @@
   var A = window.AAR, $ = A.$, $$ = A.$$;
   // site coordinates in metres (north is up)
   var AM = [
-    ['Canopy Club', 'Club · 2 floors + roof', A.CLUB.x, A.CLUB.z],
-    ['25 m pool and family pool', 'Club roof', A.CLUB.x + 12, A.CLUB.z - 2],
-    ['Gym, studio, steam', 'Club level 1', A.CLUB.x - 10, A.CLUB.z + 3],
-    ['Forest court', '3.2 acres, 1,140 trees', 8, 4],
-    ['Shaded loop, 1.1 km', 'Rubber track, lit', 52, 26],
-    ['Reflecting pond', 'Seating edge', -2, 22],
-    ['Yoga deck', 'Under the kadamb', 20, -14],
+    ['Sky Club', 'Tower A roof · lounge and dining', -54, -14],
+    ['Sky pool', 'Tower A roof · infinity edge', -30, -14],
+    ['Sky Garden', 'Tower B roof terrace', 48, -45],
+    ['Sky Deck', 'Tower C roof · gym and views', 56, 38],
+    ['Podium Club', 'Club · 2 floors + roof', A.CLUB.x, A.CLUB.z],
+    ['25 m pool and family pool', 'Podium Club roof', A.CLUB.x + 12, A.CLUB.z - 2],
+    ['Gym, studio, steam', 'Podium Club level 1', A.CLUB.x - 10, A.CLUB.z + 3],
+    ['Garden court', 'Landscaped podium lawn', 8, 4],
+    ['Promenade, 400 m', 'Rubber track, lit', 30, 33],
+    ['Reflecting pool', 'Seating edge', -2, 22],
+    ['Yoga lawn', '30 mats, open air', 20, -14],
     ['Amphitheatre', '200 seats', 46, -6],
     ['Toddler garden', 'Fenced', -18, -2],
-    ['Play forest and treehouse', 'Ages 6 to 12', 28, 14],
+    ['Play deck', 'Ages 6 to 12', 28, 14],
     ['Half basketball court', 'Floodlit', 74, -50],
     ['Pet park', 'Fenced, with a tap', -74, 6],
     ['Drop-off court', 'Covered porte-cochère', -9, 48],
-    ['Sal lobby', 'Double height', -42, -6],
-    ['Kadamb lobby', 'Double height', 32, -22],
-    ['Arjun lobby', 'Double height', 42, 22],
+    ['Tower A lobby', 'Double height', -42, -6],
+    ['Tower B lobby', 'Double height', 32, -22],
+    ['Tower C lobby', 'Double height', 40, 34],
     ['EV charging', 'Every parking bay', -64, 50],
     ['Guest parking', '40 bays at grade', 60, 54]
   ];
@@ -32,12 +36,14 @@
     var S = A.SITE;
     s += '<rect x="0" y="0" width="' + W + '" height="' + H + '" fill="#E7E0D2"/>';
     s += '<rect x="' + X(S.x0) + '" y="' + Z(S.z0) + '" width="' + (S.x1 - S.x0) + '" height="' + (S.z1 - S.z0) + '" fill="#C9D3B4" stroke="#B5AD9C" stroke-width=".5"/>';
-    s += '<ellipse cx="' + X(6) + '" cy="' + Z(6) + '" rx="54" ry="38" transform="rotate(-14 ' + X(6) + ' ' + Z(6) + ')" fill="#9FB28C"/>';
-    s += '<ellipse cx="' + X(6) + '" cy="' + Z(6) + '" rx="58" ry="42" transform="rotate(-14 ' + X(6) + ' ' + Z(6) + ')" fill="none" stroke="#F2ECE0" stroke-width="2.4" stroke-linecap="round"/>';
+    s += '<ellipse cx="' + X(6) + '" cy="' + Z(6) + '" rx="60" ry="42" transform="rotate(-14 ' + X(6) + ' ' + Z(6) + ')" fill="#DDD6C4"/>';
+    s += '<ellipse cx="' + X(6) + '" cy="' + Z(6) + '" rx="38" ry="24" transform="rotate(-14 ' + X(6) + ' ' + Z(6) + ')" fill="#9FB28C"/>';
+    s += '<ellipse cx="' + X(6) + '" cy="' + Z(6) + '" rx="47" ry="31" transform="rotate(-14 ' + X(6) + ' ' + Z(6) + ')" fill="none" stroke="#F2ECE0" stroke-width="2.2" stroke-linecap="round"/>';
     s += '<ellipse cx="' + X(-2) + '" cy="' + Z(22) + '" rx="17" ry="8" fill="#AFC4C6" transform="rotate(11 ' + X(-2) + ' ' + Z(22) + ')"/>';
-    // trees as dots
+    // trees as dots: a few on the garden court, and a line along the boundary
     var r = A.rng(41);
-    for (var i = 0; i < 160; i++) { var a = r() * Math.PI * 2, d = Math.sqrt(r()); var x = 6 + Math.cos(a) * 50 * d, z = 6 + Math.sin(a) * 34 * d; s += '<circle cx="' + X(x) + '" cy="' + Z(z) + '" r="' + (1.6 + r() * 1.8).toFixed(1) + '" fill="#7E9A6C" opacity=".75"/>'; }
+    for (var i = 0; i < 40; i++) { var a = r() * Math.PI * 2, d = 0.5 + Math.sqrt(r()) * 0.5; var x = 6 + Math.cos(a) * 34 * d, z = 6 + Math.sin(a) * 22 * d; s += '<circle cx="' + X(x) + '" cy="' + Z(z) + '" r="' + (1.3 + r() * 1.1).toFixed(1) + '" fill="#7E9A6C" opacity=".8"/>'; }
+    for (var bx = S.x0 + 6; bx < S.x1 - 4; bx += 14) { s += '<circle cx="' + X(bx) + '" cy="' + Z(S.z0 + 5) + '" r="1.6" fill="#7E9A6C" opacity=".8"/><circle cx="' + X(bx + 7) + '" cy="' + Z(S.z1 - 5) + '" r="1.6" fill="#7E9A6C" opacity=".8"/>'; }
     A.TOWERS.forEach(function (T) {
       var deg = -T.rot * 180 / Math.PI;
       s += '<g transform="translate(' + X(T.x) + ' ' + Z(T.z) + ') rotate(' + deg + ')"><rect x="' + (-T.w / 2) + '" y="' + (-T.d / 2) + '" width="' + T.w + '" height="' + T.d + '" fill="#F7F3EC" stroke="#16201A" stroke-width=".6"/><text x="0" y="1.6" text-anchor="middle" style="font:400 6px var(--serif);fill:#16201A" transform="rotate(' + (-deg) + ')">' + T.name + '</text></g>';

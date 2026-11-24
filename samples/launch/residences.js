@@ -3,7 +3,7 @@
   'use strict';
   var A = window.AAR, $ = A.$, $$ = A.$$;
   var PH = { A: ['i-family', 'A living room with a deep green sofa and tall windows', 1600, 1000], B: ['i-bed-study', 'A bedroom with a timber platform bed and a desk by the window', 1600, 1067], C: ['i-living', 'A living room with a marble wall and floor-to-ceiling glass', 1600, 1067], D: ['i-sunroom', 'Low sun crossing a living room with a sofa and plants', 1600, 1067] };
-  var TOW = { A: 'Arjun', B: 'Kadamb, Arjun', C: 'Sal, Kadamb', D: 'Sal' };
+  var TOW = { A: 'Tower C', B: 'Towers B, C', C: 'Towers A, B', D: 'Tower A' };
   var BATH = { A: 2, B: 2, C: 2, D: 3 };
   var box = $('#plans'), furn = true;
 

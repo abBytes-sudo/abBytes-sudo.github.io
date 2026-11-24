@@ -6,19 +6,19 @@
   var hero = $('#hero'), stage = $('#stage'), canvas = $('#tower3d'), tip = $('#tip');
   var chaps = $$('.chap'), bars = $$('.hprog i');
   var api = null, p = 0;
-  var FLOOR = 18;
+  var ST = A.PROJECT.story, FLOOR = ST.floor;
 
-  /* ---------- the 18th-floor line ---------- */
-  function f18() {
-    var us = A.floorUnits('S', FLOOR), c = { avail: 0, hold: 0, sold: 0 };
+  /* ---------- the story-floor line (Tower A, 40th) ---------- */
+  function fstory() {
+    var us = A.floorUnits(ST.tower, FLOOR), c = { avail: 0, hold: 0, sold: 0 };
     us.forEach(function (u) { c[A.status(u.id)]++; });
     var words = ['none', 'one', 'two', 'three', 'four'];
     var s = 'Four corner homes on this floor: ' + words[c.avail] + ' available, ' + words[c.hold] + ' on hold, ' + words[c.sold] + ' sold. ';
     var best = us.filter(function (u) { return A.status(u.id) === 'avail'; }).sort(function (a, b) { return A.price(a).total - A.price(b).total; })[0];
     if (best) s += best.id + ', a ' + A.TYPES[best.type].short + ' facing ' + best.facing.toLowerCase() + ', is ' + A.inr(A.price(best).total) + ' all-inclusive.';
-    var el = $('#f18'); if (el) el.textContent = s;
+    var el = $('#fstory'); if (el) el.textContent = s;
   }
-  f18(); A.on('inv', f18);
+  fstory(); A.on('inv', fstory);
 
   /* ---------- sun widget ---------- */
   var sunEl = $('#sun');
@@ -29,7 +29,7 @@
   var mob = function () { return innerWidth < 760; };
   function shiftFor(p) {
     var m = mob(), a = 1 - Math.min(1, Math.max(0, (p - 0.08) / 0.16)), b = Math.min(1, Math.max(0, (p - 0.78) / 0.12));
-    return m ? [0, 0.25 * a - 0.14 * b] : [0.26 * a - 0.17 * b, 0.03 * a];
+    return m ? [0, 0.31 * a - 0.14 * b] : [0.26 * a - 0.17 * b, 0.03 * a];
   }
   // golden hour at the top; chapter two sweeps the sun through dusk, a lit-up night and dawn, to a clear morning for the drawer
   function sunFor(p) {
@@ -72,7 +72,7 @@
   labs.forEach(function (l) { l.style.opacity = '0'; });
 
   /* ---------- 3D ---------- */
-  A.V3D = 10;
+  A.V3D = 11;
   A.load3D(function () {
     if (!window.Aaranya3D || !canvas) return;
     try {
@@ -105,7 +105,7 @@
     types.innerHTML = ['A', 'B', 'C', 'D'].map(function (k, i) {
       var t = A.TYPES[k], m = A.minPrice(k);
       return '<div class="type-row" data-reveal><span class="n">0' + (i + 1) + '</span>' +
-        '<h3>' + t.name + '<small>' + t.short + ' · ' + (k === 'D' ? 'Sal only' : k === 'A' ? 'Arjun' : k === 'C' ? 'Sal, Kadamb' : 'Kadamb, Arjun') + '</small></h3>' +
+        '<h3>' + t.name + '<small>' + t.short + ' · ' + (k === 'D' ? 'Tower A only' : k === 'A' ? 'Tower C' : k === 'C' ? 'Towers A, B' : 'Towers B, C') + '</small></h3>' +
         '<p class="area"><b>' + A.sqft(t.carpet) + '</b><span>RERA carpet · ' + A.sqm(t.carpet) + '</span></p>' +
         '<p class="from"><b data-from="' + k + '">' + (m ? A.inr(m) : 'Sold out') + '</b><span>from, all-inclusive · <span data-avail="Y:' + k + '">0</span> open</span></p>' +
         '<div class="mini" aria-hidden="true">' + A.unitPlanSVG(k, { mini: true }) + '</div>' +
@@ -120,7 +120,7 @@
     bx.innerHTML = A.TOWERS.map(function (T) {
       var done = A.PROGRESS[T.id], pc = done / T.floors;
       return '<div class="bar-row"><span><b style="font-family:var(--serif);font-size:22px;font-weight:400">' + T.name + '</b></span><span class="bar" role="img" aria-label="' + T.name + ': ' + done + ' of ' + T.floors + ' slabs cast"><i style="width:' + Math.round(pc * 100) + '%"></i></span><span class="mono">' + done + ' / ' + T.floors + '</span></div>';
-    }).join('') + '<div class="bar-row"><span><b style="font-family:var(--serif);font-size:22px;font-weight:400">Club</b></span><span class="bar" role="img" aria-label="Canopy Club: structure complete"><i style="width:100%"></i></span><span class="mono">Façade</span></div>';
+    }).join('') + '<div class="bar-row"><span><b style="font-family:var(--serif);font-size:22px;font-weight:400">Club</b></span><span class="bar" role="img" aria-label="Podium Club: podium slab cast"><i style="width:100%"></i></span><span class="mono">Façade</span></div>';
   }
 
   update();

@@ -1,6 +1,6 @@
 /* =====================================================================================
    Aaranya sales office · the staff app (not a marketing page)
-   Forest-night workspace, hairlines, 13.5 px UI type, tabular numbers, one gold accent for state and primary actions.
+   Night-green workspace, hairlines, 13.5 px UI type, tabular numbers, one gold accent for state and primary actions.
    ===================================================================================== */
 body.so { --so-bg: #0B1510; --so-s1: #0F1C15; --so-s2: #14241B; --so-s3: #1B2E23; --so-ink: #ECE6D9; --so-ink2: #C7C3B6; --so-mute: #8C9C8C; --so-faint: #5E6D61;
   --so-line: rgba(236, 230, 217, .09); --so-line2: rgba(236, 230, 217, .17); --so-gold: #E8B65A; --so-gold-w: rgba(232, 182, 90, .12); --so-green: #6FBF8A; --so-red: #F08A72; --so-blue: #9CC7FF;
@@ -111,7 +111,7 @@ body.so .demo { position: relative; z-index: 3; }
 .so-pill:hover { background: #22392C; }
 .so-pill i { width: 6px; height: 6px; border-radius: 50%; background: var(--so-mute); flex: none; }
 .so-pill i.web { background: var(--so-gold); } .so-pill i.chat { background: var(--so-blue); }
-.so-feed li { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 10px; padding: 9px 14px; border-bottom: 1px solid var(--so-line); font-size: 12.5px; align-items: start; }
+.so-feed li { display: grid; grid-template-columns: minmax(22px, auto) minmax(0, 1fr) auto; gap: 10px; padding: 9px 14px; border-bottom: 1px solid var(--so-line); font-size: 12.5px; align-items: start; }
 .so-feed li:last-child { border-bottom: 0; }
 .so-feed small { color: var(--so-mute); white-space: nowrap; }
 .so-queue-card { padding: 14px; display: grid; gap: 10px; }
