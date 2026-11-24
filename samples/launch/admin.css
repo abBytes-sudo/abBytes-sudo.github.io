@@ -311,3 +311,33 @@ body.so .toast { background: var(--so-ink); color: #0E1A14; font-size: 13px; }
 .so-grid > div, .so-focus, .so-fcard, .so-card { min-width: 0; }
 .so-factions { flex-wrap: wrap; }
 @media (max-width: 900px) { .so-kpi svg { display: none; } .so-focus .bar .meter { min-width: 60px; } .so-factions .so-btn.lg { flex: 1; } }
+
+/* focus mode: the card, with a rail for the day's progress and the people queued behind it */
+.so-focuswrap { display: grid; grid-template-columns: minmax(0, 660px) 300px; gap: 20px; justify-content: center; align-items: start; margin-top: 8px; }
+.so-focuswrap .so-focus { margin: 0; max-width: none; }
+.so-rail { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.so-rail .so-card + .so-card { margin-top: 0; }
+.so-day { padding: 14px; display: grid; gap: 10px; }
+.so-day .row { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; color: var(--so-ink2); }
+.so-day .row b { font: 400 18px var(--sans); color: var(--so-ink); }
+.so-day .meter { height: 4px; background: var(--so-line2); border-radius: 2px; overflow: hidden; } .so-day .meter i { display: block; height: 100%; background: var(--so-gold); }
+.so-up { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 10px; align-items: center; width: 100%; padding: 9px 14px; border: 0; border-bottom: 1px solid var(--so-line); background: none; color: inherit; text-align: left; }
+.so-up:hover { background: rgba(236, 230, 217, .04); }
+.so-rail li:last-child .so-up { border-bottom: 0; }
+.so-up b { font-weight: 500; display: block; font-size: 13px; } .so-up small { display: block; color: var(--so-mute); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 1100px) { .so-focuswrap { grid-template-columns: minmax(0, 660px); } }
+
+/* visits: the week heatmap and its numbers */
+.so-heatcard table { border-collapse: separate; border-spacing: 3px; width: 100%; font-variant-numeric: tabular-nums; min-width: 460px; }
+.so-heatcard th { font: 500 12px var(--sans); color: var(--so-mute); text-align: center; padding: 2px 4px; white-space: nowrap; }
+.so-heatcard th[scope="row"] { text-align: right; padding-right: 8px; }
+.so-heat { width: 100%; min-height: 34px; border: 0; border-radius: 5px; color: var(--so-ink); font: 500 12px var(--sans); transition: outline-color .15s, transform .1s; outline: 1px solid transparent; }
+.so-heat.l0 { background: rgba(232, 182, 90, .07); } .so-heat.l1 { background: #3F3E24; } .so-heat.l2 { background: #665A31; } .so-heat.l3 { background: var(--so-gold); color: #0E1A14; font-weight: 600; }
+.so-heat:hover:not([disabled]) { outline-color: var(--so-ink); }
+.so-heat[disabled] { background: transparent; color: var(--so-mute); cursor: default; }
+.so-stat { display: flex; justify-content: space-between; align-items: baseline; padding: 11px 14px; border-bottom: 1px solid var(--so-line); font-size: 13px; color: var(--so-ink2); }
+.so-stat:last-child { border-bottom: 0; } .so-stat b { font: 400 19px var(--sans); color: var(--so-ink); }
+
+/* sidebar: the shortcut badge and the caret keep their own size, the labels never wrap */
+.so-search span:first-of-type, .so-ws span:first-of-type { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+.so-search .so-kbd, .so-ws span:last-child { flex: none; }

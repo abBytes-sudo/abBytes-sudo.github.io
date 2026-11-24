@@ -127,13 +127,25 @@
     var v = item.visit ? A.visits().filter(function (x) { return x.id === item.visit; })[0] : null;
     var left = queue.length - qi;
     var title = item.kind === 'confirm' && v ? 'Confirm the visit on ' + A.slotLabel(v.slot) : (l.stage === 'new' ? 'New enquiry, first call' : 'Follow-up call');
-    main.innerHTML = '<div class="so-focus"><div class="bar"><span>Ready to call · <b style="color:var(--so-ink)">' + (qi + 1) + ' of ' + queue.length + '</b></span><span class="meter"><i style="width:' + Math.round(qi / queue.length * 100) + '%"></i></span><span>≈ ' + left * 4 + ' min left · aim ≈ 4 min</span></div>' +
+    main.innerHTML = '<div class="so-focuswrap"><div class="so-focus"><div class="bar"><span>Ready to call · <b style="color:var(--so-ink)">' + (qi + 1) + ' of ' + queue.length + '</b></span><span class="meter"><i style="width:' + Math.round(qi / queue.length * 100) + '%"></i></span><span>≈ ' + left * 4 + ' min left · aim ≈ 4 min</span></div>' +
       '<article class="so-fcard" aria-live="polite"><div class="who"><span class="so-av">' + initials(l.name) + '</span><div><h2>' + A.esc(l.name) + '</h2><small>' + title + ' · ' + A.esc(l.city) + (l.nri ? ' · NRI' : '') + '</small></div></div>' +
       '<div class="so-remark"><small>Last remark</small>' + A.esc(l.remark) + '</div>' +
       '<dl class="so-props">' + prop('Phone', A.esc(l.phone)) + prop('Source', srcTag(l)) + prop('Stage', stage(l.stage)) + prop('Interest', l.interest ? A.esc(l.interest) : '<button type="button" class="so-add" data-gap="interest" data-lead="' + l.id + '">+ Add interest</button>') + prop('Budget', l.budget ? A.esc(l.budget) : '<button type="button" class="so-add" data-gap="budget" data-lead="' + l.id + '">+ Add budget</button>') + prop('Home', l.unit ? unitTag(l.unit) : '<button type="button" class="so-add" data-gap="unit" data-lead="' + l.id + '">+ Add a home</button>') + '</dl>' +
       '<div><p style="font-size:12.5px;color:var(--so-mute);margin-bottom:8px">How did it go? <span>(keys 1–6)</span></p><div class="so-out" role="group" aria-label="Call outcome">' + OUTCOMES.map(function (o) { return '<button type="button" data-out="' + o[0] + '" aria-pressed="' + (qOutcome === o[0]) + '">' + ICON[o[2]] + o[1] + '</button>'; }).join('') + '</div></div>' +
       '<p class="so-next" id="so-next"' + (qOutcome ? '' : ' hidden') + '>' + nextStep(item, l, qOutcome) + '</p>' +
-      '<div class="so-factions"><button type="button" class="so-btn" data-q="skip">Skip</button><button type="button" class="so-btn ghost" data-q="pause">Pause</button><span class="sp"></span><button type="button" class="so-btn ghost" data-open="' + l.id + '">Open record</button><button type="button" class="so-btn pri lg" data-q="save"' + (qOutcome ? '' : ' disabled') + '>Save &amp; next</button></div></article></div>';
+      '<div class="so-factions"><button type="button" class="so-btn" data-q="skip">Skip</button><button type="button" class="so-btn ghost" data-q="pause">Pause</button><span class="sp"></span><button type="button" class="so-btn ghost" data-open="' + l.id + '">Open record</button><button type="button" class="so-btn pri lg" data-q="save"' + (qOutcome ? '' : ' disabled') + '>Save &amp; next</button></div></article></div>' + queueRail() + '</div>';
+  }
+  /* the right-hand rail of focus mode: how the day is going, and who is next */
+  function queueRail() {
+    var t0 = d0(), made = 6, conn = 3, booked = 1;       // this morning's calls, before the queue was opened
+    leads().forEach(function (l) { l.log.forEach(function (e) { if (e.t >= t0) { if (e.k === 'call') { made++; if (/Connected/.test(e.s)) conn++; } if (e.k === 'visit' && /booked/i.test(e.s)) booked++; } }); });
+    var target = 24, up = queue.slice(qi + 1, qi + 8).map(function (it, i) {
+      var l = lead(it.lead); if (!l) return '';
+      var why = it.kind === 'confirm' ? 'Confirm the visit' : l.stage === 'new' ? 'New · ' + l.source.toLowerCase() : 'Follow-up · ' + dueTxt(l.next).toLowerCase();
+      return '<li><button type="button" class="so-up" data-upnext="' + (qi + 1 + i) + '"><span class="so-av sm">' + initials(l.name) + '</span><span><b>' + A.esc(l.name) + '</b><small>' + A.esc(why) + '</small></span><span class="so-due">≈ 4 min</span></button></li>';
+    }).join('');
+    return '<aside class="so-rail" aria-label="Up next"><div class="so-card"><div class="so-ch"><h2>Your day so far</h2></div><div class="so-day"><div class="row"><span>Calls made</span><b class="so-n">' + made + ' of ' + target + '</b></div><span class="meter"><i style="width:' + Math.min(100, Math.round(made / target * 100)) + '%"></i></span><div class="row"><span>Connected</span><b class="so-n">' + conn + '</b></div><div class="row"><span>Visits booked</span><b class="so-n">' + booked + '</b></div></div></div>' +
+      '<div class="so-card"><div class="so-ch"><h2>Up next</h2><span class="sp"></span><small>' + Math.max(0, queue.length - qi - 1) + ' more</small></div><ul>' + (up || '<li><span class="so-empty" style="padding:18px 14px;justify-items:start;text-align:left">That is the last call in the queue.</span></li>') + '</ul></div></aside>';
   }
   function nextStep(item, l, o) {
     if (!o) return '';
@@ -244,7 +256,26 @@
           return '<button type="button" class="so-vc" draggable="true" data-visit="' + v.id + '"><b>' + A.esc(v.name) + '</b><span class="m">' + MODE[v.mode] + ' · ' + (v.party || 2) + ' people · ' + A.member(v.rm).init + '</span><span class="so-chip-row">' + (v.unit ? unitTag(v.unit) : '') + src + (v.outcome ? '<span class="so-tag">' + A.esc(v.outcome) + '</span>' : v.confirmed ? '<span class="so-tag gr">Confirmed</span>' : '') + '</span></button>';
         }).join('') + (used < A.SLOT_CAP ? '<div class="so-free">' + (A.SLOT_CAP - used) + ' free</div>' : '') + '</div>';
     }).join('');
-    main.innerHTML = '<div class="so-toolbar"><div class="so-seg" role="group" aria-label="Day">' + tabs + '</div><span class="sp"></span><span class="hide-m" style="color:var(--so-mute);font-size:12.5px">Drag a card to another time to reschedule</span></div><div class="so-board">' + cols2 + '</div>';
+    main.innerHTML = '<div class="so-toolbar"><div class="so-seg" role="group" aria-label="Day">' + tabs + '</div><span class="sp"></span><span class="hide-m" style="color:var(--so-mute);font-size:12.5px">Drag a card to another time to reschedule</span></div><div class="so-board">' + cols2 + '</div>' + weekHeat();
+  }
+  /* the week at a glance: every slot, how full it is, and where the visits come from */
+  function weekHeat() {
+    var days = []; for (var i = 0; i < 7; i++) days.push(d0() + i * DAY);
+    var head = '<tr><th></th>' + days.map(function (d, i) { return '<th scope="col">' + (i === 0 ? 'Today' : A.fmtDay(d, { weekday: 'short', day: 'numeric' })) + '</th>'; }).join('') + '</tr>';
+    var open = 0, busiest = { n: -1, k: '' };
+    var rows = A.SLOTS.map(function (s) {
+      return '<tr><th scope="row">' + A.fmtTime(A.slotTime(A.slotKey(d0(), s))) + '</th>' + days.map(function (d) {
+        var k = A.slotKey(d, s), used = A.slotUsed(k), past = A.slotTime(k) < now();
+        if (!past) { open += Math.max(0, A.SLOT_CAP - used); if (used > busiest.n) busiest = { n: used, k: k }; }
+        return '<td><button type="button" class="so-heat l' + Math.min(3, used) + '" data-vday="' + d + '"' + (past ? ' disabled' : '') + ' aria-label="' + (past ? 'Passed' : used + ' of ' + A.SLOT_CAP) + ', ' + A.slotLabel(k) + '">' + (past ? '·' : used + '/' + A.SLOT_CAP) + '</button></td>';
+      }).join('') + '</tr>';
+    }).join('');
+    var wk = A.visits().filter(function (v) { var t = A.slotTime(v.slot); return t >= d0() && t < d0() + 7 * DAY; });
+    var web = wk.filter(function (v) { return /booking|website|picker|nri/i.test(v.source || ''); }).length, chat = wk.filter(function (v) { return /chat/i.test(v.source || ''); }).length;
+    var video = wk.filter(function (v) { return v.mode === 'video'; }).length, pickup = wk.filter(function (v) { return v.mode === 'pickup'; }).length;
+    var stat = function (k, v) { return '<div class="so-stat"><span>' + k + '</span><b class="so-n">' + v + '</b></div>'; };
+    return '<div class="so-grid" style="margin-top:16px"><div class="so-card so-heatcard"><div class="so-ch"><h2>The week at a glance</h2><span class="sp"></span><small>Click a slot to open its day</small></div><div style="padding:8px 10px 12px;overflow-x:auto"><table><caption class="vh">Booked places per slot for the next seven days</caption><thead>' + head + '</thead><tbody>' + rows + '</tbody></table></div></div>' +
+      '<div class="so-card"><div class="so-ch"><h2>This week</h2></div>' + stat('Visits booked', wk.length) + stat('From the website', web) + stat('From chat', chat) + stat('Metro pickups · video', pickup + ' · ' + video) + stat('Open places', open) + stat('Busiest slot', busiest.n > 0 ? A.slotLabel(busiest.k).replace(/^[A-Za-z]+, /, '') : '—') + '</div></div>';
   }
   var dragV = null;
   main.addEventListener('dragstart', function (e) { var c = e.target.closest && e.target.closest('.so-vc'); if (!c) return; dragV = c.dataset.visit; c.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', dragV); } catch (x) { } });
@@ -387,6 +418,7 @@
     if ((k = t.closest('[data-q]'))) { var qq = k.dataset.q; if (qq === 'skip') { qi++; qOutcome = null; focus(); counts(); } else if (qq === 'pause') { paused = true; focus(); } else if (qq === 'resume') { paused = false; focus(); } else if (qq === 'restart') { buildQueue(); focus(); counts(); } else if (qq === 'save') saveOutcome(); return; }
     if ((k = t.closest('[data-out]'))) { qOutcome = k.dataset.out; $$('.so-out button').forEach(function (b) { b.setAttribute('aria-pressed', String(b === k)); }); var nx = $('#so-next'); if (nx) { nx.hidden = false; nx.innerHTML = nextStep(queue[qi], lead(queue[qi].lead), qOutcome); } var sv = $('[data-q="save"]'); if (sv) { sv.disabled = false; sv.focus(); } return; }
     if ((k = t.closest('[data-gap]'))) return gap(k);
+    if ((k = t.closest('[data-upnext]'))) { var ui = +k.dataset.upnext, uit = queue.splice(ui, 1)[0]; if (uit) queue.splice(qi, 0, uit); qOutcome = null; focus(); window.scrollTo(0, 0); return; }
     if ((k = t.closest('[data-call]'))) { var lid = k.dataset.call, at = queue.findIndex(function (x, i) { return i >= qi && x.lead === lid; }); if (at < 0) { queue.splice(qi, 0, { kind: 'call', lead: lid }); } else { var it = queue.splice(at, 1)[0]; queue.splice(qi, 0, it); } qOutcome = null; closeSlide(); if (view === 'queue') focus(); else location.hash = '#queue'; return; }
     if ((k = t.closest('[data-more]'))) { e.stopPropagation(); var ml = k.dataset.more; menuAct = { open: function () { openLead(ml); }, visit: function () { openLead(ml, 'visit'); }, lost: function () { var l = lead(ml), p = l.stage; l.stage = 'lost'; saveLead(l, { k: 'stage', s: 'Marked lost' }); render(); undo(l.name + ' marked lost.', function () { var x = lead(ml); x.stage = p; saveLead(x); render(); }); } }; openMenu(k, [['open', 'Open record'], ['visit', 'Book a site visit'], '-', ['lost', 'Mark lost']]); return; }
     if ((k = t.closest('[data-open]'))) return openLead(k.dataset.open);
@@ -408,7 +440,7 @@
       undo(chg.length + ' enquiries assigned to ' + A.member(to).name + '.', function () { var l2 = leads(); before.forEach(function (b) { l2.forEach(function (l) { if (l.id === b[0]) l.owner = b[1]; }); }); A.saveLeads(l2); leadsView(); }); return;
     }
     if ((k = t.closest('tbody tr[data-lead]')) && !t.closest('input,button,a')) { history.replaceState(null, '', '#leads/' + k.dataset.lead); return openLead(k.dataset.lead); }
-    if ((k = t.closest('[data-vday]'))) { visitDay = +k.dataset.vday; return visitsView(); }
+    if ((k = t.closest('[data-vday]'))) { var fromHeat = !!t.closest('.so-heatcard'); visitDay = +k.dataset.vday; visitsView(); if (fromHeat) window.scrollTo(0, 0); return; }
     if ((k = t.closest('[data-visit]'))) { e.stopPropagation(); return visitPop(k.dataset.visit, k); }
     if ((k = t.closest('[data-cvf]'))) { inboxF = k.dataset.cvf; return inboxView(); }
     if ((k = t.closest('[data-cv]'))) { inboxSel = k.dataset.cv; inboxOpenM = true; history.replaceState(null, '', '#inbox/' + inboxSel); return inboxView(); }

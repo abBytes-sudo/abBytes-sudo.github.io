@@ -830,3 +830,9 @@ main.flush{padding-top:0}
 .certs{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media (max-width:900px){.certs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.certs{grid-template-columns:1fr}}
+
+/* round 3: no orphan cells in the stage list, tags never collide on phones */
+.stage-list ol{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:900px){.stage-list ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.stage-list ol{grid-template-columns:1fr}}
+@media (max-width:640px){.ba-tag.r{top:auto;bottom:14px}}

@@ -31,7 +31,7 @@
       { k: 'q', l: 'Quotes out', v: inr(qv), d: BO.delta(qv, HIST.quotes[HIST.quotes.length - 1] * 1e7, { money: true, vs: 'vs last month' }) + '<span class="dl-vs"> · ' + Q.length + ' open</span>', s: BO.spark(HIST.quotes.concat([qv / 1e7])), href: 'pipeline?stage=quote&layout=table' },
       { k: 'pay', l: 'Due from clients', v: dv ? inr(dv) : '₹0', d: dm.length ? '<span class="dl">Milestone ' + dm[0].n + ' · ' + A.date(dm[0].date) + '</span>' : '<span class="dl up">All collected</span>', s: BO.spark(HIST.collect.concat([dv / 1e5])), href: 'portal?f=pay' }
     ];
-    return '<div class="kpis" role="list">' + T.map(function (t) { return '<a role="listitem" class="kpi' + (t.red ? ' red' : '') + '" href="#/' + t.href + '"><span class="kpi-l">' + t.l + '</span><span class="kpi-v">' + t.v + '</span><span class="kpi-d">' + t.d + '</span>' + t.s + '</a>'; }).join('') + '</div>';
+    return '<div class="kpis" role="group" aria-label="Key figures">' + T.map(function (t) { return '<a class="kpi' + (t.red ? ' red' : '') + '" href="#/' + t.href + '"><span class="kpi-l">' + t.l + '</span><span class="kpi-v">' + t.v + '</span><span class="kpi-d">' + t.d + '</span>' + t.s + '</a>'; }).join('') + '</div>';
   }
 
   /* needs your attention */
