@@ -1,0 +1,61 @@
+/* The arcade overlay and the games in it. Loaded on first play. */
+.arc-open{overflow:hidden}
+.arc{position:fixed;inset:0;z-index:200;background:#07060b;color:#f4f1ea;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:scale(1.04);transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1),visibility 0s .35s;font-family:var(--txt)}
+.arc.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.arc-bar{display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap;padding:10px clamp(12px,3vw,28px);border-bottom:1px solid rgba(255,255,255,.16);min-height:56px}
+.arc-t{font:700 19px/1 var(--dis)}.arc-s{font-weight:600;color:#f4b556;font-variant-numeric:tabular-nums}.arc-l{color:#b9b4c4;font-size:14.5px;margin-right:auto}
+.arc-b{font-size:14px;font-weight:600;padding:7px 12px;border-radius:99px;border:1.5px solid rgba(255,255,255,.35);color:#f4f1ea;white-space:nowrap}
+.arc-b:hover{border-color:#f4b556;color:#f4b556}
+.arc-body{flex:1;min-height:0;overflow:auto;display:flex;justify-content:center;padding:clamp(12px,3vw,34px)}
+.arc-body.shake{animation:ashk .3s}
+@keyframes ashk{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.arc-card{position:absolute;inset:56px 0 0;display:none;place-items:center;padding:18px;background:rgba(7,6,11,.86)}
+.arc-card.on{display:grid}
+.arc-p{width:min(520px,100%);background:#14111b;border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:26px 26px 22px;animation:apin .4s cubic-bezier(.2,.9,.3,1.1)}
+@keyframes apin{from{opacity:0;transform:translateY(16px) scale(.97)}}
+.arc-p h2{font:700 clamp(28px,5vw,40px)/1.05 var(--dis);letter-spacing:-.02em;margin:0 0 12px}
+.arc-p p{color:#d5d0df;margin:0 0 8px;font-size:16px}.arc-p p:empty{display:none}
+.arc-p ul{margin:6px 0 4px;padding:0;list-style:none}.arc-p li{padding:8px 0 8px 22px;border-top:1px solid rgba(255,255,255,.12);position:relative;font-size:15.5px;color:#e8e4ef}
+.arc-p li::before{content:"";position:absolute;left:2px;top:15px;width:8px;height:8px;border-radius:50%;background:#f4b556}
+.arc-a{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.arc-go,.arc-x{font-weight:700;font-size:16.5px;padding:12px 22px;border-radius:99px;border:2px solid #f4b556}
+.arc-go{background:#f4b556;color:#000}.arc-go:hover{background:#fff;border-color:#fff}.arc-x{border-color:rgba(255,255,255,.4);color:#f4f1ea}.arc-x:hover{border-color:#fff}
+.arc-link{display:inline-block;margin-top:6px;color:#f4b556;font-weight:600}
+/* Inbox Rush */
+.ib{width:min(560px,100%);display:flex;flex-direction:column;gap:14px;position:relative}
+.ib-h{font-weight:600;letter-spacing:.02em;color:#f4f1ea;white-space:pre;font-size:15.5px;margin:0}
+.ib-q{position:relative;height:230px}
+.ib-c{position:absolute;left:0;right:0;top:calc(var(--i)*13px);margin:0 calc(var(--i)*10px);background:#1d1927;border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:14px 16px;z-index:calc(9 - var(--i));opacity:calc(1 - var(--i)*.18);transition:top .25s,margin .25s,opacity .25s;touch-action:none}
+.ib-c.first{background:#fff;color:#0e0c12;min-height:158px;box-shadow:0 22px 50px -20px #000;cursor:grab}
+.ib-c span{font-size:13.5px;font-weight:600;color:#8b84a0}.ib-c.first span{color:#6a3df0}
+.ib-c p{font:600 clamp(19px,3.4vw,24px)/1.25 var(--dis);margin:10px 0 18px;color:#0e0c12}
+.ib-t{position:absolute;left:0;right:0;bottom:0;height:6px;background:#e5482d;transform-origin:0 50%;border-radius:0 0 16px 16px}
+.ib-c.fly{transition:transform .28s ease-in,opacity .28s;opacity:0}
+.ib-c.f0{transform:translateX(120%) rotate(12deg)}.ib-c.f3{transform:translateX(-120%) rotate(-12deg)}.ib-c.f1{transform:translateY(-140%)}.ib-c.f2{transform:translateY(140%)}
+.ib-pop{position:absolute;left:0;right:0;top:118px;text-align:center;font:700 30px/1 var(--dis);color:#39d98a;opacity:0;pointer-events:none;z-index:20}
+.ib-pop.bad{color:#ff8a7a;font-size:19px}
+.ib-pop.go{animation:ipop .9s ease-out}
+@keyframes ipop{0%{opacity:0;transform:translateY(10px) scale(.8)}20%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-34px)}}
+.ib-a{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ib-b{padding:12px 6px;border-radius:14px;border:2px solid rgba(255,255,255,.3);color:#fff;display:flex;flex-direction:column;gap:3px;align-items:center}
+.ib-b b{font-size:14.5px;font-weight:700}.ib-b span{font-size:12px;color:#b9b4c4}
+.ib-b:hover{background:rgba(255,255,255,.08)}.ib-b.b0{border-color:#39d98a}.ib-b.b1{border-color:#f4b556}.ib-b.b2{border-color:#8fa8ff}.ib-b.b3{border-color:#ff8a7a}
+/* Stock Out */
+.so{width:min(760px,100%);display:flex;flex-direction:column;gap:12px}
+.so-top{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.so-top p{background:#14111b;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:10px 14px;margin:0}
+.so-top span{display:block;font-size:12.5px;color:#b9b4c4}.so-top b{font:700 clamp(18px,3vw,24px)/1.2 var(--dis);color:#f4b556;white-space:nowrap}
+.so-n{margin:0;padding:10px 14px;border-radius:12px;background:#1d1927;font-size:15px;min-height:2.9em}
+.so-l{display:grid;gap:10px}
+.so-r{display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:center;background:#14111b;border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:14px 16px;transition:border-color .3s}
+.so-r.low{border-color:#e5482d}
+.so-r>b{font:700 19px/1.1 var(--dis)}.so-m{grid-column:1;font-size:13.5px;color:#b9b4c4}
+.so-s{grid-column:1;display:flex;flex-wrap:wrap;gap:3px;min-height:20px;align-items:center}
+.so-s i{width:12px;height:18px;border-radius:3px;background:#f4b556}.so-r.low .so-s i{background:#e5482d}.so-s em{font-style:normal;font-weight:700;color:#ff8a7a;font-size:14px}
+.so-i{grid-column:1;margin:0;font-size:13.5px;color:#b9b4c4}
+.so-b{grid-column:2;grid-row:1/5;font-weight:700;font-size:14.5px;padding:12px 14px;border-radius:12px;background:#f4b556;color:#000;white-space:nowrap}
+.so-b:hover{background:#fff}.so-b:disabled{background:#2a2633;color:#8b84a0;cursor:not-allowed}
+/* Lead Run */
+.arc-run{width:min(1100px,100%);align-self:center}.arc-run .run-stage{margin:0}.arc-run .run-cv{height:min(70svh,620px)}
+@media (max-width:560px){.so-r{grid-template-columns:1fr}.so-b{grid-column:1;grid-row:auto;margin-top:6px}.ib-b span{display:none}.arc-l{display:none}}
+@media (prefers-reduced-motion:reduce){.arc,.arc *{animation:none!important;transition:none!important}}

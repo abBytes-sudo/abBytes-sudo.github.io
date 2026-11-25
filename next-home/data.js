@@ -21,7 +21,7 @@ window.WORK = [
     blurb: 'Three towers in 3D: scroll into a tower, pull a floor out like a drawer to see which homes are free, move the sun across the day, then book a site visit.' },
   { id: 'crm', name: 'Lumen CRM Pro', short: 'LUMEN CRM PRO', type: 'CRM', kind: 'All-in-one CRM', cat: 'sys', trade: 'software', status: 'Open to try', img: 'crm', a: 1.875, href: '../samples/crm/index.html', cta: 'Open the CRM',
     blurb: 'Record pages with timelines, pipelines with GST quotes, workflow rules, a WhatsApp and email inbox, calendar and roles. Winning a deal reserves stock in Stockroom.' },
-  { id: 'estate', name: 'Chaukhat', short: 'CHAUKHAT', type: 'PROPERTY CRM', kind: 'Real estate CRM', cat: 'sys', trade: 'property', status: 'Open to try', img: 'estate', a: 1.875, href: '../samples/estate/index.html', cta: 'Open Chaukhat',
+  { id: 'estate', name: 'Fieldwise', short: 'CHAUKHAT', type: 'PROPERTY CRM', kind: 'Real estate CRM', cat: 'sys', trade: 'property', status: 'Open to try', img: 'estate', a: 1.875, href: '../samples/estate/index.html', cta: 'Open Fieldwise',
     blurb: 'A brokerage CRM built for the field: auto-matching, calling queues, trip plans with a live field app, a verification desk and a listings map.' },
   { id: 'store', name: 'Northlane', short: 'NORTHLANE', type: 'STORE', kind: 'Clothing store', cat: 'web', trade: 'retail', status: 'Open to try', img: 'store', a: 5.625, href: '../samples/store/index.html', cta: 'Open the store',
     blurb: 'An editorial clothing store with accounts, a real checkout, reviews and size advice, run from a full back office.' },

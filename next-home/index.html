@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-<title>Abhishek Anand Masih · Operations &amp; CRM Lead, New Delhi</title>
+<title>Abhishek M · Operations &amp; CRM Lead, New Delhi</title>
 <meta name="description" content="I build custom CRMs, booking and stock systems, chat assistants and websites for real businesses. Fall in, use them live, then watch yours assemble.">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="dark">
@@ -11,13 +11,12 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="hero.css?v=1">
-<link rel="stylesheet" href="f.css?v=10">
+<link rel="stylesheet" href="f.css?v=9">
 <script src="data.js?v=1" defer></script>
 <script src="hero.js?v=1" defer></script>
 <script src="f.js?v=6" defer></script>
 <script src="studio.js?v=2" defer></script>
-<script src="games.js?v=1" defer></script>
-<script src="play.js?v=1" defer></script>
+<script src="games-entry.js?v=2" defer></script>
 </head>
 <body id="top">
 <a class="skip" href="#projects">Skip to the list of projects</a>
@@ -27,7 +26,7 @@
 </div>
 <div id="live" aria-hidden="true"></div>
 <header class="top">
-  <a class="who" href="#top">Abhishek Anand Masih</a>
+  <a class="who" href="#top">Abhishek M</a>
   <nav aria-label="Sections"><a href="#work">Work</a><a href="#lab">Lab</a><a href="#games">Games</a><a href="#how">How I work</a><a href="#contact">Contact</a></nav>
   <a class="btn" href="mailto:abhimasih0505@gmail.com">Open to work</a>
 </header>
@@ -39,7 +38,7 @@
   <div class="hero-in">
     <div class="hfr" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <p class="kick fx f1"><span>Portfolio 2026</span><span>New Delhi</span></p>
-    <h1 class="sr-only" id="hero-name">Abhishek Anand Masih, Operations &amp; CRM Lead</h1>
+    <h1 class="sr-only" id="hero-name">Abhishek M, Operations &amp; CRM Lead</h1>
     <figure class="hq fx f2" data-quotes>
       <blockquote class="hq-q"><p class="hq-t">Every mess is a <em>system</em> nobody has drawn yet.</p></blockquote>
       <figcaption class="hq-by">me</figcaption>
@@ -106,19 +105,12 @@
   </section>
 
   <section class="in dk lv" id="games">
-    <div class="intro"><h2 class="h">Take a break. Four small games.</h2><p>All of them are about the same thing as the rest of this page: leads that get lost, and what happens when they stop getting lost.</p></div>
-    <div class="gms">
-      <div class="gm"><h3>Lead Run</h3><p>Fly the lead home. Dodge spreadsheets, missed calls and double entries; collect CRM, Website, Automation and 3D. Three lives.</p>
-        <div class="run-stage" data-run><canvas class="run-cv" role="img" aria-label="Lead Run, a small arcade game"></canvas><div class="run-ov"><p class="run-t">Lead Run</p><p class="run-s">Steer with your mouse, your finger or the arrow keys.</p><button class="hbtn run-go" type="button">Play <span aria-hidden="true">→</span></button><p class="run-best"></p></div></div></div>
-      <div class="gm" id="g-sort"><h3>Sort the mess</h3><p>Twenty-five seconds. File each note where it belongs before the next one lands.</p>
-        <div class="gbox"><div class="gtime"><i id="sTime"></i></div><p class="gnote" id="sNote" aria-live="polite">Notes arrive from everywhere. Ready?</p><div class="gbins" id="sBins"><button type="button">Lead</button><button type="button">Booking</button><button type="button">Payment</button></div><p class="gscore" id="sScore"></p></div>
-        <button class="btn g" type="button" id="sGo">Play</button></div>
-      <div class="gm" id="g-pipe"><h3>Pipeline sprint</h3><p>Six leads, four stages. Click each one along until all six are won. Fastest time wins.</p>
-        <div class="gbox"><div class="gpipe" id="pCols"></div><p class="gscore" id="pScore" aria-live="polite"></p></div>
-        <button class="btn g" type="button" id="pGo">Play</button></div>
-    </div>
-    <div class="gl2">
-      <a class="glk" href="#top"><b>Catch ten leads</b><span>The game in the hero at the top of this page: your cursor is a black hole. Pull ten leads in to build the system.</span><i>Play it in the hero ↑</i></a>
+    <div class="intro"><h2 class="h">Take a break. Play a real one.</h2><p>Four games about the work this page is about. Each opens full screen; Esc brings you back.</p></div>
+    <div class="gcards">
+      <button class="gcard" type="button" data-game="inbox"><span class="cv cv-inbox" aria-hidden="true"><i></i><i></i><i></i></span><b>Inbox Rush</b><span>Enquiries pour in from every channel. Reply, book, assign or bin each one before it goes cold. It gets faster.</span><em data-best="inbox"></em></button>
+      <button class="gcard" type="button" data-game="stock"><span class="cv cv-stock" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><b>Stock Out</b><span>Forty-five days running a shop with limited cash and slow suppliers. Reorder too late and you turn customers away.</span><em data-best="stock"></em></button>
+      <button class="gcard" type="button" data-game="run"><span class="cv cv-run" aria-hidden="true"><i></i></span><b>Lead Run</b><span>Fly the lead home past spreadsheets, missed calls and double entries. Collect the pieces of the system. Three lives.</span><em>Arcade · full screen</em></button>
+      <a class="gcard" href="#top"><span class="cv cv-hole" aria-hidden="true"><i></i></span><b>Catch ten leads</b><span>In the hero at the top of this page your cursor is a black hole. Pull ten leads in before they drift away.</span><em>Play it in the hero ↑</em></a>
     </div>
   </section>
 
@@ -129,18 +121,155 @@
   </section>
 
   <section class="in" id="why">
+    <link rel="stylesheet" href="why.css?v=6">
     <div class="intro"><h2 class="h">Software built around your business, not the other way round.</h2><p>Rented tools charge per seat and make your team work their way. A custom workflow or SaaS product fits how you already work, grows one module at a time and keeps the cost in your hands. That is how a business stops leaking leads and starts to flourish.</p></div>
-    <div class="caps">
-      <div><h3>Cost-effective by design</h3><p>Start with the one module that hurts most and add the rest as you grow. No per-seat fees, and proven modules from my own projects keep the build short.</p></div>
-      <div><h3>Effort tracking</h3><p>See who called, visited, quoted and closed, every day, without chasing anyone for an update.</p></div>
-      <div><h3>Employee management</h3><p>Roles and permissions, attendance and field check-ins, targets, approvals and clean hand-overs in one place.</p></div>
-      <div><h3>Leads to revenue</h3><p>Enquiries from every source, calling queues, site visits and follow-ups that never slip.</p></div>
-      <div><h3>Stock, orders and billing</h3><p>Inventory, purchase orders, quotes and GST invoices, wired to the sales pipeline.</p></div>
-      <div><h3>Customers who help themselves</h3><p>Booking pages, client portals and scripted WhatsApp and chat assistants that answer at 2 am.</p></div>
-      <div><h3>Servers that cost little</h3><p>Hosting sized to what you actually need, and full server setup for your first self-hosted website or app: domain, SSL, backups and monitoring included.</p></div>
-      <div><h3>In-house and all connected</h3><p>Website, app and CRM or project tool on one system you own. Every task loses a few seconds of copying and checking, and those minutes go back to the work that makes money.</p></div>
+    <div class="wy" id="wy">
+      <article class="wy-c wy-calc" aria-labelledby="wy-ch">
+        <p class="wy-k">An estimate · minutes back</p>
+        <div class="wy-hd"><h3 id="wy-ch">A few seconds a task. Whole days a month.</h3><p>Every call logged by hand, record searched for or figure copied between tools costs a few seconds. Set this to your team and see what one connected system gives back: time for the work that brings in money.</p></div>
+        <div class="wy-sls">
+          <div class="wy-sl"><label for="wy-ppl"><span>People on the team</span><output id="wy-ppl-o" for="wy-ppl">12</output></label><input type="range" id="wy-ppl" min="1" max="100" step="1" value="12"></div>
+          <div class="wy-sl"><label for="wy-tsk"><span>Tasks each, per day</span><output id="wy-tsk-o" for="wy-tsk">40</output></label><input type="range" id="wy-tsk" min="5" max="150" step="1" value="40"><small>Calls logged, records looked up, quotes and invoices made</small></div>
+          <div class="wy-sl"><label for="wy-sec"><span>Seconds saved per task</span><output id="wy-sec-o" for="wy-sec">15 s</output></label><input type="range" id="wy-sec" min="2" max="90" step="1" value="15"><small>No copying between tools, no checking twice</small></div>
+        </div>
+        <div class="wy-res">
+          <p class="wy-big"><b id="wy-h">44</b><span id="wy-hu">hours back<br>every month</span></p>
+          <p class="wy-eq" id="wy-eq">That is about <b>5½ full working days</b>, from <b>10 minutes</b> per person, per day.</p>
+          <div class="wy-month" id="wy-month" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <p class="wy-mcap" id="wy-mcap"><span>One person’s working month: 22 days</span><b>5½ of 22 days</b></p>
+          <p class="sr" id="wy-sr" aria-live="polite"></p>
+        </div>
+        <p class="wy-fine">An estimate, not a promise: people × tasks a day × seconds saved × 22 working days, with an 8-hour working day. Your numbers will differ; the point is the scale.</p>
+      </article>
+      <article class="wy-c wy-data" aria-labelledby="wy-dhh">
+        <p class="wy-k2">Migration · live analytics</p>
+        <div class="wy-dh"><h3 id="wy-dhh">Clean data in, live decisions out.</h3></div>
+        <div class="wy-sheet" id="wy-sheet" aria-hidden="true">
+          <div class="wy-sh-h"><span>old_leads_FINAL (2).xlsx</span><span id="wy-sst">✓ 2 clean records moved in</span></div>
+          <div class="wy-tb raw">
+            <div class="wy-tr hd"><span>Name</span><span>Phone</span><span>City</span></div>
+            <div class="wy-tr r1"><span>ravi kumar</span><span>98••• •••45</span><span>noida</span></div>
+            <div class="wy-tr r2"><span>Ravi Kumar </span><span>+91-98•••-•••45</span><span>Noida</span></div>
+            <div class="wy-tr r3"><span>PRIYA s</span><span>98<em>O</em>•• •••67</span><span>—</span></div>
+          </div>
+          <div class="wy-tdiv">↓ cleaned on the way in</div>
+          <div class="wy-tb clean">
+            <div class="wy-tr c1"><span>Ravi Kumar</span><span>+91 98••• •••45</span><span>Noida</span></div>
+            <div class="wy-tr c2"><span>Priya S.</span><span>+91 980•• •••67</span><span class="add">+ Add</span></div>
+          </div>
+          <div class="wy-fix"><span class="m">2 duplicates merged</span><span class="p">1 phone fixed</span><span class="n">2 names tidied</span></div>
+        </div>
+        <div class="wy-arw" id="wy-arw" aria-hidden="true"><i>→</i>moved in</div>
+        <div class="wy-dash" aria-hidden="true">
+          <div class="wy-dt"><small>Team activity</small><b id="wy-act">142</b><span class="wy-bars"><i class="h2"></i><i class="h3"></i><i class="h1"></i><i class="h4"></i><i class="h3"></i><i class="h5"></i><i class="h4"></i></span><em>actions today</em></div>
+          <div class="wy-dt"><small>Attendance</small><b id="wy-att">11/12</b><span class="wy-dots" id="wy-dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="off"></i></span><em>1 on leave</em></div>
+          <div class="wy-dt"><small>Website visitors</small><b id="wy-vis">1,284</b><em><i class="wy-live"></i><span id="wy-now">7</span> on the site now</em></div>
+          <div class="wy-dt"><small>Search Console</small><b>#<span id="wy-pos">4</span><span class="wy-up2" id="wy-arr">▲3</span></b><em>“3 BHK Gurugram”</em></div>
+          <div class="wy-dt wide"><small>Meta ads · Pixel + Conversions API</small><b id="wy-ev">38</b><em>lead events · <span id="wy-cm">36</span> matched via CAPI</em><span class="wy-mbar2"><i id="wy-mr"></i></span></div>
+          <div class="wy-dt add">+ Add the tile you need next</div>
+        </div>
+        <div class="wy-dtx">
+          <p><b>Old data, cleaned and moved in.</b> Spreadsheets, duplicates and broken phone numbers are de-duplicated and fixed during the migration.</p>
+          <p><b>Analysis built in, live.</b> Your team’s activity and attendance beside website visitors, Google Search Console rankings, and Meta Pixel and Conversions API results, in one dashboard, so decisions rest on real numbers.</p>
+          <p class="wy-end">Endless possibilities of customisation: add the view your business needs next.</p>
+        </div>
+      </article>
+      <article class="wy-c wy-eff">
+        <h3>Effort tracking</h3>
+        <p>See who called, visited, quoted and closed, every day, without chasing anyone for an update.</p>
+        <div class="wy-ui" aria-hidden="true">
+          <div class="wy-cnt"><span><b>38</b>calls</span><span><b>9</b>visits</span><span><b>5</b>quotes</span><span><b>2</b>closed</span></div>
+          <div class="wy-heat"><i class="l2"></i><i class="l3"></i><i class="l1"></i><i class="l1"></i><i class="l2"></i><i></i><i></i><i class="l4"></i><i class="l3"></i><i class="l2"></i><i class="l2"></i><i class="l3"></i><i class="l1"></i><i></i><i class="l2"></i><i class="l1"></i><i class="l3"></i><i class="l1"></i><i class="l3"></i><i></i><i></i><i class="l1"></i><i class="l4"></i><i class="l4"></i><i class="l1"></i><i class="l2"></i><i class="l1"></i><i></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l2"></i><i class="l1"></i><i class="l1"></i><i></i><i class="l1"></i><i class="l2"></i><i class="l2"></i><i class="l1"></i><i class="l3"></i><i></i><i></i><i class="l1"></i><i class="l4"></i><i class="l1"></i><i class="l4"></i><i class="l2"></i><i></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l3"></i><i class="l1"></i><i class="l1"></i><i></i><i class="l1 td"></i></div>
+          <p class="wy-cap"><span>Team activity, last 4 weeks</span><span>Today</span></p>
+        </div>
+      </article>
+      <article class="wy-c wy-lead">
+        <h3>Leads to revenue</h3>
+        <p>Enquiries from every source, calling queues, site visits and follow-ups that never slip.</p>
+        <div class="wy-ui" aria-hidden="true">
+          <div class="wy-cols"><span>New</span><span>Called</span><span>Visit</span><span>Won</span></div>
+          <div class="wy-lanes"><i></i><i></i><i></i><i></i></div>
+          <div class="wy-deal won" id="wy-deal"><b>Ravi</b><small>₹4.8 L</small></div>
+          <p class="wy-won"><span>Won this month</span><b id="wy-won">₹18.6 L</b></p>
+        </div>
+      </article>
+      <article class="wy-c wy-team">
+        <h3>Employee management</h3>
+        <p>Roles and permissions, attendance and field check-ins, targets, approvals and clean hand-overs in one place.</p>
+        <div class="wy-ui" aria-hidden="true">
+          <div class="wy-p"><span class="wy-av">NS</span><span class="wy-nm">Neha<span class="wy-role">LEAD</span><small>Sales</small></span><span class="wy-st">Checked in 9:41</span></div>
+          <div class="wy-p"><span class="wy-av a2">RK</span><span class="wy-nm">Rohit<small>Site engineer</small></span><span class="wy-st">On site · Sector 62</span></div>
+          <div class="wy-p"><span class="wy-av a3">IA</span><span class="wy-nm">Imran<small>Accounts</small></span><span class="wy-st">Checked in 10:02</span></div>
+          <p class="wy-tgt"><span>Team target · Nov</span><b>₹31.2 L of ₹46 L</b></p><div class="wy-tbar"><i></i></div>
+        </div>
+      </article>
+      <article class="wy-c wy-help">
+        <h3>Customers who help themselves</h3>
+        <p>Booking pages, client portals and scripted WhatsApp and chat assistants that answer at 2 am.</p>
+        <div class="wy-ui wy-chat" aria-hidden="true">
+          <div class="wy-ch"><span class="wy-av">AR</span><span><b>Aaranya Residences</b><small>replies instantly</small></span></div>
+          <p class="wy-b in">Kal subah site visit ho sakta hai?<time>2:04 am</time></p>
+          <span class="wy-typ"><i></i><i></i><i></i></span>
+          <p class="wy-b out">Yes! Tomorrow 11 am is free. Booked, and the location is on its way ✓<time>2:04 am</time></p>
+        </div>
+      </article>
+      <article class="wy-c wy-conn">
+        <h3>In-house and all connected</h3>
+        <p>Website, app and CRM or project tool on one system you own. Every task loses a few seconds of copying and checking, and those minutes go back to the work that makes money.</p>
+        <div class="wy-ui" aria-hidden="true">
+          <div class="wy-net">
+            <svg viewBox="0 0 400 230" focusable="false"><path class="ln" d="M64 46 L200 115"/><path class="ln" d="M64 184 L200 115"/><path class="ln" d="M200 115 L336 46"/><path class="ln" d="M200 115 L336 184"/><path class="pk" pathLength="100" d="M64 46 L200 115"/><path class="pk d1" pathLength="100" d="M200 115 L336 46"/><path class="pk d2" pathLength="100" d="M64 184 L200 115"/><path class="pk d3" pathLength="100" d="M200 115 L336 184"/></svg>
+            <span class="wy-n n1">Website<small>enquiry form</small></span>
+            <span class="wy-n n2">App<small>field team</small></span>
+            <span class="wy-n n3">CRM<small>leads and deals</small></span>
+            <span class="wy-n n4">Projects<small>tasks and dates</small></span>
+            <span class="wy-n hub">One system<small>your server, your data</small></span>
+          </div>
+          <p class="wy-tick"><span>Website enquiry → CRM lead in 0.4 s</span></p>
+        </div>
+      </article>
+      <article class="wy-c wy-cost">
+        <h3>Cost-effective by design</h3>
+        <p>Start with the one module that hurts most and add the rest as you grow. No per-seat fees, and proven modules from my own projects keep the build short.</p>
+        <div class="wy-ui" aria-hidden="true">
+          <div class="wy-rail"><span class="wy-m on">Leads<small>Month 1</small></span><span class="wy-m on">Calling<small>Month 2</small></span><span class="wy-m on">Site visits<small>Month 3</small></span><span class="wy-m on">Quotes<small>Month 4</small></span><span class="wy-m on">Billing<small>Month 6</small></span><span class="wy-m on">Portal<small>Month 9</small></span></div>
+          <p class="wy-mods"><span><b id="wy-mn">6</b> of 6 modules live</span><span>Per-seat fees: <b>₹0</b></span></p>
+        </div>
+      </article>
+      <article class="wy-c wy-stock">
+        <h3>Stock, orders and billing</h3>
+        <p>Inventory, purchase orders, quotes and GST invoices, wired to the sales pipeline.</p>
+        <div class="wy-ui" aria-hidden="true">
+          <div class="wy-item"><b>Oak dining chair</b><span><b id="wy-qty">42</b> in stock</span></div>
+          <div class="wy-bar"><i></i><em></em></div>
+          <div class="wy-feed"><span class="wy-chip" id="wy-ord">SO-2265 · −6 chairs</span><span class="wy-chip gst" id="wy-inv">INV-0411 · GST 18% · ₹21,240</span></div>
+        </div>
+      </article>
+      <article class="wy-c wy-srv">
+        <h3>Servers that cost little</h3>
+        <p>Hosting sized to what you actually need, and full setup for your first self-hosted website or app: domain, SSL, backups and monitoring included.</p>
+        <div class="wy-ui" aria-hidden="true">
+          <span class="wy-up"><i></i>99.98% uptime · 30 days</span>
+          <div class="wy-mt"><span>e.g. one small app</span><b>₹1,200<small> / month</small></b></div>
+          <div class="wy-mbar"><i></i></div>
+          <div class="wy-ticks"><span>SSL renews itself</span><span>Backup 02:00</span></div>
+        </div>
+      </article>
     </div>
-    <div class="tel"><h3>India-ready calling and SMS</h3><p>I work with <b>Knowlarity</b> for IVR and cloud calling and <b>Airtel</b> for DLT-registered SMS, so your CRM can route calls, log every outcome and send compliant SMS from day one. I can help with the setup and the registration too.</p></div>
+    <div class="wy-tel">
+      <div>
+        <h3>India-ready calling and SMS</h3>
+        <p>I work with <b>Knowlarity</b> for IVR and cloud calling and <b>Airtel</b> for DLT-registered SMS, so your CRM can route calls, log every outcome and send compliant SMS from day one. I can help with the setup and the registration too.</p>
+        <p class="wy-wm" aria-hidden="true"><span><b>Knowlarity</b><small>IVR · cloud calling</small></span><span><b>Airtel</b><small>DLT-registered SMS</small></span></p>
+      </div>
+      <ol class="wy-flow" aria-label="What happens when a customer calls">
+        <li><span class="wy-fn" aria-hidden="true">1</span><b>A call comes in</b><span class="wy-tv" aria-hidden="true"><i class="wy-ring"></i>+91 98••• ••210</span><small>On your Knowlarity number, day or night</small></li>
+        <li><span class="wy-fn" aria-hidden="true">2</span><b>IVR menu</b><span class="wy-tv wy-keys" aria-hidden="true"><i class="on">1</i><i>2</i><i>3</i>Site visits</span><small>“Press 1 for site visits” routes it to sales</small></li>
+        <li><span class="wy-fn" aria-hidden="true">3</span><b>Logged in the CRM</b><span class="wy-tv" aria-hidden="true">Lead → Neha</span><small>Caller, choice, recording and outcome</small></li>
+        <li><span class="wy-fn" aria-hidden="true">4</span><b>DLT SMS sent</b><span class="wy-tv" aria-hidden="true">VM-AARNYA ✓</span><small>Through Airtel, on a registered template</small></li>
+      </ol>
+    </div>
+    <script src="why.js?v=6" defer></script>
   </section>
 
   <section class="in" id="how">
@@ -165,6 +294,6 @@
     <p class="acts w"><a class="btn b" id="cta2" href="mailto:abhimasih0505@gmail.com">Email me this brief →</a><button class="btn" type="button" id="copy">Copy the address</button><a class="btn" href="https://www.linkedin.com/in/abhishek-m-b934a925a" rel="noopener">LinkedIn</a><a class="btn" href="https://github.com/abBytes-sudo" rel="noopener">GitHub</a></p>
   </section>
 </main>
-<footer class="foot"><span>Abhishek Anand Masih · Operations &amp; CRM Lead · New Delhi</span><span>The system you build uses made-up names and numbers. Client screens are white-labelled unless marked live · © 2026</span></footer>
+<footer class="foot"><span>Abhishek M · Operations &amp; CRM Lead · New Delhi</span><span>The system you build uses made-up names and numbers. Client screens are white-labelled unless marked live · © 2026</span></footer>
 </body>
 </html>
