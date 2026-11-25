@@ -23,7 +23,7 @@
   if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { o.disconnect(); boot(); } }, { rootMargin: '70% 0px' }).observe($('#world')); else boot();   // the shader starts only when the fall is near      // let the page paint (poster and text) before compiling the shader
   function boot() {
   /* ---------- the shader: photons bent around a Schwarzschild hole (rs = 1), disk in the y = 0 plane ---------- */
-  var FS = 'precision highp float;uniform vec2 R,S;uniform float T,F,K;uniform vec3 C,BX,BY,BZ;' +
+  var FS = 'precision highp float;uniform vec2 R,S;uniform float T,F,K,Q;uniform vec3 C,BX,BY,BZ;' +
     'float h1(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}' +
     'float ns(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*f*(f*(f*6.-15.)+10.);return mix(mix(h1(i),h1(i+vec2(1.,0.)),f.x),mix(h1(i+vec2(0.,1.)),h1(i+vec2(1.,1.)),f.x),f.y);}' +
     'vec3 stars(vec3 d){vec3 a=abs(d);vec2 q;float fc;if(a.x>a.y&&a.x>a.z){q=d.yz/a.x;fc=sign(d.x);}else if(a.y>a.z){q=d.xz/a.y;fc=2.*sign(d.y);}else{q=d.xy/a.z;fc=3.*sign(d.z);}' +
@@ -36,9 +36,9 @@
     'vec3 c=mix(vec3(1.,.96,.88),vec3(.96,.71,.34),smoothstep(0.,.3,t));c=mix(c,vec3(1.,.31,.85),smoothstep(.28,.7,t));c=mix(c,vec3(.5,.42,1.),smoothstep(.66,1.,t));' +
     'float dp=1.+.72*dot(normalize(vec3(p.z,0.,-p.x)),-normalize(v));I*=dp*dp*smoothstep(10.5,8.4,r);return vec4(c*I*2.3,clamp(I*1.7,0.,.93));}' +
     'void main(){vec2 uv=(gl_FragCoord.xy-.5*R)/R.y-S;vec3 v=normalize(uv.x*BX+uv.y*BY+F*BZ),p=C,hh=cross(p,v);float h2=dot(hh,hh),tr=1.;vec3 col=vec3(0.);' +
-    'for(int i=0;i<190;i++){float r2=dot(p,p);if(r2<1.){tr=0.;break;}float r=sqrt(r2),dt=max(.03,.06*r);if(r<12.)dt=min(dt,abs(p.y)*.5+.15);v+=-1.5*h2*p/(r2*r2*r)*dt;vec3 np=p+v*dt;' +
+    'for(int i=0;i<190;i++){if(float(i)>Q)break;float r2=dot(p,p);if(r2<1.){tr=0.;break;}float r=sqrt(r2),dt=max(.03,.06*r);if(r<12.)dt=min(dt,abs(p.y)*.5+.15);v+=-1.5*h2*p/(r2*r2*r)*dt;vec3 np=p+v*dt;' +
     'if(p.y*np.y<0.){vec4 k=disk(mix(p,np,p.y/(p.y-np.y)),v);col+=tr*k.rgb;tr*=1.-k.a;}p=np;if(r2>6400.&&dot(p,v)>0.)break;}' +
-    'col+=tr*stars(normalize(v));col=1.-exp(-col*1.35);col+=(fract(52.9829189*fract(dot(gl_FragCoord.xy,vec2(.06711056,.00583715))))-.5)/255.;float br=K*K*5.2;col=mix(col,vec3(1.),smoothstep(br+.001,br*.35,length(uv))*step(.0005,K));gl_FragColor=vec4(col,1.);}';
+    'col+=tr*stars(normalize(v));col=1.-exp(-col*1.35);col+=(fract(52.9829189*fract(dot(gl_FragCoord.xy,vec2(.06711056,.00583715))))-.5)/255.;float br=K*K*5.2;col=mix(col,vec3(1.),max(smoothstep(br+.001,br*.2,length(uv))*step(.0005,K),K*K*K*K));gl_FragColor=vec4(col,1.);}';
   function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; }
   var pr = gl.createProgram(), U = {};
   try {
@@ -47,14 +47,14 @@
   } catch (e) { console.warn('black hole shader unavailable', e); root.classList.add('no3d', 'inv'); return; }
   gl.useProgram(pr); gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer()); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
   gl.enableVertexAttribArray(0); gl.bindAttribLocation(pr, 0, 'a'); gl.vertexAttribPointer(gl.getAttribLocation(pr, 'a'), 2, gl.FLOAT, false, 0, 0);
-  ['R', 'S', 'T', 'F', 'K', 'C', 'BX', 'BY', 'BZ'].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
+  ['R', 'S', 'T', 'F', 'K', 'Q', 'C', 'BX', 'BY', 'BZ'].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
 
   /* ---------- camera (kept in JS too, so DOM cards and chips sit in the same space) ---------- */
   var F = 1 / Math.tan((mobile ? 58 : 40) * Math.PI / 360), VW = 1, VH = 1, qs = 1, st = { r: 0, s: 0, o: 0 }, tg = { r: 0, s: 0, o: 0 };
   var C = [0, 7, 34], X = [1, 0, 0], Y = [0, 1, 0], Z = [0, 0, -1], SX = 0, SY = 0, TF = Math.PI / 2 + (mobile ? 0 : .6), H = {}, P = {};
   function camera() {
-    var e = sm(st.r), eo = sm(st.o), D = lerp(54, 34, e), h = lerp(11, 6.5, e), roll = (mobile ? -.1 : -.2) * (1 - eo), L, c, s;
-    SX = lerp(mobile ? 0 : .42, mobile ? 0 : .2, e) * (1 - eo); SY = lerp(mobile ? -.2 : 0, mobile ? .2 : .1, e) * (1 - eo);
+    var e = sm(st.r), eo = sm(st.o), D = lerp(mobile ? 54 : 66, 34, e), h = lerp(mobile ? 11 : 13, 6.5, e), roll = (mobile ? -.1 : -.2) * (1 - eo), L, c, s;
+    SX = lerp(mobile ? 0 : .3, mobile ? 0 : .2, e) * (1 - eo); SY = lerp(mobile ? -.2 : 0, mobile ? .2 : .1, e) * (1 - eo);
     D = D * Math.pow(1.7 / D, eo); h = lerp(h, .45, eo); L = Math.hypot(h, D); c = Math.cos(roll); s = Math.sin(roll);
     C = [0, h, D]; Z = [0, -h / L, -D / L]; X = [c, s * D / L, -s * h / L]; Y = [-s, c * D / L, -c * h / L];
   }
@@ -80,18 +80,18 @@
   });
   var CW = mobile ? 4.4 : 5.6;
   /* in the hero, nothing drifts across the headline: things fade as they near the text block */
-  function clear(x, y) { var h = 1 - sm(clamp(st.r * 1.4)); return h < .01 ? 1 : 1 - h * (mobile ? 1 - clamp((y - VH * .62) / (VH * .1)) : 1 - clamp((x - VW * .47) / (VW * .09))); }
+  function clear(x, y) { var h = 1 - sm(clamp(st.r * 1.4)); return h < .01 ? 1 : (1 - h * (mobile ? 1 - clamp((y - VH * .62) / (VH * .1)) : 1 - clamp((x - VW * .5) / (VW * .08)))) * (1 - h * (1 - clamp((VH - 112 - y) / 50))); }   // nothing drifts over the text column or the bar at the bottom
   function placeCards(t) {
     var hero = 1.6 * (1 - sm(st.r)), fade = clamp(1 - st.o * 3.2), i, c, u, rad, th, e, k, op, phi, zi, on, uq = sm(clamp(uu));
     for (i = 0; i < N; i++) {
       c = cards[i]; u = i - st.s + hero;
       if (u >= 0) { rad = 11 + 9 * (1 - Math.exp(-u * .22)); th = TF + 4.5 * (1 - Math.exp(-u * .17)) + Math.sin(t * .22 + i) * .04 * Math.min(u, 2); }
       else { rad = 11 * Math.exp(u * 1.7); th = TF + u * .76 - 1.1 * u * u; }
-      e = u < 0 ? sm(clamp(-u * 1.05)) : 0; op = (u < 0 ? 1 - e * e : clamp(1.3 - u * .065)) * fade;
+      e = u < 0 ? sm(clamp(-u * 1.05)) : 0; op = (u < 0 ? 1 - e * e : clamp(1.25 - u * .25)) * fade * sm(clamp(st.r * 1.6 - .25));     // the windows arrive as you start to fall; the intro stays clear
       if (op < .01 || !proj(rad * Math.cos(th), u < 0 ? .5 * rad / 11 : .5, rad * Math.sin(th), P) || (P.z > H.z && Math.hypot(P.x - H.x, P.y - H.y) < 2.9 * H.k)) { if (c.vis) { c.vis = false; c.el.style.visibility = 'hidden'; } continue; }
       op *= clear(P.x, P.y); if (uq > .001) op *= i === cur ? 1 : 1 - uq; if (i === cur) { fr.x = P.x; fr.y = P.y; fr.k = P.k * CW / 640; fr.op = op; } if (!c.vis) { c.vis = true; c.el.style.visibility = ''; }
       if (!c.hi && Math.abs(u) < 3.2) { c.hi = true; c.el.firstChild.src = thumb(c.w, true); }
-      k = P.k * CW / 640 * (1 - e * .6) * (i === hov ? 1.05 : 1); op *= clamp((P.y - 200 * k - 62) / 44);        // keep the header clear; a calm shrink-and-fade into the hole, no spin
+      k = P.k * CW / 640 * (1 - e * .6) * (i === hov ? 1.05 : 1); op *= clamp((P.y - 200 * k - 62) / 44); if (i !== cur) op *= clamp((VW - 14 - (P.x + 320 * k)) / 40) * clamp((P.x - 320 * k - 14) / 40);   // never clipped by the edge: a window that would be cut is not shown        // keep the header clear; a calm shrink-and-fade into the hole, no spin
       c.el.style.transform = 'translate3d(' + P.x.toFixed(1) + 'px,' + P.y.toFixed(1) + 'px,0) scale(' + k.toFixed(4) + ')';
       c.el.style.opacity = op.toFixed(3); zi = 2000 - Math.round(P.z * 20); if (zi !== c.zi) { c.zi = zi; c.el.style.zIndex = zi; }
       on = inOrb && i === cur; if (on !== c.on) { c.on = on; c.el.classList.toggle('on', on); } if ((i === hov) !== c.hv) { c.hv = i === hov; c.el.classList.toggle('hv', c.hv); }
@@ -102,29 +102,37 @@
   var GM = 170, chips = [], count = 0, yours = [], LAB = ['leads in WhatsApp', 'bookings in a diary', 'enquiries missed at night', 'stock in a spreadsheet', '#REF!', 'missed call', 'follow up??', 'leads_FINAL_v7', 'who has this lead?', 'call back Mon', 'quote v4 final', 'paid? ask accounts', '3 BHK, asked twice', 'copy of copy', 'lost the number', 'double entry', 'reply pending', '=SUM(#N/A)', 'site visit when?', 'which sheet?'];
   function seed(c) { var r = 12.5 + Math.random() * 8, a = Math.random() * 6.283, v = Math.sqrt(GM / r) * (.78 + Math.random() * .28); c.x = r * Math.cos(a); c.z = r * Math.sin(a); c.vx = Math.sin(a) * v; c.vz = -Math.cos(a) * v; c.y = Math.random() * 1.4 - .7; }
   function chip(text, me) { var el = d.createElement('span'); el.className = 'chip' + (me ? ' me' : ''); el.textContent = text; orbit.appendChild(el); var c = { el: el, me: me, text: text, drag: me ? .3 : .045, vis: true }; chips.push(c); return c; }
-  LAB.concat(LAB.slice(0, mobile ? 0 : 8)).forEach(function (t) { seed(chip(t, false)); });
+  /* eight messes at most, each on its own slot of two calm lanes that turn together, so they never pile up or repeat */
+  var rot = 0, pool = LAB.slice(8);
+  LAB.slice(0, 8).forEach(function (t, i) { var c = chip(t, false); c.lane = 1; c.slot = i; c.r = i % 2 ? 14.4 : 11.8; c.y = 0; c.x = c.r; c.z = 0; });
+  function relabel(c) { pool.push(c.text); c.text = pool.shift(); c.el.textContent = c.text; }
+  function pushOut() {            // a new mess pushes the oldest one out of its lane and into the hole
+    var c = chips.filter(function (x) { return x.lane; })[0]; if (!c) return; var a = rot + c.slot * .7854, v = Math.sqrt(GM / c.r) * .7;
+    c.lane = 0; c.vx = Math.sin(a) * v; c.vz = -Math.cos(a) * v; c.drag = .3; chips.push(chips.splice(chips.indexOf(c), 1)[0]);
+  }
   function swallowed(c) {
-    count++; $('#count').textContent = count; var hud = $('#hud'); hud.classList.remove('hit'); void hud.offsetWidth; hud.classList.add('hit');
-    if (!c.me) return seed(c);
+    if (c.me || c.own) count++; $('#count').textContent = count; var hud = $('#hud'); hud.classList.remove('hit'); void hud.offsetWidth; hud.classList.add('hit');
+    if (c.own) { c.el.remove(); chips.splice(chips.indexOf(c), 1); return; } if (!c.me) { relabel(c); c.lane = 1; return; }
     c.el.remove(); chips.splice(chips.indexOf(c), 1); yours.push(c.text);
     var y = $('#mine'), b = d.createElement('b'); y.textContent = ''; y.classList.add('on'); y.appendChild(d.createTextNode('You threw in ')); b.textContent = '“' + yours.join('”, “') + '”'; y.appendChild(b); y.appendChild(d.createTextNode('. It landed here: one of the loose pieces below is yours.'));
     window.MESS = yours.slice(); window.dispatchEvent(new Event('mess'));
   }
   function stepChips(dt) {
+    rot -= dt * .085;
     var amb = clamp(1.2 - sm(st.r) * 1.4) * clamp(1 - st.o * 4), i, c, n, r2, r, a, op, k;
     for (i = chips.length - 1; i >= 0; i--) {
       c = chips[i];
-      for (n = 0; n < 2; n++) { r2 = c.x * c.x + c.z * c.z; r = Math.sqrt(r2); a = -GM / (r2 * r) * dt / 2; c.vx = (c.vx + a * c.x) * (1 - c.drag * dt / 2); c.vz = (c.vz + a * c.z) * (1 - c.drag * dt / 2); c.x += c.vx * dt / 2; c.z += c.vz * dt / 2; }
+      if (c.lane) { a = rot + c.slot * .7854; c.x = c.r * Math.cos(a); c.z = c.r * Math.sin(a); r = c.r; } else for (n = 0; n < 2; n++) { r2 = c.x * c.x + c.z * c.z; r = Math.sqrt(r2); a = -GM / (r2 * r) * dt / 2; c.vx = (c.vx + a * c.x) * (1 - c.drag * dt / 2); c.vz = (c.vz + a * c.z) * (1 - c.drag * dt / 2); c.x += c.vx * dt / 2; c.z += c.vz * dt / 2; }
       if (r < 2.5) { swallowed(c); continue; } if (r > 70) seed(c);
       op = (c.me ? 1 : amb) * clamp((r - 2.5) / 2);
       if (op < .02 || !proj(c.x, c.y * Math.min(1, r / 9), c.z, P) || (P.z > H.z && Math.hypot(P.x - H.x, P.y - H.y) < 2.9 * H.k)) { if (c.vis) { c.vis = false; c.el.style.visibility = 'hidden'; } continue; }
       if (!c.me) op *= clear(P.x, P.y); if (!c.vis) { c.vis = true; c.el.style.visibility = ''; }
-      k = clamp(P.k / 30, .42, 1.5); c.el.style.transform = 'translate3d(' + P.x.toFixed(1) + 'px,' + P.y.toFixed(1) + 'px,0) scale(' + k.toFixed(3) + ')'; c.el.style.opacity = op.toFixed(2); c.el.style.zIndex = 2000 - Math.round(P.z * 20);
+      op *= clamp((VW - 170 - P.x) / 50) * clamp((P.x - 8) / 40); k = clamp(P.k / 30, .42, 1.5); c.el.style.transform = 'translate3d(' + P.x.toFixed(1) + 'px,' + P.y.toFixed(1) + 'px,0) scale(' + k.toFixed(3) + ')'; c.el.style.opacity = op.toFixed(2); c.el.style.zIndex = 2000 - Math.round(P.z * 20);
     }
   }
-  function fling(x, z, vx, vz, text, me) { var c = chip(text || LAB[Math.random() * LAB.length | 0], me); c.x = x; c.z = z; c.vx = vx; c.vz = vz; c.y = 0; if (!me) c.drag = .16; }
+  function fling(x, z, vx, vz, text, me) { var c = chip(text || pool[0], me); if (!text) relabel({ text: c.text, el: c.el }); c.x = x; c.z = z; c.vx = vx; c.vz = vz; c.y = 0; if (!me) { c.own = 1; c.drag = .26; } pushOut(); }
   var mess = $('#mess');
-  function throwIn() { var t = mess.value.trim(), r = 18, a = TF + .5, v = Math.sqrt(GM / r) * .74; fling(r * Math.cos(a), r * Math.sin(a), Math.sin(a) * v, -Math.cos(a) * v, t, true); mess.value = ''; }
+  function throwIn() { var t = mess.value.trim(), r = 18, a = TF + .5, v = Math.sqrt(GM / r) * .74; fling(r * Math.cos(a), r * Math.sin(a), Math.sin(a) * v, -Math.cos(a) * v, t, !!t); mess.value = ''; }
   $('#throw').addEventListener('click', throwIn); mess.addEventListener('keydown', function (e) { if (e.key === 'Enter') throwIn(); });
   var hero = $('#intro'), grab = null;
   hero.addEventListener('pointerdown', function (e) { if (e.button || e.pointerType === 'touch' || e.target.closest('a,button,input,label')) return; var p = onPlane(e.clientX, e.clientY); if (p) grab = { p: p, t: performance.now() }; });
@@ -170,7 +178,7 @@
 
   /* ---------- scroll is gravity ---------- */
   var cap = $('#cap'), flash = $('#flash'), dist = $('#dist'), cur = -1, inOrb = false, busy = false, inv = false;
-  var base = 0;
+  var base = 0, build = $('#build'), lit = false; root.classList.add('fall');
   function top(i) { return base + (RISE + i * STEP) / 100 * innerHeight + 2; }
   function go(i) { window.scrollTo({ top: top(clamp(i, 0, N - 1)), behavior: 'smooth' }); }
   function show(i) {
@@ -182,7 +190,7 @@
     busy = false; if (using) return; var p = (window.scrollY - base) / innerHeight * 100, o = clamp((p - RISE - (N - 1) * STEP - 20) / (OUT - 20)), on, i;
     tg.r = clamp(p / RISE); tg.s = clamp((p - RISE) / STEP, 0, N - 1); tg.o = o; on = p > RISE * .82 && o < .22; i = Math.round(tg.s);
     if (on !== inOrb) { inOrb = on; root.classList.toggle('orb', on); } if (on && i !== cur) show(i);
-    var iv = o > .86 || p > END; if (iv !== inv) { inv = iv; root.classList.toggle('inv', iv); }
+    var bt = build.getBoundingClientRect().top; if (!lit && (o >= .995 || p > END) && bt < innerHeight * .82) { lit = true; build.classList.add('lit'); } var iv = o > .68 || p > END; if (iv !== inv) { inv = iv; root.classList.toggle('inv', iv); }
   }
   addEventListener('scroll', function () { if (!busy) { busy = true; requestAnimationFrame(state); } }, { passive: true });
   $('#prev').addEventListener('click', function () { go(cur - 1); }); $('#next').addEventListener('click', function () { go(cur + 1); });
@@ -194,9 +202,9 @@
   function frame(now) {
     raf = requestAnimationFrame(frame); var ms = now - last, dt = Math.min(.05, ms / 1000 || .016), k = 1 - Math.exp(-dt * 5), t = (now - t0) / 1000; last = now;
     st.r += (tg.r - st.r) * k; st.s += (tg.s - st.s) * (1 - Math.exp(-dt * 3.6)); st.o += (tg.o - st.o) * k; camera(); proj(0, 0, 0, H);
-    gl.uniform2f(U.R, cv.width, cv.height); gl.uniform2f(U.S, SX, SY); gl.uniform1f(U.T, t); gl.uniform1f(U.F, F); var kk = clamp((st.o - .5) / .5); kk = kk * kk * kk * (kk * (kk * 6 - 15) + 10); gl.uniform1f(U.K, kk); if (Math.abs(kk - scrim) > .01) { scrim = kk; cv.parentNode.style.setProperty('--sc', (1 - kk).toFixed(2)); } gl.uniform3fv(U.C, C); gl.uniform3fv(U.BX, X); gl.uniform3fv(U.BY, Y); gl.uniform3fv(U.BZ, Z);
+    gl.uniform2f(U.R, cv.width, cv.height); gl.uniform2f(U.S, SX, SY); gl.uniform1f(U.T, t); gl.uniform1f(U.F, F); gl.uniform1f(U.Q, lerp(190, 70, clamp(st.o * 1.5))); var kk = clamp((st.o - .28) / .72); kk = kk * kk * kk * (kk * (kk * 6 - 15) + 10); gl.uniform1f(U.K, kk); if (Math.abs(kk - scrim) > .01) { scrim = kk; cv.parentNode.style.setProperty('--sc', (1 - kk).toFixed(2)); } gl.uniform3fv(U.C, C); gl.uniform3fv(U.BX, X); gl.uniform3fv(U.BY, Y); gl.uniform3fv(U.BZ, Z);
     if (uu < .985) { gl.drawArrays(gl.TRIANGLES, 0, 3); placeCards(t); stepChips(dt); } liveTick(dt);
-    if (ms < 200 && !using) { slow += ms; if (++frames === 40) { var av = slow / 40; if (av > 22 && qs > .5) { qs = Math.max(.5, qs * .84); qcap = qs; size(); } else if (av < 12.5 && qs < qcap * .97) { qs = Math.min(qcap, qs * 1.15); size(); } slow = frames = 0; } }   // step the resolution down when frames run long, back up (never past a level that failed) when there is headroom
+    if (ms < 200 && !using && st.o < .04) { slow += ms; if (++frames === 40) { var av = slow / 40; if (av > 22 && qs > .5) { qs = Math.max(.5, qs * .84); qcap = qs; size(); } else if (av < 12.5 && qs < qcap * .97) { qs = Math.min(qcap, qs * 1.15); size(); } slow = frames = 0; } }   // step the resolution down when frames run long, back up (never past a level that failed) when there is headroom
   }
   function start() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
   function stop() { cancelAnimationFrame(raf); raf = 0; }
