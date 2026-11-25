@@ -1,8 +1,8 @@
-/* Chaukhat — store: state, persistence, matching, routing maths and every action (all actions log to timeline + audit). */
+/* Fieldwise — store: state, persistence, matching, routing maths and every action (all actions log to timeline + audit). */
 (function () {
   'use strict';
   var CK = window.CK;
-  var KEY = 'chaukhat-demo-v4', UIKEY = 'chaukhat-ui-v1';
+  var KEY = 'fieldwise-demo-v4', UIKEY = 'fieldwise-ui-v1';
   var DAY = CK.DAY, S = null, subs = [];
 
   /* ---------- formatting ---------- */

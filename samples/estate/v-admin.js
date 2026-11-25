@@ -1,4 +1,4 @@
-/* Chaukhat — admin depth: team & roles (permissions matrix, territories, hours), settings (sources, distribution, pipeline,
+/* Fieldwise — admin depth: team & roles (permissions matrix, territories, hours), settings (sources, distribution, pipeline,
    custom fields, templates, SLAs, export), projects (towers, units, hold/block with auto-release, price lists, cost sheets) and the rate card. */
 (function () {
   'use strict';

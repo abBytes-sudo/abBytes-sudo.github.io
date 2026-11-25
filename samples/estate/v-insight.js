@@ -1,4 +1,4 @@
-/* Chaukhat — map, listing-sheet import (PDF extractor), survey master, website analytics, search rankings, conversations inbox,
+/* Fieldwise — map, listing-sheet import (PDF extractor), survey master, website analytics, search rankings, conversations inbox,
    and the bridges to website chat (Orbit) and the launch site. */
 (function () {
   'use strict';
@@ -172,7 +172,7 @@
   function preview() {
     var rows = IV.rows, g = { new: [], refresh: [], dup: [], review: [], skip: [] }; rows.forEach(function (r) { g[kindOf(r)].push(r); });
     var priceUp = g.refresh.filter(function (r) { var p = CK.prop(r.match); return r.price && p.price !== r.price; });
-    return '<section class="panel"><div class="panel-h"><h2>What this import does to Chaukhat</h2><span class="muted sm">nothing changes until you apply</span></div><div class="effects">' +
+    return '<section class="panel"><div class="panel-h"><h2>What this import does to Fieldwise</h2><span class="muted sm">nothing changes until you apply</span></div><div class="effects">' +
       '<div class="eff k-new"><b>' + g.new.length + '</b><span>new listings go to the verification desk, off the website until checked</span></div>' +
       '<div class="eff k-refresh"><b>' + g.refresh.length + '</b><span>existing listings refreshed — ' + priceUp.length + ' price change' + (priceUp.length === 1 ? '' : 's') + ', freshness clock restarts on the rest</span></div>' +
       '<div class="eff k-dup"><b>' + (g.dup.length + g.skip.length) + '</b><span>lines skipped (duplicates on the sheet or set aside)</span></div>' +

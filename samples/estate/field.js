@@ -1,8 +1,8 @@
-/* Chaukhat Field — the agent's phone app. Same store as the CRM (live via the storage event), big touch targets, offline queue. */
+/* Fieldwise Mobile — the agent's phone app. Same store as the CRM (live via the storage event), big touch targets, offline queue. */
 (function () {
   'use strict';
   var CK = window.CK, esc = CK.esc, ic = CK.ic;
-  var FKEY = 'chaukhat-field-v1', F = {};
+  var FKEY = 'fieldwise-field-v1', F = {};
   try { F = JSON.parse(localStorage.getItem(FKEY)) || {}; } catch (e) { }
   F.agent = F.agent || 'A6'; F.queue = F.queue || []; F.duty = F.duty || null; F.offline = !!F.offline; F.shots = F.shots || {};
   function saveF() { try { localStorage.setItem(FKEY, JSON.stringify(F)); } catch (e) { } }
@@ -130,7 +130,7 @@
     var tab = { today: 'today', trip: 'trips', trips: 'trips', stop: 'trips', capture: 'capture', verify: 'verify', report: 'report' }[r.v] || 'today';
     document.querySelectorAll('.fnav a').forEach(function (a) { var on = a.dataset.tab === tab; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
     var q = document.getElementById('fq'); q.hidden = !F.queue.length; q.textContent = F.queue.length;
-    document.title = 'Chaukhat Field · ' + me().name;
+    document.title = 'Fieldwise Mobile · ' + me().name;
   }
   function geoCheck(t, i) {
     var m = CK.modal('<div class="geo"><div class="geo-ring" aria-hidden="true">' + ic('pin', 30) + '</div><h2 id="modal-t">Finding you…</h2><p class="muted">Matching your location to the listing pin</p></div>');

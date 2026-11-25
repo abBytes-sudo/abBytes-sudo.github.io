@@ -1,4 +1,4 @@
-/* Chaukhat — Today, Leads (table, board, saved views, bulk), the lead panel (requirement, matches, timeline). */
+/* Fieldwise — Today, Leads (table, board, saved views, bulk), the lead panel (requirement, matches, timeline). */
 (function () {
   'use strict';
   var CK = window.CK, esc = CK.esc, ic = CK.ic;
@@ -307,7 +307,7 @@
     L.tl.forEach(function (e) { var k = CK.dayLabel(e.at); if (!byDay[k]) { byDay[k] = []; order.push(k); } byDay[k].push(e); });
     var auto = L.tl.filter(function (e) { return e.kind === 'system' || e.kind === 'match' || e.kind === 'stage' || e.kind === 'created'; }).length;
     return '<div class="composer"><label class="sr" for="lp-note">Add a note</label><textarea id="lp-note" rows="2" placeholder="Add a note — what did they say, what’s next?"></textarea><p class="err" id="lp-note-err" role="alert"></p><div class="composer-a"><span class="muted sm">' + Math.round(auto / Math.max(1, L.tl.length) * 100) + '% of this timeline was written by the system</span><button type="button" class="btn sm primary" data-lp="note">Add note</button></div></div>' +
-      order.map(function (k) { return '<div class="tl-day"><h4>' + k + '</h4><ol class="tl">' + byDay[k].map(function (e) { var who = e.by ? CK.agent(e.by) : null; return '<li class="tl-' + e.kind + '"><span class="tl-ic">' + ic(TL_IC[e.kind] || 'spark', 14) + '</span><div><p>' + esc(e.text) + '</p><small class="muted">' + CK.time(e.at) + (who ? ' · ' + esc(who.name) : ' · Chaukhat') + '</small></div></li>'; }).join('') + '</ol></div>'; }).join('');
+      order.map(function (k) { return '<div class="tl-day"><h4>' + k + '</h4><ol class="tl">' + byDay[k].map(function (e) { var who = e.by ? CK.agent(e.by) : null; return '<li class="tl-' + e.kind + '"><span class="tl-ic">' + ic(TL_IC[e.kind] || 'spark', 14) + '</span><div><p>' + esc(e.text) + '</p><small class="muted">' + CK.time(e.at) + (who ? ' · ' + esc(who.name) : ' · Fieldwise') + '</small></div></li>'; }).join('') + '</ol></div>'; }).join('');
   }
   function visitsTab(L) {
     var trips = S().trips.filter(function (t) { return t.leads.indexOf(L.id) >= 0; }).sort(function (a, b) { return b.start - a.start; });

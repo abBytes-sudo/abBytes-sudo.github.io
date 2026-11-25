@@ -1,4 +1,4 @@
-/* Chaukhat — UI kit: icons, chips, router, drawer, modal, toast with undo, palette, map and chart renderers. */
+/* Fieldwise — UI kit: icons, chips, router, drawer, modal, toast with undo, palette, map and chart renderers. */
 (function () {
   'use strict';
   var CK = window.CK, esc = CK.esc;
@@ -153,7 +153,7 @@
   /* ---------- palette (⌘K) ---------- */
   CK.palette = function () {
     var S = CK.S();
-    var m = CK.modal('<div class="pal"><label class="sr" for="pal-q">Search Chaukhat</label><div class="pal-in">' + ic('search', 18) + '<input id="pal-q" autocomplete="off" placeholder="Search leads, homes, owners, deals — or type a command" autofocus><kbd>Esc</kbd></div><div class="pal-list" id="pal-list" role="listbox"></div><div class="pal-foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="muted">Try “3 bhk gk”, “plan trip”, “dark”</span></div></div>', { wide: true });
+    var m = CK.modal('<div class="pal"><label class="sr" for="pal-q">Search Fieldwise</label><div class="pal-in">' + ic('search', 18) + '<input id="pal-q" autocomplete="off" placeholder="Search leads, homes, owners, deals — or type a command" autofocus><kbd>Esc</kbd></div><div class="pal-list" id="pal-list" role="listbox"></div><div class="pal-foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="muted">Try “3 bhk gk”, “plan trip”, “dark”</span></div></div>', { wide: true });
     m.classList.add('pal-modal');
     var q = m.querySelector('#pal-q'), list = m.querySelector('#pal-list'), sel = 0, items = [];
     var cmds = [

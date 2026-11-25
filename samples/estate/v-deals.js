@@ -1,4 +1,4 @@
-/* Chaukhat — Deals (board, stage gates, documents, commission split, collections), print issue, reports, activity log, settings. */
+/* Fieldwise — Deals (board, stage gates, documents, commission split, collections), print issue, reports, activity log, settings. */
 (function () {
   'use strict';
   var CK = window.CK, esc = CK.esc, ic = CK.ic;

@@ -1,4 +1,4 @@
-/* Chaukhat — Calling (queues, call mode) and Trips (list, week, planner, trip out now, visit outcome). */
+/* Fieldwise — Calling (queues, call mode) and Trips (list, week, planner, trip out now, visit outcome). */
 (function () {
   'use strict';
   var CK = window.CK, esc = CK.esc, ic = CK.ic;

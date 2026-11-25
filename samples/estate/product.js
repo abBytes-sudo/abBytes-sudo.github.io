@@ -1,4 +1,4 @@
-/* Chaukhat product page — hero intro and the pinned day story (the route draws itself as you scroll). */
+/* Fieldwise product page — hero intro and the pinned day story (the route draws itself as you scroll). */
 (function () {
   'use strict';
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;

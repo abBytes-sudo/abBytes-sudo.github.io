@@ -1,4 +1,4 @@
-/* Chaukhat — seed data for Amaltas Estates (fictional). Deterministic: same seed, same demo. */
+/* Fieldwise — seed data for Amaltas Estates (fictional). Deterministic: same seed, same demo. */
 (function () {
   'use strict';
   var CK = window.CK = window.CK || {};

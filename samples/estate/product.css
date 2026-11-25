@@ -1,4 +1,4 @@
-/* Chaukhat — product page. Paper, terracotta, Newsreader italic headlines; the real UI is the hero. */
+/* Fieldwise — product page. Paper, terracotta, Newsreader italic headlines; the real UI is the hero. */
 @font-face{font-family:"Geist";src:url(fonts/geist-latin.woff2) format("woff2");font-weight:100 900;font-display:swap}
 @font-face{font-family:"Geist Mono";src:url(fonts/geist-mono-latin.woff2) format("woff2");font-weight:100 900;font-display:swap}
 @font-face{font-family:"Newsreader";src:url(fonts/newsreader-italic.woff2) format("woff2");font-style:italic;font-weight:400;font-display:swap}
@@ -197,3 +197,5 @@ body{background:#FFFFFF}
 .word{font-family:var(--f);font-style:normal;font-weight:760;letter-spacing:-.07em;color:var(--accent)}
 .f{border-radius:14px}.f h3{letter-spacing:-.02em}
 @media (max-width:640px){.sec-h{grid-template-columns:1fr;gap:6px}.sec-h .idx{font-size:40px}.hero::before{display:none}.rgrid div+div{padding-left:0}}
+.hero::before{right:min(0px,calc((100% - 100vw) / 2))}
+@media (max-width:1000px){.hero::before{display:none}}

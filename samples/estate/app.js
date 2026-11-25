@@ -1,4 +1,4 @@
-/* Chaukhat — app shell: roles and "View as", navigation, render loop, drawer, keyboard, theme, guided tour, boot. */
+/* Fieldwise — app shell: roles and "View as", navigation, render loop, drawer, keyboard, theme, guided tour, boot. */
 (function () {
   'use strict';
   var CK = window.CK, esc = CK.esc, ic = CK.ic;
@@ -68,7 +68,7 @@
     main.scrollTop = same ? st : 0;
     document.getElementById('nav').innerHTML = navHTML();
     document.getElementById('as').innerHTML = asHTML();
-    var t = V ? V.title : 'Chaukhat'; document.getElementById('crumb').textContent = t; document.title = t + ' · Amaltas Estates · Chaukhat';
+    var t = V ? V.title : 'Fieldwise'; document.getElementById('crumb').textContent = t; document.title = t + ' · Amaltas Estates · Fieldwise';
     var bc = bellCount(), bb = document.getElementById('bell-n'); bb.textContent = bc > 9 ? '9+' : bc; bb.hidden = !bc;
     CK.renderDrawer();
     if (keep) { var el = document.getElementById(keep.id); if (el && el !== document.activeElement) { el.value = keep.v; el.focus(); try { el.setSelectionRange(keep.s, keep.s); } catch (e) { } } }
@@ -140,7 +140,7 @@
     if (!CK.ui.role) { CK.ui.role = 'admin'; CK.ui.as = 'A1'; }
     applyTheme();
     var S = CK.S();
-    document.getElementById('brand-sub').textContent = 'Chaukhat · ' + S.agents.length + ' people';
+    document.getElementById('brand-sub').textContent = 'Fieldwise · ' + S.agents.length + ' people';
     CK.on(function (what) { clearTimeout(CK._rt); CK._rt = setTimeout(CK.render, what === 'sync' ? 0 : 10); });
     addEventListener('hashchange', function () { CK.closeMenu(); var sb = document.getElementById('side'); sb.classList.remove('open'); CK.render(); });
 
@@ -178,10 +178,10 @@
     document.documentElement.classList.add('ready');
     // the rest of the views load after the first screen has painted
     if (CK.V.inventory) { CK.restLoaded = true; if (CK.ensure) { CK.ensure(); CK.syncBridges(); CK.render(); } }
-    else { var rs = document.createElement('script'); rs.src = 'app-rest.min.js?v=9'; rs.onload = function () { CK.restLoaded = true; if (CK.ensure) { CK.ensure(); CK.syncBridges(); } CK.render(); }; setTimeout(function () { document.head.appendChild(rs); }, 0); }
+    else { var rs = document.createElement('script'); rs.src = 'app-rest.min.js?v=10'; rs.onload = function () { CK.restLoaded = true; if (CK.ensure) { CK.ensure(); CK.syncBridges(); } CK.render(); }; setTimeout(function () { document.head.appendChild(rs); }, 0); }
     if (!CK.ui.toured) {
       var w = document.createElement('div'); w.id = 'welcome'; w.className = 'welcome'; w.setAttribute('role', 'dialog'); w.setAttribute('aria-labelledby', 'wl-t');
-      w.innerHTML = '<p class="muted xs">Welcome to Chaukhat</p><h2 id="wl-t">See a lead become a deal in six steps.</h2><p class="sm">Lead → matched homes → trip → visit outcome → deal. About a minute.</p><div class="btnrow"><button type="button" class="btn primary sm" data-welcome="go">' + ic('sparkles', 14) + 'Take the tour</button><button type="button" class="btn ghost sm" data-welcome="skip">Skip</button></div>';
+      w.innerHTML = '<p class="muted xs">Welcome to Fieldwise</p><h2 id="wl-t">See a lead become a deal in six steps.</h2><p class="sm">Lead → matched homes → trip → visit outcome → deal. About a minute.</p><div class="btnrow"><button type="button" class="btn primary sm" data-welcome="go">' + ic('sparkles', 14) + 'Take the tour</button><button type="button" class="btn ghost sm" data-welcome="skip">Skip</button></div>';
       document.body.appendChild(w);
     }
   }

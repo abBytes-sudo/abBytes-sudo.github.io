@@ -1,4 +1,4 @@
-/* Chaukhat Field — the phone app. Builds on estate.css tokens; 16 px base, 52–56 px touch targets. */
+/* Fieldwise Mobile — the phone app. Builds on estate.css tokens; 16 px base, 52–56 px touch targets. */
 body.field{display:block;overflow:auto;background:var(--paper);font-size:16px;--to-home-bottom:96px}
 .fwrap{display:grid;grid-template-columns:minmax(260px,380px) 390px;gap:56px;justify-content:center;align-items:center;min-height:calc(100vh - var(--demo-h));padding:24px}
 .fside{max-width:380px}

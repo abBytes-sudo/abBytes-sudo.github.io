@@ -1,4 +1,4 @@
-/* Chaukhat — Inventory, property panel, verification desk, owners, partners and the partner portal. */
+/* Fieldwise — Inventory, property panel, verification desk, owners, partners and the partner portal. */
 (function () {
   'use strict';
   var CK = window.CK, esc = CK.esc, ic = CK.ic;
