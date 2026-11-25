@@ -127,7 +127,7 @@
     if (kind === 'none') return '';
     return '<div class="ph"><div><span class="sk" style="width:180px;height:26px"></span><span class="sk" style="width:280px;height:12px;margin-top:10px"></span></div></div><div class="tw">' + [42, 30, 50, 36, 44, 28, 40, 34].map(row).join('') + '</div>';
   }
-  var MV = '23', loaded = {}, loading = {};
+  var MV = '25', loaded = {}, loading = {};
   var FILES = { home: ['admin-insights.js', 'journey.js'], orders: ['admin-orders.js', 'journey.js'], journey: ['journey.js', 'admin-orders.js'], products: ['admin-catalog.js'], inventory: ['admin-catalog.js'],
     customers: ['admin-people.js'], discounts: ['admin-people.js'], messages: ['admin-people.js'], analytics: ['admin-insights.js'], audit: ['admin-insights.js'], chats: ['admin-chat.js'] };
   A.load = function (list) { return Promise.all(list.map(function (f) { if (loaded[f]) return true; if (!loading[f]) loading[f] = new Promise(function (res) { var s = document.createElement('script'); s.src = f + '?v=' + MV; s.onload = function () { loaded[f] = 1; res(); }; s.onerror = function () { loaded[f] = 1; res(); }; document.head.appendChild(s); }); return loading[f]; })); };
@@ -147,7 +147,7 @@
     document.title = (p.docTitle ? p.docTitle(r) : (p.title || 'Back office')) + ' · Northlane Back Office';
     function paint() { var h = p.render(r, view); if (typeof h === 'string') view.innerHTML = h; if (p.mount) p.mount(r, view); }
     if (changed && !reduce && p.skeleton !== 'none' && fresh !== 'instant') {
-      view.innerHTML = skel(p.skeleton); setTimeout(function () { if (A.parse().path !== r.path) return; paint(); if (fresh !== 'keep') scrollTo(0, 0); view.classList.add('in'); }, 140 + Math.random() * 80);
+      view.innerHTML = skel(p.skeleton); setTimeout(function () { if (A.parse().path !== r.path) return; paint(); if (fresh !== 'keep') scrollTo(0, 0); view.classList.add('vin'); }, 140 + Math.random() * 80);
     } else { var y = scrollY; paint(); if (changed) scrollTo(0, scrollMem[r.path] || 0); else scrollTo(0, y); }
     if (changed) { closeSide(); try { view.focus({ preventScroll: true }); } catch (e) {} }
     navCounts();
