@@ -565,3 +565,14 @@ html.using .top,html.using .cap,html.using .gauge{opacity:0;visibility:hidden;po
 @media (max-width:1060px){.ixw{grid-template-columns:1fr}.pv{display:none}}
 @media (max-width:760px){.ix a:hover,.ix a:focus-visible{padding-left:2px}}
 .h,.big,.cap h2,.steps h3,.facts b,.mail{letter-spacing:-.02em}
+
+/* why custom: capabilities + India telephony (coordinator, 25 Nov) */
+.caps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px 28px;margin-top:clamp(28px,4vw,48px)}
+.caps>div{border-top:2px solid var(--hair);padding-top:14px}
+.caps h3{font:700 clamp(19px,1.7vw,23px)/1.15 var(--dis);letter-spacing:-.01em;margin-bottom:8px}
+.caps p{font-size:16px;line-height:1.45;color:#3b374a}
+.tel{margin-top:clamp(28px,4vw,44px);padding:22px 24px;border:2px solid var(--k);border-radius:14px;max-width:860px}
+.tel h3{font:700 22px/1.15 var(--dis);letter-spacing:-.01em;margin-bottom:8px}
+.tel p{font-size:16.5px;line-height:1.5}
+@media(max-width:900px){.caps{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.caps{grid-template-columns:1fr}.tel{padding:18px}}
