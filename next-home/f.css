@@ -610,3 +610,11 @@ html.using .top,html.using .cap,html.using .gauge{opacity:0;visibility:hidden;po
 @media (prefers-reduced-motion:reduce){.fall #build>*{opacity:1!important;transform:none!important}}
 
 .feed[hidden]{display:none!important}
+
+/* the fall lands on the projects index: it sits under the last screen of the fall and appears through the opening light */
+.fall #projects{margin-top:-100svh;background:transparent}
+.fall #projects>*{opacity:var(--land,1)}
+.fall #projects:not(.landed){pointer-events:none}
+.fall #projects.landed{background:#fff}
+.fall #projects.landed>*{opacity:1}
+.fall #build>.intro,.fall #build>.st,.fall #build>.mine{opacity:1;transform:none}

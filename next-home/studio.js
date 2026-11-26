@@ -192,7 +192,7 @@
   var plain = false;
   function index() {
     var like = P.like, order = plain ? W.slice() : like.map(function (id) { return W.filter(function (w) { return w.id === id; })[0]; }).concat(W.filter(function (w) { return like.indexOf(w.id) < 0; })), nt = $('#like');
-    ix.textContent = ''; nt.textContent = plain ? 'Showing all 23 in the usual order.' : 'Showing ' + P.n.toLowerCase() + ' projects first, to match the trade picked above.';
+    ix.textContent = ''; nt.textContent = plain ? 'Showing all 23 in the usual order.' : 'Showing ' + P.n.toLowerCase() + ' projects first, to match the trade you picked in the builder.';
     nt.appendChild(B(plain ? 'Show ' + P.n.toLowerCase() + ' first' : 'Show all in the usual order', '', function () { plain = !plain; index(); }));
     order.forEach(function (w, i) {
       var a = E('a'), b = E('b', '', w.name); a.href = w.href;

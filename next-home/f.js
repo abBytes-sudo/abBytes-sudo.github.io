@@ -13,13 +13,14 @@
   var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('abhimasih0505@gmail.com').then(done, done); else done(); });
 
   var cv = $('#gl'), gl = null; try { gl = cv.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' }); } catch (e) { /* no WebGL */ }
-  $('#fall').style.setProperty('--len', END);
+  $('#fall').style.setProperty('--len', END); var pjEl = $('#projects');
   if (reduce || !gl) {
     root.classList.add('no3d', 'inv');
     [].forEach.call(d.querySelectorAll('a[href="#fall"]'), function (a) { a.setAttribute('href', '#build'); if (a.classList.contains('g')) a.textContent = 'See the projects ↓'; else a.hidden = true; });
     return;
   }
 
+  root.classList.add('fall'); pjEl.classList.add('landed');     // the index sits under the end of the fall; see land() below
   if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { o.disconnect(); boot(); } }, { rootMargin: '70% 0px' }).observe($('#world')); else boot();   // the shader starts only when the fall is near      // let the page paint (poster and text) before compiling the shader
   function boot() {
   /* ---------- the shader: photons bent around a Schwarzschild hole (rs = 1), disk in the y = 0 plane ---------- */
@@ -67,7 +68,7 @@
     if (ry > -1e-3) return null; var t = -C[1] / ry; return t > 110 ? null : [C[0] + rx * t, C[2] + rz * t];
   }
   function size() {
-    VW = innerWidth; VH = innerHeight; base = $('#world').offsetTop; liveSize(); var q = (mobile ? .85 : 1) * qs;      // 1 = one render pixel per CSS pixel; the loop below raises or lowers qs to hold the frame rate
+    VW = innerWidth; VH = innerHeight; base = $('#world').offsetTop; $('#fall').style.setProperty('--len', END - Math.max(0, $('#intro').offsetHeight / innerHeight * 100 - 100)); liveSize(); var q = (mobile ? .85 : 1) * qs;      // 1 = one render pixel per CSS pixel; the loop below raises or lowers qs to hold the frame rate
     cv.width = Math.max(2, Math.round(VW * q)); cv.height = Math.max(2, Math.round(VH * q)); gl.viewport(0, 0, cv.width, cv.height);
   }
 
@@ -114,7 +115,7 @@
     if (c.me || c.own) count++; $('#count').textContent = count; var hud = $('#hud'); hud.classList.remove('hit'); void hud.offsetWidth; hud.classList.add('hit');
     if (c.own) { c.el.remove(); chips.splice(chips.indexOf(c), 1); return; } if (!c.me) { relabel(c); c.lane = 1; return; }
     c.el.remove(); chips.splice(chips.indexOf(c), 1); yours.push(c.text);
-    var y = $('#mine'), b = d.createElement('b'); y.textContent = ''; y.classList.add('on'); y.appendChild(d.createTextNode('You threw in ')); b.textContent = '“' + yours.join('”, “') + '”'; y.appendChild(b); y.appendChild(d.createTextNode('. It landed here: one of the loose pieces below is yours.'));
+    var y = $('#mine'), b = d.createElement('b'); y.textContent = ''; y.classList.add('on'); y.appendChild(d.createTextNode('You threw in ')); b.textContent = '“' + yours.join('”, “') + '”'; y.appendChild(b); y.appendChild(d.createTextNode('. It goes into your brief when you send it.'));
     window.MESS = yours.slice(); window.dispatchEvent(new Event('mess'));
   }
   function stepChips(dt) {
@@ -178,7 +179,7 @@
 
   /* ---------- scroll is gravity ---------- */
   var cap = $('#cap'), flash = $('#flash'), dist = $('#dist'), cur = -1, inOrb = false, busy = false, inv = false;
-  var base = 0, build = $('#build'), lit = false; root.classList.add('fall');
+  var base = 0, build = $('#build'), lit = false, landK = -1;
   function top(i) { return base + (RISE + i * STEP) / 100 * innerHeight + 2; }
   function go(i) { window.scrollTo({ top: top(clamp(i, 0, N - 1)), behavior: 'smooth' }); }
   function show(i) {
@@ -199,10 +200,15 @@
 
   /* ---------- loop ---------- */
   var raf = 0, last = 0, t0 = performance.now(), slow = 0, frames = 0, scrim = 0, qcap = Math.min(window.devicePixelRatio || 1, 2) * (mobile ? .75 : 1);
+  /* the exit: a crisp disc of light opens from the centre of the shadow and the projects index, already in place underneath, fades in at its final position */
+  function land(k) {
+    if (Math.abs(k - landK) < .002 && k !== 1) return; landK = k; flash.style.transform = 'scale(' + Math.pow(k, 1.4).toFixed(4) + ')';
+    root.style.setProperty('--land', clamp((k - .5) / .42).toFixed(3)); pjEl.classList.toggle('landed', k > .995);
+  }
   function frame(now) {
     raf = requestAnimationFrame(frame); var ms = now - last, dt = Math.min(.05, ms / 1000 || .016), k = 1 - Math.exp(-dt * 5), t = (now - t0) / 1000; last = now;
     st.r += (tg.r - st.r) * k; st.s += (tg.s - st.s) * (1 - Math.exp(-dt * 3.6)); st.o += (tg.o - st.o) * k; camera(); proj(0, 0, 0, H);
-    gl.uniform2f(U.R, cv.width, cv.height); gl.uniform2f(U.S, SX, SY); gl.uniform1f(U.T, t); gl.uniform1f(U.F, F); gl.uniform1f(U.Q, lerp(190, 70, clamp(st.o * 1.5))); var kk = clamp((st.o - .28) / .72); kk = kk * kk * kk * (kk * (kk * 6 - 15) + 10); gl.uniform1f(U.K, kk); if (Math.abs(kk - scrim) > .01) { scrim = kk; cv.parentNode.style.setProperty('--sc', (1 - kk).toFixed(2)); } gl.uniform3fv(U.C, C); gl.uniform3fv(U.BX, X); gl.uniform3fv(U.BY, Y); gl.uniform3fv(U.BZ, Z);
+    gl.uniform2f(U.R, cv.width, cv.height); gl.uniform2f(U.S, SX, SY); gl.uniform1f(U.T, t); gl.uniform1f(U.F, F); gl.uniform1f(U.Q, lerp(190, 70, clamp(st.o * 1.5))); var kk = clamp((st.o - .28) / .72); kk = kk * kk * kk * (kk * (kk * 6 - 15) + 10); gl.uniform1f(U.K, 0); land(kk); if (Math.abs(kk - scrim) > .01) { scrim = kk; cv.parentNode.style.setProperty('--sc', (1 - kk).toFixed(2)); } gl.uniform3fv(U.C, C); gl.uniform3fv(U.BX, X); gl.uniform3fv(U.BY, Y); gl.uniform3fv(U.BZ, Z);
     if (uu < .985) { gl.drawArrays(gl.TRIANGLES, 0, 3); placeCards(t); stepChips(dt); } liveTick(dt);
     if (ms < 200 && !using && st.o < .04) { slow += ms; if (++frames === 40) { var av = slow / 40; if (av > 22 && qs > .5) { qs = Math.max(.5, qs * .84); qcap = qs; size(); } else if (av < 12.5 && qs < qcap * .97) { qs = Math.min(qcap, qs * 1.15); size(); } slow = frames = 0; } }   // step the resolution down when frames run long, back up (never past a level that failed) when there is headroom
   }
