@@ -1,6 +1,6 @@
 /* The end of the page: "Let's build yours." with the visitor's brief (or a 20-minute call), New Delhi time,
-   a giant wordmark that a small black hole pulls about, and the footer as a status line. Scoped to #contact and .ft-bar. */
-#contact{--ft-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;--fb:#6a3df0;padding-bottom:0;overflow:hidden}
+   a headline that a small black hole pulls about, and the footer as a status line. Scoped to #contact and .ft-bar. */
+#contact{--ft-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;--fb:#6a3df0;overflow:hidden}
 #contact .ft-top{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(28px,5vw,84px);align-items:start}
 #contact .ft-l .mail{font-size:clamp(22px,3.1vw,46px)}
 
@@ -81,14 +81,13 @@
 #contact .ft-now .ft-rep{display:flex;align-items:center;gap:8px;margin-left:auto;font-size:15px}
 #contact .ft-rep i{width:8px;height:8px;border-radius:50%;background:#3ddc84}
 
-/* the wordmark and its black hole */
-#contact .ft-wm{position:relative;margin:clamp(40px,6vw,92px) calc(-1 * var(--pad)) 0;padding:.2em var(--pad) 0;text-align:center;white-space:nowrap;overflow:hidden;font:800 var(--fs,calc((100vw - 2 * var(--pad)) / 3.95))/.8 var(--dis);letter-spacing:0;user-select:none;-webkit-user-select:none;touch-action:pan-y}
-#contact .ft-wi{display:inline-block;margin-bottom:-.06em}
-#contact .ft-wm span span{display:inline-block;color:#221e2c;transform-origin:50% 75%}
-#contact .ft-wm span span:not(:last-child){margin-right:-.045em}
-#contact .ft-wm.live span span{will-change:transform}
-@supports (color:color-mix(in srgb,red,blue)){#contact .ft-wm span span{color:color-mix(in oklab,#221e2c,#f7e7c6 calc(var(--p,0) * 100%))}}
-#contact .ft-hole{position:absolute;left:0;top:0;width:clamp(28px,.19em,72px);aspect-ratio:1;border-radius:50%;pointer-events:none;opacity:0;background:radial-gradient(circle,#000 0 40%,#f4b556 43% 47%,rgba(255,79,216,.55) 54%,transparent 71%);box-shadow:0 0 46px 12px rgba(255,79,216,.16)}
+/* the headline and its black hole */
+#contact .ft-l .h{position:relative}
+#contact .ft-w{display:inline-block;white-space:nowrap}
+#contact .ft-lt{display:inline-block;transform-origin:50% 70%}
+#contact .h.live .ft-lt{will-change:transform}
+@supports (color:color-mix(in srgb,red,blue)){#contact .ft-lt{color:color-mix(in oklab,#fff,#f4b556 calc(var(--p,0) * 100%))}}
+#contact .ft-hole{position:absolute;left:0;top:0;width:clamp(18px,.42em,34px);aspect-ratio:1;border-radius:50%;pointer-events:none;opacity:0;background:radial-gradient(circle,#000 0 40%,#f4b556 43% 47%,rgba(255,79,216,.55) 54%,transparent 71%);box-shadow:0 0 26px 6px rgba(255,79,216,.18)}
 #contact .ft-hole::before{content:"";position:absolute;inset:31%;border-radius:50%;background:#000}
 #contact .ft-hole::after{content:"";position:absolute;left:-80%;top:50%;width:260%;height:15%;margin-top:-7.5%;border-radius:50%;background:linear-gradient(90deg,transparent,#f4b556 30%,#fff 50%,#ff4fd8 70%,transparent);transform:rotate(-14deg);opacity:.85}
 
@@ -116,4 +115,4 @@
   .ft-st{display:grid;grid-template-columns:auto auto;justify-content:start;gap:2px 18px}
   .ft-st>span+span::before{content:none}
 }
-@media print{#contact .ft-wm,#contact .ft-now{display:none}#contact .ft-card{box-shadow:none;border:1px solid #000}}
+@media print{#contact .ft-hole,#contact .ft-now{display:none}#contact .ft-card{box-shadow:none;border:1px solid #000}}

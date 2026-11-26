@@ -1,5 +1,5 @@
 /* The end of the page. "Let's build yours." shows the visitor's own brief from the builder (or, with none yet, what
-   happens on a 20-minute call), New Delhi time, a giant wordmark whose letters a small black hole near the cursor pulls
+   happens on a 20-minute call), New Delhi time, a headline whose letters a small black hole near the cursor pulls
    about, and a footer that reads like a status line. Plain DOM. Motion only while on screen, none under reduced motion. */
 (function () {
   'use strict';
@@ -84,49 +84,50 @@
   var bar = $('.ft-bar');
   seen(bar, function (v) { bar.classList.toggle('ft-v', v && !reduce); });
 
-  /* ---- the wordmark: each letter springs towards a small black hole near the cursor, and back when it goes ---- */
-  var band = $('#ft-wm'), wrap = band && $('.ft-wi', band), hole = band && $('.ft-hole', band);
-  if (!band || !wrap) return;
-  var L = $$('span', wrap).map(function (el) { return { el: el, cx: 0, cy: 0, x: 0, y: 0, r: 0, s: 0, vx: 0, vy: 0, vr: 0, vs: 0, p: 0 }; });
-  var fs = 0, W = 0, H = 0;
-  function fit() {
-    band.style.setProperty('--fs', '100px');
-    var cs = getComputedStyle(band), avail = band.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), w = wrap.offsetWidth;
-    if (!w || avail <= 0) return;
-    fs = Math.max(48, Math.min(100 * avail / w, 520));
-    band.style.setProperty('--fs', fs.toFixed(2) + 'px');
-    W = band.clientWidth; H = band.clientHeight;
-    L.forEach(function (l) { l.cx = l.el.offsetLeft + l.el.offsetWidth / 2; l.cy = l.el.offsetTop + l.el.offsetHeight * .5; });
+  /* ---- the headline: its letters bend towards a small black hole near the cursor and spring back when it goes.
+     studio.js rewrites #endH when a business name is typed, so the letters are split again after every rewrite. ---- */
+  var hd = $('#endH');
+  if (!hd || reduce) return;
+  var L = [], hole = null, fs = 48, said = '', mo = null;
+  var vis = false, running = false, last = 0, inside = false, px = 0, py = 0, hx = 0, hy = 0, pw = 0, tap = 0;
+  function measure() {
+    fs = parseFloat(getComputedStyle(hd).fontSize) || 48;
+    L.forEach(function (l) { l.cx = l.el.offsetLeft + l.el.offsetWidth / 2; l.cy = l.el.offsetTop + l.el.offsetHeight * .55; });
   }
-  fit();
-  if (d.fonts && d.fonts.ready) d.fonts.ready.then(fit);
+  function split() {
+    var t = hd.textContent.replace(/\s+/g, ' ').trim();
+    if (t === said && hd.querySelector('.ft-lt')) return;
+    if (mo) mo.disconnect();
+    said = t; hd.setAttribute('aria-label', t); hd.textContent = '';
+    t.split(' ').forEach(function (w, i) {
+      if (i) hd.appendChild(d.createTextNode(' '));
+      var ws = E('span', 'ft-w'); ws.setAttribute('aria-hidden', 'true');
+      Array.from(w).forEach(function (c) { ws.appendChild(E('span', 'ft-lt', c)); });
+      hd.appendChild(ws);
+    });
+    hole = E('i', 'ft-hole'); hole.setAttribute('aria-hidden', 'true'); hd.appendChild(hole);
+    L = $$('.ft-lt', hd).map(function (el) { return { el: el, cx: 0, cy: 0, x: 0, y: 0, r: 0, s: 0, vx: 0, vy: 0, vr: 0, vs: 0, p: 0 }; });
+    measure();
+    if (mo) mo.observe(hd, { childList: true, characterData: true, subtree: true });
+  }
+  if ('MutationObserver' in window) mo = new MutationObserver(split);
+  split();
+  if (d.fonts && d.fonts.ready) d.fonts.ready.then(measure);
   var rq = 0;
-  addEventListener('resize', function () { if (!rq) rq = requestAnimationFrame(function () { rq = 0; fit(); }); });
-  if (reduce) return;
-
-  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  var vis = false, running = false, last = 0, inside = false, px = 0, py = 0, hx = 0, hy = 0, pw = 0, tp = 0, wt = 0;
-  var intro = fine ? 0 : -1; /* desktop: one slow pass across the word when it first comes into view, then it is the cursor's */
+  addEventListener('resize', function () { if (!rq) rq = requestAnimationFrame(function () { rq = 0; measure(); }); });
   function frame(now) {
-    var dt = Math.min(.033, Math.max(.001, (now - last) / 1000)), tx, ty, k, busy;
+    var dt = Math.min(.033, Math.max(.001, (now - last) / 1000)), tx = hx, ty = hy, tp = 0, k, busy;
     last = now;
     if (inside) { tx = px; ty = py; tp = 1; }
-    else if (intro >= 0) {
-      if (intro === 0) { hx = -.04 * W; hy = .56 * H; pw = 0; }
-      intro = Math.min(1, intro + dt / 2.8);
-      tx = W * (-.04 + 1.08 * intro); ty = H * (.56 - .16 * Math.sin(intro * 6.283));
-      tp = Math.pow(Math.sin(intro * 3.1416), .6);
-      if (intro >= 1) { intro = -1; tp = 0; }
-    } else if (!fine) { wt += dt; tx = W * (.5 + .44 * Math.sin(wt * .27)); ty = H * (.58 + .2 * Math.sin(wt * .71 + 1.3)); tp = .8; }
-    else { tx = hx; ty = hy; tp = 0; }
+    else if (now < tap) { tx = px; ty = py; tp = .75; }
     if (tp > 0 && pw < .02) { hx = tx; hy = ty; }
-    k = 1 - Math.exp(-dt * 9); hx += (tx - hx) * k; hy += (ty - hy) * k;
-    pw += (tp - pw) * (1 - Math.exp(-dt * (tp > pw ? 7 : 4)));
+    k = 1 - Math.exp(-dt * 10); hx += (tx - hx) * k; hy += (ty - hy) * k;
+    pw += (tp - pw) * (1 - Math.exp(-dt * (tp > pw ? 8 : 4)));
     busy = tp > 0 || pw > .004;
-    var R = fs * .95, R2 = R * R, maxP = fs * .11, K = 170, C = 13;
+    var R = fs * 1.5, R2 = R * R, maxP = fs * .16, K = 170, C = 13;
     L.forEach(function (l) {
       var dx = hx - l.cx, dy = hy - l.cy, dd = dx * dx + dy * dy, r = Math.sqrt(dd) + .001, g = pw * Math.exp(-dd / R2);
-      var pull = Math.min(r * .5, maxP) * g, gx = dx / r * pull, gy = dy / r * pull, gr = Math.max(-1, Math.min(1, dx / R)) * 8 * g, gs = .12 * g;
+      var pull = Math.min(r * .5, maxP) * g, gx = dx / r * pull, gy = dy / r * pull, gr = Math.max(-1, Math.min(1, dx / R)) * 9 * g, gs = .14 * g;
       l.vx += ((gx - l.x) * K - l.vx * C) * dt; l.x += l.vx * dt;
       l.vy += ((gy - l.y) * K - l.vy * C) * dt; l.y += l.vy * dt;
       l.vr += ((gr - l.r) * K - l.vr * C) * dt; l.r += l.vr * dt;
@@ -137,7 +138,7 @@
         var a = Math.atan2(l.y, l.x) * 57.296;
         l.el.style.transform = 'translate3d(' + l.x.toFixed(2) + 'px,' + l.y.toFixed(2) + 'px,0) rotate(' + l.r.toFixed(2) + 'deg) rotate(' + a.toFixed(1) + 'deg) scale(' + (1 + l.s).toFixed(3) + ',' + (1 - l.s * .45).toFixed(3) + ') rotate(' + (-a).toFixed(1) + 'deg)';
       } else if (l.el.style.transform) { l.x = l.y = l.r = l.s = l.vx = l.vy = l.vr = l.vs = 0; l.el.style.transform = ''; }
-      var p = Math.round(Math.max(0, Math.min(1, l.s / .12)) * 10) / 30;
+      var p = Math.round(Math.max(0, Math.min(1, l.s / .14)) * 12) / 20;
       if (p !== l.p) { l.p = p; l.el.style.setProperty('--p', p); }
     });
     if (hole) {
@@ -145,18 +146,15 @@
       hole.style.transform = 'translate3d(' + hx.toFixed(1) + 'px,' + hy.toFixed(1) + 'px,0) translate(-50%,-50%) scale(' + (.35 + .65 * pw).toFixed(3) + ')';
     }
     if (busy && vis) requestAnimationFrame(frame);
-    else { running = false; band.classList.remove('live'); }
+    else { running = false; hd.classList.remove('live'); }
   }
   function wake() {
-    if (running || !vis || !fs) return;
-    running = true; band.classList.add('live'); last = performance.now(); requestAnimationFrame(frame);
+    if (running || !vis || !L.length) return;
+    running = true; hd.classList.add('live'); last = performance.now(); requestAnimationFrame(frame);
   }
-  band.addEventListener('pointermove', function (e) {
-    if (e.pointerType === 'touch') return;
-    var b = band.getBoundingClientRect(); px = e.clientX - b.left; py = e.clientY - b.top;
-    if (!inside) { inside = true; intro = -1; }
-    wake();
-  });
-  band.addEventListener('pointerleave', function () { inside = false; wake(); });
-  seen(band, function (v) { vis = v; wake(); }, .35);
+  function at(e) { var b = hd.getBoundingClientRect(); px = e.clientX - b.left; py = e.clientY - b.top; }
+  hd.addEventListener('pointermove', function (e) { if (e.pointerType === 'touch') return; at(e); inside = true; wake(); });
+  hd.addEventListener('pointerleave', function () { inside = false; wake(); });
+  hd.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'touch') return; at(e); tap = performance.now() + 520; wake(); });
+  seen(hd, function (v) { vis = v; wake(); });
 })();
