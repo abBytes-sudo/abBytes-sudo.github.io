@@ -608,3 +608,5 @@ html.using .top,html.using .cap,html.using .gauge{opacity:0;visibility:hidden;po
 .fall #build>.st{transition-delay:.18s}
 .fall #build.lit>.intro,.fall #build.lit>.st,.fall #build.lit>.mine{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.fall #build>*{opacity:1!important;transform:none!important}}
+
+.feed[hidden]{display:none!important}
