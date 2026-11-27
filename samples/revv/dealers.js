@@ -1,4 +1,4 @@
-/* Revv dealers: directory (dealers.html) and showroom profile (showroom.html?id=). */
+/* Revv dealers: directory (dealers.html) and showroom profile (showroom.html?id=). With your showroom on, showroom.html is the home page. */
 (function () {
   'use strict';
   var R = window.Revv, D = window.REVV_DATA, $ = R.$, $$ = R.$$;
@@ -29,24 +29,32 @@
   }
 
   // ---------- profile ----------
-  var id = new URLSearchParams(location.search).get('id') || 'redline';
+  var shop = R.shop();
+  var id = shop ? R.baseDealer(shop) : new URLSearchParams(location.search).get('id') || 'redline';
   var d = R.dealer(id); if (!d.tag) d = R.dealer('redline');
   var s = stock(d);
-  document.title = d.name + ', ' + d.city + ' · Revv';
-  $('#sh-img').innerHTML = '<img src="photos/' + d.img + '.jpg" alt="" width="1600" height="1000" fetchpriority="high">';
-  $('#sh-c').innerHTML = '<ol class="crumbs"><li><a href="index.html">Revv</a></li><li><a href="dealers.html">Dealers</a></li><li>' + R.esc(d.city) + '</li></ol>' +
+  document.title = d.name + ', ' + d.city + (shop ? '' : ' · Revv');
+  // your showroom: lead with its own best photo and the line buyers see first
+  var top = shop && s.slice().sort(function (a, b) { return b.price - a.price; })[0];
+  $('#sh-img').innerHTML = '<img src="' + (top ? R.img(top) : 'photos/' + d.img + '.jpg') + '" alt="" width="1600" height="1000" fetchpriority="high">';
+  $('#sh-c').innerHTML = shop ?
+    '<p class="k">' + R.esc(d.city) + ' · <span class="ok">● Every listing inspected</span></p>' +
+    '<h1 class="disp" id="h1">' + R.esc(d.name) + '.</h1><p class="lead">' + s.length + ' ' + R.esc(R.shopNoun(shop, s.length)) + ' in ' + R.esc(d.city) + ', every one inspected.</p>' +
+    '<div class="hero-cta" style="margin-top:28px"><a class="btn" href="#inv">See the ' + R.esc(R.shopNoun(shop, s.length)) + '</a><button type="button" class="btn ghost" id="msg">Message the showroom</button></div>' :
+    '<ol class="crumbs"><li><a href="index.html">Revv</a></li><li><a href="dealers.html">Dealers</a></li><li>' + R.esc(d.city) + '</li></ol>' +
     '<p class="k">' + R.esc(d.area + ', ' + d.city) + ' · ' + (d.kyc === 'verified' ? '<span class="ok">● Verified since ' + d.since + '</span>' : '<span class="sig">● KYC in review</span>') + '</p>' +
     '<h1 class="disp" id="h1">' + R.esc(d.name) + '</h1><p class="lead">' + R.esc(d.tag) + '</p>' +
     '<div class="hero-cta" style="margin-top:28px"><a class="btn" href="#inv">See ' + s.length + ' certified</a><button type="button" class="btn ghost" id="msg">Message the showroom</button></div>';
-  $('#sfacts').innerHTML = [['Rating', '★ ' + d.rating, d.reviews + ' reviews'], ['Live on Revv', s.length, 'certified listings'], ['Average report', avg(d) + '/150', 'across current stock'], ['Sold via Revv', d.sold, 'last 12 months'], ['Replies in', d.reply, 'median, last 30 days']]
+  $('#sfacts').innerHTML = [['Rating', '★ ' + d.rating, d.reviews + ' reviews'], [shop ? 'In stock' : 'Live on Revv', s.length, shop ? 'inspected listings' : 'certified listings'], ['Average report', avg(d) + '/150', 'across current stock'], [shop ? 'Sold' : 'Sold via Revv', d.sold, 'last 12 months'], ['Replies in', d.reply, 'median, last 30 days']]
     .map(function (f) { return '<div><p class="k">' + f[0] + '</p><b>' + f[1] + '</b><span>' + f[2] + '</span></div>'; }).join('');
   $('#about').innerHTML = '<p class="lead" style="max-width:60ch;color:var(--bone)">' + R.esc(d.about) + '</p>' +
     '<div class="sabout"><div><p class="k">What they do</p><ul class="trust">' + d.services.map(function (x) { return '<li>' + R.esc(x) + '</li>'; }).join('') + '</ul></div>' +
-    '<div><p class="k">Visit</p><p class="addr">' + R.esc(d.landmark) + '<br>' + R.esc(d.area + ', ' + d.city) + '</p><dl class="hours">' + d.hours.map(function (h) { return '<dt>' + h[0] + '</dt><dd>' + h[1] + '</dd>'; }).join('') + '</dl><p class="k" style="margin-top:14px">Ask for ' + R.esc(d.rep) + '</p></div></div>';
+    '<div><p class="k">Visit</p><p class="addr">' + R.esc(d.landmark) + '<br>' + R.esc(d.area + ', ' + d.city) + '</p><dl class="hours">' + d.hours.map(function (h) { return '<dt>' + h[0] + '</dt><dd>' + h[1] + '</dd>'; }).join('') + '</dl>' + (shop ? '' : '<p class="k" style="margin-top:14px">Ask for ' + R.esc(d.rep) + '</p>') + '</div></div>';
   $('#inv-all').href = 'listings.html?dealer=' + d.id;
-  $('#inv').innerHTML = s.length ? s.map(function (l, i) { return R.card(l, i); }).join('') : '<div class="empty"><p class="disp">Floor\'s <span class="ser">empty.</span></p><p>Everything ' + R.esc(d.name) + ' listed has sold or is waiting on its inspection. Message the showroom and they\'ll tell you what\'s coming in.</p></div>';
+  $('#inv').innerHTML = s.length ? s.map(function (l, i) { return R.card(l, i); }).join('') : '<div class="empty"><p class="disp">Floor\'s empty.</p><p>Everything ' + R.esc(d.name) + ' listed has sold or is waiting on its inspection. Message the showroom and they\'ll tell you what\'s coming in.</p></div>';
   $('#revs').innerHTML = d.quotes.map(function (r) { return '<figure class="rev"><p class="stars" aria-label="' + r[2] + ' out of 5">' + '★★★★★'.slice(0, r[2]) + '<span>' + '★★★★★'.slice(r[2]) + '</span></p><blockquote>“' + R.esc(r[3]) + '”</blockquote><figcaption><b>' + R.esc(r[0]) + '</b> · ' + R.esc(r[1]) + '</figcaption></figure>'; }).join('');
-  $('#more').innerHTML = R.dealers().filter(function (x) { return x.id !== d.id && x.tag; }).slice(0, 3).map(function (x) { return dcard(x); }).join('');
+  if (shop) { var ms = $('#more').closest('section'); if (ms) ms.hidden = true; }
+  else $('#more').innerHTML = R.dealers().filter(function (x) { return x.id !== d.id && x.tag; }).slice(0, 3).map(function (x) { return dcard(x); }).join('');
   R.refreshCounts();
 
   // message the showroom -> lead (kind: visit) on the dealer CRM

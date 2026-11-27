@@ -9,10 +9,11 @@
   document.title = title + ' · ' + R.inr(l.price) + ' · Revv';
 
   // ---------- crumbs + side ----------
-  $('#crumbs').insertAdjacentHTML('beforeend', '<li><a href="listings.html?type=' + l.type + '">' + (l.type === 'bike' ? 'Superbikes' : 'Cars') + '</a></li><li>' + R.esc(l.make + ' ' + l.model) + '</li>');
+  // #side holds #side-main (drawn here) and three slots filled by other scripts: #onroad-slot, #exchange-slot, #share-slot (each has data-id = listing id; unhide when filled)
+  $('#crumbs').insertAdjacentHTML('beforeend', '<li><a href="listings.html?type=' + l.type + '">' + (l.type === 'bike' ? 'Bikes' : 'Cars') + '</a></li><li>' + R.esc(l.make + ' ' + l.model) + '</li>');
   var emiFrom = R.emi(l.price * 0.8, 10.5, 60), reg = R.reg(l);
   var stTag = l.status && l.status !== 'live' ? '<span class="st ' + l.status + '">' + l.status + '</span> ' : '';
-  $('#side').innerHTML =
+  $('#side-main').innerHTML =
     '<p class="k">' + stTag + R.esc(R.body(l)) + ' · ' + R.esc(l.city) + ' · <span class="sig">' + l.score + '/150</span></p>' +
     '<h1 class="disp">' + R.esc(l.year + ' ' + l.make) + ' <span class="ser">' + R.esc(l.model) + '</span></h1>' +
     '<p class="sub">' + R.esc(R.blurb(l)) + ' · ' + R.esc(l.color) + '. ' + R.esc(l.desc) + '</p>' +
@@ -22,12 +23,37 @@
     '<div class="card-a" style="margin:0"><button type="button" class="ic" data-wish="' + l.id + '" aria-pressed="false" aria-label="Save this listing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" class="cmp" data-cmp="' + l.id + '" aria-pressed="false"><span class="box" aria-hidden="true"></span><span class="t">Compare</span></button></div>' +
     '<ul class="trust"><li>7-day return if it isn\'t as reported</li><li>6-month powertrain cover included</li><li>RC transfer handled by ' + R.esc(d.name) + '</li></ul>';
 
+  // ---------- "drive" for cars, "ride" for bikes, everywhere on the page ----------
+  var verb = l.type === 'bike' ? 'ride' : 'drive';
+  (function () { var ix = $('#book .idx'); if (ix) ix.textContent = '04 · Test ' + verb; var bg = $('#b-go'); if (bg && bg.firstChild) bg.firstChild.textContent = 'Book the test ' + verb + ' ';
+    var mb = $('#mbar .btn'); if (mb) mb.textContent = 'Test ' + verb; })();
+
+  // ---------- cold start: bikes and performance cars, sound loaded only when pressed ----------
+  (function () {
+    var ps = parseInt(String(l.spec.power || '').replace(/[^0-9]/g, ''), 10) || 0, ice = l.fuel !== 'Electric';
+    if (!ice || !(l.type === 'bike' || ps >= 250)) return;
+    var eng = l.spec.engine || '', box = document.createElement('div'); box.className = 'cold'; box.id = 'cold';
+    box.innerHTML = '<button type="button" class="cold-b" aria-pressed="false"><span class="cold-i" aria-hidden="true"></span><span class="cold-l">Cold start</span></button>' +
+      '<div class="cold-meters" aria-hidden="true"><canvas class="cold-w"></canvas><canvas class="cold-r"></canvas></div>' +
+      '<p class="cold-c"><span>' + R.esc(eng) + ' · an engine-layout sound, not a recording of this ' + (l.type === 'bike' ? 'bike' : 'car') + '</span><span class="cold-rpm">0 rpm</span></p>';
+    var th = $('#thumbs'); if (th) th.insertAdjacentElement('afterend', box);
+    var btn = box.querySelector('.cold-b'), lab = box.querySelector('.cold-l'), run = null;
+    box.addEventListener('cold:end', function () { run = null; btn.setAttribute('aria-pressed', 'false'); lab.textContent = 'Start it again'; });
+    btn.addEventListener('click', function () {
+      if (run) { run.stop(); return; }
+      var go = function () { run = window.ColdStart.play(box, l); if (run) { btn.setAttribute('aria-pressed', 'true'); lab.textContent = 'Switch off'; } };
+      if (window.ColdStart) go(); else { var sc = document.createElement('script'); sc.src = 'sound.js?v=1'; sc.onload = go; document.head.appendChild(sc); }
+    });
+  })();
+
   // ---------- phone: sticky price + test-ride bar once the main actions scroll away ----------
   var mbar = $('#mbar'); $('#mb-p').textContent = R.inr(l.price); $('#mb-t').textContent = l.make + ' ' + l.model + ' · ' + l.score + '/150';
   var mbTick = false, acts = $('.acts'), bookSec = $('#book');
   function mbUpdate() { mbTick = false; var a = acts.getBoundingClientRect(), b = bookSec.getBoundingClientRect();
     var on = a.bottom < 0 && !(b.top < innerHeight * 0.7 && b.bottom > 0); mbar.classList.toggle('on', on); mbar.setAttribute('aria-hidden', !on); document.body.classList.toggle('has-mbar', on); }
   addEventListener('scroll', function () { if (!mbTick) { mbTick = true; requestAnimationFrame(mbUpdate); } }, { passive: true }); mbUpdate();
+
+  ['onroad-slot', 'exchange-slot', 'share-slot'].forEach(function (k) { var e = document.getElementById(k); if (e) e.setAttribute('data-id', l.id); });
 
   // ---------- gallery: the full vehicle by default, truthful detail frames, a real zoom viewer ----------
   var stage = $('#stage'), img = $('#mainimg'), canvas = $('#studio'), hint = $('#ghint'), conf = $('#conf');
@@ -184,7 +210,7 @@
     if (api || !window.WebGLRenderingContext) return;
     if (load3D.busy) return; load3D.busy = true;
     $('#gload').hidden = false;
-    var s = document.createElement('script'); s.src = '../assets/revv3d.js?v=4';
+    var s = document.createElement('script'); s.src = '../assets/revv3d.js?v=6';
     s.onload = function () {
       try {
         canvas.setAttribute('role', 'img'); canvas.setAttribute('aria-label', '3D walk-around of the ' + title + '. Drag or use the arrow keys to rotate.');
@@ -206,13 +232,16 @@
     });
   }
 
-  // ---------- report ----------
+  // ---------- report: inspection map on every listing, bikes get their own categories ----------
   var rep = R.renderReport(l);
+  if (window.InspectMap) window.InspectMap.mount($('#imap'), l);
 
   // ---------- specs + service ----------
   $('#specs').innerHTML = Object.keys(l.spec).map(function (k) { return '<div><dt>' + k + '</dt><dd>' + R.esc(l.spec[k]) + '</dd></div>'; }).join('') + '<div><dt>Colour</dt><dd>' + R.esc(l.color) + '</dd></div>';
-  $('#svc').innerHTML = R.service(l).map(function (s) { return '<li><span>' + s.date.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) + ' · ' + R.km(s.km) + '</span><b>' + R.esc(s.job) + '</b><span>' + s.where + ' · stamped, invoice on file</span></li>'; }).join('') +
-    '<li><span>' + rep.date.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) + ' · ' + R.km(l.km) + '</span><b>Revv 150-point inspection</b><span>' + rep.ok + '/150 · ' + rep.inspector + '</span></li>';
+  // the odometer story and the service list read the same stamps, so the line and the list always agree
+  var stamps = window.Odo ? window.Odo.stamps(l) : [];
+  if (window.Odo) window.Odo.mount($('#odo-story'), l);
+  $('#svc').innerHTML = stamps.filter(function (s) { return s.kind !== 'reg'; }).reverse().map(function (s) { return '<li><span>' + s.date.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' }) + ' · ' + R.km(s.km) + '</span><b>' + R.esc(s.kind === 'insp' ? 'Revv 150-point inspection' : s.label) + '</b><span>' + (s.kind === 'insp' ? rep.ok + '/150 · ' + R.esc(rep.inspector) : R.esc(s.where) + ' · stamped, invoice on file') + '</span></li>'; }).join('');
 
   // ---------- EMI ----------
   function emi() {
@@ -252,7 +281,7 @@
     var ok = $('#b-ok'); ok.hidden = false;
     ok.innerHTML = '<div class="ok-msg"><b>Booked.</b> ' + R.esc(new Date(day).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })) + ' at ' + slot.slice(11) + ', ' + R.esc(where.toLowerCase()) + '. ' + R.esc(d.name) + ' has it as lead ' + lead.id + ' and will confirm on WhatsApp.<br><br><a class="btn sm" href="dealer.html?lead=' + lead.id + '">See it in the dealer\'s CRM →</a> <button type="button" class="btn ghost sm" id="b-again">Book another</button></div>';
     $('#b-again').addEventListener('click', function () { ok.hidden = true; $('#b-go').hidden = false; });
-    R.toast('Test ride booked. <a href="dealer.html?lead=' + lead.id + '">Open the dealer dashboard →</a>');
+    R.toast('Test ' + verb + ' booked. <a href="dealer.html?lead=' + lead.id + '">Open the dealer dashboard →</a>');
   });
 
   // ---------- ask the dealer ----------

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finance · Revv</title>
+<meta name="description" content="A loan answer in a day: tell us the vehicle, the amount and your income band, and a finance partner replies within one working day.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Revv"><meta property="og:title" content="Finance · Revv"><meta property="og:description" content="A loan answer in a day: tell us the vehicle, the amount and your income band, and a finance partner replies within one working day."><meta property="og:image" content="https://abbytes-sudo.github.io/samples/revv/og.jpg"><meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A0B0D">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" href="fonts/archivo-sub.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="revv.min.css?v=47">
+<link rel="stylesheet" href="pages.css?v=4">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="data.js?v=11" defer></script>
+<script src="app.js?v=9" defer></script>
+<script src="for-dealers.js?v=1" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+<script src="concierge.js?v=1" defer data-agent="revv" data-skin="concierge.css?v=1" data-brand="rv" data-title="Pit crew" data-sub="Revv · instant answers" data-label="Ask the pit crew" data-nudge="vehicle,listings,sell" data-v="3"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<header class="hdr solid">
+  <a class="logo" href="index.html" aria-label="Revv, home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#FF5B1F"/><path d="M8 24V8h9a5 5 0 0 1 1.6 9.7L23 24h-4.4l-3.9-6H12v6zM12 14.5h4.6a1.75 1.75 0 0 0 0-3.5H12z" fill="#0A0B0D"/></svg>Revv</a>
+  <nav class="nav" aria-label="Main"><a class="ul" href="listings.html">Buy</a><a class="ul" href="listings.html?type=bike">Bikes</a><a class="ul" href="listings.html?type=car">Cars</a><a class="ul" href="sell.html">Sell</a><a class="ul" href="dealers.html">Dealers</a><a class="ul" href="for-dealers.html">For dealers</a><a class="ul" href="dealer.html">Dealer login</a></nav>
+  <div class="hdr-r">
+    <a class="pill" href="listings.html?saved=1" aria-label="Saved vehicles"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="n" data-count-wish hidden>0</span></a>
+    <a class="btn sm" href="sell.html">Sell yours <span class="ar" aria-hidden="true">→</span></a>
+    <button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  </div>
+</header>
+<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="listings.html">Buy</a><a href="listings.html?type=bike">Bikes</a><a href="listings.html?type=car">Cars</a><a href="sell.html">Sell</a><a href="dealers.html">Dealers</a><a href="for-dealers.html">For dealers</a><a href="finance.html">Finance</a><a href="dealer.html">Dealer login</a></nav></div>
+
+<main id="main" class="pgm">
+<section class="pg-hd" aria-labelledby="h1">
+  <ol class="crumbs"><li><a href="index.html">Revv</a></li><li>Finance</li></ol>
+  <h1 class="pg-h1" id="h1">A loan answer in a day</h1>
+  <p class="pg-sub">Tell us the vehicle, the amount and your income band. One of our finance partners replies within one working day with the amount, the rate and the papers they need.</p>
+</section>
+<section class="pg" aria-labelledby="fin-h"><div class="pg-w fd-apply">
+  <form class="fd-form" id="fin" novalidate aria-labelledby="fin-h">
+    <h2 class="pg-h2" id="fin-h">Check what you can borrow</h2>
+    <label class="fld"><span>The vehicle (optional)</span><select class="inp2" name="listing" id="fin-l"><option value="">Not chosen yet</option></select></label>
+    <div class="fld2"><label class="fld"><span>Loan amount, ₹ lakh</span><input class="inp2" name="amt" type="number" min="0.3" max="150" step="0.1" value="5" inputmode="decimal" required></label><label class="fld"><span>Over</span><select class="inp2" name="months"><option value="12">12 months</option><option value="24">24 months</option><option value="36">36 months</option><option value="48" selected>48 months</option><option value="60">60 months</option></select></label></div>
+    <fieldset class="fld rad"><legend>You are</legend><label><input type="radio" name="emp" value="Salaried" checked><span>Salaried</span></label><label><input type="radio" name="emp" value="Self-employed"><span>Self-employed</span></label><label><input type="radio" name="emp" value="Business owner"><span>Business owner</span></label></fieldset>
+    <label class="fld"><span>Monthly income</span><select class="inp2" name="inc"><option value="35000">Under ₹50,000</option><option value="75000" selected>₹50,000 to ₹1 lakh</option><option value="150000">₹1 to ₹2 lakh</option><option value="300000">Over ₹2 lakh</option></select></label>
+    <div class="fld2"><label class="fld"><span>Your name</span><input class="inp2" name="name" required autocomplete="name"></label><label class="fld"><span>City</span><select class="inp2" name="city" id="fin-c"></select></label></div>
+    <label class="fld"><span>Email or WhatsApp</span><input class="inp2" name="contact" required autocomplete="email" placeholder="Where the answer goes"></label>
+    <button class="btn" type="submit">Check what I can borrow <span class="ar" aria-hidden="true">→</span></button>
+    <p class="fd-note">No credit check yet and no documents now. Portfolio project: no loan is applied for.</p>
+  </form>
+  <div class="fin-out" id="fin-out" aria-live="polite"><h2 class="pg-h2">How it works</h2><ul class="pg-facts"><li><b>1 · Today</b><span>You send this form. The showroom sees it as a finance enquiry.</span></li><li><b>2 · Within a day</b><span>A partner bank replies with the amount, the rate and the papers.</span></li><li><b>3 · Test drive</b><span>Ride or drive the vehicle while the bank checks your papers.</span></li><li><b>4 · Disbursal</b><span>The bank pays the showroom; the RC shows the bank until you close the loan.</span></li></ul></div>
+</div></section>
+</main>
+<footer class="ftr pg-ftr">
+  <nav class="pg-links" aria-label="The promises"><a href="policy-inspection.html">The 150 points</a><a href="policy-return.html">7-day return</a><a href="policy-cover.html">6-month cover</a><a href="finance.html">Finance</a><a href="for-dealers.html">For dealers</a></nav>
+  <p class="credits"><span>Photos: Unsplash (badges and plates blurred)</span><span>© Revv. A portfolio project by Abhishek.</span></p>
+</footer>
+</body>
+</html>

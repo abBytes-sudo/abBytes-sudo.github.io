@@ -12,6 +12,8 @@
   var me = document.currentScript;
   function A(k, d) { var v = me && me.getAttribute('data-' + k); return v == null || v === '' ? d : v; }
   var AGENT = A('agent'), BRAND = A('brand', 'cg'), ASSETS = A('assets', '../assets/'), V = A('v', '1'), SKIN = A('skin', ''), TITLE = A('title', 'Concierge'), SUB = A('sub', 'Replies instantly'), LABEL = A('label', 'Ask us'), NUDGE = A('nudge', '');
+  // your showroom: the assistant goes by the showroom's name (revv:brand, see app.js)
+  var SHOP = window.Revv && window.Revv.shop && window.Revv.shop(); if (SHOP) { TITLE = SHOP.name; SUB = 'Instant answers, any time'; LABEL = 'Ask ' + SHOP.name; }
   if (!AGENT || window.__cgOn) return; window.__cgOn = 1;
   var doc = document, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, sheetMQ = matchMedia('(max-width: 560px)');
   var touch = matchMedia('(pointer: coarse)').matches;

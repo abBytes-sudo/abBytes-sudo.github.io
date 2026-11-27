@@ -33,7 +33,7 @@
   function myListings() { return R.listings({ all: true }).filter(function (l) { return l.dealer === me && !(l.approved === false && !l.draft && R.extra().some(function (e) { return e.id === l.id && e.rejected; })); }); }
   function stock(l) {
     var r = R.rng(l.id + 'stock'), ls = mine().filter(function (x) { return x.listing === l.id; });
-    var days = l.approved === false ? 0 : 6 + Math.floor(r() * 52), views = l.approved === false ? 0 : 90 + Math.floor(r() * 820) + ls.length * 55;
+    r(); var days = window.LEDGER ? LEDGER.days(l) : (l.approved === false ? 0 : 6 + Math.floor(r() * 52)), views = l.approved === false ? 0 : 90 + Math.floor(r() * 820) + ls.length * 55;
     var sug = null; if (l.status === 'live' && l.approved !== false && days > 30 && (ls.length <= 2 || ls.length / views < 0.01)) { var pct = days > 45 ? 5 : 3; sug = { pct: pct, price: Math.round(l.price * (1 - pct / 100) / 5000) * 5000 }; }
     return { days: days, views: views, leads: ls.length, rides: ls.filter(function (x) { return x.slot; }).length, rate: views ? ls.length / views : 0, sug: sug };
   }
@@ -59,7 +59,7 @@
     if (!x || x.stage === stage) return; var s = snap(); x.stage = stage; x.fresh = false; x.lost = null; log(x, (how || 'Moved to ') + stage);
     if (stage === 'Finance') { setStatus(x.listing, 'reserved'); if (!x.quote) x.quote = { down: 20, months: 48, rate: 10.5 }; }
     if (stage === 'Sold') { setStatus(x.listing, 'sold'); x.soldAt = Date.now(); x.price = veh(x).price; x.paid = false; }
-    save(); BO.refresh();
+    save(); BO.refresh(); if (stage === 'Sold' && window.DEALS && DEALS.onSold) DEALS.onSold(x);
     BO.toast(stage === 'Sold' ? '<b>' + esc(x.name) + '</b> marked sold. ' + R.inr(x.price * R.COMMISSION) + ' commission added to this month.' : '<b>' + esc(first(x.name)) + '</b> moved to ' + esc(stage) + '.', { undo: undoTo(s) });
   }
   function markLost(x, why) { var s = snap(); x.lost = why || 'Price'; log(x, 'Lost: ' + x.lost.toLowerCase()); save(); BO.refresh(); BO.toast(esc(first(x.name)) + ' marked lost (' + esc(x.lost.toLowerCase()) + ').', { undo: undoTo(s) }); }
@@ -102,13 +102,14 @@
     var sold = m.filter(function (x) { return x.stage === 'Sold' && x.soldAt >= mo.getTime(); }), soldP = m.filter(function (x) { return x.stage === 'Sold' && x.soldAt >= pm.getTime() && x.soldAt < mo.getTime(); });
     var oldest = q[0] ? now - q[0].at : 0, n = needs();
     function delta(a, b, unit) { var df = a - b; return '<span class="d ' + (df > 0 ? 'up' : df < 0 ? 'down' : 'flat') + '">' + (df > 0 ? '+' : df < 0 ? '−' : '±') + Math.abs(df) + (unit || '') + '</span>'; }
-    el.innerHTML = '<p class="hello">Good ' + (hr < 12 ? 'morning' : hr < 17 ? 'afternoon' : 'evening') + ', <b>' + esc(first(d.rep)) + '</b> · ' + esc(d.name) + ' · ' + new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' }) + '</p>' +
-      '<div class="tiles">' +
+    var old60 = window.LEDGER ? LEDGER.totals(me).old.length : 0;
+    el.innerHTML = '<p class="hello"><b>' + new Date().toLocaleDateString('en-IN', { weekday: 'long' }) + '</b> · ' + q.length + ' buyer' + (q.length === 1 ? '' : 's') + ' waiting · ' + old60 + ' car' + (old60 === 1 ? '' : 's') + ' past 60 days</p>' +
+      '<div class="tiles six">' +
       '<a class="tile" href="#/pipeline?stage=New"><span class="l">New leads · 7 days</span><span class="v">' + wk + '</span>' + delta(wk, pw) + '<span class="s"><span>vs ' + pw + ' the week before</span>' + BO.spark(dayCounts(at, 14)) + '</span>' + ic('arrow', 'go') + '</a>' +
       '<a class="tile' + (oldest > 2 * HOUR ? ' alert' : '') + '" href="#/focus"><span class="l">Calls waiting</span><span class="v">' + q.length + '</span><span class="d ' + (oldest > 2 * HOUR ? 'down' : 'flat') + '">' + (q.length ? 'oldest ' + waitTxt(oldest) : 'clear') + '</span><span class="s"><span>Reply within 2 h to keep your badge</span>' + BO.spark(dayCounts(q.map(function (x) { return x.at; }), 7)) + '</span>' + ic('arrow', 'go') + '</a>' +
       '<a class="tile" href="#/rides"><span class="l">Test rides · next 7 days</span><span class="v">' + wkR + '</span><span class="d flat">' + rs.filter(function (x) { return sod(R.slotDate(x.slot)) === sod(now); }).length + ' today</span><span class="s"><span>Booked from the marketplace and calls</span>' + BO.spark(dayCounts(rs.map(function (x) { return R.slotDate(x.slot).getTime(); }), 7, true)) + '</span>' + ic('arrow', 'go') + '</a>' +
       '<a class="tile" href="#/commission"><span class="l">Sold · this month</span><span class="v">' + R.inr(sold.reduce(function (s, x) { return s + (x.price || 0); }, 0) || 0) + '</span>' + delta(sold.length, soldP.length, ' sales') + '<span class="s"><span>' + sold.length + ' sale' + (sold.length === 1 ? '' : 's') + ' · ' + soldP.length + ' last month</span>' + BO.spark(dayCounts(m.filter(function (x) { return x.soldAt; }).map(function (x) { return x.soldAt; }), 30)) + '</span>' + ic('arrow', 'go') + '</a>' +
-      '</div><div class="home"><div>' +
+      (window.LEDGER ? LEDGER.todayTiles(me) : '') + '</div><div class="home"><div>' +
       '<section class="panel" aria-labelledby="nn-h"><div class="panel-h"><h2 id="nn-h">Needs you now</h2><span class="n">' + n.length + '</span><span class="r"><a class="btn sm ghost" href="#/focus">' + ic('phone') + 'Start calls <kbd>C</kbd></a></span></div>' +
       (n.length ? '<ul class="rows" id="nn">' + n.slice(0, 7).map(function (it, i) { return '<li class="rw"><span class="ic ' + it.tone + '">' + ic(it.ic) + '</span><span class="tx"><b>' + it.title + '</b><span>' + it.sub + '</span></span><span class="tm">' + esc(it.tm) + '</span>' + (it.btn ? '<span class="hov"><button type="button" class="btn sm' + (i === 0 ? ' pri' : '') + '" data-nn="' + i + '">' + esc(it.btn.label) + '</button></span>' : '') + '</li>'; }).join('') + '</ul>'
         : '<div class="empty">' + ic('check') + '<b>Nothing needs you right now</b><p>Every buyer has a reply and every ride is prepped. New leads land here the moment they arrive.</p></div>') + '</section>' +
@@ -233,7 +234,7 @@
   /* ---------- lead slide-over ---------- */
   function openLead(id, focus) {
     var x = find(id); if (!x) return; x.fresh = false; save(); var v = veh(x), ns = nextStep(x), d = dealer();
-    var p = BO.slide({ title: x.name, head: '<span class="av">' + esc(BO.initials(x.name)) + '</span>', actions: (ns ? '<button type="button" class="btn pri sm" data-so-ns>' + esc(ns.label) + '</button>' : '') + '<button type="button" class="ib" data-so-more aria-label="More actions" aria-haspopup="menu">' + ic('more') + '</button>',
+    var p = BO.slide({ title: x.name, head: '<span class="av">' + esc(BO.initials(x.name)) + '</span>', actions: (x.stage === 'Sold' && window.DEALS ? '<button type="button" class="btn sm" data-so-deal>' + ic('doc') + 'Deal desk</button>' : '') + (ns ? '<button type="button" class="btn pri sm" data-so-ns>' + esc(ns.label) + '</button>' : '') + '<button type="button" class="ib" data-so-more aria-label="More actions" aria-haspopup="menu">' + ic('more') + '</button>',
       body: function (b) {
         var q = x.quote || { down: 20, months: 48, rate: 10.5 }, sd = x.slot ? R.slotDate(x.slot) : null;
         b.innerHTML = '<div class="fx-chips">' + (x.lost ? '<span class="chip bad">Lost · ' + esc(x.lost) + '</span>' : '<span class="chip line">' + esc(x.stage) + '</span>') + srcChip(x) + '<span class="chip line num">' + esc(x.id) + '</span><span class="chip line">' + esc(BO.ago(x.at)) + ' ago</span>' + (x.convo ? '<a class="chip info" href="#/inbox?c=' + esc(x.convo) + '">' + ic('chat') + 'Open transcript</a>' : '') + '</div>' +
@@ -257,6 +258,7 @@
         if (focus === 'quote') setTimeout(function () { var qq = $('#so-q', b); if (qq) { qq.scrollIntoView({ block: 'start' }); $('#q-d', b).focus({ preventScroll: true }); } }, 320);
       }, onClose: function () { save(); } });
     var nb = $('[data-so-ns]', p); if (nb) nb.addEventListener('click', function () { BO.closeSlide(true); ns.run(); });
+    var dk = $('[data-so-deal]', p); if (dk) dk.addEventListener('click', function () { BO.closeSlide(true); var dd = DEALS.byLead(x.id) || DEALS.create(x); setTimeout(function () { DEALS.openDesk(dd.id); }, 30); });
     $('[data-so-more]', p).addEventListener('click', function (e) { moreMenu(e.currentTarget, x); });
   }
   function newLead(pre) {
@@ -282,19 +284,20 @@
     shown.sort(function (a, b) { var x = key(a), y = key(b); return (x > y ? 1 : x < y ? -1 : 0) * inv.dir; });
     inv.sel = inv.sel.filter(function (id) { return shown.some(function (r) { return r.l.id === id; }); });
     function th(k, label, cls) { var on = inv.sort === k; return '<th scope="col"' + (cls ? ' class="' + cls + '"' : '') + (on ? ' aria-sort="' + (inv.dir > 0 ? 'ascending' : 'descending') + '"' : '') + '><button type="button" data-sort="' + k + '">' + label + (on ? '<span class="ar">' + (inv.dir > 0 ? '▲' : '▼') + '</span>' : '') + '</button></th>'; }
-    var maxD = Math.max.apply(null, rows.map(function (r) { return r.s.days; }).concat(1));
-    el.innerHTML = '<div class="ph"><div><h1>Inventory</h1><p>' + rows.length + ' vehicles · ' + rows.filter(function (r) { return r.s.sug; }).length + ' could use a price nudge</p></div><div class="acts"><a class="btn" href="sell.html" target="_blank" rel="noopener">' + ic('plus') + 'Add a vehicle</a></div></div>' +
+    var maxD = Math.max.apply(null, rows.map(function (r) { return r.s.days; }).concat(60));
+    el.innerHTML = '<div class="ph"><div><h1>Inventory</h1><p>' + rows.length + ' vehicles · ' + rows.filter(function (r) { return r.s.sug; }).length + ' could use a price nudge · tap a vehicle for its ledger</p></div><div class="acts"><a class="btn" href="sell.html" target="_blank" rel="noopener">' + ic('plus') + 'Add a vehicle</a></div></div>' +
       '<div class="tb"><div class="fchips" role="group" aria-label="Filter">' + Object.keys(F).map(function (k) { return '<button type="button" class="fchip" data-f="' + k + '" aria-pressed="' + (inv.f === k) + '">' + L[k] + '<span class="n">' + rows.filter(F[k]).length + '</span></button>'; }).join('') + '</div></div>' +
-      '<div class="tbl-w cards"><table class="tbl"><thead><tr><th scope="col" class="cb"><label class="sr" for="cb-all">Select all</label><input type="checkbox" id="cb-all"' + (shown.length && inv.sel.length === shown.length ? ' checked' : '') + '></th>' + th('name', 'Vehicle') + '<th scope="col">Status</th>' + th('days', 'Days in stock') + th('views', 'Views', 'r') + th('leads', 'Leads', 'r') + th('rate', 'Lead rate', 'r') + th('price', 'Price', 'r') + '<th scope="col">Suggestion</th></tr></thead><tbody>' +
-      (shown.length ? shown.map(function (r) { var l = r.l, s = r.s, on = inv.sel.indexOf(l.id) > -1, st = l.approved === false ? (l.inspection || l.draft ? '<span class="chip warn">Needs report</span>' : '<span class="chip info">In review</span>') : l.status === 'live' ? '<span class="chip ok">Live</span>' : l.status === 'reserved' ? '<span class="chip warn">Reserved</span>' : '<span class="chip line">Sold</span>';
-        return '<tr class="' + (on ? 'sel' : '') + '"><td class="cb"><label class="sr" for="cb-' + l.id + '">Select ' + esc(R.title(l)) + '</label><input type="checkbox" id="cb-' + l.id + '" data-cb="' + l.id + '"' + (on ? ' checked' : '') + '></td><td class="vcell"><div class="vc"><img class="thumb" src="' + R.img(l, true) + '" alt="" width="56" height="38" loading="lazy"><span><b>' + esc(R.title(l)) + '</b><span>' + esc(l.id) + ' · ' + R.km(l.km) + '</span></span></div></td>' +
-          '<td data-l="Status">' + st + '</td><td data-l="In stock"><span class="bar ' + (s.days > 45 ? 'bad' : s.days > 30 ? 'warn' : 'ok') + '" aria-hidden="true"><i style="width:' + Math.round(s.days / maxD * 100) + '%"></i></span><span class="num">' + s.days + 'd</span></td><td class="r num" data-l="Views">' + s.views.toLocaleString('en-IN') + '</td><td class="r num" data-l="Leads">' + s.leads + '</td><td class="r num" data-l="Lead rate">' + (s.views ? (s.rate * 100).toFixed(1) + '%' : '—') + '</td>' +
-          '<td class="r num" data-l="Price">' + (l.was ? '<span class="was">' + R.inr(l.was) + '</span>' : '') + R.inr(l.price) + '</td><td class="full">' + (s.sug ? '<button type="button" class="btn sm" data-drop="' + l.id + '">' + ic('down') + '−' + s.sug.pct + '% → ' + R.inr(s.sug.price) + '</button>' : '<span style="color:var(--dim);font-size:12.5px">' + (l.approved === false ? 'Attach the report to go live' : s.leads > 3 ? 'Selling well' : 'Hold price') + '</span>') + '</td></tr>'; }).join('')
-        : '<tr><td colspan="9"><div class="empty"><b>Nothing here</b><p>No vehicles match “' + esc(L[inv.f]) + '”. <a href="#/inventory?f=all">Show all</a></p></div></td></tr>') + '</tbody></table></div>' +
+      '<div class="tbl-w cards"><table class="tbl"><thead><tr><th scope="col" class="cb"><label class="sr" for="cb-all">Select all</label><input type="checkbox" id="cb-all"' + (shown.length && inv.sel.length === shown.length ? ' checked' : '') + '></th>' + th('name', 'Vehicle') + '<th scope="col">Status</th>' + th('days', 'Age · margin') + th('views', 'Views', 'r') + th('leads', 'Leads', 'r') + th('rate', 'Lead rate', 'r') + th('price', 'Price', 'r') + '<th scope="col" class="r">Floor</th><th scope="col">Suggestion</th></tr></thead><tbody>' +
+      (shown.length ? shown.map(function (r) { var l = r.l, s = r.s, g = window.LEDGER && l.status !== 'sold' ? LEDGER.of(l) : null, on = inv.sel.indexOf(l.id) > -1, st = l.approved === false ? (l.inspection || l.draft ? '<span class="chip warn">Needs report</span>' : '<span class="chip info">In review</span>') : l.status === 'live' ? '<span class="chip ok">Live</span>' : l.status === 'reserved' ? '<span class="chip warn">Reserved</span>' : '<span class="chip line">Sold</span>';
+        return '<tr class="' + (on ? 'sel' : '') + '"><td class="cb"><label class="sr" for="cb-' + l.id + '">Select ' + esc(R.title(l)) + '</label><input type="checkbox" id="cb-' + l.id + '" data-cb="' + l.id + '"' + (on ? ' checked' : '') + '></td><td class="vcell"><div class="vc"><img class="thumb" src="' + R.img(l, true) + '" alt="" width="56" height="38" loading="lazy"><span><button type="button" class="lnkb" data-ledger="' + l.id + '" title="Open the ledger">' + esc(R.title(l)) + '</button><span>' + esc(l.id) + ' · ' + R.km(l.km) + '</span></span></div></td>' +
+          '<td data-l="Status">' + st + '</td><td data-l="Age · margin" class="agecell">' + (g ? LEDGER.cell(g, maxD) : '<span class="num">' + s.days + 'd</span>') + '</td><td class="r num" data-l="Views">' + s.views.toLocaleString('en-IN') + '</td><td class="r num" data-l="Leads">' + s.leads + '</td><td class="r num" data-l="Lead rate">' + (s.views ? (s.rate * 100).toFixed(1) + '%' : '—') + '</td>' +
+          '<td class="r num" data-l="Price">' + (l.was ? '<span class="was">' + R.inr(l.was) + '</span>' : '') + R.inr(l.price) + '</td><td class="r num" data-l="Floor">' + (g ? R.inr(g.floor) : '—') + '</td><td class="full">' + (s.sug ? '<button type="button" class="btn sm" data-drop="' + l.id + '">' + ic('down') + '−' + s.sug.pct + '% → ' + R.inr(s.sug.price) + '</button>' : '<span style="color:var(--dim);font-size:12.5px">' + (l.approved === false ? 'Attach the report to go live' : s.leads > 3 ? 'Selling well' : 'Hold price') + '</span>') + '</td></tr>'; }).join('')
+        : '<tr><td colspan="10"><div class="empty"><b>Nothing here</b><p>No vehicles match “' + esc(L[inv.f]) + '”. <a href="#/inventory?f=all">Show all</a></p></div></td></tr>') + '</tbody></table></div>' +
       (inv.sel.length ? '<div class="bulk" role="region" aria-label="Bulk actions"><b>' + inv.sel.length + ' selected</b><button type="button" class="btn sm" data-bulk="reserved">Mark reserved</button><button type="button" class="btn sm" data-bulk="live">Mark live</button><button type="button" class="btn sm pri" data-bulk="drop">Apply suggested prices</button><button type="button" class="ib" data-bulk="clear" aria-label="Clear selection">' + ic('x') + '</button></div>' : '');
     el.onclick = function (e) {
       var t = e.target, f = t.closest('[data-f]'); if (f) { inv.f = f.dataset.f; inv.sel = []; history.replaceState(null, '', '#/inventory'); BO.render(true); return; }
       var so = t.closest('[data-sort]'); if (so) { if (inv.sort === so.dataset.sort) inv.dir *= -1; else { inv.sort = so.dataset.sort; inv.dir = so.dataset.sort === 'name' ? 1 : -1; } BO.render(true); return; }
+      var lg = t.closest('[data-ledger]'); if (lg && window.LEDGER) { LEDGER.open(lg.dataset.ledger, function () { BO.refresh(); }); return; }
       var dr = t.closest('[data-drop]'); if (dr) { previewDrop([dr.dataset.drop]); return; }
       var bk = t.closest('[data-bulk]'); if (bk) { var k = bk.dataset.bulk; if (k === 'clear') { inv.sel = []; BO.render(true); return; } if (k === 'drop') { previewDrop(inv.sel.slice()); return; }
         var s = snap(); inv.sel.forEach(function (id) { setStatus(id, k); }); var n = inv.sel.length; inv.sel = []; BO.render(true); BO.toast(n + ' vehicle' + (n === 1 ? '' : 's') + ' marked ' + k + '. The marketplace updates instantly.', { undo: undoTo(s) }); }
@@ -305,7 +308,7 @@
     var rows = ids.map(function (id) { var l = R.byId(id); return { l: l, s: stock(l) }; }), ch = rows.filter(function (r) { return r.s.sug; }), skip = rows.length - ch.length;
     if (!ch.length) { BO.toast('None of these have a suggested price. Suggestions appear after 30 days in stock with a lead rate under 1%.'); return; }
     BO.dialog({ title: 'Change ' + ch.length + ' price' + (ch.length === 1 ? '' : 's') + '?', ok: 'Apply ' + ch.length + ' change' + (ch.length === 1 ? '' : 's'),
-      html: '<p style="margin:0 0 10px;color:var(--mute)">Buyers who saved these get a price-drop alert. You can undo for a few seconds after.</p><div class="tbl-w"><table class="tbl"><thead><tr><th scope="col">Vehicle</th><th scope="col" class="r">Now</th><th scope="col" class="r">New</th></tr></thead><tbody>' + ch.map(function (r) { return '<tr><td>' + esc(r.l.make + ' ' + r.l.model) + '</td><td class="r num">' + R.inr(r.l.price) + '</td><td class="r num" style="color:var(--warn)">' + R.inr(r.s.sug.price) + ' <small style="color:var(--dim)">−' + r.s.sug.pct + '%</small></td></tr>'; }).join('') + '</tbody></table></div>' + (skip ? '<p style="margin:10px 0 0;font-size:12.5px;color:var(--dim)">' + skip + ' selected vehicle' + (skip === 1 ? ' has' : 's have') + ' no suggestion and will not change.</p>' : ''),
+      html: '<p style="margin:0 0 10px;color:var(--mute)">Buyers who saved these get a price-drop alert. You can undo for a few seconds after.</p><div class="tbl-w"><table class="tbl"><thead><tr><th scope="col">Vehicle</th><th scope="col" class="r">Now</th><th scope="col" class="r">New</th><th scope="col" class="r">Margin after</th></tr></thead><tbody>' + ch.map(function (r) { var g = window.LEDGER ? LEDGER.of(r.l) : null, after = g ? g.margin - (r.l.price - r.s.sug.price) : null; return '<tr><td>' + esc(r.l.make + ' ' + r.l.model) + '</td><td class="r num">' + R.inr(r.l.price) + '</td><td class="r num" style="color:var(--warn)">' + R.inr(r.s.sug.price) + ' <small style="color:var(--dim)">−' + r.s.sug.pct + '%</small></td><td class="r num" style="color:' + (after == null ? 'inherit' : after < 0 ? 'var(--bad)' : 'var(--ok)') + '">' + (g ? R.inr(g.margin) + ' → <b>' + (after < 0 ? '−' : '') + R.inr(Math.abs(after)) + '</b>' : '—') + '</td></tr>'; }).join('') + '</tbody></table></div>' + (skip ? '<p style="margin:10px 0 0;font-size:12.5px;color:var(--dim)">' + skip + ' selected vehicle' + (skip === 1 ? ' has' : 's have') + ' no suggestion and will not change.</p>' : ''),
       run: function () { var s = snap(), pr = R.get('revv:price', {}); ch.forEach(function (r) { pr[r.l.id] = r.s.sug.price; }); R.set('revv:price', pr); inv.sel = []; BO.refresh(); BO.toast(ch.length + ' price' + (ch.length === 1 ? '' : 's') + ' updated on the marketplace.', { undo: undoTo(s) }); } });
   }
 
@@ -433,7 +436,7 @@
   }
 
   /* ================= SHELL ================= */
-  BO.init({
+  var cfg = {
     title: 'Revv dealer', section: 'Dealer', home: 'today',
     user: { name: dealer().rep, role: 'Sales lead' },
     nav: [{ items: [{ id: 'today', label: 'Today', icon: 'home', view: vToday }, { id: 'focus', label: 'Calls', icon: 'phone', short: 'Calls' }, { id: 'inbox', label: 'Conversations', icon: 'chat', short: 'Chats' }] },
@@ -441,7 +444,7 @@
       { group: 'Money', items: [{ id: 'commission', label: 'Commission', icon: 'rupee' }] },
       { group: 'Revv', items: [{ href: 'listings.html', label: 'Marketplace', icon: 'ext' }, { href: 'admin.html', label: 'Admin', icon: 'shield' }] }],
     views: { today: vToday, focus: vFocus, pipeline: vPipeline, inventory: vInventory, rides: vRides, inbox: vInbox, commission: vCommission },
-    tabs: ['today', 'focus', 'pipeline', 'rides', 'more'],
+    tabs: ['today', 'focus', 'pipeline', 'money', 'more'],
     hot: ['focus', 'inbox'],
     counts: function () { var now = Date.now(); return { today: needs().length, focus: callQueue().length, inbox: waitingChats().length, pipeline: active().filter(function (x) { return x.stage !== 'Sold'; }).length, rides: rides().filter(function (x) { return sod(R.slotDate(x.slot)) === sod(now); }).length, inventory: myListings().filter(function (l) { return stock(l).sug; }).length }; },
     switcher: function () { var d = dealer(); return { label: d.name, sub: d.area + ', ' + d.city, value: me, options: R.dealers().map(function (x) { return { id: x.id, label: x.name + ' · ' + x.city }; }), pick: function (id) { me = id; R.set(R.K.me, id); fx = { done: 0, skip: [], pick: null, slot: null, dayOff: 0 }; ib.sel = null; var b = $('.bo-me'); if (b) b.innerHTML = '<span class="av">' + esc(BO.initials(dealer().rep)) + '</span><span><b>' + esc(dealer().rep) + '</b><small>Sales lead</small></span>'; } }; },
@@ -451,7 +454,11 @@
       myListings().forEach(function (l) { if ((R.title(l) + ' ' + l.id).toLowerCase().indexOf(q) > -1) out.push({ g: 'Inventory', label: R.title(l), sub: R.inr(l.price), icon: 'stock', run: function () { BO.go('inventory'); } }); }); return out.slice(0, 8); },
     searchHint: 'Search buyers, vehicles or jump to…',
     keys: { n: function () { newLead(); }, c: function () { BO.go('focus'); } }
-  });
+  };
+  // money, refurbishment, deals, appraisals, closing and team live in their own files and plug in here
+  window.DEALER = { me: function () { return me; }, dealer: dealer, mine: mine, active: active, find: find, leads: function () { return leads; }, save: save, veh: veh, stock: stock, myListings: myListings, openLead: openLead, move: move };
+  (window.DEALER_EXT || []).forEach(function (f) { try { f(cfg, window.DEALER); } catch (e) { if (window.console) console.error(e); } });
+  BO.init(cfg);
   document.addEventListener('click', function (e) { if (e.target.closest('[data-newlead]')) newLead(); });
   // another tab (the marketplace, the chat) added a lead: pick it up live
   addEventListener('storage', function (e) { if (e.key === R.K.leads) { var before = leads.length; leads = R.leads(); if (leads.length > before && leads[0].dealer === me) BO.toast('New lead: <b>' + esc(leads[0].name) + '</b> · ' + esc(veh(leads[0]).short) + (leads[0].src === 'Chat' ? ' · from chat' : '')); BO.refresh(); } if (e.key === 'orbit-convos') BO.counts(); });

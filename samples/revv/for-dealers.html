@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For dealers · Revv</title>
+<meta name="description" content="Your yard, online, with your name on it: stock, enquiries, test drives, exchange, papers and margin in one place.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Revv"><meta property="og:title" content="For dealers · Revv"><meta property="og:description" content="Your yard, online, with your name on it: stock, enquiries, test drives, exchange, papers and margin in one place."><meta property="og:image" content="https://abbytes-sudo.github.io/samples/revv/og.jpg"><meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0A0B0D">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" href="fonts/archivo-sub.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="revv.min.css?v=47">
+<link rel="stylesheet" href="pages.css?v=4">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="data.js?v=11" defer></script>
+<script src="app.js?v=9" defer></script>
+<script src="for-dealers.js?v=2" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+<script src="concierge.js?v=1" defer data-agent="revv" data-skin="concierge.css?v=1" data-brand="rv" data-title="Pit crew" data-sub="Revv · instant answers" data-label="Ask the pit crew" data-nudge="vehicle,listings,sell" data-v="3"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<header class="hdr solid">
+  <a class="logo" href="index.html" aria-label="Revv, home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#FF5B1F"/><path d="M8 24V8h9a5 5 0 0 1 1.6 9.7L23 24h-4.4l-3.9-6H12v6zM12 14.5h4.6a1.75 1.75 0 0 0 0-3.5H12z" fill="#0A0B0D"/></svg>Revv</a>
+  <nav class="nav" aria-label="Main"><a class="ul" href="listings.html">Buy</a><a class="ul" href="listings.html?type=bike">Bikes</a><a class="ul" href="listings.html?type=car">Cars</a><a class="ul" href="sell.html">Sell</a><a class="ul" href="dealers.html">Dealers</a><a class="ul" href="for-dealers.html" aria-current="page">For dealers</a><a class="ul" href="dealer.html">Dealer login</a></nav>
+  <div class="hdr-r">
+    <a class="pill" href="listings.html?saved=1" aria-label="Saved vehicles"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="n" data-count-wish hidden>0</span></a>
+    <a class="btn sm" href="sell.html">Sell yours <span class="ar" aria-hidden="true">→</span></a>
+    <button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  </div>
+</header>
+<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="listings.html">Buy</a><a href="listings.html?type=bike">Bikes</a><a href="listings.html?type=car">Cars</a><a href="sell.html">Sell</a><a href="dealers.html">Dealers</a><a href="for-dealers.html">For dealers</a><a href="finance.html">Finance</a><a href="dealer.html">Dealer login</a></nav></div>
+
+<main id="main" class="pgm fd">
+<section class="fd-hero" aria-labelledby="h1">
+  <ol class="crumbs"><li><a href="index.html">Revv</a></li><li>For dealers</li></ol>
+  <div class="fd-hero-g">
+    <div class="fd-hero-l">
+      <p class="k"><span class="ch">For dealers</span>Cars, bikes or both</p>
+      <h1 class="disp fd-h1" id="h1">Your yard, online, with <span class="fd-plate" id="fd-plate" aria-live="polite"><span id="fd-plate-t">your name</span></span> on it.</h1>
+      <p class="fd-sub">Stock, enquiries, test drives, exchange, papers and margin in one place. Type your showroom's name and see the whole thing as yours.</p>
+    </div>
+    <form class="fd-name" id="fd-name" novalidate aria-label="See it as your showroom">
+      <div class="fd-prev" id="fd-prev" aria-hidden="true">
+        <div class="fd-prev-bar"><span class="fd-mono" id="fd-mono">S</span><b id="fd-prev-n">Your showroom</b><span class="fd-prev-nav"><i></i><i></i><i></i></span><span class="fd-prev-btn">Sell yours</span></div>
+        <div class="fd-prev-b"><p class="fd-prev-k" id="fd-prev-k">11 cars in Jaipur, every one inspected</p><p class="fd-prev-h" id="fd-prev-h">Your showroom.</p><span class="fd-prev-chat" id="fd-prev-chat">Ask your showroom</span></div>
+      </div>
+      <div class="fd-name-f">
+        <label class="fld"><span>Showroom name</span><input class="inp2" id="fd-n" name="name" maxlength="32" autocomplete="organization" placeholder="e.g. Sharma Motors" aria-describedby="fd-name-e"></label>
+        <div class="fld2"><label class="fld"><span>City</span><select class="inp2" id="fd-c" name="city"></select></label>
+        <fieldset class="fld rad"><legend>You sell</legend><label><input type="radio" name="deals" value="cars" checked><span>Cars</span></label><label><input type="radio" name="deals" value="bikes"><span>Bikes</span></label><label><input type="radio" name="deals" value="both"><span>Both</span></label></fieldset></div>
+        <fieldset class="fld fd-sw"><legend>Your colour</legend><div class="fd-sws" id="fd-sw"></div></fieldset>
+        <p class="fd-msg err" id="fd-name-e" role="alert"></p>
+        <div class="fd-name-a"><button class="btn" type="submit">See it as your showroom <span class="ar" aria-hidden="true">→</span></button><a class="btn ghost" href="dealer.html">Open the dealer app</a></div>
+      </div>
+    </form>
+  </div>
+  <ul class="pg-strip" aria-label="In the app"><li><b>Day 34</b><span>₹41,000 margin · down ₹310 a day</span></li><li><b>Step 5 of 8</b><span>RC transfer, expected 12 Dec</span></li><li><b>₹3.1–3.4 L</b><span>exchange offer, margin shown first</span></li><li><b>8 pm</b><span>the day’s closing, ready for WhatsApp</span></li></ul>
+</section>
+
+<section class="pg" aria-labelledby="sc-h"><div class="pg-w">
+  <p class="k pg-k"><span class="ch">01</span>The app</p>
+  <h2 class="pg-h2" id="sc-h">Three screens you will use every day</h2>
+  <div class="fd-view" id="fd-view">
+    <div class="fd-tabs" role="tablist" aria-label="Screens">
+      <button type="button" role="tab" id="fd-t0" aria-controls="fd-p0" aria-selected="true"><span class="n">01</span><b>Which cars are eating money</b><span class="d">Bought for, refurbishment, holding cost per day and margin today, on every car. The ones past 60 days are red.</span></button>
+      <button type="button" role="tab" id="fd-t1" aria-controls="fd-p1" aria-selected="false" tabindex="-1"><span class="n">02</span><b>Papers that track themselves</b><span class="d">Token to RC delivered in eight steps. The buyer gets a link instead of calling to ask.</span></button>
+      <button type="button" role="tab" id="fd-t2" aria-controls="fd-p2" aria-selected="false" tabindex="-1"><span class="n">03</span><b>Exchange, valued on a phone</b><span class="d">Checklist and photos at the car, an offer with the margin worked out, and one tap to put it in stock.</span></button>
+    </div>
+    <div class="fd-stage">
+      <div class="fd-chrome" aria-hidden="true"><i></i><i></i><i></i><span id="fd-url">dealer app · money</span></div>
+      <figure class="fd-pane on" id="fd-p0" role="tabpanel" aria-labelledby="fd-t0"><img src="fd-money.jpg?v=2" alt="The money view: every car with its age, margin and daily holding cost, and a heat strip of stock ageing" width="1200" height="702" loading="lazy"></figure>
+      <figure class="fd-pane" id="fd-p1" role="tabpanel" aria-labelledby="fd-t1" hidden><img src="fd-deals.jpg" alt="The deal desk: eight steps from token to RC delivered, each with an owner, a date and a document" width="1200" height="750" loading="lazy"></figure>
+      <figure class="fd-pane" id="fd-p2" role="tabpanel" aria-labelledby="fd-t2" hidden><img src="fd-appraise.jpg" alt="An exchange appraisal: checklist, photos, offer and the margin before saying yes" width="1200" height="750" loading="lazy"></figure>
+    </div>
+  </div>
+</div></section>
+
+<section class="pg alt" aria-labelledby="calc-h"><div class="pg-w fd-calc">
+  <div><p class="k pg-k"><span class="ch">02</span>The sum</p><h2 class="pg-h2" id="calc-h">What a faster yard is worth</h2><p class="pg-p">Put in your own numbers. The estimate uses a 12% cost of money, ₹70 a day of yard cost per car and an 8% average margin.</p>
+  <form class="fd-in" id="calc" novalidate>
+    <label class="fld"><span>Vehicles in stock</span><input class="inp2" type="number" min="1" max="500" value="40" name="n" inputmode="numeric"></label>
+    <label class="fld"><span>Average price, ₹ lakh</span><input class="inp2" type="number" min="0.5" max="200" step="0.5" value="6" name="p" inputmode="decimal"></label>
+    <label class="fld"><span>Days to sell today</span><input class="inp2" type="number" min="5" max="365" value="52" name="d" inputmode="numeric"></label>
+    <label class="fld"><span>Enquiries a month</span><input class="inp2" type="number" min="0" max="5000" value="180" name="e" inputmode="numeric"></label>
+    <label class="fld"><span>Enquiries that never get a call back</span><input class="inp2" type="number" min="0" max="100" value="30" name="l" inputmode="numeric"></label>
+  </form></div>
+  <div class="fd-out" id="calc-out" aria-live="polite"></div>
+</div></section>
+
+<section class="pg" aria-labelledby="ft-h"><div class="pg-w">
+  <p class="k pg-k"><span class="ch">03</span>The whole job</p><h2 class="pg-h2" id="ft-h">What is inside</h2>
+  <ol class="fd-feat">
+    <li><b>Stock and money</b><span>Ledger per car, ageing, floor price and a price-drop preview that shows the margin first.</span></li>
+    <li><b>Refurbishment board</b><span>Bought, workshop, detailing, photos, live. Every job with its cost and vendor.</span></li>
+    <li><b>Enquiries and calls</b><span>Marketplace, WhatsApp and walk-ins in one queue, with a call focus mode.</span></li>
+    <li><b>Test drives and rides</b><span>Agenda and day view; home rides with the address on the card.</span></li>
+    <li><b>Deals and papers</b><span>Forms 29 and 30, insurance, hypothecation and RC transfer, with a buyer tracking link.</span></li>
+    <li><b>Exchange appraisals</b><span>Requests from your listings arrive with the car the buyer wants.</span></li>
+    <li><b>The 8 pm closing</b><span>Enquiries, rides, tokens, sold, cars past 60 days and calls nobody returned.</span></li>
+    <li><b>Your name on it</b><span>Your colour, your stock, your chat assistant and your letterhead on every invoice.</span></li>
+  </ol>
+  <p class="pg-p">The promises your buyers see: <a href="policy-inspection.html">the 150 points</a>, <a href="policy-return.html">the 7-day return</a>, <a href="policy-cover.html">the 6-month cover</a> and <a href="finance.html">a loan answer in a day</a>.</p>
+</div></section>
+
+<section class="pg alt" aria-labelledby="ap-h"><div class="pg-w fd-apply">
+  <div><p class="k pg-k"><span class="ch">04</span>Ten days to live</p><h2 class="pg-h2" id="ap-h">Apply to list on Revv</h2><p class="pg-p">We visit the showroom, check your documents and run the first five cars through the 150 points. Most showrooms go live within ten days.</p>
+  <ul class="pg-list"><li>GST registration and trade certificate</li><li>Photos of the showroom and the yard</li><li>A bank account for payouts</li></ul></div>
+  <form class="fd-form" id="apply" novalidate>
+    <label class="fld"><span>Showroom name</span><input class="inp2" name="name" required autocomplete="organization" placeholder="e.g. Sharma Motors"></label>
+    <div class="fld2"><label class="fld"><span>City</span><input class="inp2" name="city" required autocomplete="address-level2" placeholder="e.g. Jaipur"></label><label class="fld"><span>Area</span><input class="inp2" name="area" placeholder="e.g. Tonk Road"></label></div>
+    <fieldset class="fld rad"><legend>You sell</legend><label><input type="radio" name="focus" value="Bikes"><span>Bikes</span></label><label><input type="radio" name="focus" value="Cars" checked><span>Cars</span></label><label><input type="radio" name="focus" value="Bikes and cars"><span>Both</span></label></fieldset>
+    <div class="fld2"><label class="fld"><span>Vehicles in stock</span><input class="inp2" name="stock" type="number" min="1" max="999" inputmode="numeric" placeholder="40"></label><label class="fld"><span>Your name</span><input class="inp2" name="rep" required autocomplete="name"></label></div>
+    <label class="fld"><span>Email or WhatsApp</span><input class="inp2" name="contact" required autocomplete="email" placeholder="So we can set up the visit"></label>
+    <button class="btn" type="submit">Send the application <span class="ar" aria-hidden="true">→</span></button>
+    <p class="fd-msg" id="apply-msg" role="status"></p>
+  </form>
+</div></section>
+</main>
+<footer class="ftr pg-ftr">
+  <nav class="pg-links" aria-label="The promises"><a href="policy-inspection.html">The 150 points</a><a href="policy-return.html">7-day return</a><a href="policy-cover.html">6-month cover</a><a href="finance.html">Finance</a><a href="for-dealers.html">For dealers</a></nav>
+  <p class="credits"><span>Photos: Unsplash (badges and plates blurred)</span><span>© Revv. A portfolio project by Abhishek.</span></p>
+</footer>
+</body>
+</html>

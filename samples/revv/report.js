@@ -29,6 +29,13 @@
       'Road test': [['Distance logged', 'km'], ['Cold to hot behaviour', ''], ['Pull-away', ''], ['Gear changes, up and down', ''], ['Kick-down response', ''], ['Straight-line stability', ''], ['Steering self-centring', ''], ['Cornering, both directions', ''], ['Braking, straight and true', ''], ['ABS on a loose surface', ''], ['Highway cruise, 100 km/h', ''], ['Wind and road noise', ''], ['Vibration at cruise', ''], ['Cruise control', ''], ['Climate control on the move', ''], ['Unusual noises', 'none'], ['Speedometer accuracy', 'speedo'], ['Post-drive leak check', 'none']]
     }
   };
+  // bikes get their own categories: chain and sprockets, forks and steering head, tyre date codes, accessories fitted
+  var CHAIN = [['Chain slack', 'mm2'], ['Chain stretch over 20 links', 'chain'], ['Front sprocket teeth', ''], ['Rear sprocket teeth', '', ['Rear sprocket teeth hooked at the tips', 'Chain and sprocket kit replaced before listing', 'fixed', 'Hooked', 'New kit']], ['Chain lubrication', ''], ['Chain guard and slider', ''], ['Adjuster marks aligned', ''], ['Cush-drive rubbers', '']];
+  var ACC = [['Crash protectors fitted', ''], ['Tank pad and grips', ''], ['Aftermarket parts declared', '', ['Aftermarket slip-on silencer fitted', 'Declared; the original silencer is included in the sale', 'advisory', 'Slip-on', 'Stock included']], ['Mirrors and bar ends', ''], ['Phone mount and USB charger', ''], ['Toolkit and owner manual', 'count']];
+  var BIKE = [['Exterior and paint', 18, 'Exterior and paint'], ['Engine and transmission', 24, 'Engine and transmission'], ['Chain and sprockets', 8, null, CHAIN], ['Brakes', 14, 'Brakes'],
+    ['Forks, shock and steering head', 18, 'Suspension and steering'], ['Tyres and date codes', 12, 'Tyres and wheels'], ['Electricals', 18, 'Electricals'], ['Controls and accessories fitted', 20, 'Cabin and controls', ACC], ['Road test', 18, 'Road test']];
+  // the hero car on the home page: the repainted rear quarter the paint gauge finds is the same one in its report
+  var FORCED = { 'kestrel-gt-carmine': ['Exterior and paint', /rear-right/i, ['Right rear quarter repainted after a dent repair: 246 µm against a 115 µm average, with a thin skim of filler under the paint', 'Disclosed and priced in. Panel straight, no corrosion, colour match checked in daylight', 'advisory', '246 µm', 'As is']] };
   // electric drivetrains swap the engine checks
   var EV = [['Battery state of health', 'soh'], ['Cell voltage spread', 'cells'], ['Insulation resistance', 'insul'], ['High-voltage cabling', ''], ['Battery coolant', ''], ['Battery housing and mounts', ''], ['Motor noise under load', ''], ['Inverter temperature', 'temp'], ['Reduction gear', ''], ['Regenerative braking', ''], ['On-board charger', ''], ['DC fast-charge test', 'kw'], ['AC charge test', ''], ['Charge port and flap', ''], ['Charging cable', ''], ['Thermal management', ''], ['Pre-conditioning', ''], ['Range estimate vs history', 'range'], ['Software version', 'sw'], ['Drive modes', ''], ['Pedestrian warning sound', ''], ['Motor mounts', ''], ['Drive shafts', ''], ['12 V system', 'volt'], ['DC-DC converter', ''], ['Charging history', ''], ['Stored fault codes (OBD)', 'obd'], ['Cooling pump', '']];
 
@@ -78,14 +85,18 @@
 
   R.inspection = function (l) {
     var r = R.rng(l.id + 'insp'), lib = C[l.type] || C.car, ev = l.fuel === 'Electric';
-    var groups = D.GROUPS.map(function (g) {
-      var list = lib[g[0]].slice(0, g[1]);
+    var plan = l.type === 'bike' ? BIKE : D.GROUPS.map(function (g) { return [g[0], g[1], g[0]]; });
+    var groups = plan.map(function (g) {
+      var extra = g[3] || [], src = g[2] ? (lib[g[2]] || []) : [], list = src.slice(0, g[1] - extra.length).concat(extra).slice(0, g[1]);
       if (ev && g[0] === 'Engine and transmission') list = EV.slice(0, g[1]);
-      return { name: ev && g[0] === 'Engine and transmission' ? 'Motor, battery and drive' : g[0], key: g[0], total: g[1], items: list.map(function (c) { return { name: c[0], val: valFor(c[1], r, l), find: c[2] || null, st: 'pass' }; }) };
+      if (l.type === 'bike' && g[0] === 'Tyres and date codes') list = list.map(function (c) { return [c[0].replace('tyre age', 'tyre date code'), c[1], c[2]]; });
+      return { name: ev && g[0] === 'Engine and transmission' ? 'Motor, battery and drive' : g[0], key: g[0], total: list.length, items: list.map(function (c) { return { name: c[0], val: valFor(c[1], r, l), find: c[2] || null, st: 'pass' }; }) };
     });
+    var fz = FORCED[l.id]; if (fz) groups.forEach(function (g) { if (g.key !== fz[0]) return; g.items.forEach(function (it) { if (fz[1].test(it.name)) { it.find = fz[2]; it.forced = true; } }); });
     // choose which candidate findings this vehicle actually had: exactly 150 - score of them
     var cands = []; groups.forEach(function (g, gi) { g.items.forEach(function (it, ii) { if (it.find) cands.push([gi, ii]); }); });
     var rr = R.rng(l.id + 'finds'); cands.sort(function () { return rr() - 0.5; });
+    cands.sort(function (a, b) { return (groups[b[0]].items[b[1]].forced ? 1 : 0) - (groups[a[0]].items[a[1]].forced ? 1 : 0); });
     var misses = Math.max(0, Math.min(cands.length, 150 - (l.score || 148)));
     cands.slice(0, misses).forEach(function (c) { var it = groups[c[0]].items[c[1]]; it.st = it.find[2]; it.val = it.find[3] + (it.find[4] && it.find[4] !== it.find[3] ? ' → ' + it.find[4] : ''); });
     groups.forEach(function (g) { g.ok = g.items.filter(function (i) { return i.st === 'pass'; }).length; g.fixed = g.items.filter(function (i) { return i.st === 'fixed'; }).length; g.adv = g.items.filter(function (i) { return i.st === 'advisory'; }).length; });
@@ -104,7 +115,7 @@
     var sec = $('#report'); if (!sec) return;
     var rep = R.inspection(l), title = R.title(l), d = R.dealer(l.dealer);
     var F = (D.FOCUS && D.FOCUS[l.img]) || { box: [0, 0, 1, 1] }, H = (D.HOT && D.HOT[l.img]) || {};
-    var SPOT = { 'Exterior and paint': ['body', 'Paint and panels'], 'Engine and transmission': ['eng', 'Engine'], 'Motor, battery and drive': ['eng', 'Motor and battery'], 'Brakes': ['fw', 'Front disc and calipers'], 'Suspension and steering': ['fw', l.type === 'bike' ? 'Forks and steering head' : 'Front suspension'], 'Tyres and wheels': ['fw', 'Tyres and rims'], 'Electricals': ['lamp', 'Lamps and electrics'], 'Cabin and controls': ['cab', l.type === 'bike' ? 'Cockpit and controls' : 'Cabin'], 'Road test': [null, 'Whole vehicle, 18 km loop'] };
+    var SPOT = { 'Exterior and paint': ['body', 'Paint and panels'], 'Engine and transmission': ['eng', 'Engine'], 'Motor, battery and drive': ['eng', 'Motor and battery'], 'Brakes': ['fw', 'Front disc and calipers'], 'Suspension and steering': ['fw', l.type === 'bike' ? 'Forks and steering head' : 'Front suspension'], 'Tyres and wheels': ['fw', 'Tyres and rims'], 'Electricals': ['lamp', 'Lamps and electrics'], 'Cabin and controls': ['cab', l.type === 'bike' ? 'Cockpit and controls' : 'Cabin'], 'Road test': [null, 'Whole vehicle, 18 km loop'], 'Chain and sprockets': ['rw', 'Chain and rear sprocket'], 'Forks, shock and steering head': ['fw', 'Forks and steering head'], 'Tyres and date codes': ['fw', 'Tyres and date codes'], 'Controls and accessories fitted': ['cab', 'Controls and accessories'] };
     var fmt = function (dt) { return dt.toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }); };
     var nFind = rep.findings.length, nFixed = rep.findings.filter(function (f) { return f.it.st === 'fixed'; }).length;
     var pctBetter = Math.max(40, Math.min(99, Math.round(100 * (1 - Math.pow((150 - l.score) / 25, 1.3)))));

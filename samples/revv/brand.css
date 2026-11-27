@@ -1,0 +1,60 @@
+/* Your showroom: the "See it as your showroom" panel, and the accent overrides used while a showroom name is on. */
+
+/* ---------- the way in (header button, phone menu line) + panel ---------- */
+.bp-hb{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:44px;min-width:44px;padding:0 14px;border:0;border-radius:2px;background:none;box-shadow:inset 0 0 0 1px var(--line);color:var(--bone);font:600 11px/1 var(--f-m);letter-spacing:.07em;text-transform:uppercase;cursor:pointer;transition:box-shadow .3s}
+.bp-hb:hover,.bp-hb[aria-expanded=true]{box-shadow:inset 0 0 0 1px var(--sig)}
+.bp-hb .dot,.bp-ml::before{flex:none;width:12px;height:12px;border-radius:3px;background:var(--sig);box-shadow:0 0 10px rgba(var(--sig-rgb,255,91,31),.6)}
+.bp-hb.float{position:fixed;left:16px;bottom:16px;z-index:60;background:var(--ink2)}
+.bp-ml{display:flex;align-items:center;gap:14px}
+.bp-ml::before{content:''}
+@media (max-width:1240px){.bp-hb{padding:0}.bp-hb .t{display:none}}
+@media (max-width:980px){.hdr .bp-hb{display:none}}
+.bp{position:fixed;right:16px;top:108px;z-index:61;width:min(380px,calc(100vw - 32px));max-height:calc(100vh - 100px);overflow:auto;padding:20px;border-radius:4px;background:var(--ink2);box-shadow:inset 0 0 0 1px var(--line2),0 24px 60px rgba(0,0,0,.6);color:var(--bone)}
+.bp[hidden]{display:none}
+@media (max-width:980px){.bp{left:12px;right:12px;top:auto;bottom:12px;width:auto;max-height:calc(100svh - 24px)}}
+.bp-h{display:flex;justify-content:space-between;align-items:start;gap:12px;margin:0 0 6px}
+.bp-h h2{margin:0;font:800 22px/1.05 var(--f-d);font-variation-settings:"wdth" 112;text-transform:uppercase}
+.bp-h .x{flex:none;width:36px;height:36px;margin:-6px -8px 0 0;border:0;background:none;color:var(--bone);font-size:24px;line-height:1;cursor:pointer}
+.bp-sub{margin:0 0 16px;font-size:14px;line-height:1.45;color:#c9ccd1}
+.bp form{display:grid;gap:14px}
+.bp .fld label,.bp legend{font:500 11px var(--f-m);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.bp fieldset{margin:0;padding:0;border:0;display:grid;gap:8px}
+.bp .inp,.bp .sel{width:100%;min-height:44px;padding:0 12px;border:0;border-radius:2px;background:var(--ink);box-shadow:inset 0 0 0 1px var(--line2);color:var(--bone);font-size:15px}
+.bp .ferr{margin:2px 0 0;font-size:13px;color:#ff8a6b}
+.sw{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sw label{position:relative;display:block;width:34px;height:34px;border-radius:50%;cursor:pointer}
+.sw label input{position:absolute;inset:0;margin:0;opacity:0;cursor:pointer}
+.sw label span{display:block;width:100%;height:100%;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.sw label input:checked+span{box-shadow:0 0 0 2px var(--ink2),0 0 0 4px var(--bone)}
+.sw label input:focus-visible+span{outline:2px solid var(--bone);outline-offset:4px}
+.sw .own{width:auto;height:34px;display:inline-flex;align-items:center;gap:8px;padding:0 10px 0 4px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line2);font:500 11px var(--f-m);letter-spacing:.05em;text-transform:uppercase;color:var(--mute)}
+.sw .own input[type=color]{position:static;opacity:1;width:26px;height:26px;padding:0;border:0;border-radius:50%;background:none;cursor:pointer}
+.sw .own input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.sw .own input[type=color]::-webkit-color-swatch{border:0;border-radius:50%}
+.seg3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seg3 label{position:relative}
+.seg3 input{position:absolute;opacity:0}
+.seg3 span{display:flex;align-items:center;justify-content:center;min-height:42px;border-radius:2px;box-shadow:inset 0 0 0 1px var(--line2);font:600 12px var(--f-m);letter-spacing:.05em;text-transform:uppercase;cursor:pointer}
+.seg3 input:checked+span{background:var(--bone);color:var(--ink);box-shadow:none}
+.seg3 input:focus-visible+span{outline:2px solid var(--sig);outline-offset:2px}
+.bp .btn{width:100%}
+.bp-out{display:grid;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.bp-out p{margin:0;font-size:13.5px;line-height:1.45;color:#c9ccd1}
+.bp-link{width:100%;min-height:40px;padding:0 10px;border:0;border-radius:2px;background:var(--ink);box-shadow:inset 0 0 0 1px var(--line);color:var(--mute);font:500 12px var(--f-m)}
+.bp-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* ---------- while a showroom name is on ---------- */
+.logo .bm{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:2px;background:var(--sig);color:var(--on-sig,#0A0B0D);font:800 15px/1 var(--f-d);font-variation-settings:"wdth" 100;letter-spacing:0}
+.shop-on .btn:not(.ghost):not(.dark):hover{--bg:var(--sig-hi,#ff7440)}
+.shop-on .ser.tag{border-color:rgba(var(--sig-rgb),.5);background:rgba(var(--sig-rgb),.06)}
+.shop-on .understood .chip{background:rgba(var(--sig-rgb),.1);box-shadow:inset 0 0 0 1px rgba(var(--sig-rgb),.4)}
+.shop-on .radio-row label:has(input:checked){background:rgba(var(--sig-rgb),.08)}
+.shop-on .callout::before{box-shadow:0 0 0 5px rgba(var(--sig-rgb),.22)}
+.shop-on .callout span{box-shadow:inset 0 0 0 1px rgba(var(--sig-rgb),.45)}
+.shop-on .st.pending{background:rgba(var(--sig-rgb),.14)}
+.shop-on input[type=range]{accent-color:var(--sig)}
+.shop-on .cg--rv{--c-acc:var(--sig)}
+.shop-on .cg.cg--rv .ob-user{background:rgba(var(--sig-rgb),.16);color:var(--bone);border-color:rgba(var(--sig-rgb),.35)}
+.shop-on [data-shop-hide]{display:none!important}
+.bp-open .cg-launch{opacity:0;pointer-events:none}
+@media (max-width:560px){.shop-on .hdr .logo{min-width:0;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}

@@ -1,0 +1,108 @@
+/* Revv shop layer: card money line, listing quick filters, and the vehicle-page slots (on-road price, exchange, send to family).
+   Loaded by app.js on public pages. Accent comes from --sig (your showroom can change it). */
+
+/* ---------- cards: monthly figure, fair-price meter, chips ---------- */
+.card-p .card-mo{font:500 12.5px var(--f-m);letter-spacing:.02em;color:var(--bone)}
+.card-f{display:flex;align-items:center;gap:10px;margin:0;font:500 12px var(--f-m);letter-spacing:.02em;color:var(--mute)}
+.card-w{margin:0;font-size:13px;color:var(--mute)}
+.sec-light .card-p .card-mo{color:var(--ink)}
+.sec-light .card-f,.sec-light .card-w{color:var(--mute-d)}
+.meter{position:relative;flex:none;width:58px;height:6px;border-radius:3px;background:linear-gradient(90deg,#3DDC97 0 38%,#c9ccd1 38% 62%,#FFB020 62% 100%);opacity:.9}
+.meter i{position:absolute;top:50%;left:var(--p,50%);width:4px;height:14px;margin:-7px 0 0 -2px;border-radius:2px;background:var(--bone);box-shadow:0 0 0 2px var(--ink)}
+.sec-light .meter i{background:var(--ink);box-shadow:0 0 0 2px var(--paper)}
+.cchips{position:absolute;left:12px;bottom:12px;display:flex;gap:6px;flex-wrap:wrap;pointer-events:none}
+.cchip{padding:6px 9px;font:600 10.5px/1 var(--f-m);letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--bone)}
+.cchip-drop{background:#3DDC97;color:var(--ink)}
+.cchip-new{background:var(--bone);color:var(--ink)}
+
+/* ---------- listings: quick filters and the monthly budget ---------- */
+.qchips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.qchips .chip{min-height:38px;padding:0 14px;font-size:12px}
+.qchips .chip[aria-pressed=true]{background:var(--bone);color:var(--ink);box-shadow:none}
+.qchips .chip b{font-weight:600;margin-left:2px;opacity:.7}
+.mo-hint{margin:6px 0 0;font:500 11px var(--f-m);letter-spacing:.04em;color:var(--mute)}
+
+/* ---------- vehicle page slots ---------- */
+.slot-h{margin:0 0 10px;font:500 11.5px var(--f-m);letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+.slot-btn{width:100%}
+.slot-btn .ic2{width:18px;height:18px;flex:none}
+.slot-btn .ic2 path,.slot-btn .ic2 circle{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* on-road price */
+.orr{padding:16px 0 4px;border-top:1px solid var(--line)}
+.orr-l{margin:0;font-size:16px;line-height:1.5;color:#c9ccd1}
+.orr-l b{font:800 22px/1 var(--f-d);font-variation-settings:"wdth" 112;color:var(--bone);white-space:nowrap}
+.orr-city{appearance:none;-webkit-appearance:none;display:inline;field-sizing:content;max-width:12em;min-height:0;margin:0 2px;padding:2px 22px 2px 6px;border:0;border-radius:2px;background:var(--ink2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5l3 3 3-3' fill='none' stroke='%23EDEAE3' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 5px center/12px;box-shadow:inset 0 0 0 1px var(--line2);color:var(--bone);font:inherit;font-weight:600;cursor:pointer}
+.orr-t{display:inline;padding:0;border:0;background:none;color:var(--sig);font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.orr-t:hover{color:var(--bone)}
+.orr-b{margin-top:12px}
+.orr-b dl{display:grid;grid-template-columns:1fr auto;gap:0;margin:0}
+.orr-b dt,.orr-b dd{margin:0;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.orr-b dt{color:#c9ccd1}
+.orr-b dt small{display:block;margin-top:2px;font:500 11px var(--f-m);letter-spacing:.03em;color:var(--mute)}
+.orr-b dd{text-align:right;font:500 13.5px var(--f-m);color:var(--bone)}
+.orr-b dt.tot,.orr-b dd.tot{border-bottom:0;padding-top:12px;color:var(--bone);font-weight:700}
+.orr-b dd.tot{font:800 20px var(--f-d)}
+.orr-n{margin:10px 0 0;font:500 11px/1.5 var(--f-m);letter-spacing:.03em;color:var(--mute)}
+
+/* exchange */
+.xch-net{display:grid;gap:2px}
+.price.xed b{color:var(--sig)}
+.price.xed .x-undo{padding:0;border:0;background:none;color:var(--sig);font:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.xw{margin-top:12px;padding:16px;background:var(--ink2);box-shadow:inset 0 0 0 1px var(--line)}
+.xw-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin:0 0 12px}
+.xw-h b{font:800 18px/1.15 var(--f-d);font-variation-settings:"wdth" 112;text-transform:uppercase}
+.xw-h span{flex:none;font:500 11px var(--f-m);letter-spacing:.06em;color:var(--mute)}
+.xw-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:0 0 14px}
+.xw-bar i{height:3px;background:var(--line2)}
+.xw-bar i.on{background:var(--sig)}
+.xw .seg2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.xw .opt2{min-height:44px;padding:8px 12px;border:0;border-radius:2px;background:var(--ink);box-shadow:inset 0 0 0 1px var(--line2);color:var(--bone);font:600 13px var(--f-m);text-align:left;cursor:pointer}
+.xw .opt2[aria-pressed=true]{box-shadow:inset 0 0 0 2px var(--sig)}
+.xw .opt2 small{display:block;margin-top:3px;font:500 11.5px/1.35 var(--f-d);color:var(--mute);letter-spacing:0}
+.xw .list2{display:grid;gap:6px;max-height:248px;overflow:auto;margin:8px 0 0;padding:2px}
+.xw .fld{margin-bottom:12px}
+.xw .inp,.xw .sel{width:100%;min-height:44px;padding:0 12px;border:0;border-radius:2px;background:var(--ink);box-shadow:inset 0 0 0 1px var(--line2);color:var(--bone);font-size:15px}
+.xw input[type=range]{width:100%}
+.xw-km{margin:0;font:800 30px/1 var(--f-d);color:var(--sig)}
+.xw-nav{display:flex;justify-content:space-between;gap:8px;margin-top:14px}
+.xw-nav .btn{flex:1}
+.xw-nav [data-xb]{flex:0 0 auto}
+.xw-est{margin:0 0 4px;font:800 26px/1.1 var(--f-d);font-variation-settings:"wdth" 112}
+.xw-est small{font:500 12px var(--f-m);color:var(--mute)}
+.xw-math{display:grid;grid-template-columns:1fr auto;margin:12px 0 0}
+.xw-math dt,.xw-math dd{margin:0;padding:7px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.xw-math dd{text-align:right;font:500 13px var(--f-m)}
+.xw-math dt.tot,.xw-math dd.tot{border:0;font-weight:700;color:var(--bone)}
+.xw-ok{margin:0;font-size:14px;line-height:1.5;color:#c9ccd1}
+.xw-ok b{color:var(--bone)}
+.xw .ferr{margin:4px 0 0;font-size:13px;color:#ff8a6b}
+.xw .k2{margin:8px 0 0;font:500 11px/1.5 var(--f-m);letter-spacing:.03em;color:var(--mute)}
+
+/* send to family */
+.shr-p{margin-top:12px;padding:16px;background:var(--ink2);box-shadow:inset 0 0 0 1px var(--line)}
+.shr-prev{display:block;width:min(100%,260px);height:auto;margin:0 auto 14px;aspect-ratio:1080/1350;background:var(--ink3);box-shadow:0 18px 40px rgba(0,0,0,.45)}
+.shr-acts{display:grid;gap:8px}
+.shr-acts .btn{width:100%}
+.shr-n{margin:10px 0 0;font:500 11px/1.5 var(--f-m);letter-spacing:.03em;color:var(--mute);text-align:center}
+.slot-row{display:grid;gap:8px}
+@media (min-width:1100px){.shr-acts{grid-template-columns:1fr 1fr}.shr-acts .btn.wide{grid-column:1/-1}}
+@media (prefers-reduced-motion:no-preference){.xw,.shr-p,.orr-b{animation:slotIn .35s var(--e)}}
+@keyframes slotIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* sell: second ending */
+.xend{display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
+.xend .k{margin:0}
+.xgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:18px;margin:0 0 28px}
+.xpick{display:grid;gap:6px;padding-bottom:14px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--bone)}
+.xpick img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;background:var(--ink3);opacity:1}
+.xpick:hover .xp-t{text-decoration:underline;text-underline-offset:3px}
+.xp-t{font:800 18px/1.1 var(--f-d);font-variation-settings:"wdth" 112;text-transform:uppercase}
+.xp-p{font-size:14px;color:#c9ccd1}
+.xp-p s{color:var(--mute)}
+.xp-p b{font:800 18px var(--f-d);color:var(--sig)}
+.xp-m{font:500 12px var(--f-m);color:var(--mute)}
+
+/* toasts sit above the chat launcher (and the phone price bar on listings) */
+.toast{bottom:92px}
+body.has-mbar .toast{bottom:170px}

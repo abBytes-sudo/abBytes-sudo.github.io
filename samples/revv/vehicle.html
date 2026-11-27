@@ -4,23 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Certified listing · Revv</title>
-<meta name="description" content="A certified pre-owned listing on Revv: a drag-to-rotate walk-around, the full 150-point inspection report, service history, EMI calculator and test-ride booking.">
+<meta name="description" content="A certified pre-owned listing on Revv: a drag-to-rotate walk-around, the full 150-point inspection report, service history, EMI calculator and test-drive and test-ride booking.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Revv"><meta property="og:title" content="Certified listing · Revv"><meta property="og:description" content="Drag to walk around it, read the 150-point report, book a test ride."><meta property="og:image" content="https://abbytes-sudo.github.io/samples/revv/og.jpg"><meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0A0B0D">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="preload" href="fonts/archivo-sub.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="revv.min.css?v=37">
+<link rel="stylesheet" href="revv.min.css?v=47">
+<link rel="stylesheet" href="trust.css?v=7">
 <link rel="stylesheet" href="../assets/back.css?v=2">
 <script src="../assets/vendor/gsap.min.js" defer></script>
 <script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="../assets/vendor/SplitText.min.js" defer></script>
 <script src="../assets/motion.js?v=1" defer></script>
-<script src="data.js?v=10" defer></script>
-<script src="app.js?v=7" defer></script>
-<script src="report.js?v=5" defer></script>
-<script src="vehicle.js?v=13" defer></script>
+<script src="data.js?v=11" defer></script>
+<script src="app.js?v=9" defer></script>
+<script src="report.js?v=6" defer></script>
+<script src="inspect-map.js?v=2" defer></script>
+<script src="odo.js?v=1" defer></script>
+<script src="vehicle.js?v=16" defer></script>
 <script src="../assets/back.js?v=1" defer></script>
 <script src="concierge.js?v=1" defer data-agent="revv" data-skin="concierge.css?v=1" data-brand="rv" data-title="Pit crew" data-sub="Revv · instant answers" data-label="Ask the pit crew" data-nudge="vehicle,listings,sell" data-v="3"></script>
 </head>
@@ -29,14 +32,14 @@
 <p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
 <header class="hdr solid">
   <a class="logo" href="index.html" aria-label="Revv, home"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" fill="#FF5B1F"/><path d="M8 24V8h9a5 5 0 0 1 1.6 9.7L23 24h-4.4l-3.9-6H12v6zM12 14.5h4.6a1.75 1.75 0 0 0 0-3.5H12z" fill="#0A0B0D"/></svg>Revv</a>
-  <nav class="nav" aria-label="Main"><a class="ul" href="listings.html">Buy</a><a class="ul" href="listings.html?type=bike">Superbikes</a><a class="ul" href="listings.html?type=car">Cars</a><a class="ul" href="sell.html">Sell</a><a class="ul" href="dealers.html">Dealers</a><a class="ul" href="dealer.html">Dealer login</a></nav>
+  <nav class="nav" aria-label="Main"><a class="ul" href="listings.html">Buy</a><a class="ul" href="listings.html?type=bike">Bikes</a><a class="ul" href="listings.html?type=car">Cars</a><a class="ul" href="sell.html">Sell</a><a class="ul" href="dealers.html">Dealers</a><a class="ul" href="for-dealers.html">For dealers</a><a class="ul" href="dealer.html">Dealer login</a></nav>
   <div class="hdr-r">
     <a class="pill" href="listings.html?saved=1" aria-label="Saved vehicles"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="n" data-count-wish hidden>0</span></a>
     <a class="btn sm" href="sell.html">Sell yours <span class="ar" aria-hidden="true">→</span></a>
     <button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
   </div>
 </header>
-<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="listings.html">Buy</a><a href="listings.html?type=bike">Superbikes</a><a href="listings.html?type=car">Cars</a><a href="sell.html">Sell</a><a href="dealers.html">Dealers</a><a href="dealer.html">Dealer login</a><a href="admin.html">Admin</a></nav></div>
+<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="listings.html">Buy</a><a href="listings.html?type=bike">Bikes</a><a href="listings.html?type=car">Cars</a><a href="sell.html">Sell</a><a href="dealers.html">Dealers</a><a href="for-dealers.html">For dealers</a><a href="dealer.html">Dealer login</a><a href="admin.html">Admin</a></nav></div>
 
 <main id="main">
   <div style="padding:24px var(--m) 0"><ol class="crumbs" id="crumbs"><li><a href="index.html">Revv</a></li><li><a href="listings.html">Buy</a></li></ol></div>
@@ -60,14 +63,15 @@
       </div>
       <div class="thumbs" id="thumbs"></div>
     </div>
-    <aside class="vd-side" id="side"></aside>
+    <aside class="vd-side" id="side"><div id="side-main" style="display:contents"></div><div id="onroad-slot" hidden></div><div id="exchange-slot" hidden></div><div id="share-slot" hidden></div></aside>
   </section>
 
   <section class="vsec ir" id="report" aria-labelledby="rep-h">
-    <div class="ir-head"><div><p class="idx">01 · Inspection report</p><h2 class="disp h3" id="rep-h" data-split>150 points, <span class="ser">in the open.</span></h2></div><div><p class="lead" id="ir-intro"></p><p class="ir-ctx" id="ir-ctx"></p></div></div>
+    <div class="ir-head"><div><p class="idx">01 · Inspection report</p><h2 class="disp h3" id="rep-h" data-split>150 points, <span class="ser tag">in the open.</span></h2></div><div><p class="lead" id="ir-intro"></p><p class="ir-ctx" id="ir-ctx"></p></div></div>
     <div class="ir-mini" id="ir-mini" aria-hidden="true"></div>
     <div class="ir-grid">
       <div class="ir-left"><div class="ir-sticky">
+        <div id="imap"></div>
         <figure class="ir-media" id="ir-media"><img id="ir-img" alt="" draggable="false"><span class="ir-hot" id="ir-hot" aria-hidden="true"><i></i><b id="ir-hot-l"></b></span></figure>
         <div class="ir-score" id="ir-score"><svg class="ir-ring" id="ir-ring" viewBox="0 0 200 200" role="img" aria-label="150 checkpoints, passed in ink, findings in orange"></svg><div class="ir-num"><b id="ir-n">0</b><span>of 150 passed</span><em id="ir-sub"></em></div><div class="ir-seal" id="ir-seal" aria-hidden="true"></div></div>
       </div></div>
@@ -85,13 +89,13 @@
 
   <section class="vsec" aria-labelledby="svc-h">
     <div class="vgrid">
-      <div class="l"><p class="idx">02 · History</p><h2 class="disp h3" id="svc-h" data-split>Every service, <span class="ser">stamped.</span></h2><p class="lead" style="margin-top:20px">We match each entry against the workshop's own records before a listing goes live.</p><dl class="facts" id="specs" style="margin-top:28px;grid-template-columns:1fr 1fr"></dl></div>
-      <div class="r"><ol class="svc" id="svc"></ol></div>
+      <div class="l"><p class="idx">02 · History</p><h2 class="disp h3" id="svc-h" data-split>Every service, stamped.</h2><p class="lead" style="margin-top:20px">We match each entry against the workshop's own records before a listing goes live.</p><dl class="facts" id="specs" style="margin-top:28px;grid-template-columns:1fr 1fr"></dl></div>
+      <div class="r"><figure id="odo-story"></figure><ol class="svc" id="svc"></ol></div>
     </div>
   </section>
 
   <section class="vsec" id="emi-sec" aria-labelledby="emi-h">
-    <p class="idx">03 · Finance</p><h2 class="disp h3" id="emi-h" data-split style="margin-bottom:32px">What it costs <span class="ser">a month.</span></h2>
+    <p class="idx">03 · Finance</p><h2 class="disp h3" id="emi-h" data-split style="margin-bottom:32px">What it costs a month.</h2>
     <div class="emi">
       <form id="emi">
         <div class="fld"><label for="e-down">Down payment <b id="e-downv" style="color:var(--bone)"></b></label><input type="range" id="e-down" min="10" max="60" step="5" value="20"></div>
@@ -103,7 +107,7 @@
   </section>
 
   <section class="vsec" id="book" aria-labelledby="book-h">
-    <p class="idx">04 · Test ride</p><h2 class="disp h3" id="book-h" data-split style="margin-bottom:32px">Pick a slot. <span class="ser">We'll have it warm.</span></h2>
+    <p class="idx">04 · Test ride</p><h2 class="disp h3" id="book-h" data-split style="margin-bottom:32px">Pick a slot. We'll have it warm.</h2>
     <div class="book">
       <div>
         <p class="k" id="days-l" style="margin-bottom:12px">Day</p><div class="days" id="days" role="group" aria-labelledby="days-l"></div>
@@ -126,7 +130,7 @@
   </section>
 
   <section class="vsec" aria-labelledby="sim-h">
-    <p class="idx">06 · Similar</p><h2 class="disp h3" id="sim-h" data-split style="margin-bottom:40px">Also <span class="ser">on the lot.</span></h2>
+    <p class="idx">06 · Similar</p><h2 class="disp h3" id="sim-h" data-split style="margin-bottom:40px">Also on the lot.</h2>
     <div class="grid" id="sim"></div>
   </section>
 </main>

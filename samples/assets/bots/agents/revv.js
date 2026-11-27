@@ -25,7 +25,14 @@
   function all() { var r = R(); return r ? r.listings().filter(function (l) { return l.status !== 'sold'; }) : []; }
   function byId(id) { var r = R(); return r && id ? r.byId(id) : null; }
   function title(l) { return l.year + ' ' + l.make + ' ' + l.model; }
-  function img(l) { return O.samples('revv/photos/' + l.img + '-s.jpg'); }
+  function img(l) { var r = R(); return O.samples('revv/' + (r ? r.img(l, true) : 'photos/' + l.img + '-s.jpg')); }
+  function shop() { var r = R(); return r && r.shop ? r.shop() : null; }
+  // the valuation table (revv/data.js MODELS): best match for free text, e.g. "my 2019 arka tez" -> ['car', ['Arka Tez 1.2', ...]]
+  function tableModel(t) {
+    var d = D(); if (!d || !d.MODELS) return null; var words = String(t).toLowerCase().replace(/[^a-z0-9. ]/g, ' ').split(/\s+/).filter(function (w) { return w.length > 1; }), best = null, bs = 0;
+    ['car', 'bike'].forEach(function (ty) { d.MODELS[ty].forEach(function (m) { var mw = m[0].toLowerCase().split(' '), sc = 0; mw.forEach(function (w, i) { if (words.indexOf(w) > -1) sc += i === 0 ? 2 : 3; }); if (sc >= 3 && (sc > bs || (sc === bs && mw.length < best[1][0].split(' ').length))) { bs = sc; best = [ty, m]; } }); });
+    return best;
+  }
   function card(l, btns) {
     var r = R(), d = r ? r.dealer(l.dealer) : { name: '' };
     return { title: title(l), sub: l.city + ' · ' + d.name, img: img(l), badge: l.score + '/150', price: inr(l.price) + (l.status === 'reserved' ? ' / reserved' : ''), priceLabel: 'ex-showroom',
@@ -65,6 +72,15 @@
   function takenSlots(l) { var r = R(); return r ? r.leads().filter(function (x) { return x.dealer === l.dealer && x.slot; }).map(function (x) { return x.slot; }) : []; }
   function go(bot, url, line) { bot.say(line || 'Opening it for you…', { delay: 250 }); try { sessionStorage.setItem('cg-reopen-revv', '1'); } catch (e) {} setTimeout(function () { location.href = O.samples('revv/' + url); }, 900); }
   function ctxListing(bot) { return byId(bot.ctx && bot.ctx.id) || byId(bot.mem.lastId); }
+  // put the valued trade-in (bot.mem.xval) against a listing: writes revv:exchange; the vehicle page repaints its price block
+  function xon(bot, id) {
+    var r = R(), l = byId(id), x = bot.mem.xval; if (!r || !l) return;
+    if (!x) { bot.startFlow('exchange', { name: bot.user.name, phone: bot.user.phone }); return; }
+    if (!bot.user.name || !bot.user.phone) { bot.mem.lastId = id; bot.startFlow('exchange', { model: x.modelName, year: x.year, km: x.km, cond: x.condition }); return; }
+    r.addExchange({ wantId: l.id, modelName: x.modelName, year: x.year, km: x.km, condition: x.condition, low: x.low, high: x.high, name: bot.user.name, contact: bot.user.phone });
+    var net = l.price - x.low, d = r.dealer(l.dealer); bot.mem.lastId = l.id;
+    bot.say('Done. On the **' + title(l) + '** you pay **' + inr(net) + '** after your ' + x.year + ' ' + x.modelName + ', about **' + inrFull(r.monthly(net)) + ' a month**. ' + d.name + ' has the request and confirms the final figure when they inspect yours (up to ' + inr(x.high) + ' if it’s as good as you say).', { buttons: [B('Open the listing', 'act:go:vehicle.html?id=' + l.id), B('Book a test ride', 'act:ride:' + l.id), B('That’s all, thanks', 'say:thanks')] });
+  }
 
   var MENU = [B('Find me a ride', 'flow:find'), B('Book a test ride', 'flow:ride'), B('Work out an EMI', 'flow:emi'), B('Value my vehicle', 'flow:sell'), B('Talk to the dealer', 'intent:dealer')];
   function dayButtons(n) { var out = [], now = new Date(); for (var i = 0; i < (n || 5); i++) { var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + i); if (i === 0 && now.getHours() >= 17) continue; out.push(B(i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : DN[d.getDay()] + ' ' + d.getDate(), 'slot:day=' + iso(d))); } return out.slice(0, 4); }
@@ -107,7 +123,7 @@
         bot.say(hi + ' Asking about the **' + title(l) + '**? It’s ' + reportLine(l) + ' ' + d.name + ' replies in about ' + (d.reply || '15 min') + '.', { buttons: [B('Book a test ride', 'act:ride:' + l.id), B('What did the inspection find?', 'act:report:' + l.id), B('EMI for this', 'act:emi:' + l.id), B('Similar for less', 'act:similar:' + l.id), B('Talk to ' + first(d.rep), 'intent:dealer')] }); return; }
       if (c.file === 'sell' || c.page === 'sell') { bot.say(hi + ' Selling? I can value it in three questions and book a free inspection at your place. Dealers bid within 48 hours.', { buttons: [B('Value my vehicle', 'flow:sell'), B('How does selling work?', 'say:how does selling work'), B('Something else', 'menu')] }); return; }
       if (c.file === 'dealer' || c.page === 'showroom' || c.file === 'showroom') { var dd = c.id && D() && D().dealers.filter(function (x) { return x.id === c.id; })[0]; if (dd) { bot.say(hi + ' You’re at **' + dd.name + '**, ' + dd.area + '. I can show what’s on their floor or book a ride.', { buttons: [B('What’s on the floor', 'act:floor:' + dd.id), B('Book a test ride', 'flow:ride'), B('Talk to ' + first(dd.rep), 'intent:dealer')] }); return; } }
-      bot.say(hi + ' Revv pit crew here. Every vehicle on Revv passed a **150-point inspection**, and the full report is public. Tell me what you’re after in one line, like “bike under 20 lakh, low km”.', { buttons: MENU });
+      var sh = shop(); bot.say(hi + (sh ? ' ' + sh.name + ' here. Every ' + R().shopNoun(sh, 1) + ' on our floor passed a **150-point inspection**' : ' Revv pit crew here. Every vehicle on Revv passed a **150-point inspection**') + ', and the full report is public. Tell me what you’re after in one line, like “' + (sh && sh.deals === 'cars' ? 'SUV under 15 lakh, automatic' : 'bike under 20 lakh, low km') + '”.', { buttons: MENU });
     },
     extract: function (text) {
       var e = {}, b = budget(text), ty = typeFrom(text), bd = bodyFrom(text), ct = cityFrom(text), d = dayFrom(text), ph = N.phone(text), nm = N.name(text);
@@ -124,7 +140,12 @@
         run: function (bot, m) { var l = ctxListing(bot); bot.startFlow('ride', { id: l ? l.id : undefined, day: m.ent.day, time: m.ent.time, name: m.ent.name || bot.user.name, phone: m.ent.phone || bot.user.phone }); } },
       { id: 'emi', label: 'EMI', kw: ['emi', 'loan', 'finance', 'monthly payment', 'down payment', 'interest rate'], priority: 1,
         run: function (bot) { var l = ctxListing(bot); bot.startFlow('emi', { price: l ? String(l.price) : undefined, id: l ? l.id : undefined }); } },
-      { id: 'sell', label: 'Sell my vehicle', kw: ['sell my', 'sell my bike', 'sell my car', 'valuation', 'what is my bike worth', 'resale', 'trade in', 'part exchange'], priority: 2,
+      { id: 'exchange', label: 'Exchange my vehicle', kw: ['exchange', 'exchange my', 'exchange it', 'exchange offer', 'exchange value', 'exchange mine', 'trade in', 'trade-in', 'part exchange', 'part-exchange', 'swap my', 'exchange karna', 'purani gaadi'], priority: 3,
+        run: function (bot, m) { var tm = tableModel(m.text); bot.startFlow('exchange', { model: tm ? tm[1][0] : undefined, year: m.ent.year, km: m.ent.km, name: bot.user.name, phone: bot.user.phone }); } },
+      { id: 'share', label: 'Share this', kw: ['share this', 'share it', 'send this', 'send it to', 'send to family', 'show my wife', 'show my husband', 'show my parents', 'show my family', 'whatsapp this', 'family ko', 'share link', 'share card', 'share karo'], priority: 2,
+        run: function (bot) { var l = ctxListing(bot); if (!l) { bot.say('Open any listing and ask me there: I’ll make a one-screen page for your family and a picture card for WhatsApp.', { buttons: [B('Find me a ride', 'flow:find')] }); return; }
+          bot.mem.lastId = l.id; bot.say('For the **' + title(l) + '** there’s a one-screen page your family can open on any phone: price, monthly figure, on-road cost and what the inspector found. “Send to family” under the price also makes a picture card and opens WhatsApp with the message ready; you choose the chat.', { buttons: [B('Open the family page', 'act:go:family.html?id=' + l.id), B('Make the share card', 'act:sharecard:' + l.id), B('Print a windscreen sheet', 'act:go:sticker.html?id=' + l.id)] }); } },
+      { id: 'sell', label: 'Sell my vehicle', kw: ['sell my', 'sell my bike', 'sell my car', 'valuation', 'what is my bike worth', 'resale'], priority: 2,
         run: function (bot, m) { bot.startFlow('sell', { model: modelFrom(m.text), year: m.ent.year, km: m.ent.km, city: m.ent.city }); } },
       { id: 'report', label: 'Inspection report', kw: ['inspection', 'report', 'what did the inspection find', 'advisory', 'advisories', 'any issues', 'problems', 'accident', 'repainted', 'paint', 'tyres', 'tyre', 'brakes', 'service history', 'condition', 'kaisi hai'], priority: 1,
         run: function (bot, m) { var l = ctxListing(bot); if (!l) { bot.say('Which vehicle? Open any listing and I’ll read its report, or pick one here:', { cards: all().slice(0, 4).map(function (x) { return card(x, [B('Read its report', 'act:report:' + x.id)]); }) }); return; } answerReport(bot, l, m.norm); } },
@@ -185,6 +206,23 @@
         bot.mem.val = { model: s.model, year: s.year, km: s.km, lo: lo, hi: hi };
         bot.say('A ' + s.year + ' **' + s.model + '** with ~' + Math.round(s.km).toLocaleString('en-IN') + ' km: dealers on Revv are paying **' + inr(lo) + '–' + inr(hi) + '** this week.' + (ref ? ' Based on ' + ref.year + ' ' + ref.make + ' ' + ref.model + ' sales, adjusted for age and km.' : ''), { cards: [{ title: inr(lo) + ' – ' + inr(hi), sub: s.year + ' ' + s.model + ' · ' + Math.round(s.km).toLocaleString('en-IN') + ' km', badge: 'Estimate', meta: ['Free 150-point inspection at your place', 'Bids from verified dealers within 48 h', 'Paid the same day you accept; RC handled'], buttons: [B('Book a free inspection', 'flow:inspect'), B('How does selling work?', 'say:how does selling work')] }] });
       } },
+      exchange: { intent: 'exchange', slots: [
+        { name: 'model', ask: function (bot) { var l = ctxListing(bot); bot.say('What are you trading in' + (l ? ' against the **' + title(l) + '**' : '') + '? Make and model, like “Arka Tez” or “Ashwa Rana 350”.'); }, parse: function (t) { var tm = tableModel(t); return tm ? tm[1][0] : modelFrom(t); } },
+        { name: 'year', ask: function (bot) { var y = new Date().getFullYear(); bot.say('Which year was it registered?', { buttons: [y - 1, y - 3, y - 5, y - 7, y - 9].map(function (v) { return B(String(v), 'slot:year=' + v); }) }); }, coerce: function (v) { return +v; }, parse: function (t) { var y = String(t).match(/\b(20[0-2]\d|19\d\d)\b/); return y ? +y[1] : undefined; }, validate: function (v) { if (v > new Date().getFullYear() || v < new Date().getFullYear() - 20) return 'Dealers take vehicles up to 20 years old. Which year?'; } },
+        { name: 'km', ask: function (bot) { bot.say('Roughly how many km?', { buttons: [B('Under 20,000', 'slot:km=12000'), B('20–50k', 'slot:km=35000'), B('50–90k', 'slot:km=70000'), B('90k+', 'slot:km=110000')] }); }, coerce: function (v) { return +v; }, parse: function (t) { var m = String(t).replace(/,/g, '').match(/(\d+(?:\.\d+)?)\s*(k|thousand)?/i); return m ? Math.round(+m[1] * (m[2] ? 1000 : 1)) : undefined; } },
+        { name: 'cond', ask: function (bot) { var d = D(); bot.say('Honestly, how is it? The inspection checks, so no need to round up.', { buttons: (d ? d.COND : []).map(function (c) { return B(c[1], 'slot:cond=' + c[0]); }) }); }, parse: function (t) { t = t.toLowerCase(); if (/showroom|mint|perfect|new/.test(t)) return 'showroom'; if (/good|fine|decent|theek/.test(t)) return 'good'; if (/fair|average|ok|wear/.test(t)) return 'fair'; if (/work|accident|bad|repair|kharab/.test(t)) return 'work'; } },
+        { name: 'name', when: function (bot) { return !bot.user.name; }, ask: function (bot) { bot.say('Your name, for the dealer?'); }, parse: function (t) { var n = N.name(t) || String(t).trim(); return n.length >= 2 && !/\d/.test(n) ? n.replace(/\b[a-z]/g, function (c) { return c.toUpperCase(); }).slice(0, 40) : undefined; } },
+        { name: 'phone', when: function (bot) { return !bot.user.phone; }, ask: function (bot, s) { bot.say('And a mobile number for ' + first(s.name || bot.user.name) + '? The dealer calls to book the inspection. It’s never shown publicly.'); }, parse: function (t) { return N.phone(t); }, validate: function (v) { var d = String(v).replace(/\D/g, '').replace(/^91(?=\d{10}$)/, ''); if (d.length !== 10 || !/^[6-9]/.test(d)) return 'Ten digits, starting 6–9, please.'; } }
+      ], done: function (bot, s) {
+        var r = R(), tm = tableModel(s.model), name = s.name || bot.user.name, phone = s.phone || bot.user.phone, v; bot.user.name = name; bot.user.phone = phone;
+        if (tm && r && r.valuate) v = r.valuate({ type: tm[0], model: tm[1], year: s.year, km: s.km, cond: s.cond });
+        if (!v) { var age = Math.max(0, new Date().getFullYear() - s.year), mid = (typeFrom(s.model) === 'bike' ? 120000 : 700000) * Math.pow(0.88, age); v = { lo: Math.round(mid * 0.94 / 1000) * 1000, hi: Math.round(mid * 1.06 / 1000) * 1000 }; }
+        bot.mem.xval = { modelName: tm ? tm[1][0] : s.model, year: s.year, km: s.km, condition: s.cond, low: v.lo, high: v.hi };
+        var l = ctxListing(bot);
+        if (l) { xon(bot, l.id); return; }
+        var pool = all().filter(function (x) { return x.status === 'live' && x.price > v.lo * 1.2; }).sort(function (a, b) { return Math.abs(a.price - v.lo * 2.2) - Math.abs(b.price - v.lo * 2.2); }).slice(0, 4);
+        bot.say('Your ' + s.year + ' **' + (tm ? tm[1][0] : s.model) + '** comes to **' + inr(v.lo) + '–' + inr(v.hi) + '** against anything on the floor. Pick one and I’ll put it on that price:', { cards: pool.map(function (x) { return card(x, [B('Put it against this', 'act:xon:' + x.id), B('Open the listing', 'act:go:vehicle.html?id=' + x.id)]); }) });
+      } },
       inspect: { slots: [
         { name: 'city', ask: function (bot) { bot.say('Which city? An inspector comes to you.', { buttons: ['Mumbai', 'Pune', 'Bengaluru', 'Delhi', 'Chennai', 'Hyderabad'].map(function (c) { return B(c, 'slot:city=' + c); }) }); }, parse: function (t) { return cityFrom(t) || (String(t).trim().length > 2 ? String(t).trim().replace(/\b[a-z]/g, function (c) { return c.toUpperCase(); }) : undefined); } },
         { name: 'day', ask: function (bot) { bot.say('Which day works? Inspections take about an hour.', { buttons: dayButtons(4).filter(function (b) { return b.label !== 'Today'; }) }); }, parse: function (t) { return dayFrom(t); } },
@@ -203,7 +241,13 @@
       report: function (bot, id) { var l = byId(id); if (l) { bot.mem.lastId = id; answerReport(bot, l, ''); } },
       similar: function (bot, id) { var l = byId(id); if (!l) return; var L = all().filter(function (x) { return x.id !== l.id && x.type === l.type && x.price < l.price; }).sort(function (a, b) { return b.price - a.price; }).slice(0, 4); bot.say(L.length ? 'Same kind of ride, for less:' : 'This is already the most affordable of its kind on Revv right now.', { cards: L.map(function (x) { return card(x); }) }); },
       floor: function (bot, id) { var L = all().filter(function (l) { return l.dealer === id; }); bot.say(L.length + ' on the floor right now:', { cards: L.map(function (x) { return card(x); }) }); },
-      go: function (bot, url) { go(bot, url); }
+      go: function (bot, url) { go(bot, url); },
+      xon: function (bot, id) { xon(bot, id); },
+      sharecard: function (bot, id) {
+        var b = document.querySelector('#share-slot[data-id="' + id + '"] [data-sh]');
+        if (b) { if (b.getAttribute('aria-expanded') !== 'true') b.click(); setTimeout(function () { b.scrollIntoView({ block: 'center', behavior: 'smooth' }); }, 60); bot.say('Done: it’s open under the price. Download the card, or send it on WhatsApp with the message ready.'); return; }
+        go(bot, 'vehicle.html?id=' + id + '#share', 'Opening the listing with the card ready…');
+      }
     },
     freeText: function (bot, m) { var e = m.ent; if (e.max || e.min || (e.type && /\b(under|below|budget|show|find|want|chahiye)\b/i.test(m.text))) { bot.startFlow('find', { type: e.type || 'any', max: e.max || 0, min: e.min, body: e.body, city: e.city, lowkm: e.lowkm }); return true; } },
     kb: [
@@ -214,7 +258,7 @@
       { id: 'banks', q: 'Which banks finance?', a: 'Dealers work with the major banks and NBFCs. Rates on pre-owned vehicles usually run **9.5–12.5%**, up to 5 years, with 10–20% down. I can work out the EMI for any listing.', keys: ['which bank', 'bank loan', 'finance options', 'loan approval', 'credit score', 'cibil'], buttons: [B('Work out an EMI', 'flow:emi')] },
       { id: 'licence', q: 'What do I need for a test ride?', a: 'A valid driving licence for the vehicle class (motorcycle or car), and a helmet for bikes (the dealer has spares). Riders under 21 can test ride bikes up to 650cc.', keys: ['what do i need', 'licence', 'license', 'helmet', 'documents for test ride', 'age for test ride'] },
       { id: 'home', q: 'Do you do home test rides?', a: 'Most dealers bring the vehicle to you within their city at no charge. Pick “Home ride” when you book.', keys: ['home test ride', 'home test drive', 'at my place', 'doorstep', 'ghar pe'], buttons: [B('Book a test ride', 'flow:ride')] },
-      { id: 'exchange', q: 'Do you take part-exchange?', a: 'Yes. Get an instant valuation here, then the dealer adjusts it against the price after the inspection.', keys: ['part exchange', 'exchange', 'trade in', 'my old bike', 'purana'], buttons: [B('Value my vehicle', 'flow:sell')] },
+      { id: 'exchange', q: 'Do you take part-exchange?', a: 'Yes, on any listing. Tell me what you have and I’ll put a range on it in four questions; on a listing page, the price then shows what you pay after it. The dealer confirms the figure at inspection.', keys: ['do you take exchange', 'exchange policy', 'my old bike', 'my old car', 'purana'], buttons: [B('Exchange my vehicle', 'flow:exchange')] },
       { id: 'reserve', q: 'Can I reserve a vehicle?', a: 'Tell the dealer and they’ll mark it **Reserved** for 48 hours while your finance is approved. No money changes hands in this chat.', keys: ['reserve', 'hold it', 'book it', 'token amount', 'booking amount', 'advance'] },
       { id: 'pay', q: 'How do I pay?', a: 'You pay the dealer directly, by bank transfer or through your loan, after the test ride and paperwork. Revv never asks for card numbers or OTPs in chat.', keys: ['how to pay', 'payment', 'upi', 'card', 'cash', 'pay online'] },
       { id: 'deliver', q: 'Can you deliver to another city?', a: 'Yes. Dealers ship by enclosed carrier: usually **₹6,000–15,000** for bikes and **₹15,000–35,000** for cars, 3–7 days, insured in transit.', keys: ['deliver', 'delivery', 'ship', 'another city', 'outstation', 'transport'] },
