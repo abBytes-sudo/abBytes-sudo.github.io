@@ -3,84 +3,288 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Real Estate Platform — public website · Abhishek M</title>
-<meta name="description" content="Plain-English search, a colony price guide and Roofie, a scripted enquiry assistant. Engaged visitors from Google search grew from 26 to 103 a week (W38 → W44, 14 Sep – 1 Nov 2026).">
+<title>A property site you search the way you talk · Real Estate Platform case study · Abhishek M</title>
+<meta name="description" content="A Delhi brokerage’s website that reads a typed sentence as filters. Engaged visitors from Google search grew from 26 to 103 a week (W38 → W44, 14 Sep – 1 Nov 2026).">
 <link rel="canonical" href="https://abbytes-sudo.github.io/projects/real-estate-website.html">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#101114">
+<meta name="theme-color" content="#0f1830">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=Instrument+Serif:ital@0;1&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&amp;family=DM+Sans:wght@400;600&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261107a">
-<link rel="stylesheet" href="../assets/project.css?v=20261107a">
+<link rel="preload" href="../next-home/hfonts/inter-tight-latin-normal-7.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="cs/cs.css?v=5">
+<link rel="stylesheet" href="cs/real-estate-website.css?v=1">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Abhishek M">
 <meta property="og:locale" content="en_IN">
-<meta property="og:title" content="Real Estate Platform — public website">
-<meta property="og:description" content="Plain-English search, a colony price guide and Roofie, a scripted enquiry assistant. Engaged visitors from Google search grew from 26 to 103 a week (W38 → W44, 14 Sep – 1 Nov 2026).">
+<meta property="og:title" content="A property site you search the way you talk">
+<meta property="og:description" content="Type a sentence, get filters and homes. On Google’s first page for rent searches in five South Delhi localities within 30 days of the relaunch.">
 <meta property="og:url" content="https://abbytes-sudo.github.io/projects/real-estate-website.html">
 <meta property="og:image" content="https://abbytes-sudo.github.io/assets/og-2026-11.jpg">
-<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Abhishek’s Portfolio: Abhishek M, Operations &amp; CRM Lead. I don’t build screens. I design systems.">
+<meta property="og:image:alt" content="Abhishek M builds systems for businesses: CRMs, back offices and websites.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Real Estate Platform — public website">
-<meta name="twitter:description" content="Plain-English search, a colony price guide and Roofie, a scripted enquiry assistant. Engaged visitors from Google search grew from 26 to 103 a week (W38 → W44, 14 Sep – 1 Nov 2026).">
-<meta name="twitter:image" content="https://abbytes-sudo.github.io/assets/og-2026-11.jpg">
-<meta name="twitter:image:alt" content="Abhishek M, Operations &amp; CRM Lead, New Delhi">
-<script src="../assets/site.js?v=20261107a" defer></script>
-<script src="../assets/home.js?v=20261107a" defer></script>
+<script src="cs/cs.js?v=5" defer></script>
+<script src="cs/rew-search-data.js?v=1" defer></script>
+<script src="cs/rew-search.js?v=1" defer></script>
+<script src="cs/chat-replay.js?v=1" defer></script>
 </head>
-<body class="p02">
-<a class="skip" href="#main">Skip to content</a>
-<header class="hd" id="hd">
-  <a class="hd-mark" href="../index.html" aria-label="Abhishek’s Portfolio, home"><span class="hd-dot" aria-hidden="true"></span>Abhishek’s Portfolio</a>
-  <nav class="hd-nav" aria-label="Primary">
-    <a href="../index.html#about">About</a><a href="../index.html#achievements">Achievements</a><a href="../index.html#work">Work</a><a href="../index.html#services">Services</a><a href="../lab.html">3D Lab</a>
-  </nav>
-  <a class="hd-cta" href="../index.html#contact"><span class="pulse" aria-hidden="true"></span>Open to work</a>
+<body class="cs-rew">
+<a class="skip" href="#main">Skip to the case study</a>
+<header class="top">
+  <a class="who" href="../index.html">Abhishek M</a>
+  <nav aria-label="Site"><a href="../index.html#work">Work</a><a href="../lab.html">3D Lab</a><a href="../index.html#how">How I work</a><a href="../index.html#contact">Contact</a></nav>
+  <a class="go" href="../index.html#contact">Start a project</a>
 </header>
+
 <main id="main">
-<section class="ground p-hero" aria-labelledby="title"><div class="wrap">
-<div class="crumb"><nav aria-label="Breadcrumb"><a href="../index.html#work">Work</a> / <span aria-current="page">02</span></nav><div class="keys cur" aria-hidden="true"><span class="key k1"><i></i></span><span class="key k2 on"><i></i></span><span class="key k3"><i></i></span><span class="key k4"><i></i></span><span class="key k5"><i></i></span><span class="key k6"><i></i></span><span class="key k7"></span></div></div>
-<div class="hero-grid"><div><p class="p-eyebrow">Case study 02 · Public website</p>
-<h1 class="p-h1" id="title">Real Estate Platform<span class="sub">public website</span></h1>
-<p class="searchbar" aria-hidden="true"><span>/search?q=</span>3 bhk in vasant vihar under 1.5 lakh</p><p class="p-sum">A Delhi brokerage’s property site, built around how people search: type a sentence, check a colony’s price band, or ask Roofie, a scripted enquiry assistant. Relaunched in Sep 2026 alongside its new self-hosted CRM.</p><div class="hnums"><div><p class="n-m">6,564</p><p class="st-l">active listings on the site</p><p class="stamp" data-k="2">6 Nov 2026</p></div><div><p class="n-m">20</p><p class="st-l">organic listing enquiries</p><p class="stamp" data-k="2">9 Sep → 6 Nov 2026</p></div><div><p class="n-m">26&nbsp;→&nbsp;103</p><p class="st-l">engaged visitors from Google search a week</p><p class="stamp" data-k="2">W38 → W44 · 14 Sep – 1 Nov 2026</p></div></div>
-<div class="btns stack"><a class="btn sec" href="https://github.com/abBytes-sudo/real-estate-listings-website-showcase">Full project showcase on GitHub</a><a class="btn sec" href="mailto:abhimasih0505@gmail.com?subject=Case%20study%20request%3A%20Real%20Estate%20Platform%20%E2%80%94%20public%20website&amp;body=Hi%20Abhishek%2C%20could%20you%20send%20me%20the%20case%20study%20PDF%20for%20Real%20Estate%20Platform%20%E2%80%94%20public%20website%3F%20Thanks.">Request the case study (PDF)</a></div></div>
-<dl class="facts"><div><dt>Status</dt><dd><b>Live</b> for a Delhi real estate agency with its own online platform, since the 9 Sep 2026 relaunch</dd></div><div><dt>My role</dt><dd>Product owner, AI-assisted build. I set the requirements and made the product decisions; AI coding tools write the code under my direction, and I test every change. Earlier versions of the site were built by outside teams I coordinated.</dd></div><div><dt>Built with</dt><dd>Laravel · Livewire · MySQL, one codebase with the CRM</dd></div><div><dt>Integrations</dt><dd>Meta Pixel and Meta Conversions API · Google Search Console API · email · Knowlarity IVR and DLT SMS through the shared CRM</dd></div><div><dt>Roofie</dt><dd>A scripted, rule-based enquiry assistant, not AI</dd></div></dl></div>
-</div></section>
-<div class="p-body">
-<div class="wrap hero-fig"><div class="pair"><figure class="shot d"><a class="frame zoom" href="../img/real-estate-website/web-search-results.webp"><img src="../img/real-estate-website/web-search-results.webp" srcset="../img/real-estate-website/web-search-results-800.webp 800w, ../img/real-estate-website/web-search-results.webp 1600w" sizes="(min-width:1440px) 900px, (min-width:1024px) 68vw, calc(100vw - 32px)" width="1600" height="904" alt="Search results on desktop for &quot;3 bhk in vasant vihar under 1.5 lakh&quot;: 3 BHK listings in Vasant Vihar with the Roofie panel beside them" decoding="async" loading="eager" fetchpriority="high"></a><figcaption><span class="fig">FIG. 01</span>Search, desktop: one typed sentence, read as filters, with Roofie open beside the results.</figcaption></figure><figure class="shot p"><a class="phone zoom" href="../img/real-estate-website/web-m-roofie.webp"><img src="../img/real-estate-website/web-m-roofie.webp" width="640" height="1385" alt="Roofie chat on a phone: a visitor types a 3 BHK brief for Vasant Vihar and Roofie replies with the top live matches" decoding="async" loading="eager" fetchpriority="high"></a><figcaption><span class="fig">FIG. 02</span>Roofie on a phone: a typed brief becomes matches from live stock.</figcaption></figure></div></div>
-<section class="psec first" id="summary" aria-labelledby="summary-h"><div class="wrap"><div class="rail sep"><div><p class="rail-l" aria-hidden="true">01 · In short</p></div><div class="rail-r"><h2 class="h2" id="summary-h"><span class="sr-only">01 · In short: </span>What’s there? What’s fair? <em>Who do I talk to?</em></h2><div class="prose"><p>Renters arrive with the same three questions. The brokerage was relaunching its website alongside its new CRM, and visitors don’t think in dropdowns. They type a sentence, want to know what’s fair, and want a person when they ask for one, even after hours.</p></div></div></div></div></section>
-<section class="psec" id="what" aria-labelledby="what-h"><div class="wrap"><div class="rail sep"><div><h2 class="rail-l" id="what-h">02 · What it does</h2></div><div class="rail-r"><ul class="cards"><li class="card"><h3>Plain-English search</h3><p>One box takes a whole sentence; bedrooms, colony and budget become filters you can remove.</p></li><li class="card"><h3>Price guide</h3><p>Rent and sale bands, with gross yield, by colony; a market report shows its working.</p></li><li class="card"><h3>Roofie</h3><p>A scripted assistant that shows matches, quotes a price band, saves a search, requests a visit, takes an enquiry and hands over to a person.</p></li><li class="card"><h3>Listing pages that say what was checked</h3><p>When each fact was verified, the building’s other units, and a sticky Enquire bar on phones.</p></li><li class="card"><h3>Compare and shortlists</h3><p>Up to four listings side by side, plus advisor shortlists shared as one link.</p></li><li class="card"><h3>Customer dashboard</h3><p>Signed in with a phone number and a one-time code, no password; saved homes, enquiries, visits and new matches.</p></li><li class="card"><h3>List your property</h3><p>Owners submit a property on the site; the desk checks it before it’s listed.</p></li><li class="card"><h3>Locality guides and journal</h3><p>Written guides for 77 colonies, and a journal of blog and news posts, 37 published (6 Nov 2026).</p></li></ul></div></div></div></section>
-<section class="psec" id="different" aria-labelledby="different-h"><div class="wrap"><div class="rail sep"><div><h2 class="rail-l" id="different-h">03 · What makes it different</h2></div><div class="rail-r"><ol class="diff"><li><div><b>Read plain English.</b> “3 bhk in vasant vihar under 1.5 lakh” becomes a Vasant Vihar chip plus bedroom and budget filters, each one removable.</div></li><li><div><b>Filtered lists are the landing pages.</b> A search such as “3 BHK for rent in Vasant Vihar” is itself the landing page, with its own title and Google tags, so there is no second set of pages to maintain. 599 such locality × type pages sit among the 7,474 sitemap URLs built from live stock.<p class="stamp" data-k="2">6 Nov 2026</p></div></li><li><div><b>Show what’s fair.</b> Rent and sale bands, with gross yield, by colony, from a pricing matrix the team maintains, not an average of asking prices.</div></li><li><div><b>Scripted by design.</b> Roofie is a scripted, rule-based enquiry assistant, not AI: no external API and no LLM, as the brokerage asked. Any thread can pass to a person.</div></li><li><div><b>Channel ≠ capture.</b> A visitor who googled, then used Roofie, reads “Google search” + “Roofie”, so search gets credit for the lead.</div></li><li><div><b>One copy of every listing.</b> The site reads straight from the CRM’s inventory, with a publish switch on each listing, so there’s nothing to keep in sync, and a home that’s been let or sold can’t be published.</div></li></ol></div></div></div></section>
-<section class="psec" id="configure" aria-labelledby="configure-h"><div class="wrap"><div class="rail sep"><div><p class="rail-l" aria-hidden="true">04 · What the business can configure</p></div><div class="rail-r"><h2 class="h2" id="configure-h"><span class="sr-only">04 · What the business can configure: </span>Run from the CRM, <em>without a developer.</em></h2><dl class="dl"><div><dt>Listings</dt><dd>Each listing has a publish switch in the CRM; publish refuses a let or sold home.</dd></div><div><dt>Homepage</dt><dd>The headline, photo and stat bar are edited in the CRM.</dd></div><div><dt>Search shorthand</dt><dd>“DC” for Defence Colony is a synonym row admins edit in the CRM, with no code change.</dd></div><div><dt>Roofie’s answers</dt><dd>Paperwork and viewing questions are answered from the FAQ the team edits in the CRM, so editing an answer changes Roofie’s reply.</dd></div><div><dt>Locality guides</dt><dd>Guides the team writes in the CRM (notes, nearby places and photos), 77 on 6 Nov 2026; map, prices and live listings are added automatically.</dd></div><div><dt>Journal</dt><dd>Staff draft, schedule or publish, with each post’s category, cover and featured flag.</dd></div><div><dt>The rest of the site</dt><dd>Homepage, new pages from ready-made blocks, menus, footer and FAQ, under separate permissions.</dd></div></dl></div></div></div></section>
-<section class="psec" id="screens" aria-labelledby="screens-h"><div class="wrap">
-<div class="rail sep"><div><h2 class="rail-l" id="screens-h">05 · Key screens</h2></div><div class="rail-r"><p class="caption disc">Screens are white-labelled, with client details masked, unless marked live.</p></div></div>
-<div class="sgroup"><h3><span>01</span>Search</h3><div class="pair"><figure class="shot d"><a class="frame zoom" href="../img/real-estate-website/web-search-chips.webp"><img src="../img/real-estate-website/web-search-chips.webp" srcset="../img/real-estate-website/web-search-chips-800.webp 800w, ../img/real-estate-website/web-search-chips.webp 1600w" sizes="(min-width:1440px) 900px, (min-width:1024px) 68vw, calc(100vw - 32px)" width="1600" height="829" alt="Search page with a Vasant Vihar colony chip, removable filters and matching 3 BHK listings" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 03</span>The colony chip, applied filters you can clear, then the matching homes.</figcaption></figure><figure class="shot p"><a class="phone zoom" href="../img/real-estate-website/web-m-search.webp"><img src="../img/real-estate-website/web-m-search.webp" width="620" height="1060" alt="The same search on a phone: one search bar, a filters control and listing cards" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 04</span>The same search on a phone, filters folded into a single control.</figcaption></figure></div><figure class="shot d tall"><a class="frame zoom" href="../img/real-estate-website/web-home-search.webp"><img src="../img/real-estate-website/web-home-search.webp" srcset="../img/real-estate-website/web-home-search-800.webp 800w, ../img/real-estate-website/web-home-search.webp 1000w" sizes="(min-width:1024px) 640px, calc(100vw - 32px)" width="1000" height="947" alt="Home page search box with example searches to tap underneath" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 05</span>Home: one box, worked examples to tap, and classic filters one link away. The headline, photo and stat bar are edited in the CRM.</figcaption></figure></div><div class="sgroup"><h3><span>02</span>Pages from live stock</h3><figure class="shot d"><a class="frame zoom" href="../img/real-estate-website/web-landing-3bhk.webp"><img src="../img/real-estate-website/web-landing-3bhk.webp" srcset="../img/real-estate-website/web-landing-3bhk-800.webp 800w, ../img/real-estate-website/web-landing-3bhk.webp 1600w" sizes="(min-width:1440px) 1200px, (min-width:1024px) 87vw, calc(100vw - 32px)" width="1600" height="866" alt="Landing page for 3 BHK homes in Chittaranjan Park, noting few matches and showing nearby listings" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 06</span>A locality × type landing page with few matches says so, then shows nearby stock.</figcaption></figure></div><div class="sgroup"><h3><span>03</span>Price guide</h3><div class="pair"><figure class="shot d"><a class="frame zoom" href="../img/real-estate-website/web-price-guide.webp"><img src="../img/real-estate-website/web-price-guide.webp" srcset="../img/real-estate-website/web-price-guide-800.webp 800w, ../img/real-estate-website/web-price-guide.webp 1600w" sizes="(min-width:1440px) 900px, (min-width:1024px) 68vw, calc(100vw - 32px)" width="1600" height="1062" alt="Price guide page: market headline figures and colony cards with rent and sale bands" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 07</span>Price guide: headline market figures, then one card per colony with rent band, sale band and gross yield.</figcaption></figure><figure class="shot p"><a class="phone zoom" href="../img/real-estate-website/web-m-price-guide.webp"><img src="../img/real-estate-website/web-m-price-guide.webp" width="640" height="1130" alt="The price guide on a phone: headline figures and the first colony card" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 08</span>The price guide on a phone.</figcaption></figure></div></div><div class="sgroup"><h3><span>04</span>Roofie</h3><div class="phones"><figure class="shot p wide"><a class="frame plain zoom" href="../img/real-estate-website/web-roofie-listing.webp"><img src="../img/real-estate-website/web-roofie-listing.webp" width="880" height="1270" alt="Roofie opened on a listing: the listing card, an enquiry sent, and buttons to check availability, request details, WhatsApp or call" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 09</span>On a listing, Roofie opens on the home being viewed and offers availability, details, WhatsApp or a call.</figcaption></figure><figure class="shot p"><a class="phone zoom" href="../img/real-estate-website/web-m-crm-inbox.webp"><img src="../img/real-estate-website/web-m-crm-inbox.webp" width="620" height="1342" alt="The same Roofie chat in the CRM inbox on a phone, with a Take over button" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 10</span>In the CRM inbox, the desk takes over the same chat in one tap.</figcaption></figure></div></div><div class="sgroup"><h3><span>05</span>Listings &amp; account</h3><div class="pair"><figure class="shot d"><a class="frame zoom" href="../img/real-estate-website/web-listing-page.webp"><img src="../img/real-estate-website/web-listing-page.webp" srcset="../img/real-estate-website/web-listing-page-800.webp 800w, ../img/real-estate-website/web-listing-page.webp 1600w" sizes="(min-width:1440px) 900px, (min-width:1024px) 68vw, calc(100vw - 32px)" width="1600" height="928" alt="Property page on desktop: photo gallery, price, verified details and the Roofie panel" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 11</span>Property page: gallery, Enquire / Save / Share, the details the team verified on the ground, and Roofie already on this listing.</figcaption></figure><figure class="shot p"><a class="phone zoom" href="../img/real-estate-website/web-m-listing-page.webp"><img src="../img/real-estate-website/web-m-listing-page.webp" width="600" height="1298" alt="The same property page on a phone: price, a &#x27;Verified by our team&#x27; badge and a sticky Enquire bar" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 12</span>The same listing on a phone: price, “Verified by our team” and a sticky Enquire bar.</figcaption></figure></div><div class="pair"><figure class="shot d"><a class="frame zoom" href="../img/real-estate-website/web-compare.webp"><img src="../img/real-estate-website/web-compare.webp" srcset="../img/real-estate-website/web-compare-800.webp 800w, ../img/real-estate-website/web-compare.webp 1600w" sizes="(min-width:1440px) 900px, (min-width:1024px) 68vw, calc(100vw - 32px)" width="1600" height="592" alt="Compare page on desktop: two 3 BHK listings side by side with configuration, built-up area, floor, furnishing and locality rows, each with an Enquire button" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 13</span>Compare: up to four listings side by side, with a Floor row, each an Enquire tap away.</figcaption></figure><figure class="shot p"><a class="phone zoom" href="../img/real-estate-website/web-m-dashboard.webp"><img src="../img/real-estate-website/web-m-dashboard.webp" width="620" height="874" alt="The customer dashboard on a phone: tiles for saved properties, open enquiries, visits booked and new matches" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 14</span>Customer dashboard on a phone: saved homes, open enquiries, visits and new matches, read from the person’s CRM record.</figcaption></figure></div></div>
-</div></section>
-<section class="dark results-p" id="results" aria-labelledby="results-h"><div class="wrap">
-<div class="sec-head"><p class="eyebrow">06 · Results, dated</p><h2 class="h2" id="results-h">Found on Google <em>within a month.</em></h2></div>
-<figure class="chart c02" aria-labelledby="c02-h"><div class="ch-head"><h3 id="c02-h">Engaged visitors from Google search per week</h3><p class="stamp" data-k="2">First-party tracker · IST weeks · part weeks pale · 11 Sep – 6 Nov 2026</p></div><div class="bars" aria-hidden="true"><div class="bar pale"><span class="v">3</span><span class="b"></span></div><div class="bar"><span class="v">26</span><span class="b"></span></div><div class="bar"><span class="v">34</span><span class="b"></span></div><div class="bar"><span class="v">41</span><span class="b"></span></div><div class="bar"><span class="v">89</span><span class="b"></span></div><div class="bar"><span class="v">77</span><span class="b"></span></div><div class="bar"><span class="v">79</span><span class="b"></span></div><div class="bar hi"><span class="v">103</span><span class="b"></span></div><div class="bar pale"><span class="v">47</span><span class="b"></span></div></div><div class="xax" aria-hidden="true"><span>W37<br>part week</span><span>W38</span><span>W39</span><span>W40</span><span>W41</span><span>W42</span><span>W43</span><span>W44</span><span>W45<br>part week</span></div><div class="sr-only"><table><caption>Engaged visitors from Google search per week, first-party tracker, IST weeks 37 to 45 of 2026; week 37 (11–13 Sep) and week 45 (2–6 Nov) are part weeks</caption><thead><tr><th scope="col">Week</th><th scope="col">Count</th></tr></thead><tbody><tr><th scope="row">W37 (part week)</th><td>3</td></tr><tr><th scope="row">W38</th><td>26</td></tr><tr><th scope="row">W39</th><td>34</td></tr><tr><th scope="row">W40</th><td>41</td></tr><tr><th scope="row">W41</th><td>89</td></tr><tr><th scope="row">W42</th><td>77</td></tr><tr><th scope="row">W43</th><td>79</td></tr><tr><th scope="row">W44</th><td>103</td></tr><tr><th scope="row">W45 (part week)</th><td>47</td></tr></tbody></table></div></figure><ul class="sgrid"><li><p class="n">~27,000</p><p class="st-l">Google search impressions in 23 days, about 2.7× the daily rate of the first month after the relaunch (Search Console, includes brand searches)</p><p class="stamp" data-k="2">14 Oct – 5 Nov 2026</p></li><li><p class="n">26&nbsp;→&nbsp;103</p><p class="st-l">engaged visitors from Google search a week, within two months of the relaunch</p><p class="stamp" data-k="2">W38 → W44 · 14 Sep – 1 Nov 2026</p></li><li><p class="n">Page 1</p><p class="st-l">on Google for rent searches in 5 key South Delhi localities, within 30 days of the relaunch (Search Console + manual checks)</p><p class="stamp" data-k="2">Sep–Oct 2026</p></li><li><p class="n">499</p><p class="st-l">engaged visitors from Google search since 11 Sep, averaging 5 min 35 s each; 82 landed on listing pages</p><p class="stamp" data-k="2">11 Sep – 6 Nov 2026</p></li><li><p class="n">43%</p><p class="st-l">of engaged visitors came from Google search (375 of 880), up from 22% in the 30 days to 23 Oct</p><p class="stamp" data-k="2">30 days to 6 Nov 2026</p></li><li><p class="n">6,467</p><p class="st-l">site searches since 11 Sep; searches naming a colony also feed the verification desk’s list of where to check next</p><p class="stamp" data-k="2">To 6 Nov 2026</p></li><li><p class="n">32</p><p class="st-l">website &amp; Roofie leads (22 Roofie property enquiries, 8 Roofie chats, 2 website forms); 30 organic, 12 from Google search; 17 of 32 (53%) now qualified</p><p class="stamp" data-k="2">9 Sep – 6 Nov 2026</p></li><li><p class="n">20</p><p class="st-l">organic enquiries about a specific listing, all through Roofie on the listing page; 11 arrived from Google search</p><p class="stamp" data-k="2">9 Sep – 6 Nov 2026</p></li><li><p class="n">101 <small>of 119</small></p><p class="st-l">Roofie chats never needed an agent (85%); 35 became or joined an enquiry</p><p class="stamp" data-k="2">7 Sep – 6 Nov 2026</p></li><li><p class="n">7,474</p><p class="st-l">URLs in the sitemap: 6,561 listing pages, 599 locality × type landing pages, 163 hubs, 77 locality guides, 41 agency pages, 33 journal &amp; site pages</p><p class="stamp" data-k="2">6 Nov 2026</p></li><li><p class="n">11</p><p class="st-l">owner submissions since the form went live: 6 listed, 4 dropped, 1 new; a working supply channel, not a growth claim</p><p class="stamp" data-k="2">20 Sep – 6 Nov 2026</p></li></ul><p class="caption src">Counted by the site’s own tracker (live since 11 Sep 2026), which filters known bots, burst crawlers and signed-in staff; Google figures count engaged visitors only. Total visitor, pageview and raw Google visitor counts are not quoted, because automated traffic still inflates them. Lead figures come from the CRM’s read-only query of 6 Nov 2026, about 2 months after go-live (9 Sep – 6 Nov): across every channel, 147 of 496 new leads were organic by source (not from paid ads or portals; 145 not linked to any ad), and only the 30 organic website and Roofie leads (12 from Google search) are website-attributable.</p>
-</div></section>
-<section class="psec" id="built" aria-labelledby="built-h"><div class="wrap"><div class="rail sep"><div><p class="rail-l" aria-hidden="true">07 · How it was built</p></div><div class="rail-r"><h2 class="h2" id="built-h"><span class="sr-only">07 · How it was built: </span>Same codebase as the CRM, <em>built AI-assisted.</em></h2><div class="prose"><ol class="flow" data-n="4"><li>Requirements and product decisions.<span>I gathered what the desk and visitors needed and made the calls.</span></li><li>Built with AI coding tools.<span>I directed the tools and tested every change before it shipped.</span></li><li>Shipped with the CRM.<span>Site and self-hosted CRM replaced a 12-seat subscription CRM in 3 months (Jun–Sep 2026); production cutover 9 Sep 2026. I ran go-live and training.</span></li><li>Before this version.<span>Earlier versions of the site were built by outside teams I coordinated.</span></li></ol><p class="stackline"><b>Stack</b>Laravel · Blade + Livewire · MySQL · same codebase as the CRM</p></div></div></div></div></section>
-<section class="psec" id="links" aria-labelledby="links-h"><div class="wrap">
-<div class="rail sep"><div><h2 class="rail-l" id="links-h">08 · Links &amp; PDF</h2></div>
-<div class="rail-r"><div class="links-grid"><div><ul class="llist"><li><span class="label">Project showcase</span><a href="https://github.com/abBytes-sudo/real-estate-listings-website-showcase">github.com/abBytes-sudo/real-estate-listings-website-showcase</a></li><li><span class="label">Where the leads go</span><a href="real-estate-crm.html">Case study 01 · Real Estate Platform — CRM &amp; operations</a></li></ul></div><div class="pdf-card"><div class="thumb"><img src="../img/cards/card-02-480.webp" srcset="../img/cards/card-02-480.webp 480w, ../img/cards/card-02.webp 960w" sizes="(min-width:1024px) 460px, calc(100vw - 64px)" width="480" height="270" alt="Cover page of case study 02: Real Estate Platform — public website" loading="lazy" decoding="async"></div>
-<div><h3>Real Estate Platform — public website · case study</h3><p class="meta">PDF · 20 pages · sent by email on request</p></div>
-<a class="btn" href="mailto:abhimasih0505@gmail.com?subject=Case%20study%20request%3A%20Real%20Estate%20Platform%20%E2%80%94%20public%20website&amp;body=Hi%20Abhishek%2C%20could%20you%20send%20me%20the%20case%20study%20PDF%20for%20Real%20Estate%20Platform%20%E2%80%94%20public%20website%3F%20Thanks.">Request the case study (PDF)</a></div></div></div></div>
-</div></section>
-<nav class="wrap" aria-label="More case studies"><div class="pn">
-<a href="real-estate-crm.html" rel="prev"><span class="label">← Previous · 01</span><span class="t">Real Estate Platform — CRM &amp; operations</span></a>
-<a href="interiors-crm-erp.html" rel="next"><span class="label">Next · 03 →</span><span class="t">Construction &amp; Interior Design Firm — CRM / ERP</span></a>
-</div></nav>
-</div></main>
-<footer class="site-foot dark pfoot"><div class="wrap"><div class="r1"><p class="who"><b>Abhishek M</b> <span>· Operations &amp; CRM Lead · New Delhi</span></p><ul class="links"><li><a href="mailto:abhimasih0505@gmail.com">abhimasih0505@gmail.com</a></li><li><a href="https://www.linkedin.com/in/abhishek-m-b934a925a">LinkedIn</a></li><li><a href="https://github.com/abBytes-sudo">GitHub</a></li><li><a href="../lab.html">3D Lab</a></li></ul></div><p class="r2">AI-assisted builds · every number dated · screens white-labelled with client details masked unless marked live · © 2026</p></div></footer>
+<section class="cs-hero" aria-labelledby="h1">
+  <div class="cs-hero-in">
+    <div>
+      <p class="cs-crumb"><a href="../index.html#work">Work</a><span aria-hidden="true">/</span><b>Case study 02</b><span>Public website</span></p>
+      <nav class="re-sw" aria-label="Real Estate Platform, two chapters"><a href="real-estate-crm.html">The CRM</a><a href="real-estate-website.html" aria-current="page">The website</a></nav>
+      <h1 id="h1">A property site you search the way you talk</h1>
+      <p class="sub">A Delhi brokerage’s website, relaunched with its own CRM: search in a sentence, see what’s fair, ask its assistant.</p>
+      <div class="cs-acts">
+        <a class="cs-btn pri" href="../index.html?project=real-estate-website#contact">Start a project like this</a>
+        <a class="lnk" href="#rp">Watch a chat become a lead</a>
+      </div>
+      <dl class="cs-facts">
+        <div><dt>Status</dt><dd>Live since the 9 Sep 2026 relaunch</dd></div>
+        <div><dt>Timeline</dt><dd>Built with the CRM, Jun–Sep 2026</dd></div>
+        <div class="wide"><dt>My part</dt><dd>Product owner of the AI-assisted build. Outside teams I coordinated built the earlier versions.</dd></div>
+      </dl>
+      <p class="cs-mask">Names and figures on screen are changed.</p>
+    </div>
+    <div class="cs-vis">
+      <div class="rs" id="rs">
+        <h2>Search it the way you’d say it</h2>
+        <p class="note">40 homes, written for this page</p>
+        <form class="rs-form" id="rs-form" role="search" aria-label="Search homes in plain words">
+          <label class="vh" for="rs-q">Describe the home you want</label>
+          <div class="rs-box">
+            <svg class="rs-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input id="rs-q" name="q" type="text" inputmode="search" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" value="3 bhk in vasant vihar under 1.5 lakh">
+            <button class="rs-go" type="submit">Search</button>
+          </div>
+          <p class="rs-try"><span>Or try</span><button type="button" data-q="2 bhk in gk 1 or cr park below 70k">2 bhk in gk 1 or cr park below 70k</button></p>
+        </form>
+        <div class="rs-chips" id="rs-chips" role="group" aria-label="What the search understood"><span class="lbl">Read as</span><button type="button" class="rs-chip" data-i="0" aria-label="Remove 3 BHK">3 BHK</button><button type="button" class="rs-chip" data-i="1" aria-label="Remove Vasant Vihar">Vasant Vihar</button><button type="button" class="rs-chip" data-i="2" aria-label="Remove up to ₹1.5 L">up to ₹1.5 L</button></div>
+        <p class="rs-sum" id="rs-sum" aria-live="polite"><b>3 homes</b> to rent: 2 verified, 1 awaiting its check</p>
+        <ol class="rs-list" id="rs-list" aria-label="Homes that fit">
+          <li class="rs-card"><img src="img/real-estate-website/u-liv-05.webp" alt="" width="440" height="294" decoding="async"><div class="rs-b"><p class="rs-p"><b>₹1.45 L</b><small>/mo</small><span class="rs-v">Verified 6 days ago</span></p><p class="rs-t">3 BHK builder floor <span>Vasant Vihar</span></p><p class="rs-m"><span class="rs-mi"><span>1,650 sq ft</span> <span>2nd floor</span> <span>Semi-furnished</span> <code>AB-VV-031</code></span></p></div></li>
+          <li class="rs-card"><img src="img/real-estate-website/u-liv-10.webp" alt="" width="440" height="294" decoding="async"><div class="rs-b"><p class="rs-p"><b>₹1.2 L</b><small>/mo</small><span class="rs-v">Verified 12 days ago</span></p><p class="rs-t">3 BHK apartment <span>Vasant Vihar</span></p><p class="rs-m"><span class="rs-mi"><span>1,520 sq ft</span> <span>1st floor</span> <span>Furnished</span> <code>AB-VV-044</code></span></p></div></li>
+          <li class="rs-card"><img src="img/real-estate-website/u-liv-14.webp" alt="" width="440" height="294" decoding="async"><div class="rs-b"><p class="rs-p"><b>₹1.38 L</b><small>/mo</small><span class="rs-v pend">Check pending</span></p><p class="rs-t">3 BHK builder floor <span>Vasant Vihar</span></p><p class="rs-m"><span class="rs-mi"><span>1,800 sq ft</span> <span>Ground floor</span> <span>Unfurnished</span> <code>AB-VV-018</code></span></p></div></li>
+        </ol>
+        <p class="rs-more" id="rs-more"></p>
+        <p class="rs-foot">Runs in your browser. Photos: Unsplash.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part" id="workflow" aria-labelledby="t2">
+  <div class="cs-wrap">
+    <header class="cs-ph"><span class="cs-pn" aria-hidden="true">2</span><h2 id="t2">What’s there? What’s fair? Who do I talk to?</h2>
+      <p>Renters arrive with three questions and don’t think in dropdowns. Before the relaunch, outside teams built the site and listings lived in spreadsheets. Now the site reads straight from the CRM.</p></header>
+    <div class="cin">
+      <figure class="cin-frame" aria-label="The screen for the current step">
+        <div class="cin-bar"><i></i><i></i><i></i><span>Website · Search</span><b>01 / 05</b></div>
+        <div class="cin-view"><img class="a" alt=""><img class="b off" alt=""><i class="cin-ring" aria-hidden="true"></i></div>
+      </figure>
+      <ol class="cin-stops">
+        <li class="cin-stop" data-img="img/real-estate-website/web-search-results.webp?v=2" data-w="1600" data-h="904" data-x=".16" data-y=".15" data-zoom="2.2" data-ring="360" data-label="Website · Search" data-alt="Search results for 3 BHK homes in Vasant Vihar: a Vasant Vihar chip and removable 3 BHK and up to 1.5 lakh filters">
+          <span class="t">Search</span><h3>A sentence, read as filters</h3><p>“3 bhk in vasant vihar under 1.5 lakh” becomes a colony chip and two filters. Admins add shorthand like “DC” in the CRM.</p></li>
+        <li class="cin-stop" data-img="../img/real-estate-website/web-landing-3bhk.webp?v=2" data-w="1600" data-h="866" data-x=".4" data-y=".2" data-zoom="1.7" data-label="Website · Landing page" data-alt="A landing page for 3 BHK homes in Chittaranjan Park that says only a few are listed, then shows nearby homes">
+          <span class="t">Landing pages</span><h3>The search is the landing page</h3><p>“3 BHK for rent in Chittaranjan Park” has its own page and Google tags: 599 such pages, from live stock.</p></li>
+        <li class="cin-stop" data-img="../img/real-estate-website/web-listing-page.webp" data-w="1600" data-h="928" data-x=".32" data-y=".8" data-zoom="1.6" data-label="Website · Listing" data-alt="A listing page: the property details marked 5 verified, and a note that the team checked them on the ground">
+          <span class="t">Listing</span><h3>What the team checked, and when</h3><p>Verified facts, the building’s other units, and Roofie open on this home.</p></li>
+        <li class="cin-stop" data-img="../img/real-estate-website/web-price-guide.webp" data-w="1600" data-h="1062" data-x=".45" data-y=".8" data-zoom="1.5" data-label="Website · Price guide" data-alt="The price guide: rent and sale bands with gross yield for each colony">
+          <span class="t">Price guide</span><h3>What’s fair, colony by colony</h3><p>Rent and sale bands with gross yield, kept by the team, not averaged from asking prices.</p></li>
+        <li class="cin-stop" data-img="img/real-estate-website/web-m-dashboard.webp" data-w="620" data-h="874" data-x=".5" data-y=".42" data-zoom="1" data-label="Website · My dashboard, on a phone" data-alt="The customer dashboard on a phone: saved properties, open enquiries, visits booked and new matches">
+          <span class="t">On a phone</span><h3>Signed in with a code, not a password</h3><p>Saved homes, enquiries, visits and matches, from the person’s CRM record.</p></li>
+      </ol>
+    </div>
+
+    <div class="rp" id="rp">
+      <div class="rp-head">
+        <h3 id="rp-t">A chat, replayed</h3>
+        <p>Roofie runs on rules and the team’s FAQ, not AI. 101 of its 119 chats needed no agent (7 Sep to 6 Nov 2026). This one is written for this page.</p>
+        <button type="button" class="rp-again" hidden>Replay the chat</button>
+      </div>
+      <div class="rp-stage">
+        <figure class="rp-ph" aria-labelledby="rp-t">
+          <div class="rp-top"><i class="rp-av" aria-hidden="true">ab</i><p><b>Roofie</b><span>here to help</span></p><time datetime="21:41">9:41 PM</time></div>
+          <ol class="rp-log">
+            <li class="rp-m r">Hi! Renting or buying?</li>
+            <li class="rp-m v" data-step="1">3 BHK to rent in Vasant Vihar under 1.5 lakh, from December.</li>
+            <li class="rp-m r">Three fit; two are verified:
+              <span class="rp-cards"><span class="rp-c"><img src="img/real-estate-website/u-liv-05.webp" alt="" width="440" height="294" loading="lazy" decoding="async"><b>₹1.45 L/mo</b><code>AB-VV-031</code></span><span class="rp-c"><img src="img/real-estate-website/u-liv-10.webp" alt="" width="440" height="294" loading="lazy" decoding="async"><b>₹1.2 L/mo</b><code>AB-VV-044</code></span></span></li>
+            <li class="rp-m v" data-step="2">Enquire about AB-VV-031</li>
+            <li class="rp-m r">Sent. The team will confirm. Want to visit?</li>
+            <li class="rp-m v">Saturday morning?</li>
+            <li class="rp-m r" data-step="3">Visit requested: Saturday morning.</li>
+            <li class="rp-m v">Can someone call me first?</li>
+            <li class="rp-m r" data-step="4">Callback booked for 10 AM tomorrow, when the team’s in.</li>
+            <li class="rp-m v">Perfect, thanks</li>
+            <li class="rp-m r">Anytime. I answer paperwork questions too.</li>
+            <li class="rp-m s" data-step="5">Lead created: EN-0112</li>
+          </ol>
+          <div class="rp-type" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="rp-bar" aria-hidden="true"><span>Message Roofie…</span><i></i></div>
+        </figure>
+        <div class="rp-in" role="group" aria-label="The same chat in the CRM inbox">
+          <div class="rp-in-top"><b>Roofie inbox</b><span class="rp-live"><i aria-hidden="true"></i><span class="s-run">1 live chat</span><span class="s-end">No agent needed</span></span></div>
+          <ul class="rp-rows">
+            <li class="rp-row me"><i class="rp-ava" aria-hidden="true">KM</i><span><b>Kavya M.</b><small><span class="s-run">Roofie is replying…</span><span class="s-end">New lead</span></small></span><em>9:41 PM</em></li>
+          </ul>
+          <article class="rp-lead" aria-label="Lead card">
+            <header><b>Kavya M.</b><span class="rp-tag"><span class="s-run">Live chat</span><span class="s-end">Lead EN-0112</span></span></header>
+            <dl>
+              <div data-step="1"><dt>Brief</dt><dd>3 BHK, Vasant Vihar, to ₹1.5 L, from December</dd></div>
+              <div data-step="2"><dt>Enquiry</dt><dd>AB-VV-031, ₹1.45 L/mo</dd></div>
+              <div data-step="3"><dt>Visit</dt><dd>Saturday morning, to confirm</dd></div>
+              <div data-step="4"><dt>Callback</dt><dd>Tomorrow, 10:00 AM</dd></div>
+              <div data-step="5"><dt>Found us</dt><dd>Google search, captured by Roofie</dd></div>
+            </dl>
+            <footer><span>Staff can step in</span><span class="rp-take" aria-hidden="true">Take over</span></footer>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part alt" id="results" aria-labelledby="t3">
+  <div class="cs-wrap">
+    <header class="cs-ph"><span class="cs-pn" aria-hidden="true">3</span><h2 id="t3">From 26 to 103 search visitors a week.</h2>
+      <p>Every figure dated. The rest, with caveats, is in the drawer.</p></header>
+    <div class="cs-res">
+      <div>
+        <div class="cs-nums">
+          <div class="cs-num"><b>5</b><span>South Delhi localities on Google’s first page for rent searches, within 30 days</span><small>Sep–Oct 2026</small></div>
+          <div class="cs-num"><b>43%</b><span>of engaged visitors came from Google search (375 of 880), up from 22%</span><small>30 days to 6 Nov 2026</small></div>
+          <div class="cs-num"><b>20</b><span>organic enquiries about a listing, all through Roofie; 11 from Google search</span><small>9 Sep – 6 Nov 2026</small></div>
+        </div>
+        <figure class="cs-chart climb" aria-labelledby="cl-t">
+          <h3 id="cl-t">The climb: engaged visitors from Google search, per week</h3>
+          <p class="note">First-party tracker, IST weeks, 14 Sep to 6 Nov 2026; W45 is a part week</p>
+          <div class="cl" role="img" aria-label="Engaged visitors from Google search per week, 2026: W38 26, W39 34, W40 41, W41 89, W42 77, W43 79, W44 103, and 47 in the part week W45. The site relaunched on 9 September.">
+            <div class="cl-plot">
+              <i class="cl-g g50"></i><i class="cl-g g100"></i>
+              <span class="cl-rl"><b>Relaunch</b> 9 Sep</span>
+              <svg class="cl-svg" viewBox="0 0 1000 400" preserveAspectRatio="none" focusable="false">
+                <defs><linearGradient id="cl-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f5a524" stop-opacity=".34"/><stop offset="1" stop-color="#f5a524" stop-opacity="0"/></linearGradient></defs>
+                <path class="cl-area" d="M163.9 400V313.3L278.7 286.7L393.4 263.3L508.2 103.3L623 143.3L737.7 136.7L852.5 56.7V400Z"/>
+                <path class="cl-ln" d="M163.9 313.3L278.7 286.7L393.4 263.3L508.2 103.3L623 143.3L737.7 136.7L852.5 56.7" vector-effect="non-scaling-stroke"/>
+                <path class="cl-pw" d="M852.5 56.7L950.8 243.3" vector-effect="non-scaling-stroke"/>
+              </svg>
+              <ol class="cl-pts">
+                <li class="p38"><b>26</b></li><li class="p39"><b>34</b></li><li class="p40"><b>41</b></li><li class="p41"><b>89</b></li>
+                <li class="p42"><b>77</b></li><li class="p43"><b>79</b></li><li class="p44 hi"><b>103</b></li><li class="p45 pw"><b>47</b></li>
+              </ol>
+            </div>
+            <ol class="cl-x">
+              <li class="p38">W38<small>14 Sep</small></li><li class="p39">W39<small>21 Sep</small></li><li class="p40">W40<small>28 Sep</small></li><li class="p41">W41<small>5 Oct</small></li>
+              <li class="p42">W42<small>12 Oct</small></li><li class="p43">W43<small>19 Oct</small></li><li class="p44">W44<small>26 Oct</small></li><li class="p45">W45<small>part week</small></li>
+            </ol>
+            <div class="cl-30"><b>First 30 days</b></div>
+          </div>
+          <div class="cl-loc">
+            <p>On Google’s first page for rent searches within those 30 days:</p>
+            <ul><li>Vasant Vihar</li><li>Safdarjung Enclave</li><li>Greater Kailash 1</li><li>Defence Colony</li><li>Okhla Phase 2</li></ul>
+          </div>
+        </figure>
+        <details class="cs-drawer">
+          <summary>All the numbers (17)</summary>
+          <ul class="cs-all">
+            <li><b>9 Sep</b><span>the site relaunched with the CRM’s production cutover, three months after work began (Jun–Sep 2026)</span><small>2026</small></li>
+            <li><b>6,564</b><span>active listings on the site, published straight from the CRM</span><small>6 Nov 2026</small></li>
+            <li><b>7,474</b><span>URLs in the sitemap: 6,561 listing pages, 599 locality × type landing pages, 163 hubs, 77 locality guides, 41 agency pages, 33 journal and site pages</span><small>6 Nov 2026</small></li>
+            <li><b>26 → 103</b><span>engaged visitors from Google search a week, within two months of the relaunch</span><small>W38 → W44 · 14 Sep – 1 Nov 2026</small></li>
+            <li><b>3 · 26 · 34 · 41 · 89 · 77 · 79 · 103 · 47</b><span>engaged visitors from Google search, weeks 37 to 45; week 37 (11–13 Sep) and week 45 (2–6 Nov) are part weeks</span><small>first-party tracker, IST weeks · 11 Sep – 6 Nov 2026</small></li>
+            <li><b>~27,000</b><span>Google search impressions in 23 days, about 2.7× the daily rate of the first month after the relaunch (Search Console, includes brand searches)</span><small>14 Oct – 5 Nov 2026</small></li>
+            <li><b>Page 1</b><span>on Google for rent searches in 5 key South Delhi localities, within 30 days of the relaunch (Search Console + manual checks): Vasant Vihar, Safdarjung Enclave, Greater Kailash 1, Defence Colony and Okhla Phase 2</span><small>Sep–Oct 2026</small></li>
+            <li><b>499</b><span>engaged visitors from Google search since 11 Sep, averaging 5 min 35 s each; 82 landed on listing pages</span><small>11 Sep – 6 Nov 2026</small></li>
+            <li><b>43%</b><span>of engaged visitors came from Google search (375 of 880), up from 22% in the 30 days to 23 Oct</span><small>30 days to 6 Nov 2026</small></li>
+            <li><b>6,467</b><span>site searches since 11 Sep; searches naming a colony also feed the verification desk’s list of where to check next</span><small>to 6 Nov 2026</small></li>
+            <li><b>32</b><span>website and Roofie leads (22 Roofie property enquiries, 8 Roofie chats, 2 website forms); 30 organic, 12 from Google search; 17 of 32 (53%) now qualified</span><small>9 Sep – 6 Nov 2026</small></li>
+            <li><b>20</b><span>organic enquiries about a specific listing, all through Roofie on the listing page; 11 arrived from Google search</span><small>9 Sep – 6 Nov 2026</small></li>
+            <li><b>101 of 119</b><span>Roofie chats never needed an agent (85%); 35 became or joined an enquiry</span><small>7 Sep – 6 Nov 2026</small></li>
+            <li><b>11</b><span>owner submissions since the form went live: 6 listed, 4 dropped, 1 new; a working supply channel, not a growth claim</span><small>20 Sep – 6 Nov 2026</small></li>
+            <li><b>77</b><span>locality guides the team writes in the CRM (notes, nearby places and photos); map, prices and live listings are added automatically</span><small>6 Nov 2026</small></li>
+            <li><b>37</b><span>journal posts published, blog and news</span><small>6 Nov 2026</small></li>
+            <li><b>4</b><span>listings side by side in Compare, each one Enquire tap away; advisors share shortlists as one link</span><small>as built</small></li>
+          </ul>
+          <p class="cs-foot-note">Counted by the site’s own tracker (live since 11 Sep 2026), which filters known bots, burst crawlers and signed-in staff; Google figures count engaged visitors only. Total visitor, pageview and raw Google visitor counts are not quoted, because automated traffic still inflates them. Lead figures come from the CRM’s read-only query of 6 Nov 2026, about two months after go-live (9 Sep – 6 Nov): across every channel, 147 of 496 new leads were organic by source (not from paid ads or portals; 145 not linked to any ad), and only the 30 organic website and Roofie leads (12 from Google search) are website-attributable. A visitor who googled the site and then used Roofie is credited to Google search, with Roofie as the capture. Every listing is one copy, read straight from the CRM with a publish switch, and a home that is let or sold cannot be published.</p>
+        </details>
+      </div>
+      <aside class="cs-limits" aria-labelledby="t4">
+        <h3 id="t4"><span class="cs-pn sm" aria-hidden="true">4</span>What it is not yet</h3>
+        <p>To 6 Nov 2026: two months of data.</p>
+        <ul>
+          <li>Roofie is scripted, not AI, as the brokerage asked</li>
+          <li>WhatsApp is click-to-chat links only, no API</li>
+          <li>Few leads to claim yet: 30 organic, 12 via Google</li>
+          <li>Owner listings: 11 sent in, 6 listed; not a growth claim</li>
+          <li>No total visitor counts: bots still inflate them</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part" id="cousin" aria-labelledby="t5">
+  <div class="cs-wrap">
+    <header class="cs-ph"><span class="cs-pn" aria-hidden="true">5</span><h2 id="t5">Try its public cousin</h2>
+      <p>The listings live in a CRM behind a staff login. Fieldwise is one I built in the open.</p></header>
+    <div class="cs-cousin">
+      <div>
+        <h3>Fieldwise, a brokerage CRM for the field</h3>
+        <ul class="same" aria-label="What is the same"><li>Briefs in plain words</li><li>A Verified badge on a 30/45-day clock</li><li>Matches from live stock</li></ul>
+      </div>
+      <a class="cs-btn pri" href="../samples/estate/">Open Fieldwise</a>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part alt" id="built" aria-labelledby="t6">
+  <div class="cs-wrap cs-built">
+    <div>
+      <header class="cs-ph"><span class="cs-pn" aria-hidden="true">✓</span><h2 id="t6">How it was built</h2></header>
+      <p class="cs-role">I set the requirements, made the product calls and directed AI coding tools.</p>
+      <ul class="cs-stack" aria-label="Built with"><li>Laravel</li><li>Blade</li><li>Livewire</li><li>MySQL</li><li>Meta Pixel + CAPI</li><li>Search Console API</li><li>Email</li><li>IVR + SMS via the CRM</li></ul>
+    </div>
+    <ol class="cs-steps">
+      <li><div><b>Requirements and product calls</b><span>What the desk and visitors needed.</span></div></li>
+      <li><div><b>An AI-assisted build</b><span>I direct AI coding tools and test every change.</span></div></li>
+      <li><div><b>Shipped with the CRM</b><span>One codebase, live at the 9 Sep 2026 cutover; I ran go-live and training.</span></div></li>
+      <li><div><b>Run from the CRM</b><span>Listings, homepage, shorthand, Roofie’s answers and guides: no developer needed.</span></div></li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<section class="cs-end" aria-labelledby="te">
+  <div class="cs-end-in">
+    <div>
+      <h2 id="te">Want one like this?</h2>
+      <p>Tell me how customers ask for what you sell. I’ll build a site that understands them and hands every enquiry to your team.</p>
+      <div class="cs-acts">
+        <a class="cs-btn pri" href="../index.html?project=real-estate-website#contact">Start a project</a>
+        <a class="cs-btn sec" href="mailto:abhimasih0505@gmail.com?subject=Case%20study%20PDF%3A%20Real%20Estate%20Platform%20website&amp;body=Hi%20Abhishek%2C%20could%20you%20send%20me%20the%20case%20study%20PDF%20for%20the%20Real%20Estate%20Platform%20website%3F">Request the PDF</a>
+      </div>
+    </div>
+    <nav class="cs-nav" aria-label="More case studies">
+      <a href="interiors-crm-erp.html"><small>Next · case study 03</small><b>A quote the client can accept on their phone</b></a>
+      <a href="../index.html#work"><small>All the work</small><b>Seven projects on the homepage</b></a>
+    </nav>
+  </div>
+</section>
+<footer class="cs-foot">
+  <p class="cs-st"><span class="cs-ok"><i aria-hidden="true"></i>All systems running</span><span>23 projects live</span><span>Last update <time id="cs-upd" datetime="2026-11-27">27 Nov 2026</time></span><span>© 2026</span></p>
+  <p class="cs-wl"><span>Abhishek M · Freelance CRM, website and automation builder · New Delhi</span><span>Client screens are white-labelled unless marked live. Names and figures on screen are changed.</span></p>
+</footer>
 </body>
 </html>

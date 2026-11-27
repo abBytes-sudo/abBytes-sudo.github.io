@@ -3,84 +3,293 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Constellation — 3D business planner · Abhishek M</title>
-<meta name="description" content="A business plan as a 3D map: every initiative a star, every dependency a line of light. A self-initiated product experiment in React and Three.js.">
+<title>Constellation, a 3D business planner · Product experiment · Abhishek M</title>
+<meta name="description" content="A business plan as a 3D map you can turn: every initiative a star, every dependency a line of light. A self-initiated product experiment in React and Three.js, live on GitHub Pages.">
 <link rel="canonical" href="https://abbytes-sudo.github.io/projects/constellation.html">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#101114">
+<meta name="theme-color" content="#0e0924">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=Instrument+Serif:ital@0;1&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@800&amp;display=swap">
-<link rel="stylesheet" href="../assets/site.css?v=20261107a">
-<link rel="stylesheet" href="../assets/project.css?v=20261107a">
+<link rel="preload" href="../next-home/hfonts/inter-tight-latin-normal-7.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="cs/cs.css?v=5">
+<link rel="stylesheet" href="cs/constellation.css?v=1">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Abhishek M">
 <meta property="og:locale" content="en_IN">
-<meta property="og:title" content="Constellation — 3D business planner">
-<meta property="og:description" content="A business plan as a 3D map: every initiative a star, every dependency a line of light. A self-initiated product experiment in React and Three.js.">
+<meta property="og:title" content="Constellation: every initiative a star, every dependency a line of light">
+<meta property="og:description" content="A business plan as a 3D map you can turn. A self-initiated product experiment, live on GitHub Pages.">
 <meta property="og:url" content="https://abbytes-sudo.github.io/projects/constellation.html">
 <meta property="og:image" content="https://abbytes-sudo.github.io/assets/og-2026-11.jpg">
-<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Abhishek’s Portfolio: Abhishek M, Operations &amp; CRM Lead. I don’t build screens. I design systems.">
+<meta property="og:image:alt" content="Abhishek M builds systems for businesses: CRMs, back offices and websites.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Constellation — 3D business planner">
-<meta name="twitter:description" content="A business plan as a 3D map: every initiative a star, every dependency a line of light. A self-initiated product experiment in React and Three.js.">
-<meta name="twitter:image" content="https://abbytes-sudo.github.io/assets/og-2026-11.jpg">
-<meta name="twitter:image:alt" content="Abhishek M, Operations &amp; CRM Lead, New Delhi">
-<script src="../assets/site.js?v=20261107a" defer></script>
-<script src="../assets/home.js?v=20261107a" defer></script>
+<script src="cs/cs.js?v=5" defer></script>
+<script src="cs/constellation-hero.js?v=1" defer></script>
+<script src="cs/paste-plan.js?v=1" defer></script>
 </head>
-<body class="p07">
-<a class="skip" href="#main">Skip to content</a>
-<header class="hd" id="hd">
-  <a class="hd-mark" href="../index.html" aria-label="Abhishek’s Portfolio, home"><span class="hd-dot" aria-hidden="true"></span>Abhishek’s Portfolio</a>
-  <nav class="hd-nav" aria-label="Primary">
-    <a href="../index.html#about">About</a><a href="../index.html#achievements">Achievements</a><a href="../index.html#work">Work</a><a href="../index.html#services">Services</a><a href="../lab.html">3D Lab</a>
-  </nav>
-  <a class="hd-cta" href="../index.html#contact"><span class="pulse" aria-hidden="true"></span>Open to work</a>
+<body class="cs-const">
+<a class="skip" href="#main">Skip to the case study</a>
+<header class="top">
+  <a class="who" href="../index.html">Abhishek M</a>
+  <nav aria-label="Site"><a href="../index.html#work">Work</a><a href="../lab.html">3D Lab</a><a href="../index.html#how">How I work</a><a href="../index.html#contact">Contact</a></nav>
+  <a class="go" href="../index.html#contact">Start a project</a>
 </header>
+
 <main id="main">
-<section class="ground p-hero" aria-labelledby="title"><svg class="stars" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><circle cx="466" cy="136" r="1.1" fill="#FFF3D6" fill-opacity="0.34"/><circle cx="101" cy="82" r="0.9" fill="#FFF3D6" fill-opacity="0.80"/><circle cx="904" cy="853" r="1.1" fill="#FFF3D6" fill-opacity="0.54"/><circle cx="1406" cy="42" r="1.3" fill="#FFF3D6" fill-opacity="0.47"/><circle cx="208" cy="106" r="0.8" fill="#FFF3D6" fill-opacity="0.79"/><circle cx="920" cy="335" r="1.0" fill="#FFF3D6" fill-opacity="0.34"/><circle cx="980" cy="385" r="0.9" fill="#FFF3D6" fill-opacity="0.65"/><circle cx="1144" cy="629" r="0.8" fill="#FFF3D6" fill-opacity="0.64"/><circle cx="756" cy="788" r="1.2" fill="#FFF3D6" fill-opacity="0.47"/><circle cx="1411" cy="106" r="0.9" fill="#FFF3D6" fill-opacity="0.75"/><circle cx="56" cy="601" r="1.2" fill="#FFF3D6" fill-opacity="0.64"/><circle cx="1261" cy="282" r="1.2" fill="#FFF3D6" fill-opacity="0.66"/><circle cx="1210" cy="850" r="1.0" fill="#FFF3D6" fill-opacity="0.70"/><circle cx="87" cy="631" r="1.1" fill="#FFF3D6" fill-opacity="0.90"/><circle cx="1184" cy="256" r="0.9" fill="#FFF3D6" fill-opacity="0.70"/><circle cx="242" cy="105" r="0.6" fill="#FFF3D6" fill-opacity="0.76"/><circle cx="563" cy="784" r="0.7" fill="#FFF3D6" fill-opacity="0.57"/><circle cx="791" cy="795" r="1.3" fill="#FFF3D6" fill-opacity="0.82"/><circle cx="517" cy="796" r="1.4" fill="#FFF3D6" fill-opacity="0.39"/><circle cx="1372" cy="621" r="1.0" fill="#FFF3D6" fill-opacity="0.67"/><circle cx="974" cy="49" r="1.3" fill="#FFF3D6" fill-opacity="0.77"/><circle cx="1259" cy="718" r="0.9" fill="#FFF3D6" fill-opacity="0.54"/><circle cx="149" cy="571" r="0.6" fill="#FFF3D6" fill-opacity="0.34"/><circle cx="301" cy="146" r="0.9" fill="#FFF3D6" fill-opacity="0.33"/><circle cx="0" cy="136" r="0.7" fill="#FFF3D6" fill-opacity="0.52"/><circle cx="37" cy="787" r="1.1" fill="#FFF3D6" fill-opacity="0.39"/><circle cx="524" cy="111" r="1.3" fill="#FFF3D6" fill-opacity="0.90"/><circle cx="124" cy="92" r="0.9" fill="#FFF3D6" fill-opacity="0.46"/><circle cx="1194" cy="145" r="0.6" fill="#FFF3D6" fill-opacity="0.87"/><circle cx="761" cy="132" r="1.0" fill="#FFF3D6" fill-opacity="0.32"/><circle cx="760" cy="881" r="1.3" fill="#FFF3D6" fill-opacity="0.72"/><circle cx="241" cy="695" r="1.0" fill="#FFF3D6" fill-opacity="0.77"/><circle cx="1169" cy="886" r="1.3" fill="#FFF3D6" fill-opacity="0.78"/><circle cx="1178" cy="666" r="0.8" fill="#FFF3D6" fill-opacity="0.61"/><circle cx="512" cy="26" r="0.6" fill="#FFF3D6" fill-opacity="0.47"/><circle cx="373" cy="623" r="1.4" fill="#FFF3D6" fill-opacity="0.57"/><circle cx="1349" cy="889" r="1.4" fill="#FFF3D6" fill-opacity="0.52"/><circle cx="899" cy="810" r="1.3" fill="#FFF3D6" fill-opacity="0.59"/><circle cx="940" cy="720" r="0.7" fill="#FFF3D6" fill-opacity="0.70"/><circle cx="1310" cy="704" r="1.2" fill="#FFF3D6" fill-opacity="0.59"/><circle cx="257" cy="710" r="0.9" fill="#FFF3D6" fill-opacity="0.78"/><circle cx="1399" cy="356" r="0.9" fill="#FFF3D6" fill-opacity="0.87"/><circle cx="1044" cy="153" r="0.7" fill="#FFF3D6" fill-opacity="0.39"/><circle cx="1303" cy="726" r="0.7" fill="#FFF3D6" fill-opacity="0.80"/><circle cx="1412" cy="592" r="0.9" fill="#FFF3D6" fill-opacity="0.63"/><circle cx="189" cy="13" r="1.4" fill="#FFF3D6" fill-opacity="0.69"/><circle cx="758" cy="840" r="0.9" fill="#FFF3D6" fill-opacity="0.82"/><circle cx="1190" cy="190" r="0.8" fill="#FFF3D6" fill-opacity="0.48"/><circle cx="189" cy="819" r="0.9" fill="#FFF3D6" fill-opacity="0.57"/><circle cx="840" cy="814" r="0.9" fill="#FFF3D6" fill-opacity="0.85"/><circle cx="754" cy="17" r="1.0" fill="#FFF3D6" fill-opacity="0.41"/><circle cx="6" cy="719" r="0.7" fill="#FFF3D6" fill-opacity="0.58"/><circle cx="1044" cy="501" r="0.9" fill="#FFF3D6" fill-opacity="0.61"/><circle cx="800" cy="706" r="0.7" fill="#FFF3D6" fill-opacity="0.64"/><circle cx="1112" cy="457" r="1.0" fill="#FFF3D6" fill-opacity="0.76"/><circle cx="1314" cy="399" r="1.1" fill="#FFF3D6" fill-opacity="0.60"/><circle cx="738" cy="623" r="1.0" fill="#FFF3D6" fill-opacity="0.62"/><circle cx="688" cy="847" r="1.2" fill="#FFF3D6" fill-opacity="0.83"/><circle cx="1357" cy="234" r="1.0" fill="#FFF3D6" fill-opacity="0.87"/><circle cx="1210" cy="123" r="0.7" fill="#FFF3D6" fill-opacity="0.57"/><circle cx="105" cy="603" r="1.2" fill="#FFF3D6" fill-opacity="0.84"/><circle cx="222" cy="645" r="1.1" fill="#FFF3D6" fill-opacity="0.39"/><circle cx="1271" cy="871" r="0.8" fill="#FFF3D6" fill-opacity="0.87"/><circle cx="1425" cy="749" r="0.7" fill="#FFF3D6" fill-opacity="0.56"/><circle cx="1040" cy="18" r="1.0" fill="#FFF3D6" fill-opacity="0.56"/><circle cx="93" cy="887" r="1.2" fill="#FFF3D6" fill-opacity="0.88"/><circle cx="57" cy="701" r="0.8" fill="#FFF3D6" fill-opacity="0.38"/><circle cx="608" cy="820" r="1.3" fill="#FFF3D6" fill-opacity="0.46"/><circle cx="215" cy="827" r="1.1" fill="#FFF3D6" fill-opacity="0.72"/><circle cx="129" cy="52" r="1.2" fill="#FFF3D6" fill-opacity="0.56"/><circle cx="104" cy="845" r="1.1" fill="#FFF3D6" fill-opacity="0.78"/><circle cx="121" cy="771" r="0.7" fill="#FFF3D6" fill-opacity="0.82"/><circle cx="796" cy="834" r="0.8" fill="#FFF3D6" fill-opacity="0.38"/><circle cx="158" cy="145" r="0.6" fill="#FFF3D6" fill-opacity="0.42"/><circle cx="1094" cy="261" r="1.0" fill="#FFF3D6" fill-opacity="0.41"/><circle cx="500" cy="16" r="0.8" fill="#FFF3D6" fill-opacity="0.31"/><circle cx="1056" cy="496" r="0.8" fill="#FFF3D6" fill-opacity="0.58"/><circle cx="1346" cy="96" r="1.3" fill="#FFF3D6" fill-opacity="0.56"/><circle cx="713" cy="751" r="0.9" fill="#FFF3D6" fill-opacity="0.60"/><circle cx="990" cy="884" r="0.9" fill="#FFF3D6" fill-opacity="0.80"/><circle cx="1018" cy="572" r="0.9" fill="#FFF3D6" fill-opacity="0.51"/><circle cx="78" cy="117" r="0.7" fill="#FFF3D6" fill-opacity="0.74"/><circle cx="368" cy="147" r="0.7" fill="#FFF3D6" fill-opacity="0.80"/><circle cx="1254" cy="603" r="0.8" fill="#FFF3D6" fill-opacity="0.45"/><circle cx="379" cy="866" r="1.4" fill="#FFF3D6" fill-opacity="0.63"/><circle cx="352" cy="869" r="0.8" fill="#FFF3D6" fill-opacity="0.51"/><circle cx="60" cy="20" r="0.8" fill="#FFF3D6" fill-opacity="0.44"/><circle cx="1081" cy="592" r="1.2" fill="#FFF3D6" fill-opacity="0.83"/><circle cx="1418" cy="135" r="1.2" fill="#FFF3D6" fill-opacity="0.69"/><circle cx="63" cy="752" r="1.3" fill="#FFF3D6" fill-opacity="0.68"/><circle cx="1057" cy="731" r="0.7" fill="#FFF3D6" fill-opacity="0.61"/><circle cx="726" cy="751" r="1.2" fill="#FFF3D6" fill-opacity="0.80"/><circle cx="841" cy="804" r="1.1" fill="#FFF3D6" fill-opacity="0.72"/><circle cx="331" cy="28" r="0.7" fill="#FFF3D6" fill-opacity="0.52"/><circle cx="151" cy="752" r="1.0" fill="#FFF3D6" fill-opacity="0.68"/><circle cx="902" cy="613" r="1.0" fill="#FFF3D6" fill-opacity="0.30"/><circle cx="1149" cy="673" r="1.0" fill="#FFF3D6" fill-opacity="0.62"/><circle cx="949" cy="59" r="1.2" fill="#FFF3D6" fill-opacity="0.45"/><circle cx="1050" cy="185" r="1.2" fill="#FFF3D6" fill-opacity="0.89"/><circle cx="690" cy="615" r="1.2" fill="#FFF3D6" fill-opacity="0.67"/><circle cx="926" cy="70" r="0.7" fill="#FFF3D6" fill-opacity="0.45"/><circle cx="1070" cy="274" r="1.1" fill="#FFF3D6" fill-opacity="0.31"/><circle cx="968" cy="623" r="1.1" fill="#FFF3D6" fill-opacity="0.47"/><circle cx="672" cy="107" r="1.3" fill="#FFF3D6" fill-opacity="0.42"/><circle cx="1409" cy="843" r="0.6" fill="#FFF3D6" fill-opacity="0.58"/><circle cx="1181" cy="871" r="1.0" fill="#FFF3D6" fill-opacity="0.46"/><circle cx="302" cy="851" r="0.8" fill="#FFF3D6" fill-opacity="0.65"/><circle cx="1372" cy="119" r="1.3" fill="#FFF3D6" fill-opacity="0.61"/><circle cx="1277" cy="633" r="0.8" fill="#FFF3D6" fill-opacity="0.84"/><circle cx="700" cy="22" r="0.6" fill="#FFF3D6" fill-opacity="0.60"/><circle cx="455" cy="756" r="0.6" fill="#FFF3D6" fill-opacity="0.75"/><circle cx="1208" cy="108" r="1.3" fill="#FFF3D6" fill-opacity="0.73"/><circle cx="1298" cy="261" r="0.9" fill="#FFF3D6" fill-opacity="0.54"/><circle cx="1438" cy="530" r="0.9" fill="#FFF3D6" fill-opacity="0.56"/><circle cx="396" cy="43" r="0.7" fill="#FFF3D6" fill-opacity="0.80"/><circle cx="411" cy="842" r="0.8" fill="#FFF3D6" fill-opacity="0.46"/><circle cx="538" cy="861" r="1.3" fill="#FFF3D6" fill-opacity="0.79"/><circle cx="908" cy="822" r="1.4" fill="#FFF3D6" fill-opacity="0.63"/><circle cx="1036" cy="45" r="1.2" fill="#FFF3D6" fill-opacity="0.57"/><circle cx="1084" cy="580" r="0.8" fill="#FFF3D6" fill-opacity="0.33"/></svg><div class="wrap">
-<div class="crumb"><nav aria-label="Breadcrumb"><a href="../index.html#work">Work</a> / <span aria-current="page">07</span></nav><div class="keys cur" aria-hidden="true"><span class="key k1"><i></i></span><span class="key k2"><i></i></span><span class="key k3"><i></i></span><span class="key k4"><i></i></span><span class="key k5"><i></i></span><span class="key k6"><i></i></span><span class="key k7 on"></span></div></div>
-<div class="hero-grid"><div><p class="p-eyebrow">Case study 07 · Product experiment</p>
-<h1 class="p-h1" id="title"><span class="t">Constellation</span><span class="sub">3D business planner&nbsp;· product experiment</span></h1>
-<p class="p-sum">An interactive 3D canvas for a business plan. Every initiative a star, every dependency a line of light.</p>
-<div class="btns stack"><a class="btn" href="https://abbytes-sudo.github.io/interactive-business-planner-3d/">Try it live</a><a class="btn sec" href="https://github.com/abBytes-sudo/interactive-business-planner-3d">Repository on GitHub</a><a class="btn sec" href="mailto:abhimasih0505@gmail.com?subject=Case%20study%20request%3A%20Constellation%20%E2%80%94%203D%20business%20planner&amp;body=Hi%20Abhishek%2C%20could%20you%20send%20me%20the%20case%20study%20PDF%20for%20Constellation%20%E2%80%94%203D%20business%20planner%3F%20Thanks.">Request the case study (PDF)</a></div></div>
-<dl class="facts"><div><dt>Status</dt><dd><b>Try it live</b> · self-initiated; no client or usage results claimed</dd></div><div><dt>My role</dt><dd>Set the concept, made the product decisions, directed AI coding tools and tested every change</dd></div><div><dt>Built with</dt><dd>React · Three.js · GitHub Pages; one HTML file, no build step</dd></div></dl></div>
-</div></section>
-<div class="p-body">
-<div class="wrap hero-fig"><figure class="shot d"><a class="frame zoom" href="../img/constellation/const-overview.webp"><img src="../img/constellation/const-overview.webp" srcset="../img/constellation/const-overview-800.webp 800w, ../img/constellation/const-overview.webp 1600w" sizes="(min-width:1440px) 1200px, (min-width:1024px) 87vw, calc(100vw - 32px)" width="1600" height="1000" alt="Constellation overview: six coloured pillar spines fanning out from the brand on a Now to Month 24 timeline" decoding="async" loading="eager" fetchpriority="high"></a><figcaption><span class="fig">FIG. 01</span>Desktop overview of the sample plan: pillars, initiatives and every link between them.</figcaption></figure></div>
-<section class="psec first" id="summary" aria-labelledby="summary-h"><div class="wrap"><div class="rail sep"><div><p class="rail-l" aria-hidden="true">01 · In short</p></div><div class="rail-r"><h2 class="h2" id="summary-h"><span class="sr-only">01 · In short: </span>A plan is a network, <em>not a list.</em></h2><div class="prose"><p>Long-range business plans tend to live in spreadsheets and slide decks. The initiatives get listed, but the links between them (what has to land before what) hide between the tabs. Constellation is a self-initiated product experiment: lay a whole business plan out in 3D, so you can fly through it like a star map and see every dependency at once.</p></div><ol class="brief"><li>See the whole plan at once.</li><li>Make every dependency visible.</li><li>Think in rounds, note in place.</li></ol></div></div></div></section>
-<section class="psec" id="what" aria-labelledby="what-h"><div class="wrap"><div class="rail sep"><div><p class="rail-l" aria-hidden="true">02 · What it does</p></div><div class="rail-r"><h2 class="h2" id="what-h"><span class="sr-only">02 · What it does: </span>Six ways to <em>move through a plan.</em></h2><ul class="cards"><li class="card"><h3>Fly to any node</h3><p>Click an initiative and the camera flies to it, opening its work tree: the pillar it belongs to and the work it depends on.</p></li><li class="card"><h3>Orbit camera</h3><p>Drag to orbit, WASD or arrow keys to move, scroll or Q/E to zoom; R refits the whole plan into view. On touch: drag, pinch and two-finger pan.</p></li><li class="card"><h3>Per-round notes</h3><p>Plan in rounds (R1, R2, R3); every initiative keeps its own notes for each round, saved locally on the device.</p></li><li class="card"><h3>Spin off initiatives</h3><p>Add a new initiative under any node, live, straight from its panel.</p></li><li class="card"><h3>Search</h3><p>Type to find any initiative without hunting through the sky.</p></li><li class="card"><h3>Snapshot export</h3><p>Download a self-contained HTML copy of the plan, with your notes and added initiatives baked in.</p></li></ul></div></div></div></section>
-<section class="psec" id="different" aria-labelledby="different-h"><div class="wrap"><div class="rail sep"><div><h2 class="rail-l" id="different-h">03 · What makes it different</h2></div><div class="rail-r"><ol class="diff"><li><div><b>Position encodes time.</b> Initiatives sit on a Now → Month 24 timeline, so where a star sits says when it happens.</div></li><li><div><b>Dependencies show direction.</b> Each dependency line carries glowing particles from source to target, so you can see which way the work flows.</div></li><li><div><b>Navigate by relationships.</b> The work tree shows Part of / Feeds into / Dependencies as clickable chips.</div></li><li><div><b>Private by default.</b> Notes stay on the viewer’s device.</div></li><li><div><b>One portable file.</b> It runs in the browser as one HTML file with no build step, and library versions are pinned so a new release can’t break the app.</div></li></ol></div></div></div></section>
-<section class="psec" id="configure" aria-labelledby="configure-h"><div class="wrap"><div class="rail sep"><div><p class="rail-l" aria-hidden="true">04 · What the business can configure</p></div><div class="rail-r"><h2 class="h2" id="configure-h"><span class="sr-only">04 · What the business can configure: </span>What a planner <em>can change.</em></h2><dl class="dl"><div><dt>Planning rounds</dt><dd>R1, R2 and R3, each with its own notes.</dd></div><div><dt>The plan itself</dt><dd>New initiatives and their dependencies, added live under any node.</dd></div><div><dt>The view</dt><dd>Drift and Signals toggles to calm or energise the scene; Refit to reframe the whole plan.</dd></div><div><dt>Sharing</dt><dd>A snapshot export of the current plan as one HTML file.</dd></div></dl><p class="note-s">The app loads a D2C specialty-coffee brand, Ember, and its 24-month plan across six pillars; it’s sample data, there to show what the tool does with a real plan.</p></div></div></div></section>
-<section class="psec" id="screens" aria-labelledby="screens-h"><div class="wrap">
-<div class="rail sep"><div><h2 class="rail-l" id="screens-h">05 · Key screens</h2></div><div class="rail-r"><p class="caption disc">Screens from the live app, showing Ember’s plan.</p></div></div>
-<div class="sgroup"><h3><span>01</span>The whole plan</h3><figure class="shot d tall"><a class="frame plain zoom" href="../img/constellation/const-in-browser.webp"><img src="../img/constellation/const-in-browser.webp" srcset="../img/constellation/const-in-browser-800.webp 800w, ../img/constellation/const-in-browser.webp 1600w" sizes="(min-width:1024px) 640px, calc(100vw - 32px)" width="1600" height="1600" alt="Constellation in a browser window, with its constellation of initiatives glowing on a dark sky" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 02</span>The live app in a browser at abbytes-sudo.github.io/interactive-business-planner-3d.</figcaption></figure><div class="phones"><figure class="shot p"><a class="phone zoom" href="../img/constellation/const-m-overview.webp"><img src="../img/constellation/const-m-overview.webp" width="900" height="1948" alt="Constellation on a phone: the plan&#x27;s pillars stacked in a vertical sky" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 03</span>The same sky, orbited to fit a phone.</figcaption></figure></div></div><div class="sgroup"><h3><span>02</span>Click a star</h3><figure class="shot d"><a class="frame zoom" href="../img/constellation/const-fly-to.webp"><img src="../img/constellation/const-fly-to.webp" srcset="../img/constellation/const-fly-to-800.webp 800w, ../img/constellation/const-fly-to.webp 1600w" sizes="(min-width:1440px) 1200px, (min-width:1024px) 87vw, calc(100vw - 32px)" width="1600" height="1000" alt="An initiative selected: its links lit up and a side panel with its work tree and round notes" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 04</span>The camera has flown to one initiative; its panel is open on the right.</figcaption></figure><div class="pair"><figure class="shot d"><a class="frame zoom" href="../img/constellation/const-work-tree.webp"><img src="../img/constellation/const-work-tree.webp" srcset="../img/constellation/const-work-tree-800.webp 800w, ../img/constellation/const-work-tree.webp 1600w" sizes="(min-width:1440px) 900px, (min-width:1024px) 68vw, calc(100vw - 32px)" width="1600" height="1000" alt="A node selected, with its work tree of parent, dependent and dependency initiatives" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 05</span>A node selected, with its work tree: Part of, Feeds into, Dependencies.</figcaption></figure><figure class="shot p"><a class="phone zoom" href="../img/constellation/const-m-panel.webp"><img src="../img/constellation/const-m-panel.webp" width="900" height="1948" alt="The initiative panel on a phone: work tree chips and a notes box" decoding="async" loading="lazy"></a><figcaption><span class="fig">FIG. 06</span>The work-tree panel on a phone.</figcaption></figure></div></div>
-</div></section>
-<section class="dark results-p" id="results" aria-labelledby="results-h"><div class="wrap">
-<div class="sec-head"><p class="eyebrow">06 · By the numbers, dated</p><h2 class="h2" id="results-h">The sample plan, <em>mapped.</em></h2></div>
-<ul class="sgrid"><li><p class="n">6</p><p class="st-l">pillars, each with its own colour</p><p class="stamp" data-k="7">Sample plan · 22 Oct 2026</p></li><li><p class="n">30</p><p class="st-l">initiatives placed across the six pillars</p><p class="stamp" data-k="7">Sample plan · 22 Oct 2026</p></li><li><p class="n">27</p><p class="st-l">cross-initiative dependencies, drawn as lines of light</p><p class="stamp" data-k="7">Sample plan · 22 Oct 2026</p></li></ul><div class="noterow"><p class="label">Not usage results</p><p>The figures describe Ember’s plan in the live app. Constellation is a self-initiated product experiment: no client or usage results are claimed.</p></div>
-</div></section>
-<section class="psec" id="built" aria-labelledby="built-h"><div class="wrap"><div class="rail sep"><div><h2 class="rail-l" id="built-h">07 · How it was built</h2></div><div class="rail-r"><div class="prose"><ol class="flow" data-n="5"><li>Concept</li><li>Product decisions</li><li>AI-assisted build</li><li>Tested every change</li><li>Try it live</li></ol><p>I scoped the problem and decided the data model (root → spines → initiatives with typed links), the interaction design (fly-to focus, work-tree navigation, per-round notes) and what shipped; AI coding tools wrote the code under my direction, and I tested it on desktop and mobile.</p><p class="stackline"><b>Stack</b>React 18 · Three.js r147 · UnrealBloom · Babel-standalone · one HTML file · GitHub Pages</p></div></div></div></div></section>
-<section class="psec" id="links" aria-labelledby="links-h"><div class="wrap">
-<div class="rail sep"><div><h2 class="rail-l" id="links-h">08 · Links &amp; PDF</h2></div>
-<div class="rail-r"><div class="links-grid"><div><ul class="llist"><li><span class="label">Try it live</span><a href="https://abbytes-sudo.github.io/interactive-business-planner-3d/">abbytes-sudo.github.io/interactive-business-planner-3d</a></li><li><span class="label">Repository</span><a href="https://github.com/abBytes-sudo/interactive-business-planner-3d">github.com/abBytes-sudo/interactive-business-planner-3d</a></li></ul></div><div class="pdf-card"><div class="thumb"><img src="../img/cards/card-07-480.webp" srcset="../img/cards/card-07-480.webp 480w, ../img/cards/card-07.webp 960w" sizes="(min-width:1024px) 460px, calc(100vw - 64px)" width="480" height="270" alt="Cover page of case study 07: Constellation" loading="lazy" decoding="async"></div>
-<div><h3>Constellation · case study</h3><p class="meta">PDF · 8 pages · sent by email on request</p></div>
-<a class="btn" href="mailto:abhimasih0505@gmail.com?subject=Case%20study%20request%3A%20Constellation%20%E2%80%94%203D%20business%20planner&amp;body=Hi%20Abhishek%2C%20could%20you%20send%20me%20the%20case%20study%20PDF%20for%20Constellation%20%E2%80%94%203D%20business%20planner%3F%20Thanks.">Request the case study (PDF)</a></div></div></div></div>
-</div></section>
-<nav class="wrap" aria-label="More case studies"><div class="pn">
-<a href="design-studio-website.html" rel="prev"><span class="label">← Previous · 06</span><span class="t">Construction &amp; Interior Design Firm — website</span></a>
-<a href="real-estate-crm.html" rel="next"><span class="label">Next · 01 →</span><span class="t">Real Estate Platform — CRM &amp; operations</span></a>
-</div></nav>
-</div></main>
-<footer class="site-foot dark pfoot"><div class="wrap"><div class="r1"><p class="who"><b>Abhishek M</b> <span>· Operations &amp; CRM Lead · New Delhi</span></p><ul class="links"><li><a href="mailto:abhimasih0505@gmail.com">abhimasih0505@gmail.com</a></li><li><a href="https://www.linkedin.com/in/abhishek-m-b934a925a">LinkedIn</a></li><li><a href="https://github.com/abBytes-sudo">GitHub</a></li><li><a href="../lab.html">3D Lab</a></li></ul></div><p class="r2">AI-assisted builds · every number dated · screens white-labelled with client details masked unless marked live · © 2026</p></div></footer>
+<section class="cs-hero" aria-labelledby="h1">
+  <div class="cs-hero-in">
+    <div>
+      <p class="cs-crumb"><a href="../index.html#work">Work</a><span aria-hidden="true">/</span><b>Product experiment</b><a href="../lab.html">Beside the 3D Lab</a></p>
+      <h1 id="h1">Constellation <span>3D business planner · product experiment</span></h1>
+      <p class="sub">A plan is a network, not a list. An interactive 3D canvas for a business plan: every initiative a star, every dependency a line of light.</p>
+      <div class="cs-acts">
+        <a class="cs-btn pri" href="../index.html?project=constellation#contact">Start a project like this</a>
+        <a class="lnk" href="https://abbytes-sudo.github.io/interactive-business-planner-3d/">Open the live app</a>
+        <a class="lnk" href="https://github.com/abBytes-sudo/interactive-business-planner-3d">Code on GitHub</a>
+      </div>
+      <dl class="cs-facts">
+        <div><dt>Status</dt><dd>Live on GitHub Pages since 19 Sep 2026</dd></div>
+        <div><dt>Built with</dt><dd>React and Three.js in one HTML file, no build step</dd></div>
+        <div class="wide"><dt>My part</dt><dd>Set the concept, made the product decisions, directed AI coding tools and tested every change. Self-initiated: no client or usage results are claimed.</dd></div>
+      </dl>
+    </div>
+    <div class="cs-vis">
+      <div class="cst cst-hero" id="cst-hero">
+        <canvas class="cst-cv" tabindex="0" role="img" aria-label="Ember’s 24-month plan as a turning constellation: 6 pillars, 30 initiatives and 27 dependencies" aria-describedby="cst-hero-k"></canvas>
+        <p class="cst-tip" aria-hidden="true"><i></i><span>Click a star</span></p>
+        <p class="cst-read">6 pillars · 30 initiatives · 27 dependencies</p>
+        <div class="cst-card" hidden></div>
+        <p class="vh" id="cst-hero-k">Drag to turn it. With the keyboard, the left and right arrows step from star to star; Escape closes the card.</p>
+        <p class="vh" aria-live="polite" data-live></p>
+      </div>
+      <p class="cst-cap">Ember, the coffee brand’s plan the app ships with, redrawn on this page</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part" id="workflow" aria-labelledby="t2">
+  <div class="cs-wrap">
+    <header class="cs-ph"><span class="cs-pn" aria-hidden="true">2</span><h2 id="t2">What you can change</h2>
+      <p>Before: long-range plans live in spreadsheets and slide decks, and the links between initiatives hide between the tabs. In the app you change the plan itself, the notes for each planning round, the view and what you share. Start with the plan: paste yours.</p></header>
+
+    <div class="pp" id="pp">
+      <div class="cst cst-pp" id="pp-sky">
+        <canvas class="cst-cv" tabindex="0" role="img" aria-label="Your plan as a constellation" aria-describedby="pp-k"></canvas>
+        <p class="cst-tip" aria-hidden="true"><i></i><span>Click a star</span></p>
+        <p class="cst-read" id="pp-read">Your stars appear here</p>
+        <div class="cst-card" hidden></div>
+        <p class="vh" id="pp-k">Drag to turn it. With the keyboard, the left and right arrows step from star to star.</p>
+        <p class="vh" aria-live="polite" data-live></p>
+      </div>
+      <div class="pp-in">
+        <div class="pp-l">
+          <label for="pp-ta"><b>Paste your plan</b><span>One initiative per line. After “&gt;”, what it needs; separate several with commas.</span></label>
+          <div class="pp-acts">
+            <button type="button" class="pp-go" id="pp-go">Turn it into stars</button>
+            <button type="button" class="pp-sm" id="pp-clear">Clear</button>
+            <button type="button" class="pp-sm" id="pp-ex">Example</button>
+          </div>
+          <p class="pp-st" id="pp-st" role="status">Press Enter after a line, or the button. Nothing leaves this page.</p>
+        </div>
+        <textarea id="pp-ta" rows="10" spellcheck="false" autocomplete="off" autocapitalize="sentences">Launch store &gt; needs payment gateway, product photos
+Payment gateway &gt; needs business bank account
+Product photos &gt; needs final packaging
+Final packaging &gt; needs supplier contract
+Supplier contract
+Business bank account
+Delivery partner &gt; needs final packaging
+First 100 orders &gt; needs launch store, delivery partner
+Instagram launch &gt; needs product photos
+Repeat customers &gt; needs first 100 orders, Instagram launch</textarea>
+      </div>
+    </div>
+
+    <h3 class="cst-h3">In the app</h3>
+    <div class="cin">
+      <figure class="cin-frame" aria-label="The screen for the current step">
+        <div class="cin-bar"><i></i><i></i><i></i><span>Constellation · The whole plan</span><b>01 / 07</b></div>
+        <div class="cin-view"><img class="a" alt=""><img class="b off" alt=""><i class="cin-ring" aria-hidden="true"></i></div>
+      </figure>
+      <ol class="cin-stops">
+        <li class="cin-stop" data-img="../img/constellation/const-overview.webp" data-w="1600" data-h="1000" data-x=".56" data-y=".5" data-zoom="1.2" data-label="Constellation · The whole plan" data-alt="The whole plan: six coloured pillars fan out from the brand, with initiatives and dependency lines on a Now to Month 24 timeline">
+          <span class="t">Overview</span><h3>Six pillars fan out from the brand</h3><p>Initiatives sit on a Now → Month 24 timeline, so where a star sits says when it happens.</p></li>
+        <li class="cin-stop" data-img="../img/constellation/const-overview.webp" data-w="1600" data-h="1000" data-x=".924" data-y=".952" data-zoom="3" data-ring="230" data-label="Constellation · Readout" data-alt="The readout in the corner: 37 nodes, 63 links, round 1">
+          <span class="t">Readout</span><h3>37 nodes and 63 links: the same plan</h3><p>The brand, 6 pillars and 30 initiatives make 37 nodes. The 36 part-of lines plus the 27 dependencies make 63 links.</p></li>
+        <li class="cin-stop" data-img="../img/constellation/const-overview.webp" data-w="1600" data-h="1000" data-x=".83" data-y=".035" data-zoom="2.6" data-ring="300" data-label="Constellation · Toolbar" data-alt="The toolbar: Find initiative, rounds R1 to R3, Drift, Signals, Refit and Snapshot">
+          <span class="t">Toolbar</span><h3>Rounds, the view and sharing</h3><p>R1, R2 and R3 keep their own notes. Drift and Signals calm or energise the scene, Refit reframes it, and Snapshot downloads the plan as one HTML file.</p></li>
+        <li class="cin-stop" data-img="../img/constellation/const-fly-to.webp" data-w="1600" data-h="1000" data-x=".6" data-y=".5" data-zoom="1.2" data-label="Constellation · Click a star" data-alt="Subscription Revenue Engine selected: its lines lit, and its panel open on the right">
+          <span class="t">Click a star</span><h3>The camera flies to it</h3><p>Its panel opens. Particles run along each dependency, so you can see which way the work flows.</p></li>
+        <li class="cin-stop" data-img="../img/constellation/const-fly-to.webp" data-w="1600" data-h="1000" data-x=".86" data-y=".33" data-zoom="2.6" data-label="Constellation · Work tree" data-alt="The work tree: Part of Retention and Revenue, and five dependency chips">
+          <span class="t">Work tree</span><h3>Move by relationships</h3><p>Part of, Feeds into and Dependencies are chips you can click: here, the five links of the subscription engine.</p></li>
+        <li class="cin-stop" data-img="../img/constellation/const-fly-to.webp" data-w="1600" data-h="1000" data-x=".86" data-y=".63" data-zoom="2.6" data-label="Constellation · Notes and spin-offs" data-alt="Round notes for R1 and a box to spin off a new initiative under this node">
+          <span class="t">Notes</span><h3>Notes per round, new stars in place</h3><p>Notes stay on the viewer’s device. A new initiative can be spun off under any star, live.</p></li>
+        <li class="cin-stop" data-img="../img/constellation/const-m-panel.webp" data-w="900" data-h="1948" data-x=".5" data-y=".33" data-zoom="1" data-label="Constellation · On a phone" data-alt="The initiative panel on a phone: its work tree chips and a notes box">
+          <span class="t">On a phone</span><h3>The panel fills the screen</h3><p>Drag to orbit, pinch to zoom, two fingers to pan, tap a star.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part alt" id="results" aria-labelledby="t3">
+  <div class="cs-wrap">
+    <header class="cs-ph"><span class="cs-pn" aria-hidden="true">3</span><h2 id="t3">The plan on screen: 6 pillars, 30 initiatives, 27 dependencies between them</h2>
+      <p>The plan the app ships with, Ember’s 24 months, counted on 22 Oct 2026. These are not usage results.</p></header>
+    <div class="cs-res">
+      <div>
+        <div class="cs-nums">
+          <div class="cs-num"><b>6</b><span>pillars, each with its own colour</span><small>Ember’s plan · 22 Oct 2026</small></div>
+          <div class="cs-num"><b>30</b><span>initiatives placed across the six pillars</span><small>22 Oct 2026</small></div>
+          <div class="cs-num"><b>27</b><span>dependencies between initiatives, drawn as lines of light</span><small>22 Oct 2026</small></div>
+        </div>
+        <figure class="cs-chart fd" id="fd" aria-labelledby="fd-t">
+          <div class="fd-h">
+            <div><h3 id="fd-t">Flat against deep</h3><p class="note">The same 30 initiatives, as rows and in space</p></div>
+            <div class="fd-sw" role="group" aria-label="Show the plan">
+              <button type="button" data-v="rows" aria-pressed="true">As rows</button>
+              <button type="button" data-v="space" aria-pressed="false">In space</button>
+            </div>
+          </div>
+          <div class="fd-view fd-space" hidden>
+            <div class="cst cst-fd" id="fd-sky">
+              <canvas class="cst-cv" tabindex="0" role="img" aria-label="Ember’s plan in space, with the three links A, B and C lit" aria-describedby="fd-k"></canvas>
+              <div class="cst-card" hidden></div>
+              <p class="vh" id="fd-k">Drag to turn it. The left and right arrows step from star to star.</p>
+              <p class="vh" aria-live="polite" data-live></p>
+            </div>
+          </div>
+          <div class="fd-view fd-rows">
+            <div class="fd-sheet" tabindex="0" role="region" aria-label="Ember’s plan as rows">
+              <table>
+                <thead><tr><th scope="col">#</th><th scope="col">Pillar</th><th scope="col">Initiative</th><th scope="col">When</th><th scope="col"><span class="vh">Link</span></th></tr></thead>
+                <tbody>
+<tr><th scope="row">1</th><td><i class="pd product"></i>Product</td><td>Green-Bean Sourcing</td><td>Month 1</td><td></td></tr>
+<tr><th scope="row">2</th><td><i class="pd product"></i>Product</td><td>Roast Profiles &amp; QA</td><td>Months 1–2</td><td></td></tr>
+<tr><th scope="row">3</th><td><i class="pd product"></i>Product</td><td>Core Range &amp; Blends</td><td>Months 2–3</td><td></td></tr>
+<tr data-k="0"><th scope="row">4</th><td><i class="pd product"></i>Product</td><td>Packaging &amp; Freshness</td><td>Months 2–3</td><td><i class="tg">A</i></td></tr>
+<tr><th scope="row">5</th><td><i class="pd product"></i>Product</td><td>Seasonal &amp; Limited Drops</td><td>Months 6–24</td><td></td></tr>
+<tr><th scope="row">6</th><td><i class="pd brand"></i>Brand</td><td>Brand Identity &amp; Story</td><td>Month 1</td><td></td></tr>
+<tr><th scope="row">7</th><td><i class="pd brand"></i>Brand</td><td>Product &amp; Lifestyle Photography</td><td>Months 1–2</td><td></td></tr>
+<tr><th scope="row">8</th><td><i class="pd brand"></i>Brand</td><td>Editorial &amp; Brew Guides</td><td>Months 2–4</td><td></td></tr>
+<tr><th scope="row">9</th><td><i class="pd brand"></i>Brand</td><td>Social &amp; Community</td><td>Months 2–24</td><td></td></tr>
+<tr><th scope="row">10</th><td><i class="pd brand"></i>Brand</td><td>UGC &amp; Reviews Engine</td><td>Months 4–24</td><td></td></tr>
+<tr data-k="0"><th scope="row">11</th><td><i class="pd store"></i>Store</td><td>D2C Store (Shopify) Live</td><td>Months 2–3</td><td><i class="tg">A</i></td></tr>
+<tr><th scope="row">12</th><td><i class="pd store"></i>Store</td><td>Subscription Storefront</td><td>Months 3–4</td><td></td></tr>
+<tr><th scope="row">13</th><td><i class="pd store"></i>Store</td><td>Marketplaces (Amazon etc.)</td><td>Months 6–9</td><td></td></tr>
+<tr data-k="2"><th scope="row">14</th><td><i class="pd store"></i>Store</td><td>Retail &amp; Café Stockists</td><td>Months 9–15</td><td><i class="tg">C</i></td></tr>
+<tr><th scope="row">15</th><td><i class="pd store"></i>Store</td><td>Pop-ups &amp; Sampling Events</td><td>Months 6–24</td><td></td></tr>
+<tr><th scope="row">16</th><td><i class="pd growth"></i>Growth</td><td>Paid Social &amp; Search</td><td>Months 3–24</td><td></td></tr>
+<tr><th scope="row">17</th><td><i class="pd growth"></i>Growth</td><td>SEO &amp; Content Discovery</td><td>Months 4–24</td><td></td></tr>
+<tr><th scope="row">18</th><td><i class="pd growth"></i>Growth</td><td>Creator &amp; Affiliate Program</td><td>Months 4–24</td><td></td></tr>
+<tr><th scope="row">19</th><td><i class="pd growth"></i>Growth</td><td>Referral &amp; Gifting Loops</td><td>Months 6–24</td><td></td></tr>
+<tr><th scope="row">20</th><td><i class="pd growth"></i>Growth</td><td>Lifecycle Email &amp; SMS</td><td>Months 3–24</td><td></td></tr>
+<tr><th scope="row">21</th><td><i class="pd ops"></i>Ops</td><td>Inventory &amp; Roast-to-Order</td><td>Months 2–3</td><td></td></tr>
+<tr><th scope="row">22</th><td><i class="pd ops"></i>Ops</td><td>Fulfilment / 3PL</td><td>Months 3–4</td><td></td></tr>
+<tr data-k="1"><th scope="row">23</th><td><i class="pd ops"></i>Ops</td><td>Shipping &amp; Packaging Ops</td><td>Months 3–6</td><td><i class="tg">B</i></td></tr>
+<tr><th scope="row">24</th><td><i class="pd ops"></i>Ops</td><td>Customer Support Desk</td><td>Months 3–24</td><td></td></tr>
+<tr data-k="2"><th scope="row">25</th><td><i class="pd ops"></i>Ops</td><td>Supply-Chain Resilience SLA</td><td>Months 9–24</td><td><i class="tg">C</i></td></tr>
+<tr data-k="1"><th scope="row">26</th><td><i class="pd revenue"></i>Revenue</td><td>First Revenue (D2C bags)</td><td>Month 3</td><td><i class="tg">B</i></td></tr>
+<tr><th scope="row">27</th><td><i class="pd revenue"></i>Revenue</td><td>Subscription Revenue Engine</td><td>Months 4–6</td><td></td></tr>
+<tr><th scope="row">28</th><td><i class="pd revenue"></i>Revenue</td><td>Retention &amp; LTV Program</td><td>Months 6–12</td><td></td></tr>
+<tr><th scope="row">29</th><td><i class="pd revenue"></i>Revenue</td><td>Wholesale Revenue Line</td><td>Months 12–15</td><td></td></tr>
+<tr><th scope="row">30</th><td><i class="pd revenue"></i>Revenue</td><td>Unit Economics &amp; Finance</td><td>Months 6–24</td><td></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="fd-lead">Three links the rows hide:</p>
+          <ol class="fd-three">
+            <li><button type="button" aria-pressed="false"><b>A</b><span>Packaging &amp; Freshness → D2C Store (Shopify) Live</span><small>row 4 → row 11</small></button></li>
+            <li><button type="button" aria-pressed="false"><b>B</b><span>Shipping &amp; Packaging Ops → First Revenue (D2C bags)</span><small>row 23 → row 26</small></button></li>
+            <li><button type="button" aria-pressed="false"><b>C</b><span>Supply-Chain Resilience SLA → Retail &amp; Café Stockists</span><small>row 25 → row 14</small></button></li>
+          </ol>
+        </figure>
+        <details class="cs-drawer">
+          <summary>All the numbers (10)</summary>
+          <ul class="cs-all">
+            <li><b>6</b><span>pillars, each with its own colour: Product &amp; Sourcing, Brand &amp; Content, Store &amp; Channels, Growth &amp; Acquisition, Fulfilment &amp; Ops, Retention &amp; Revenue</span><small>Ember’s plan · 22 Oct 2026</small></li>
+            <li><b>30</b><span>initiatives placed across the six pillars, five to a pillar</span><small>22 Oct 2026</small></li>
+            <li><b>27</b><span>cross-initiative dependencies, drawn as lines of light with particles flowing from source to target</span><small>22 Oct 2026</small></li>
+            <li><b>37 · 63</b><span>the app’s own readout: 37 nodes (the brand, 6 pillars, 30 initiatives) and 63 links (36 part-of lines plus the 27 dependencies)</span><small>screens refreshed 23 Oct 2026</small></li>
+            <li><b>24</b><span>months on the plan’s timeline, Now → Month 24</span><small>Ember’s plan</small></li>
+            <li><b>3</b><span>planning rounds, R1, R2 and R3, each with its own notes, saved on the device</span><small>live app</small></li>
+            <li><b>1</b><span>HTML file, no build step; React 18.3.1, Three.js 0.147.0 and Babel-standalone 8.0.7 are pinned, so a new library release can’t break it</span><small>live app</small></li>
+            <li><b>19 Sep</b><span>first version live on GitHub Pages</span><small>2026 · repository history</small></li>
+            <li><b>29 Sep</b><span>touch controls: drag, pinch, two-finger pan and tap to select. On a desktop: drag to orbit, WASD or arrows to move, scroll or Q/E to zoom, R to refit</span><small>2026 · repository history</small></li>
+            <li><b>0</b><span>clients or usage results claimed: a self-initiated product experiment</span><small>to date</small></li>
+          </ul>
+          <p class="cs-foot-note">The figures describe Ember’s plan in the live app. Ember is an example brand, built in to show what the tool does with a real plan. The skies on this page redraw the same plan with a lighter 2D canvas; the app itself renders it in Three.js with bloom.</p>
+        </details>
+      </div>
+      <aside class="cs-limits" aria-labelledby="t4">
+        <h3 id="t4"><span class="cs-pn sm" aria-hidden="true">4</span>What it is not yet</h3>
+        <p>A self-initiated experiment. What it does not do yet:</p>
+        <ul>
+          <li>No client or usage results are claimed</li>
+          <li>Notes live on one device: no accounts or sync; plans are shared as a snapshot file</li>
+          <li>No import: the paste box on this page is a sketch of one</li>
+          <li>Search flies to a star on desktop only</li>
+          <li>A snapshot still loads its libraries from a CDN</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part" id="cousin" aria-labelledby="t5">
+  <div class="cs-wrap">
+    <header class="cs-ph"><span class="cs-pn" aria-hidden="true">5</span><h2 id="t5">Its shelf: the 3D Lab</h2>
+      <p>Constellation has no client, so its cousin is not a client build. It sits beside the 3D Lab: live 3D you can turn in the page.</p></header>
+    <div class="cs-cousin">
+      <div>
+        <h3>The 3D Lab</h3>
+        <p>Live 3D pieces that run in the page and start when you ask.</p>
+        <ul class="same" aria-label="What is the same"><li>Runs in the browser</li><li>Turns with a drag</li><li>Starts on request</li><li>Tested on phones</li></ul>
+      </div>
+      <a class="cs-btn pri" href="../lab.html">Open the 3D Lab</a>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part alt" id="built" aria-labelledby="t6">
+  <div class="cs-wrap cs-built">
+    <div>
+      <header class="cs-ph"><span class="cs-pn" aria-hidden="true">✓</span><h2 id="t6">How it was built</h2></header>
+      <p class="cs-role">I set the concept and made the product calls. AI coding tools wrote the code under my direction, and I tested every change.</p>
+      <ul class="cs-stack" aria-label="Built with"><li>React 18</li><li>Three.js r147</li><li>UnrealBloom</li><li>Babel-standalone</li><li>One HTML file</li><li>GitHub Pages</li></ul>
+    </div>
+    <ol class="cs-steps">
+      <li><div><b>Concept</b><span>A plan is a network, not a list.</span></div></li>
+      <li><div><b>Product decisions</b><span>The data model (brand → pillars → initiatives, with typed links), fly-to focus, the work tree, notes per round.</span></div></li>
+      <li><div><b>An AI-assisted build</b><span>AI coding tools wrote the code under my direction.</span></div></li>
+      <li><div><b>Every change tested</b><span>On desktop and on phones; touch controls added on 29 Sep 2026.</span></div></li>
+      <li><div><b>Live</b><span>On GitHub Pages since 19 Sep 2026.</span></div></li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<section class="cs-end" aria-labelledby="te">
+  <div class="cs-end-in">
+    <div>
+      <h2 id="te">Want one like this?</h2>
+      <p>Tell me what your team needs to see at once. I’ll design the tool, build it with AI coding tools under my direction and test every change.</p>
+      <div class="cs-acts">
+        <a class="cs-btn pri" href="../index.html?project=constellation#contact">Start a project</a>
+        <a class="cs-btn sec" href="mailto:abhimasih0505@gmail.com?subject=Case%20study%20PDF%3A%20Constellation%2C%203D%20business%20planner&amp;body=Hi%20Abhishek%2C%20could%20you%20send%20me%20the%20case%20study%20PDF%20for%20Constellation%2C%20the%203D%20business%20planner%3F">Request the PDF (8 pages)</a>
+        <a class="lnk" href="https://abbytes-sudo.github.io/interactive-business-planner-3d/">Open the live app</a>
+      </div>
+    </div>
+    <nav class="cs-nav" aria-label="More case studies">
+      <a href="real-estate-crm.html"><small>Next · case study 01</small><b>A brokerage’s own CRM, in daily use since 9 September</b></a>
+      <a href="../index.html#work"><small>All the work</small><b>Seven projects on the homepage</b></a>
+    </nav>
+  </div>
+</section>
+<footer class="cs-foot">
+  <p class="cs-st"><span class="cs-ok"><i aria-hidden="true"></i>All systems running</span><span>23 projects live</span><span>Last update <time id="cs-upd" datetime="2026-11-27">27 Nov 2026</time></span><span>© 2026</span></p>
+  <p class="cs-wl"><span>Abhishek M · Freelance CRM, website and automation builder · New Delhi</span><span>Client screens are white-labelled unless marked live. Names and figures on screen are changed.</span></p>
+</footer>
 </body>
 </html>

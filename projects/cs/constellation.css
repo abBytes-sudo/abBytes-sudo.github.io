@@ -1,0 +1,107 @@
+/* Constellation: neon on violet. The canvas is the hero (constellation-hero.js), "Paste your plan" turns lines into
+   stars (paste-plan.js), and "Flat against deep" switches the same plan between rows and space. */
+body.cs-const{--c-bg:#120c2c;--c-ink:#f1efff;--c-dim:#b9b2da;--c-acc:#4be3c1;--c-acc-ink:#03140f;--c-tint:#effbf7;--c-line:rgba(241,239,255,.14);--sky:#0e0924}
+.cs-const .cs-hero{background:radial-gradient(62% 72% at 74% 46%,#2c1868 0%,rgba(44,24,104,0) 72%),radial-gradient(48% 60% at 6% 100%,#25124f 0%,rgba(37,18,79,0) 70%),var(--sky)}
+.cs-const .cs-hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.9;background:radial-gradient(1.2px 1.2px at 63.7% 4.4%,rgba(233,228,255,.45) 50%,transparent 100%),radial-gradient(1.6px 1.6px at 14.7% 11.8%,rgba(190,240,255,.35) 50%,transparent 100%),radial-gradient(1px 1px at 4.1% 11%,rgba(255,243,214,.85) 50%,transparent 100%),radial-gradient(1.6px 1.6px at 56% 70.7%,rgba(233,228,255,.7) 50%,transparent 100%),radial-gradient(1px 1px at 45% 28.7%,rgba(190,240,255,.45) 50%,transparent 100%),radial-gradient(1.2px 1.2px at 34.3% 16.9%,rgba(255,243,214,.35) 50%,transparent 100%),radial-gradient(1.2px 1.2px at 38.2% 36.5%,rgba(255,255,255,.85) 50%,transparent 100%),radial-gradient(1.6px 1.6px at 80.1% 72.1%,rgba(190,240,255,.35) 50%,transparent 100%),radial-gradient(1.6px 1.6px at 8.7% 30.1%,rgba(233,228,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 70% 6.4%,rgba(255,243,214,.55) 50%,transparent 100%),radial-gradient(1.4px 1.4px at 84.8% 85.2%,rgba(190,240,255,.55) 50%,transparent 100%),radial-gradient(1.2px 1.2px at 63.3% 37%,rgba(233,228,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 66.7% 69.4%,rgba(233,228,255,.85) 50%,transparent 100%),radial-gradient(1.4px 1.4px at 53.3% 25.5%,rgba(255,255,255,.7) 50%,transparent 100%),radial-gradient(1.6px 1.6px at 98% 63.4%,rgba(255,255,255,.45) 50%,transparent 100%),radial-gradient(1.6px 1.6px at 40.3% 8.4%,rgba(233,228,255,.55) 50%,transparent 100%),radial-gradient(1.6px 1.6px at 14.7% 73.5%,rgba(190,240,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 9.9% 6.5%,rgba(233,228,255,.45) 50%,transparent 100%),radial-gradient(1.2px 1.2px at 59.4% 46.9%,rgba(255,243,214,.85) 50%,transparent 100%),radial-gradient(1.6px 1.6px at 67.7% 13%,rgba(255,255,255,.55) 50%,transparent 100%),radial-gradient(1.4px 1.4px at 11.9% 43.7%,rgba(255,255,255,.35) 50%,transparent 100%),radial-gradient(1.2px 1.2px at 48.9% 12.7%,rgba(233,228,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 6.7% 86.3%,rgba(190,240,255,.35) 50%,transparent 100%),radial-gradient(1.6px 1.6px at 81% 95.9%,rgba(233,228,255,.45) 50%,transparent 100%),radial-gradient(1px 1px at 65.7% 92.9%,rgba(190,240,255,.55) 50%,transparent 100%),radial-gradient(1px 1px at 95.5% 91.2%,rgba(190,240,255,.55) 50%,transparent 100%),radial-gradient(1.4px 1.4px at 24% 56%,rgba(255,255,255,.5) 50%,transparent 100%),radial-gradient(1.2px 1.2px at 30% 92%,rgba(233,228,255,.6) 50%,transparent 100%)}
+.cs-const .cs-hero-in{position:relative}
+.cs-const .cs-hero h1{font-size:clamp(44px,5.6vw,84px);letter-spacing:-.035em}
+.cs-const .cs-hero h1 span{display:block;margin-top:14px;font:500 clamp(15px,1.25vw,18px)/1.3 var(--mono);letter-spacing:.02em;color:#9ff0db}
+.cs-const .cs-crumb b{color:var(--c-acc)}
+.cs-const .cs-facts dt{color:#c3b6ff}
+.cs-const .cs-pn{background:var(--c-bg)}
+
+/* ---- a sky: one canvas, a hint, a readout and the card of the selected star ---- */
+.cst{position:relative;overflow:hidden;user-select:none;-webkit-user-select:none}
+.cst-cv{position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y;cursor:grab;-webkit-tap-highlight-color:transparent}
+.cst.grab .cst-cv{cursor:grabbing}
+.cst-cv:focus-visible{outline:2px solid var(--c-acc);outline-offset:-2px;border-radius:inherit}
+.cst-tip{position:absolute;left:14px;top:14px;z-index:2;display:inline-flex;align-items:center;gap:9px;padding:8px 13px 8px 11px;border-radius:99px;background:rgba(14,9,36,.78);border:1px solid rgba(75,227,193,.38);font:600 13px/1 var(--txt);color:#e9fffa;pointer-events:none;transition:opacity .5s}
+.cst-tip i{width:8px;height:8px;border-radius:50%;background:var(--c-acc);box-shadow:0 0 0 0 rgba(75,227,193,.6);animation:cst-ping 1.8s ease-out infinite}
+@keyframes cst-ping{0%{box-shadow:0 0 0 0 rgba(75,227,193,.6)}80%,100%{box-shadow:0 0 0 9px rgba(75,227,193,0)}}
+.cst.used .cst-tip{opacity:0}
+.cst-read{position:absolute;left:14px;bottom:12px;z-index:2;font:500 12px/1.3 var(--mono);color:#b9b2da;pointer-events:none}
+.cst-card{position:absolute;z-index:3;right:12px;top:12px;width:min(320px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;padding:16px 16px 14px;border-radius:16px;background:#150e35;border:1px solid rgba(241,239,255,.16);box-shadow:0 24px 50px -24px rgba(0,0,0,.7);color:var(--c-ink);animation:cst-in .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes cst-in{from{opacity:0;transform:translateY(6px)}}
+.cst-card[hidden]{display:none}
+.cst-x{position:absolute;right:4px;top:4px;display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:12px;background:transparent;color:#cfc9ea;font:400 22px/1 var(--txt);cursor:pointer}
+.cst-x:hover{background:rgba(255,255,255,.08);color:#fff}
+.cst-k{display:flex;align-items:center;gap:8px;padding-right:34px;font:500 11.5px/1.35 var(--mono);color:#b9b2da}
+.cst-k::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--cc,#fff);box-shadow:0 0 8px var(--cc,#fff)}
+.cst-n{margin-top:6px;padding-right:20px;font:700 19px/1.2 var(--dis);letter-spacing:-.01em;color:#fff;outline:none}
+.cst-d{margin-top:6px;font-size:14px;line-height:1.45;color:#cfc9ea}
+.cst-g{margin-top:12px}
+.cst-g b{display:block;font:500 11px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#9d95c4}
+.cst-cs{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.cst-c{display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:6px 11px;border-radius:10px;border:1px solid rgba(241,239,255,.14);background:rgba(255,255,255,.05);color:#f1efff;font:500 13px/1.25 var(--txt);text-align:left;cursor:pointer;transition:background .2s,border-color .2s}
+.cst-c::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--cc,#fff)}
+.cst-c:hover{background:rgba(255,255,255,.1);border-color:var(--cc,#fff)}
+.cst-none{margin-top:10px;font-size:13.5px;color:#9d95c4}
+@media (pointer:coarse){.cst-c{min-height:44px}}
+
+/* the hero sky */
+.cs-const .cs-vis{align-self:stretch;display:flex;flex-direction:column}
+.cst-hero{flex:1;min-height:clamp(440px,70vh,660px);margin-right:calc(-1 * var(--pad))}
+.cst-cap{margin-top:8px;font:500 12.5px/1.4 var(--mono);color:#9d95c4}
+@media (max-width:980px){
+  .cst-hero{flex:none;height:440px;min-height:0;margin:0 calc(-1 * var(--pad))}
+  .cst-hero .cst-card{top:auto;bottom:10px;left:10px;right:10px;width:auto;max-height:62%}
+  .cst-cap{margin-top:6px}
+}
+
+/* ---- paste your plan ---- */
+.pp{position:relative;border-radius:22px;background:var(--sky);color:var(--c-ink);box-shadow:0 30px 60px -36px rgba(14,9,36,.55)}
+.cst-pp{height:clamp(340px,44vw,430px);border-radius:22px 22px 0 0;background:radial-gradient(70% 90% at 50% 40%,#22134f 0%,rgba(34,19,79,0) 75%)}
+.cst-pp .cst-tip{opacity:0}
+.pp.built .cst-pp:not(.used) .cst-tip{opacity:1}
+.pp-in{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(18px,3vw,36px);align-items:start;padding:clamp(18px,2.6vw,30px);border-top:1px solid rgba(241,239,255,.1)}
+.pp-l label{display:block}
+.pp-l label b{display:block;font:700 clamp(21px,1.9vw,26px)/1.15 var(--dis);letter-spacing:-.015em;color:#fff}
+.pp-l label span{display:block;margin-top:8px;font-size:15.5px;line-height:1.5;color:#cfc9ea}
+.pp-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.pp-go{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:12px 18px;border:0;border-radius:12px;background:var(--c-acc);color:var(--c-acc-ink);font:650 16px/1.2 var(--txt);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.pp-go::after{content:"↑";font-weight:700}
+.pp-go:hover{transform:translateY(-2px);box-shadow:0 10px 24px -12px var(--c-acc)}
+.pp-sm{min-height:48px;padding:10px 14px;border:1px solid rgba(241,239,255,.22);border-radius:12px;background:transparent;color:#e7e3fb;font:600 15px/1.2 var(--txt);cursor:pointer}
+.pp-sm:hover{border-color:rgba(241,239,255,.5);background:rgba(255,255,255,.05)}
+.pp-st{margin-top:14px;min-height:2.9em;font-size:14px;line-height:1.45;color:#b9b2da}
+.pp textarea{display:block;width:100%;min-height:200px;resize:vertical;padding:14px 16px;border-radius:14px;border:1px solid rgba(241,239,255,.16);background:#08051a;color:#ece8ff;font:400 14px/1.75 var(--mono);caret-color:var(--c-acc);overflow:hidden}
+.pp textarea:focus{outline:none;border-color:var(--c-acc);box-shadow:0 0 0 3px rgba(75,227,193,.22)}
+.pp-ghost{position:absolute;left:0;top:0;z-index:6;padding:1px 4px;border-radius:6px;font:500 14px/1.4 var(--mono);white-space:nowrap;color:#fff;text-shadow:0 0 10px var(--c,#4be3c1),0 0 2px var(--c,#4be3c1);pointer-events:none;will-change:transform,opacity}
+@media (max-width:760px){.pp-in{grid-template-columns:minmax(0,1fr)}.pp textarea{order:2}.pp-l{order:1}}
+@media (max-width:560px){.cst-pp{height:480px}}
+
+.cst-h3{margin:clamp(48px,6vw,80px) 0 clamp(18px,2.4vw,28px);font:700 clamp(22px,2vw,28px)/1.15 var(--dis);letter-spacing:-.015em;color:var(--k)}
+
+/* ---- flat against deep ---- */
+.fd-h{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px 20px}
+.fd-sw{display:inline-flex;gap:4px;padding:4px;border-radius:12px;background:var(--bg2);border:1px solid var(--hair)}
+.fd-sw button{min-height:44px;padding:8px 14px;border:0;border-radius:9px;background:transparent;color:var(--mut);font:600 14.5px/1 var(--txt);cursor:pointer}
+.fd-sw button[aria-pressed=true]{background:var(--sky);color:#fff}
+.fd-sw button:not([aria-pressed=true]):hover{color:var(--k);background:#fff}
+.fd-view{margin-top:16px}
+.cst-fd{height:clamp(360px,36vw,440px);border-radius:14px;background:radial-gradient(70% 80% at 50% 45%,#22134f 0%,rgba(34,19,79,0) 75%),var(--sky)}
+.fd-sheet{max-height:440px;overflow:auto;border:1px solid var(--hair);border-radius:12px;background:#fff}
+.fd-sheet table{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.3;color:var(--txt-c)}
+.fd-sheet th,.fd-sheet td{padding:7px 10px;border-bottom:1px solid #eeecf3;text-align:left;white-space:nowrap}
+.fd-sheet thead th{position:sticky;top:0;z-index:1;background:#f3f2f7;font:500 11.5px/1.2 var(--mono);color:var(--mut);border-bottom:1px solid var(--hair)}
+.fd-sheet tbody th{width:38px;font:500 12px/1 var(--mono);color:#9a96a8;background:#faf9fc;border-right:1px solid #eeecf3}
+.fd-sheet td:nth-child(3){color:var(--k);font-weight:500}
+.fd-sheet td:nth-child(4){font:500 12px/1.3 var(--mono);color:var(--mut)}
+.fd-sheet tr.on td,.fd-sheet tr.on th{background:#e6fbf4}
+.pd{display:inline-block;width:8px;height:8px;margin-right:7px;border-radius:50%;vertical-align:1px}
+.pd.product{background:#4f8fe8}.pd.brand{background:#9b6bf0}.pd.store{background:#1fb895}.pd.growth{background:#e0a23a}.pd.ops{background:#21a9cf}.pd.revenue{background:#e0628f}
+.tg{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--sky);color:#4be3c1;font:700 11px/1 var(--txt);font-style:normal}
+.fd-lead{margin-top:16px;font:600 15px/1.3 var(--dis);color:var(--k)}
+.fd-three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.fd-three button{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 10px;width:100%;height:100%;min-height:44px;padding:10px 12px;border-radius:12px;border:1px solid var(--hair);background:#fff;text-align:left;cursor:pointer;transition:border-color .2s,background .2s}
+.fd-three button:hover{border-color:#b9b3cc}
+.fd-three button[aria-pressed=true]{border-color:var(--sky);background:#f4f1ff}
+.fd-three b{grid-row:span 2;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--sky);color:#4be3c1;font:700 13px/1 var(--txt)}
+.fd-three span{font-size:14px;line-height:1.35;color:var(--k)}
+.fd-three small{font:500 11.5px/1.3 var(--mono);color:var(--mut)}
+@media (max-width:760px){.fd-three{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.cst-tip i{animation:none}.cst-card{animation:none}}
+
+/* 44 px hit areas for the small text links, same look */
+.cs-const .cs-crumb a{display:inline-flex;align-items:center;min-height:44px;margin:-12px 0}
+.cs-const .cs-acts .lnk{display:inline-flex;align-items:center;min-height:44px}

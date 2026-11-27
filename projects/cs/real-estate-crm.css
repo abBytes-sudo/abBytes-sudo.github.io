@@ -1,0 +1,68 @@
+/* Real Estate Platform CRM: navy and amber, a large numeral, the weekly-tasks chart as the hero. */
+body.cs-crm{--c-bg:#0f1830;--c-ink:#f4f1ea;--c-dim:#aeb7cf;--c-acc:#f5a524;--c-acc-ink:#1b1205;--c-tint:#fdf4e2;--c-line:rgba(255,255,255,.13)}
+.cs-crm .cs-hero{background:radial-gradient(120% 90% at 85% 10%,#1b2a52 0%,rgba(27,42,82,0) 60%),#0f1830}
+.cs-crm .cs-hero::before{content:"01";position:absolute;right:-.06em;bottom:-.24em;font:800 clamp(220px,30vw,460px)/1 var(--dis);letter-spacing:-.06em;background:linear-gradient(180deg,rgba(245,165,36,.16),rgba(245,165,36,0) 78%);-webkit-background-clip:text;background-clip:text;color:transparent;pointer-events:none}
+.cs-crm .cs-hero-in{position:relative}
+
+/* the two Real Estate Platform chapters */
+.re-sw{display:inline-flex;gap:4px;padding:4px;margin-bottom:22px;border-radius:12px;background:rgba(255,255,255,.07);border:1px solid var(--c-line)}
+.re-sw a{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;border-radius:9px;font-weight:600;font-size:14.5px;text-decoration:none;color:var(--c-dim)}
+.re-sw a[aria-current]{background:var(--c-acc);color:var(--c-acc-ink)}
+.re-sw a:not([aria-current]):hover{color:var(--c-ink);background:rgba(255,255,255,.08)}
+
+/* hero chart: the week the team moved in */
+.wk{padding:22px 22px 18px;border-radius:20px;background:#0b1226;border:1px solid var(--c-line);box-shadow:0 40px 80px -40px rgba(0,0,0,.6)}
+.wk h2{font:650 18px/1.3 var(--dis);color:var(--c-ink)}
+.wk .note{margin-top:4px;font:500 12.5px/1.45 var(--mono);color:var(--c-dim)}
+.wk-bars{position:relative;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(6px,1.2vw,14px);margin-top:34px}
+.wk-bars li{position:relative;display:flex;flex-direction:column;align-items:center;outline:none;border-radius:8px}
+.wk-plot{height:clamp(150px,19vw,210px);width:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.wk-plot b{margin-bottom:6px;font:700 clamp(13px,1.2vw,16px)/1 var(--dis);color:#f4f1ea;font-variant-numeric:tabular-nums;opacity:0;transition:opacity .5s .8s}
+.wk-plot i{display:block;width:100%;border-radius:6px 6px 2px 2px;background:#2a3a66;transform-origin:50% 100%;transform:scaleY(.02);transition:transform 1s cubic-bezier(.2,.8,.2,1),background .2s}
+.wk-bars li.af i{background:#c98516}
+.wk-bars li.pk i{background:#ffc35c}
+.wk-bars li:hover i,.wk-bars li:focus-visible i,.wk-bars li.cur i{background:#ffd27f}
+.wk-bars li:focus-visible{box-shadow:0 0 0 2px #f5a524}
+.wk-bars span{margin-top:8px;font:500 11.5px/1.3 var(--mono);color:#8f98b4;text-align:center}
+.b36 i{height:28.1%}.b37 i{height:24%}.b38 i{height:27.1%}.b39 i{height:39.4%}.b40 i{height:100%}.b41 i{height:72.3%}.b42 i{height:66.1%}
+.wk-bars li:nth-child(2) i{transition-delay:.07s}.wk-bars li:nth-child(3) i{transition-delay:.14s}.wk-bars li:nth-child(4) i{transition-delay:.21s}.wk-bars li:nth-child(5) i{transition-delay:.28s}.wk-bars li:nth-child(6) i{transition-delay:.35s}.wk-bars li:nth-child(7) i{transition-delay:.42s}
+.wk.on .wk-plot i{transform:none}.wk.on .wk-plot b{opacity:1}
+.wk-bars .b37::before{content:"";position:absolute;left:28%;top:-26px;bottom:34px;border-left:1.5px dashed #ff7a69}
+.wk-bars .b37::after{content:"Go-live 9 Sep";position:absolute;left:calc(28% + 6px);top:-30px;white-space:nowrap;font:600 12px var(--txt);color:#ff9b8e}
+.wk-say{min-height:2.9em;margin-top:14px;padding-top:12px;border-top:1px solid var(--c-line);font-size:15px;line-height:1.45;color:#dfe3f0}
+.wk-say b{color:#ffc35c;font-weight:650}
+
+/* print to listings, as a flow */
+.pfl{display:grid;grid-template-columns:minmax(0,1fr) 46px minmax(0,.9fr) 46px minmax(0,1.25fr);align-items:center;gap:0;margin-top:18px}
+.pf-in b,.pf-gate b{display:block;font:750 clamp(28px,3vw,40px)/1 var(--dis);letter-spacing:-.025em;color:var(--k);font-variant-numeric:tabular-nums}
+.pf-in span,.pf-gate span{display:block;margin-top:6px;font-size:14.5px;line-height:1.4;color:var(--txt-c)}
+.pf-gate{padding:18px;border-radius:16px;background:#0f1830;text-align:center}
+.pf-gate b{color:#f5a524}
+.pf-gate span{color:#e6e9f3}
+.pf-gate small{display:block;margin-top:4px;font:500 12px/1.35 var(--mono);color:#aeb7cf}
+.pf-go{height:2px;background:repeating-linear-gradient(90deg,#f5a524 0 8px,transparent 8px 14px);background-size:14px 2px}
+.cs-chart.on .pf-go{animation:pf-run 1s linear infinite}
+@keyframes pf-run{to{background-position:14px 0}}
+.pf-out{display:grid;gap:12px}
+.pf-out li span{display:block;font-size:14.5px;line-height:1.35;color:var(--txt-c)}
+.pf-out li span b{font:700 18px var(--dis);color:var(--k);font-variant-numeric:tabular-nums}
+.pf-out i{display:block;height:12px;margin-top:6px;border-radius:4px;transform-origin:0 50%;transform:scaleX(.02);transition:transform 1s .5s cubic-bezier(.2,.8,.2,1)}
+.cs-chart.on .pf-out i{transform:none}
+.pf-out .o1{width:100%;background:#f5a524}.pf-out .o2{width:18.9%;background:#0f1830}.pf-out .o3{width:25.1%;background:#c9c3d6}
+.pf-foot{margin-top:16px;font-size:14px;color:var(--mut)}
+@media (max-width:760px){
+  .pfl{grid-template-columns:minmax(0,1fr);gap:0}
+  .pf-go{width:2px;height:28px;margin:8px 0 8px 22px;background:repeating-linear-gradient(180deg,#f5a524 0 8px,transparent 8px 14px);background-size:2px 14px}
+  .cs-chart.on .pf-go{animation-name:pf-run-v}
+  .pf-gate{text-align:left}
+}
+@keyframes pf-run-v{to{background-position:0 14px}}
+
+/* the Lab chapter, loaded only on request */
+.lab{position:relative;margin-top:16px;border-radius:var(--r);overflow:hidden;background:#0b1226;aspect-ratio:16/9}
+.lab img{width:100%;height:100%;object-fit:cover;opacity:.7}
+.lab button{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:12px 20px;border:0;border-radius:12px;background:#f5a524;color:#1b1205;font-weight:650;font-size:16px;cursor:pointer;box-shadow:0 14px 30px -12px rgba(0,0,0,.6);white-space:nowrap}
+.lab button:hover{background:#ffc35c}
+.lab iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#0b1226}
+.lab-cap{margin-top:8px;font-size:13.5px;color:var(--mut)}
+@media (prefers-reduced-motion:reduce){.wk-plot i,.pf-out i{transform:none}.wk-plot b{opacity:1}}

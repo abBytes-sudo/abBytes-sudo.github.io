@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One account, several kinds of user · Entertainment platform case study · Abhishek M</title>
+<meta name="description" content="A hyper-local entertainment marketplace where one login holds fan, entertainer, venue and service-provider profiles, each with its own dashboard. 68 verified updates in about 7 weeks (12 Jun – 29 Jul 2026).">
+<link rel="canonical" href="https://abbytes-sudo.github.io/projects/entertainment-platform.html">
+<meta name="theme-color" content="#1b1026">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preload" href="../next-home/hfonts/inter-tight-latin-normal-7.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="cs/cs.css?v=5">
+<link rel="stylesheet" href="cs/entertainment-platform.css?v=1">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Abhishek M">
+<meta property="og:locale" content="en_IN">
+<meta property="og:title" content="One account. Several kinds of user.">
+<meta property="og:description" content="A hyper-local entertainment marketplace with six connected dashboards, four on one login. 68 changes tested and signed off by the client in seven weeks.">
+<meta property="og:url" content="https://abbytes-sudo.github.io/projects/entertainment-platform.html">
+<meta property="og:image" content="https://abbytes-sudo.github.io/assets/og-2026-11.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Abhishek M builds systems for businesses: CRMs, back offices and websites.">
+<meta name="twitter:card" content="summary_large_image">
+<script src="cs/cs.js?v=5" defer></script>
+<script src="cs/roles-diagram.js?v=1" defer></script>
+<script src="cs/entertainment-platform.js?v=1" defer></script>
+</head>
+<body class="cs-ent">
+<a class="skip" href="#main">Skip to the case study</a>
+<header class="top">
+  <a class="who" href="../index.html">Abhishek M</a>
+  <nav aria-label="Site"><a href="../index.html#work">Work</a><a href="../lab.html">3D Lab</a><a href="../index.html#how">How I work</a><a href="../index.html#contact">Contact</a></nav>
+  <a class="go" href="../index.html#contact">Start a project</a>
+</header>
+
+<main id="main">
+<section class="cs-hero" aria-labelledby="h1">
+  <div class="cs-hero-in">
+    <div>
+      <p class="cs-crumb"><a href="../index.html#work">Work</a><span aria-hidden="true">/</span><b>Case study 04</b><span>Client project</span></p>
+      <h1 id="h1">One account. Several kinds of user.</h1>
+      <p class="sub">A hyper-local marketplace for live entertainment. One login can be a fan, an entertainer, a venue and a service provider, each with its own connected dashboard.</p>
+      <div class="cs-acts">
+        <a class="cs-btn pri" href="../index.html?project=entertainment-platform#contact">Start a project like this</a>
+        <a class="lnk" href="#screens">Ask for the screens</a>
+      </div>
+      <dl class="cs-facts">
+        <div><dt>Status</dt><dd>Built and client-tested; not launched publicly</dd></div>
+        <div><dt>Timeline</dt><dd>12 Jun – 29 Jul 2026, about 7 weeks</dd></div>
+        <div class="wide"><dt>My part</dt><dd>Requirements and product decisions with the client, four testing rounds, and the AI-assisted build, which I directed.</dd></div>
+      </dl>
+      <p class="cs-mask">Everything on this page is drawn. No client screens.</p>
+    </div>
+    <div class="cs-vis">
+      <figure class="rd" id="rd" aria-labelledby="rd-t">
+        <figcaption class="rd-head"><h2 id="rd-t">Six dashboards, four on one login</h2><p class="note">Pick a kind of user</p></figcaption>
+        <div class="rd-map">
+          <svg class="rd-lines" aria-hidden="true" focusable="false"></svg>
+          <div class="rd-nodes" role="tablist" aria-label="Kinds of user">
+            <button class="rd-n hub" type="button" role="tab" id="rd-acc" data-k="acc" aria-selected="true" aria-controls="rd-sheet"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 9.6a3.2 3.2 0 1 1 0-.1zM8.8 8h5.2M12.2 8v2.4"/></svg>One login</button>
+            <button class="rd-n" type="button" role="tab" id="rd-fan" data-k="fan" aria-selected="false" aria-controls="rd-sheet" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 13.6S2.2 10.2 2.2 6a3.2 3.2 0 0 1 5.8-1.9A3.2 3.2 0 0 1 13.8 6c0 4.2-5.8 7.6-5.8 7.6z"/></svg>Fan</button>
+            <button class="rd-n" type="button" role="tab" id="rd-ent" data-k="ent" aria-selected="false" aria-controls="rd-sheet" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.8a2.4 2.4 0 0 1 2.4 2.4v3.6a2.4 2.4 0 0 1-4.8 0V4.2A2.4 2.4 0 0 1 8 1.8zM3.8 7.6a4.2 4.2 0 0 0 8.4 0M8 11.8v2.6"/></svg>Entertainer</button>
+            <button class="rd-n" type="button" role="tab" id="rd-venue" data-k="venue" aria-selected="false" aria-controls="rd-sheet" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 14V6.2L8 2l6 4.2V14M5.6 14v-3.6h4.8V14M2 14h12"/></svg>Venue</button>
+            <button class="rd-n" type="button" role="tab" id="rd-svc" data-k="svc" aria-selected="false" aria-controls="rd-sheet" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.6 6h2.8L9.4 3v10L5.4 10H2.6zM11.6 5.6a3.4 3.4 0 0 1 0 4.8"/></svg>Service provider</button>
+            <button class="rd-n op" type="button" role="tab" id="rd-cp" data-k="cp" aria-selected="false" aria-controls="rd-sheet" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 14.6s4.8-4.3 4.8-8.2a4.8 4.8 0 0 0-9.6 0c0 3.9 4.8 8.2 4.8 8.2zM8 8.2a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6z"/></svg>City partner</button>
+            <button class="rd-n op" type="button" role="tab" id="rd-adm" data-k="adm" aria-selected="false" aria-controls="rd-sheet" tabindex="-1"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.6l5.4 2v4.1c0 3.3-2.3 5.8-5.4 6.7-3.1-.9-5.4-3.4-5.4-6.7V3.6z"/></svg>Super admin</button>
+          </div>
+        </div>
+        <div class="rd-sheet" id="rd-sheet" role="tabpanel" aria-labelledby="rd-acc">
+          <div class="rd-view"><img src="cs/entertainment-platform.svg" alt="" width="1466" height="1100" decoding="async"></div>
+          <div class="rd-txt" aria-live="polite">
+            <h3 id="rd-sh-t">One login</h3>
+            <p id="rd-sh-p">Pick a profile at sign-in; switch or add one anytime.</p>
+            <p class="rd-sh" id="rd-sh-l"><b>Shares</b> the login with all four profiles</p>
+          </div>
+        </div>
+        <p class="rd-cap">Drawn for this page; the product’s screens are <a href="#screens">available on request</a>.</p>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part" id="workflow" aria-labelledby="t2">
+  <div class="cs-wrap">
+    <header class="cs-ph"><span class="cs-pn" aria-hidden="true">2</span><h2 id="t2">Six dashboards, and what joins them</h2>
+      <p>The hard part was the account. One person can be a fan on Friday and on stage on Saturday, so one login holds several profiles that never mix. Here is the build, drawn.</p></header>
+    <div class="cin">
+      <figure class="cin-frame" aria-label="The drawing for the current step">
+        <div class="cin-bar"><i></i><i></i><i></i><span>Drawn · One login</span><b>01 / 08</b></div>
+        <div class="cin-view"><img class="a" alt=""><img class="b off" alt=""><i class="cin-ring" aria-hidden="true"></i></div>
+      </figure>
+      <ol class="cin-stops">
+        <li class="cin-stop" data-img="cs/entertainment-platform.svg" data-w="1466" data-h="1100" data-x=".5" data-y=".5" data-zoom="3.1" data-label="Drawn · One login" data-alt="A sketch of sign-in: one login with a fan, entertainer, venue and service-provider profile to choose from">
+          <span class="t">Sign-in</span><h3>One login, four profiles</h3><p>Members pick a profile at sign-in and can switch or add another anytime. The fan profile keeps its own name and contact details.</p></li>
+        <li class="cin-stop" data-img="cs/entertainment-platform.svg" data-w="1466" data-h="1100" data-x=".5" data-y=".173" data-zoom="3.1" data-label="Drawn · Entertainer" data-alt="A sketch of the entertainer’s home: the next gig, the week ahead, and a new-gig form with a venue search and a weekly repeat">
+          <span class="t">Entertainer</span><h3>An act adds a gig</h3><p>One date or a weekly series, at a venue found by name. Each gig gets its own public page and a place on the calendar.</p></li>
+        <li class="cin-stop" data-img="cs/entertainment-platform.svg" data-w="1466" data-h="1100" data-x=".186" data-y=".173" data-zoom="3.1" data-label="Drawn · Post Studio" data-alt="A sketch of Post Studio: layers, a poster made from a gig, and sizes to export">
+          <span class="t">Post Studio</span><h3>The gig becomes a post</h3><p>Pick the gig and a template; venue, date and time fill in. Nine sizes, from a story to a printed flyer.</p></li>
+        <li class="cin-stop" data-img="cs/entertainment-platform.svg" data-w="1466" data-h="1100" data-x=".186" data-y=".5" data-zoom="3.1" data-label="Drawn · Venue" data-alt="A sketch of the venue’s home: two venues, tonight’s stages, a gig calendar and pitches from acts">
+          <span class="t">Venue</span><h3>A venue runs its nights</h3><p>One owner can run several venues, each with its own stages and gig calendar, plus an inbox for acts pitching to play.</p></li>
+        <li class="cin-stop" data-img="cs/entertainment-platform.svg" data-w="1466" data-h="1100" data-x=".814" data-y=".173" data-zoom="3.1" data-label="Drawn · Fan" data-alt="A sketch of the fan’s home: tonight’s show, the week ahead, followed acts and enquiries marked sent or seen">
+          <span class="t">Fan</span><h3>A fan follows, and asks</h3><p>Acts and venues the fan follows list their upcoming gigs for them. A booking enquiry shows as Sent, then Seen.</p></li>
+        <li class="cin-stop" data-img="cs/entertainment-platform.svg" data-w="1466" data-h="1100" data-x=".814" data-y=".5" data-zoom="3.1" data-label="Drawn · Service provider" data-alt="A sketch of the service provider’s home: two listings, an enquiry inbox and a calendar of jobs with reviews">
+          <span class="t">Service provider</span><h3>Suppliers get shopfronts</h3><p>Each listing is its own public page. Enquiries land in an inbox beside a calendar of jobs.</p></li>
+        <li class="cin-stop" data-img="cs/entertainment-platform.svg" data-w="1466" data-h="1100" data-x=".186" data-y=".827" data-zoom="3.1" data-label="Drawn · City partner" data-alt="A sketch of the city partner’s console: members, leads, commission, and a Manage as button on each member">
+          <span class="t">City partner</span><h3>A partner looks after members</h3><p>Members, leads and commission on one screen. “Manage as” works inside a member’s dashboard, and every change is logged to the real person.</p></li>
+        <li class="cin-stop" data-img="cs/entertainment-platform.svg" data-w="1466" data-h="1100" data-x=".465" data-y=".87" data-zoom="3.1" data-ring="300" data-label="Drawn · Super admin" data-alt="A sketch of the super-admin console: a partner payout proposed in one step and released in a second, and staff sections ticked per admin">
+          <span class="t">Super admin</span><h3>Payouts in two steps</h3><p>A partner’s payout is proposed, then released in a second step, with both people recorded. Staff admins see only their sections.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part alt" id="results" aria-labelledby="t3">
+  <div class="cs-wrap">
+    <header class="cs-ph"><span class="cs-pn" aria-hidden="true">3</span><h2 id="t3">68 changes in seven weeks, each signed off by the client</h2>
+      <p>No usage figures: the platform isn’t public yet. These are delivery figures, dated.</p></header>
+    <div class="cs-res">
+      <div>
+        <div class="cs-nums">
+          <div class="cs-num"><b>68</b><span>verified updates, each re-tested and signed off by the client</span><small>12 Jun – 29 Jul 2026</small></div>
+          <div class="cs-num"><b>4</b><span>client testing rounds, each on a working build</span><small>12 Jun – 29 Jul 2026</small></div>
+          <div class="cs-num"><b>6</b><span>dashboards: four profiles on one login, plus partners and admins</span><small>as built</small></div>
+        </div>
+        <figure class="cs-chart rounds" aria-labelledby="ro-t">
+          <h3 id="ro-t">Four testing rounds in seven weeks</h3>
+          <p class="note">12 Jun to 29 Jul 2026 · rounds in order, not to scale</p>
+          <div class="ro">
+            <div class="ro-wk" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span class="a">12 Jun</span><span class="z">29 Jul</span></div>
+            <ol class="ro-track">
+              <li><b>Round 1</b><span aria-hidden="true"><i></i><i></i><i></i><i></i></span></li>
+              <li><b>Round 2</b><span aria-hidden="true"><i></i><i></i><i></i><i></i></span></li>
+              <li><b>Round 3</b><span aria-hidden="true"><i></i><i></i><i></i><i></i></span></li>
+              <li><b>Round 4</b><span aria-hidden="true"><i></i><i></i><i></i><i></i></span></li>
+            </ol>
+            <div class="ro-dots" id="ro-dots" role="img" aria-label="68 updates, all 68 verified"></div>
+            <p class="ro-leg" aria-hidden="true"><span class="o">raised</span><span class="v">verified</span><b>68 of 68</b></p>
+          </div>
+          <p class="ro-def"><b>Verified</b> means the client re-tested the change on a working build and signed it off.</p>
+        </figure>
+        <details class="cs-drawer">
+          <summary>All the numbers (6)</summary>
+          <ul class="cs-all">
+            <li><b>68</b><span>verified updates: each change was re-tested by the client on a working build and signed off</span><small>12 Jun – 29 Jul 2026</small></li>
+            <li><b>~7 weeks</b><span>47 days, from Friday 12 June to Wednesday 29 July</span><small>2026</small></li>
+            <li><b>4</b><span>client testing rounds, each tried on a working build before hand-over</span><small>12 Jun – 29 Jul 2026</small></li>
+            <li><b>6</b><span>dashboards: fan, entertainer, venue and service provider on one login, plus city partner and super admin</span><small>as built</small></li>
+            <li><b>2</b><span>steps in every city-partner payout: proposed, then released, with both people recorded; built for a second admin to sign off</span><small>as built</small></li>
+            <li><b>0</b><span>usage figures claimed: the platform has not launched publicly</span><small>to Nov 2026</small></li>
+          </ul>
+          <p class="cs-foot-note">Work continued after the fourth round; nothing dated after 29 Jul 2026 is counted in the 68. The rounds are drawn in order and evenly, not to scale.</p>
+        </details>
+      </div>
+      <aside class="cs-limits" aria-labelledby="t4">
+        <h3 id="t4"><span class="cs-pn sm" aria-hidden="true">4</span>What it is not yet</h3>
+        <p>Built and tested with the client, not yet in the world.</p>
+        <ul>
+          <li>Not launched publicly, so no usage figures</li>
+          <li>Online payments are built and tested in a sandbox, not taking money</li>
+          <li>Paid publish slots for venues and services: built, switched off</li>
+          <li>Changes after 29 Jul 2026 are not in the 68</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part" id="screens" aria-labelledby="t5">
+  <div class="cs-wrap">
+    <header class="cs-ph"><span class="cs-pn" aria-hidden="true">5</span><h2 id="t5">See the real screens</h2>
+      <p>The platform isn’t public, so this page is drawn. Tell me who you are and I’ll send the screens.</p></header>
+    <div class="cs-cousin ask">
+      <div>
+        <h3>What you’ll receive</h3>
+        <p>An email from me with the product’s screens, white-labelled, and answers to your questions.</p>
+        <ul class="same" aria-label="Included"><li>All six dashboards</li><li>Post Studio</li><li>The profile switcher</li></ul>
+      </div>
+      <form class="ask-f" id="ask" novalidate>
+        <div class="f"><label for="ask-n">Your name</label><input id="ask-n" name="name" type="text" autocomplete="name" required aria-describedby="ask-st"></div>
+        <div class="f"><label for="ask-c">Company <small>optional</small></label><input id="ask-c" name="company" type="text" autocomplete="organization"></div>
+        <div class="f"><label for="ask-w">Why you’d like to see them</label><textarea id="ask-w" name="why" rows="3"></textarea></div>
+        <button class="cs-btn pri" type="submit">Ask for the screens</button>
+        <p class="ask-st" id="ask-st" role="status">This opens your email app with the message ready to send.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="cs-part alt" id="built" aria-labelledby="t6">
+  <div class="cs-wrap cs-built">
+    <div>
+      <header class="cs-ph"><span class="cs-pn" aria-hidden="true">✓</span><h2 id="t6">How it was built</h2></header>
+      <p class="cs-role">I set the requirements with the client, ran four testing rounds and directed the build.</p>
+      <ul class="cs-stack" aria-label="Built with"><li>Laravel</li><li>Blade</li><li>Alpine.js</li><li>Tailwind CSS</li><li>MySQL</li><li>AI-assisted</li></ul>
+    </div>
+    <ol class="cs-steps">
+      <li><div><b>Scope the round with the client</b><span>What it covers, in the client’s words.</span></div></li>
+      <li><div><b>Build it, AI-assisted</b><span>I direct AI coding tools and test every change.</span></div></li>
+      <li><div><b>The client tests a working build</b><span>The real product, not a mock-up.</span></div></li>
+      <li><div><b>Fix, re-test, sign off</b><span>Repeated four times, 12 Jun to 29 Jul 2026.</span></div></li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<section class="cs-end" aria-labelledby="te">
+  <div class="cs-end-in">
+    <div>
+      <h2 id="te">Want one like this?</h2>
+      <p>Tell me who uses your product. I’ll map the roles, build one system for all of them and test it with you in rounds.</p>
+      <div class="cs-acts">
+        <a class="cs-btn pri" href="../index.html?project=entertainment-platform#contact">Start a project</a>
+        <a class="cs-btn sec" href="#screens">Ask for the screens</a>
+      </div>
+    </div>
+    <nav class="cs-nav" aria-label="More case studies">
+      <a href="fitness-studio-website.html"><small>Next · case study 05</small><b>The Boxx: a studio’s website, live in 19 working hours</b></a>
+      <a href="../index.html#work"><small>All the work</small><b>Seven projects on the homepage</b></a>
+    </nav>
+  </div>
+</section>
+<footer class="cs-foot">
+  <p class="cs-st"><span class="cs-ok"><i aria-hidden="true"></i>All systems running</span><span>23 projects live</span><span>Last update <time id="cs-upd" datetime="2026-11-27">27 Nov 2026</time></span><span>© 2026</span></p>
+  <p class="cs-wl"><span>Abhishek M · Freelance CRM, website and automation builder · New Delhi</span><span>Client screens are white-labelled unless marked live. Names and figures on screen are changed.</span></p>
+</footer>
+</body>
+</html>
