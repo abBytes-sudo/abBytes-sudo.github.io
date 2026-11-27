@@ -356,13 +356,13 @@
   function palBuild(q) {
     q = q.trim().toLowerCase(); var terms = q.split(/\s+/).filter(Boolean), out = [];
     var hit = function (s) { s = s.toLowerCase(); return terms.every(function (t) { return s.indexOf(t) > -1; }); };
-    var pages = PAGES.filter(function (p) { return hit(p[0] + ' ' + p[4]); }).map(function (p) { return { g: 'Go to', ic: p[2], label: p[0], key: p[3], run: function () { location.hash = '#/' + p[1]; } }; });
+    var pages = PAGES.filter(function (p) { return hit(p[0] + ' ' + p[4]) && (!C.navOK || C.navOK(p[1])); }).map(function (p) { return { g: 'Go to', ic: p[2], label: p[0], key: p[3], run: function () { location.hash = '#/' + p[1]; } }; });
     var acts = [
       { g: 'Actions', ic: 'plus', label: 'New lead', key: 'c', run: function () { C.acts['new-lead'](); } },
-      { g: 'Actions', ic: 'play', label: 'Test the chatbot', key: '', kw: 'bot chat preview', run: function () { C.ui.botTab = 'flow'; C.ui.botSide = 'test'; C.ui.test = null; if (C.cur.name === 'bot') C.route(false, true); else location.hash = '#/bot'; } },
-      { g: 'Actions', ic: 'link', label: 'Build a UTM link', key: '', kw: 'campaign tag', run: function () { location.hash = '#/utm'; } },
-      { g: 'Actions', ic: 'search', label: 'Open Search Console panel', key: '', kw: 'google gsc', run: function () { C.ui.itab = 'gsc'; if (C.cur.name === 'integrations') C.route(false, true); else location.hash = '#/integrations'; } },
-      { g: 'Actions', ic: 'mega', label: 'Open Meta Ads panel', key: '', kw: 'facebook capi', run: function () { C.ui.itab = 'meta'; if (C.cur.name === 'integrations') C.route(false, true); else location.hash = '#/integrations'; } },
+      { g: 'Actions', ic: 'play', label: 'Test the chatbot', rt: 'bot', key: '', kw: 'bot chat preview', run: function () { C.ui.botTab = 'flow'; C.ui.botSide = 'test'; C.ui.test = null; if (C.cur.name === 'bot') C.route(false, true); else location.hash = '#/bot'; } },
+      { g: 'Actions', ic: 'link', label: 'Build a UTM link', rt: 'utm', key: '', kw: 'campaign tag', run: function () { location.hash = '#/utm'; } },
+      { g: 'Actions', ic: 'search', label: 'Open Search Console panel', rt: 'integrations', key: '', kw: 'google gsc', run: function () { C.ui.itab = 'gsc'; if (C.cur.name === 'integrations') C.route(false, true); else location.hash = '#/integrations'; } },
+      { g: 'Actions', ic: 'mega', label: 'Open Meta Ads panel', rt: 'integrations', key: '', kw: 'facebook capi', run: function () { C.ui.itab = 'meta'; if (C.cur.name === 'integrations') C.route(false, true); else location.hash = '#/integrations'; } },
       { g: 'Actions', ic: 'side', label: 'Toggle sidebar', key: '[', run: function () { C.acts['side-toggle'](); } },
       { g: 'Actions', ic: 'key', label: 'Keyboard shortcuts', key: '?', run: function () { C.acts.help(); } },
       { g: 'Actions', ic: 'refresh', label: 'Start fresh', key: '', kw: 'restore seed', run: function () { C.acts.reset(); } }
@@ -371,7 +371,7 @@
     if (terms.length) L = L.filter(function (l) { return hit(l.name + ' ' + l.id + ' ' + l.service + ' ' + l.loc + ' ' + l.phone + ' ' + C.SOURCES[l.source].label + ' ' + l.status); }); else L = L.slice(0, 4);
     var leads = L.slice(0, 6).map(function (l) { return { g: terms.length ? 'Leads' : 'Recent leads', av: l.name, label: l.name, sub: l.id + ' · ' + l.service + ' · ' + C.stageLabel(l.status), run: function () { location.hash = '#/' + (C.cur.name === 'bot' || C.cur.name === 'utm' ? 'inbox' : C.cur.name) + '/' + l.id; } }; });
     var extra = C.palExtra ? C.palExtra(terms, hit) : [];
-    return out.concat(terms.length ? extra.concat(leads, pages, acts) : extra.concat(pages, acts, leads));
+    return out.concat(terms.length ? extra.concat(leads, pages, acts) : extra.concat(pages, acts, leads)).filter(function (it) { return !it.rt || !C.navOK || C.navOK(it.rt); });
   }
   function palPaint() {
     var q = $('#pal-q').value; palItems = palBuild(q); palSel = Math.min(palSel, Math.max(0, palItems.length - 1));
@@ -474,10 +474,12 @@
   };
   function paintView(v, anim, focus) {
     if (C.preSkel && C.preSkel(v, function () { paintView(v, anim, focus); })) return;
-    var main = $('#view'); main.innerHTML = v.render();
+    var main = $('#view'), keep = v === C.views.dashboard ? main.querySelector('.page-h.shell #home-h1') : null;
+    main.innerHTML = v.render();
+    if (keep) { var nh = main.querySelector('#home-h1'); if (nh && nh.firstChild && keep.firstChild) { keep.firstChild.nodeValue = nh.textContent; nh.parentNode.replaceChild(keep, nh); keep.removeAttribute('class'); } }
     if (v.mount) v.mount();
     C.drawCharts(); C.badges(); C.countUp(main);
-    if (anim && C.motion()) gsap.fromTo(main.children, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .34, ease: 'power2.out', stagger: .04, clearProps: 'opacity,transform' });
+    if (anim && C.motion()) gsap.fromTo(Array.prototype.slice.call(main.children, keep ? 1 : 0), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .34, ease: 'power2.out', stagger: .04, clearProps: 'opacity,transform' });
     if (focus) { main.focus({ preventScroll: true }); main.scrollTop = 0; }
   }
   C.route = function (focusMain, force) {

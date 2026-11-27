@@ -26,6 +26,7 @@
   V.dashboard = {
     title: function () { return 'Home'; },
     render: function () {
+      if (C.me().role === 'agent' && C.homeAgent) return C.homeAgent();
       var range = C.ui.range || 30, L = S().leads, now = Date.now(), from = now - range * 864e5, pf = from - range * 864e5, d0 = C.dayStart();
       var cur = L.filter(function (l) { return l.created >= from; }), prev = L.filter(function (l) { return l.created >= pf && l.created < from; });
       var avg = function (a) { var r = a.filter(function (l) { return l.resp != null; }); return r.length ? r.reduce(function (s, l) { return s + l.resp; }, 0) / r.length : null; };
@@ -68,7 +69,8 @@
       var hr = new Date().getHours(), greet = hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : 'Good evening';
       var cr = conv(cur);
 
-      return page('Home', greet + ', ' + C.me().name.split(' ')[0] + ' · ' + new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }), seg('range', 'range', [[7, '7 days'], [14, '14 days'], [30, '30 days']], range, 'Date range')) +
+      var rseg = seg('range', 'range', [[7, '7 days'], [14, '14 days'], [30, '30 days']], range, 'Date range');
+      return (C.homeHead ? C.homeHead(rseg) : page('Home', greet + ', ' + C.me().name.split(' ')[0], rseg)) + (C.homeClock ? C.homeClock() : '') +
         '<section class="kpis" aria-label="Key metrics">' +
         kpi('New leads', cur.length, 'int', delta(cur.length, prev.length), (prev.length ? 'vs ' + prev.length + ' in the prior ' + range + ' days' : 'in the last ' + range + ' days'), sNew, ACC, ['#/inbox', 'new']) +
         kpi('First response', avg(cur) == null ? 0 : avg(cur), 'min', delta(avg(cur), avg(prev), true), answered ? Math.round(within / answered * 100) + '% answered within 15 min' : 'No replies yet', sResp, '#0B8F9E', ['#/inbox', 'reply']) +
@@ -87,8 +89,8 @@
 
   // ===== Inbox =============================================================
   function IS() { return C.ui.inbox || (C.ui.inbox = { q: '', src: 'all', st: 'all', owner: 'all', flag: '', sort: 'created', dir: -1 }); }
-  var BUILTIN = [{ id: 'all', name: 'All leads', f: {} }, { id: 'reply', name: 'Needs reply', f: { flag: 'reply' } }, { id: 'mine', name: 'My leads', f: { owner: 'Aarav Khanna' } }, { id: 'high', name: 'High value', f: { flag: 'high' } }, { id: 'hot', name: 'Hot · 48h', f: { flag: 'hot' } }];
-  function viewList() { return BUILTIN.concat(C.prefs().views.map(function (v) { return { id: v.id, name: v.name, f: v.f, custom: true }; })); }
+  var BUILTIN = [{ id: 'all', name: 'All leads', f: {} }, { id: 'reply', name: 'Needs reply', f: { flag: 'reply' } }, { id: 'mine', name: 'My leads', f: { owner: 'Aarav Khanna' }, me: 1 }, { id: 'high', name: 'High value', f: { flag: 'high' } }, { id: 'hot', name: 'Hot · 48h', f: { flag: 'hot' } }];
+  function viewList() { return BUILTIN.map(function (b) { return b.me ? { id: b.id, name: b.name, f: { owner: C.me().name } } : b; }).concat(C.prefs().views.map(function (v) { return { id: v.id, name: v.name, f: v.f, custom: true }; })); }
   function norm(f) { return { q: f.q || '', src: f.src || 'all', st: f.st || 'all', owner: f.owner || 'all', flag: f.flag || '' }; }
   function matchesView(v) { var u = IS(), f = norm(v.f); return u.q.trim() === f.q && u.src === f.src && u.st === f.st && u.owner === f.owner && u.flag === f.flag; }
   function inboxFiltered() {
@@ -161,7 +163,7 @@
     u.q = f.q; u.src = f.src; u.st = f.st; u.owner = f.owner; u.flag = f.flag; C.rerender(); var b = $('[data-act="inbox-view"][data-id="' + v.id + '"]'); if (b) b.focus();
   };
   C.acts['view-save'] = function () {
-    C.dialog('Save view', '<div class="field"><label for="vn">View name</label><input id="vn" name="name" required maxlength="28" placeholder="e.g. Meta leads over ₹5 L" autocomplete="off"></div><p class="hint">Saves the current search and filters as a tab. Stored in this browser only.</p>', 'Save view', function (fd) {
+    C.dialog('Save view', '<div class="field"><label for="vn">View name</label><input id="vn" name="name" required maxlength="28" placeholder="e.g. Meta leads over ₹5 L" autocomplete="off"></div><p class="hint">Saves the current search and filters as a tab. Saved with your views.</p>', 'Save view', function (fd) {
       var name = (fd.get('name') || '').trim(); if (!name) return false;
       C.prefs().views.push({ id: 'v' + Date.now().toString(36), name: name, f: norm(IS()) }); C.savePrefs(); inboxSync(); C.toast('View “' + name + '” saved');
     });

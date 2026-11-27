@@ -1,0 +1,42 @@
+/* Lumen CRM Pro — role sidebar, Platform group, the "Who is working?" card */
+.ngrp-b{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:transparent;text-align:left;cursor:pointer;color:var(--faint);font-family:inherit;border-radius:6px}
+.ngrp-b:hover{color:var(--ink)}
+.ngrp-b .ngc{transition:transform .15s;transform:rotate(-90deg);margin-right:2px}
+.ngrp-b[aria-expanded=true] .ngc{transform:none}
+.nav-plat{display:block}
+.nav .favs:empty{display:none}
+body[data-role=agent] .nav .ngrp:first-of-type{padding-top:10px}
+@media (prefers-reduced-motion:reduce){.ngrp-b .ngc{transition:none}}
+body.side-off .ngrp-b{display:none}
+body.side-off .nav-plat[hidden]{display:block!important}
+
+.whocard{width:min(420px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;padding:22px 22px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);box-shadow:var(--sh-pop)}
+.whocard::backdrop{background:rgba(11,13,18,.5)}
+.whocard h2{font-size:18px;font-weight:600;letter-spacing:-.02em}
+.wc-s{color:var(--muted);font-size:13.5px;margin:4px 0 14px}
+.whocard ul{display:flex;flex-direction:column;gap:8px}
+.whocard li button{display:flex;align-items:center;gap:12px;width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);text-align:left;min-height:64px;transition:border-color .15s,background .15s}
+.whocard li button:hover{border-color:var(--accent);background:var(--accent-bg)}
+.whocard li button[aria-current]{border-color:var(--accent-line);background:var(--accent-bg)}
+.wc-t{display:flex;flex-direction:column;min-width:0;flex:1}
+.wc-t b{font-size:14px;font-weight:600}.wc-t em{font-style:normal;font:500 12px var(--fm);color:var(--accent-ink);margin:1px 0 3px}
+.wc-t small{font-size:12.5px;color:var(--muted);line-height:1.4}
+.wc-ck{color:var(--accent);flex:none}
+.wc-f{margin-top:12px;font-size:12px;color:var(--faint)}
+[data-theme=dark] .whocard{background:#17171C;border-color:#2A2A33}
+[data-theme=dark] .whocard li button{background:#17171C;border-color:#2A2A33}
+[data-theme=dark] .whocard li button:hover,[data-theme=dark] .whocard li button[aria-current]{background:#1F1F2B}
+@media (max-width:560px){.whocard{padding:18px 16px 14px}}
+
+/* compact sidebar so the admin's 16 items plus a collapsed Platform group fit at 1440x900 */
+@media (min-width:901px){
+  .side .nav a{height:29px}
+  .side .ngrp{padding:11px 10px 4px}
+  .side .nav .favs .ngrp{padding-top:6px}
+  .side .favs a:nth-of-type(n+3){display:none}
+  .side-foot{flex-direction:row;flex-wrap:wrap;align-items:center;gap:0 6px;padding:8px 10px}
+  .side-foot .kbhint{flex:1 1 auto;min-width:0}
+  .side-foot .whow{order:3;flex:1 0 100%}
+  .side-foot .reset{order:2;flex:none}
+  body.side-off .side-foot{flex-direction:column}
+}

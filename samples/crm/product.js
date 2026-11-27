@@ -295,6 +295,6 @@
     if (window.gsap && !matchMedia('(prefers-reduced-motion: reduce)').matches) gsap.fromTo(btn, { opacity: 0, y: 18, scale: .9 }, { opacity: 1, y: 0, scale: 1, duration: .5, delay: 1.2, ease: 'back.out(1.6)' });
   }
 
-  function init() { sky(); hero(); tour(); ticks(); tracking(); assistant(); }
+  function init() { hero(); tour(); ticks(); tracking(); assistant(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

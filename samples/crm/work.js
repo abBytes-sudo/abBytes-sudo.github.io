@@ -12,18 +12,32 @@
     sl.slice(0, sl.length > 2 ? 1 : 2).forEach(function (l) { var s = C.sla(l); out.push({ w: s.state === 'breach' ? 0 : 2, ic: 'clock', tone: s.state === 'breach' ? 'bad' : 'warn', title: l.name + ' is waiting for a first reply', why: Math.round(s.min) + ' business min · target ' + s.tgt + ' min · ' + C.SOURCES[l.source].label, href: '#/inbox/' + l.id, act: 'Reply' }); });
     var od = S().tasks.filter(function (t) { return !t.done && t.due && t.due < now - H && t.owner === me; });
     if (od.length) out.push({ w: 1, ic: 'tasks', tone: 'bad', title: od.length + ' of your tasks are overdue', why: 'Oldest: “' + od.sort(function (a, b) { return a.due - b.due; })[0].text + '”', href: '#/tasks', act: 'Open queue' });
-    if (P().apr) { var ap = P().apr.reqs.filter(function (r) { return r.st === 'pending' && (C.me().role === 'admin' || (r.who === 'manager' && C.me().role === 'manager')); }); if (ap.length) out.push({ w: 1, ic: 'check', tone: 'warn', title: ap.length + ' approval' + (ap.length > 1 ? 's' : '') + ' waiting for you', why: ap[0].by + ' asks for ' + ap[0].to + '% on ' + ap[0].ref, href: '#/approvals', act: 'Decide' }); }
+    if (P().apr) { var ap = P().apr.reqs.filter(function (r) { return r.st === 'pending' && (C.me().role === 'admin' || (r.who === 'manager' && C.me().role === 'manager')); }); if (ap.length) out.push({ w: C.me().role === 'manager' ? -1 : 1, ic: 'check', tone: 'warn', title: ap.length + ' approval' + (ap.length > 1 ? 's' : '') + ' waiting for you', why: ap[0].by + ' asks for ' + ap[0].to + '% on ' + ap[0].ref, href: '#/approvals', act: 'Decide' }); }
     P().deals.filter(function (d) { return C.dealOpen(d) && C.visible(d) && (now - (d.moved || d.created)) > 14 * D; }).sort(function (a, b) { return C.dealVal(b) - C.dealVal(a); }).slice(0, 2).forEach(function (d) { out.push({ w: 3, ic: 'deal', tone: 'warn', title: d.name + ' hasn’t moved in ' + Math.round((now - (d.moved || d.created)) / D) + ' days', why: C.pstage(d.pipe, d.stage).label + ' · ' + C.rs(C.dealVal(d)) + ' · ' + d.owner, href: '#/deals/' + d.id, act: 'Open' }); });
     (P().quotes || []).filter(function (q) { return q.status === 'sent' && q.valid > now && q.valid < now + 3 * D; }).slice(0, 2).forEach(function (q) { var d = C.deal(q.d); out.push({ w: 2, ic: 'quote', tone: 'warn', title: 'Quote ' + q.id + ' expires in ' + Math.max(1, Math.round((q.valid - now) / D)) + (Math.round((q.valid - now) / D) > 1 ? ' days' : ' day'), why: d ? d.name : '', href: '#/quotes/' + q.id, act: 'Follow up' }); });
     (P().tickets || []).filter(function (t) { return t.status === 'open' && (t.prio === 'High' || t.prio === 'Urgent') && now - t.created > D; }).slice(0, 1).forEach(function (t) { out.push({ w: 2, ic: 'ticket', tone: 'bad', title: t.prio + ' ticket open for ' + Math.round((now - t.created) / D) + ' days', why: t.subj, href: '#/tickets/' + t.id, act: 'Open' }); });
     return out.sort(function (a, b) { return a.w - b.w; }).slice(0, 6);
   }
   function nowNext() {
-    var now = Date.now(), end = new Date(); end.setHours(23, 59, 0, 0); var me = C.me().name;
-    var ev = (P().events || []).filter(function (e) { return e.t >= now - 30 * 6e4 && e.t < end.getTime() && (e.owner === me || C.me().role === 'admin'); }).map(function (e) { return { t: e.t, ic: 'cal', title: e.title, sub: (e.loc || e.type || '') + (e.owner !== me ? ' · ' + e.owner.split(' ')[0] : ''), href: '#/calendar' }; });
-    var tk = S().tasks.filter(function (t) { return !t.done && t.due >= now && t.due < end.getTime() && t.owner === me; }).map(function (t) { return { t: t.due, ic: (t.type === 'wa' ? 'wa' : t.type === 'call' ? 'phone' : 'tasks'), title: t.text, sub: 'Task', href: '#/tasks' }; });
-    return ev.concat(tk).sort(function (a, b) { return a.t - b.t; }).slice(0, 4);
+    var now = Date.now(), d0 = C.dayStart(), end = d0 + D, me = C.me().name, adm = C.me().role === 'admin';
+    var ev = function (a, z) { return (P().events || []).filter(function (e) { return e.t >= a && e.t < z && (e.owner === me || adm); }).map(function (e) { return { t: e.t, ic: 'cal', title: e.title, sub: (e.loc || e.type || '') + (e.owner !== me ? ' · ' + e.owner.split(' ')[0] : ''), href: '#/calendar' }; }); };
+    var tk = function (a, z) { return S().tasks.filter(function (t) { return !t.done && t.due != null && t.due >= a && t.due < z && t.owner === me; }).map(function (t) { return { t: t.due, ic: (t.type === 'wa' ? 'wa' : t.type === 'call' ? 'phone' : 'tasks'), title: t.text, sub: t.due < now ? 'Due earlier today' : 'Task', href: '#/tasks' }; }); };
+    var list = ev(now - 30 * 6e4, end).concat(tk(d0, end)).sort(function (a, b) { return a.t - b.t; });
+    if (list.length < 3) {
+      var tom = ev(end, end + D).concat(tk(end, end + D)).sort(function (a, b) { return a.t - b.t; }).slice(0, 4 - list.length);
+      tom.forEach(function (x) { x.sub = 'Tomorrow' + (x.sub ? ' · ' + x.sub : ''); }); list = list.concat(tom);
+    }
+    var next = null;
+    if (!list.length) { var f = ev(end, end + 7 * D).concat(tk(end, end + 7 * D)).sort(function (a, b) { return a.t - b.t; })[0]; if (f) next = f.t; }
+    return { items: list.slice(0, 5), next: next };
   }
+  C.homeNN = function (opt) {
+    var N = nowNext(), items = N.items, until = 'tomorrow';
+    if (N.next) { var dd = C.dayStart(N.next) - C.dayStart(); until = (dd <= D ? 'tomorrow' : new Date(N.next).toLocaleDateString('en-GB', { weekday: 'long' })) + ', ' + C.tm(N.next); }
+    return '<section class="card nn"><div class="card-h"><div><h2>Now and next</h2><p class="sub">Your day, from now</p></div>' + (items.length && !(opt && opt.noBtn) ? '<button type="button" class="btn sm pri" data-act="cq-start">' + C.ic('play', 12) + 'Start call queue</button>' : '') + '</div>' +
+      (items.length ? '<ol class="nnl">' + items.map(function (n, i) { return '<li class="' + (i === 0 ? 'now' : '') + '"><time>' + C.tm(n.t) + '</time><span class="att-ic">' + C.ic(n.ic, 14) + '</span><a href="' + n.href + '"><b>' + esc(n.title) + '</b><small>' + esc(n.sub) + '</small></a></li>'; }).join('') + '</ol>'
+        : '<div class="nn-empty"><p><b>Clear until ' + esc(until) + '.</b> Start the call queue?</p><button type="button" class="btn pri" data-act="cq-start">' + C.ic('play', 12) + 'Start call queue</button></div>') + '</section>';
+  };
   function feed() {
     var items = [];
     P().acts.slice(0, 80).forEach(function (a) {
@@ -47,7 +61,7 @@
   C.homeAttention = function () {
     var A = attention(), N = nowNext();
     return wsHint() + '<div class="home-w"><section class="card att"><div class="card-h"><div><h2>Needs your attention</h2><p class="sub">' + (A.length ? A.length + ' things, most urgent first' : 'Nothing urgent') + '</p></div></div>' + (A.length ? '<ul class="attl">' + A.map(function (a) { return '<li class="' + a.tone + '"><span class="att-ic">' + C.ic(a.ic, 15) + '</span><a href="' + a.href + '"><b>' + esc(a.title) + '</b><small>' + esc(a.why) + '</small></a><a class="btn sm" href="' + a.href + '" tabindex="-1" aria-hidden="true">' + a.act + '</a></li>'; }).join('') + '</ul>' : '<div class="empty-st">' + C.ic('check', 22) + '<b>All clear</b><span>No SLA breaches, overdue tasks or waiting approvals.</span></div>') + '</section>' +
-      '<section class="card nn"><div class="card-h"><div><h2>Now and next</h2><p class="sub">Your day, from now</p></div><button type="button" class="btn sm pri" data-act="cq-start">' + C.ic('play', 12) + 'Start call queue</button></div>' + (N.length ? '<ol class="nnl">' + N.map(function (n, i) { return '<li class="' + (i === 0 ? 'now' : '') + '"><time>' + C.tm(n.t) + '</time><span class="att-ic">' + C.ic(n.ic, 14) + '</span><a href="' + n.href + '"><b>' + esc(n.title) + '</b><small>' + esc(n.sub) + '</small></a></li>'; }).join('') + '</ol>' : '<p class="muted sm">Nothing else scheduled today.</p>') + '</section></div>';
+      C.homeNN() + '</div>';
   };
   // last remark first on records
   var rc0 = C.recCenter;

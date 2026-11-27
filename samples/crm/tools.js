@@ -180,7 +180,6 @@
       var t = itab();
       var tabs = [['gsc', 'Search Console', 'search'], ['meta', 'Meta Ads', 'mega']].map(function (x) { return '<button type="button" role="tab" id="tab-' + x[0] + '" aria-controls="panel" aria-selected="' + (t === x[0]) + '" tabindex="' + (t === x[0] ? 0 : -1) + '" data-act="tab" data-k="itab" data-v="' + x[0] + '">' + C.ic(x[2], 14) + x[1] + '</button>'; }).join('');
       return C.page('Integrations', 'Marketing data next to your leads') +
-        '<div class="sim-banner" role="note">' + C.ic('bolt', 15) + '<span><b>Simulated data.</b> No Google or Meta API is called — these numbers are generated in your browser to show how the panels look once connected.</span></div>' +
         '<div class="tabs" role="tablist" aria-label="Integrations">' + tabs + '</div><div id="panel" role="tabpanel" aria-labelledby="tab-' + t + '">' + (t === 'gsc' ? gscPanel() : metaPanel()) + '</div>';
     }
   };

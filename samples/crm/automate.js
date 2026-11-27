@@ -64,7 +64,7 @@
     if (a.type === 'field') return '<label class="sr" for="wa-f' + i + '">Field</label><select id="wa-f' + i + '" class="sel sm" data-ch="wa" data-k="f" data-i="' + i + '">' + opts([['priority', 'Priority'], ['handover', 'Handover status']], a.f) + '</select><span class="muted sm">to</span><label class="sr" for="' + id + '">Value</label><select id="' + id + '" class="sel sm" data-ch="wa" data-k="v" data-i="' + i + '">' + opts(C.DFIELDS[a.f || 'priority'].opts.map(function (o) { return [o, o]; }), a.v) + '</select>';
     if (a.type === 'notify') return '<label class="sr" for="' + id + '">Who</label><select id="' + id + '" class="sel sm" data-ch="wa" data-k="v" data-i="' + i + '">' + opts(C.TEAM.map(function (t) { return [t, t]; }).concat([['Operations', 'Operations channel'], ['Owner', 'The record owner']]), a.v) + '</select>';
     if (a.type === 'sequence') return '<label class="sr" for="' + id + '">Sequence</label><select id="' + id + '" class="sel sm" data-ch="wa" data-k="v" data-i="' + i + '">' + opts(P().seqs.map(function (s) { return [s.id, s.name]; }), a.v) + '</select>';
-    if (a.type === 'reserve') return '<span class="muted sm">Writes the Halden Supply line items to <span class="mono">demo-bridge:won-deals</span></span>';
+    if (a.type === 'reserve') return '<span class="muted sm">Writes the Halden Supply line items to <span class="mono">the Stockroom order feed</span></span>';
     return '';
   }
   function editor(w) {

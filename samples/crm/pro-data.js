@@ -293,7 +293,7 @@
     [[dk('3rd-floor'), 'Send revised furniture schedule to Aditi', at(0, 17, 30), 30],
      [dk('Rooftop'), 'Log the site-visit outcome for the rooftop', at(-1, 16), 0],
      [dk('members’ lounge'), 'Walk Sahil through proposal v2 on a call', at(1, 11), 60],
-     [dk('24-room'), 'Share sconce samples with Varun', at(2, 12), 0],
+     [dk('24-room'), 'Share sconce swatches with Varun', at(2, 12), 0],
      [dk('Reception and waiting'), 'Book a site visit with Dr Shetty', at(0, 19), 15],
      [dk('Show flat, Tower B'), 'Kick-off meeting with the site supervisor', at(3, 10), 0],
      [dk('Two show flats'), 'Chase design sign-off from Maya', at(1, 15), 30],

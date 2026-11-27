@@ -71,6 +71,7 @@
     var anchor = $('.nav a[data-nav="campaigns"]'); if (!anchor) return;
     $$('.nav a[data-cobj]').forEach(function (a) { a.remove(); });
     (P().cobj || []).slice().reverse().forEach(function (o) { var a = document.createElement('a'); a.href = '#/o-' + o.key; a.dataset.nav = 'o-' + o.key; a.dataset.cobj = '1'; a.title = o.plural; a.innerHTML = C.ic(o.icon, 16) + '<span class="lbl">' + esc(o.plural) + '</span>'; anchor.parentNode.insertBefore(a, anchor.nextSibling); });
+    if (C.sideBuild) C.sideBuild();
   }
   C.objBoot = function () { (P().cobj || []).forEach(regObj); navObjs(); };
   C.onRoute = (function (prev) { return function (n, a) { if (prev) prev(n, a); if (!C._objB) { C._objB = 1; C.objBoot(); if (/^o-/.test(n)) setTimeout(function () { C.route(false, true); }, 0); } var cur = $('.nav a[data-cobj][data-nav="' + n + '"]'); $$('.nav a[data-cobj]').forEach(function (x) { if (x === cur) x.setAttribute('aria-current', 'page'); else x.removeAttribute('aria-current'); }); }; })(C.onRoute);
