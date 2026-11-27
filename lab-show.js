@@ -6,10 +6,10 @@
   var X = [
     ['ghatika', 'An exploded watch', 'Ghatika, a watch maison', 'A mechanical watch that comes apart layer by layer as you scroll: crystal, hands, dial, case, movement. The same model drives a configurator for dial, case and strap.', 'samples/watch/index.html', 'img/lab/ghatika.webp', 1],
     ['revv', 'A car under X-ray', 'Revv, a marketplace for pre-owned cars and superbikes', 'A car you walk around, then see through: a 150-point inspection drawn onto the body as an X-ray lens passes over it.', 'samples/revv/index.html', 'img/lab/revv.webp', 1],
-    ['aaranya', 'Towers with floors you pull out', 'Aaranya Residences, a property launch', 'Three high-rise towers. Scroll into one, pull a floor out like a drawer to see which homes are free, and move the sun across the day.', 'samples/launch/index.html', 'img/lab/aaranya.webp', 1],
+    ['aaranya', 'Towers with floors that pull out', 'Aaranya Residences, a property launch', 'Three high-rise towers. Scroll into one, pull a floor out like a drawer to see which homes are free, and move the sun across the day.', 'samples/launch/index.html', 'img/lab/aaranya.webp', 1],
     ['sthira', 'A building that rises', 'Sthira, a design-build firm', 'A project drawn like an engineering sheet that rises stage by stage as you scroll, from the foundation to the finishes.', 'samples/build/index.html', 'img/lab/sthira.webp', 1],
     ['taradhura', 'A ridge from dawn to starlight', 'Taradhura, a hill retreat', 'A Kumaon hillside painted in layers. Scrolling moves the day from first light, through the mist lifting, to night.', 'samples/resort/index.html', 'img/lab/taradhura.webp', 1],
-    ['black-hole', 'The black hole', 'this portfolio', 'A black hole drawn one ray of light at a time, bending the stars and its own disk around itself, with the projects in orbit. It is the way into the work on the homepage.', 'index.html#work', 'img/lab/black-hole.webp', 0],
+    ['black-hole', 'The black hole', 'this portfolio', 'A black hole drawn one ray of light at a time, bending the stars and its own disk around itself. On the homepage it carries the projects.', 'index.html#work', 'img/lab/black-hole.webp', 0],
     ['turntable', 'Products on a turntable', 'a Lab experiment', 'Three products lit in a small studio that you can spin: a kettlebell, a coffee pouch and a smart key.', 'lab-experiments.html#studio', 'assets/lab/ch-studio.webp', 1],
     ['room', 'A room you can re-finish', 'a Lab experiment', 'A living room whose floor, walls, sofa and wood change with one choice of palette.', 'lab-experiments.html#room', 'assets/lab/ch-room.webp', 1],
     ['print', 'From print to listings', 'a Lab experiment', 'A printed property magazine turning, page by page, into listings a team can search.', 'lab-experiments.html#magazine', 'assets/lab/ch-magazine.webp', 1],
@@ -32,7 +32,7 @@
   });
   run.addEventListener('click', function () {
     if (frame) { stop(); return; } var x = X[cur]; frame = d.createElement('iframe'); frame.title = x[1] + ', running live'; frame.addEventListener('load', function () { stage.classList.add('on'); liveEl.hidden = false; });
-    frame.src = x[4]; stage.appendChild(frame); run.textContent = 'Stop and go back';
+    frame.src = x[4]; stage.appendChild(frame); run.textContent = 'Stop';
   });
   $('#prev').addEventListener('click', function () { show(cur - 1); }); $('#next').addEventListener('click', function () { show(cur + 1); });
   addEventListener('keydown', function (e) { if (frame || e.metaKey || e.ctrlKey || e.altKey) { if (e.key === 'Escape') stop(); return; } if (e.key === 'ArrowRight') show(cur + 1); else if (e.key === 'ArrowLeft') show(cur - 1); });

@@ -1,10 +1,65 @@
-/* His live hero (gravity field and rotating line), lifted unchanged from site/assets/home.js. */
+/* His live hero (gravity field and rotating line), lifted from site/assets/home.js. Added here: the hero's text leans toward the black
+   hole (the same letter pull as the contact section), and the hole hands over to the big one in the next section when the page scrolls. */
 (function () {
   var root = document.documentElement;
   root.classList.remove('no-js'); root.classList.add('js');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var raf = window.requestAnimationFrame.bind(window);
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+  /* ── hero text feels the hole. Each letter is its own span and leans toward the black hole when it is near, with the same spring
+     as the contact section; a hidden copy keeps the words for screen readers. Only letters near the hole are touched each frame. ── */
+  var HL = (function () {
+    var L = [], act = [], dirty = true, R = 110, R2 = R * R, CUT = R * 2.1;
+    function E(tag, cls, txt) { var e = document.createElement(tag); e.className = cls; if (txt !== undefined) e.textContent = txt; return e; }
+    function unit(el) { L.push({ el: el, cx: NaN, cy: NaN, fs: 16, k: .5, x: 0, y: 0, r: 0, s: 0, vx: 0, vy: 0, vr: 0, vs: 0, p: 0, on: false, glow: !el.classList.contains('acc') }); dirty = true; return el; }
+    /* a word as letters; an accent word (drawn in the gradient) moves as one piece so its colours stay whole */
+    function word(text, acc) { var w = E('i', 'hl-w'); if (acc) w.appendChild(unit(E('i', 'hl-lt acc', text))); else Array.from(text).forEach(function (ch) { w.appendChild(unit(E('i', 'hl-lt', ch))); }); return w; }      // <i>, not <span>: the hero styles its own spans
+    function split(root) {
+      var todo = [], n, tw = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: function (x) { return /\S/.test(x.nodeValue) && !x.parentNode.closest('.hl-sp,.hl-sr') ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP; } });
+      while ((n = tw.nextNode())) todo.push(n);
+      todo.forEach(function (tn) {
+        var sp = E('i', 'hl-sp'), frag = document.createDocumentFragment(); sp.setAttribute('aria-hidden', 'true');
+        tn.nodeValue.split(/(\s+)/).forEach(function (part) { if (!part) return; if (/^\s+$/.test(part)) sp.appendChild(document.createTextNode(part)); else sp.appendChild(word(part, false)); });
+        frag.appendChild(E('i', 'hl-sr', tn.nodeValue)); frag.appendChild(sp); tn.parentNode.replaceChild(frag, tn);
+      });
+    }
+    function measure() {
+      var sx = window.scrollX, sy = window.scrollY, fs = new Map();
+      L = L.filter(function (l) { return l.el.isConnected; });
+      L.forEach(function (l) {
+        var b = l.el.getBoundingClientRect(), pa = l.el.parentNode, f = fs.get(pa); if (!b.width) { l.cx = l.cy = NaN; return; }
+        if (f === undefined) { f = parseFloat(getComputedStyle(pa).fontSize) || 16; fs.set(pa, f); }
+        l.fs = f; l.k = Math.max(.5, Math.min(1, (f - 4) / 64)); l.cx = b.left + b.width / 2 + sx - l.x; l.cy = b.top + b.height * .55 + sy - l.y;
+      });
+      dirty = false;
+    }
+    function still(l) { l.x = l.y = l.r = l.s = l.vx = l.vy = l.vr = l.vs = 0; l.el.style.transform = ''; if (l.p) { l.p = 0; l.el.classList.remove('hl-hot'); l.el.style.removeProperty('--p'); } l.on = false; }
+    /* X, Y: the hole in page coordinates; pw: how present it is, 0 to 1 */
+    function step(X, Y, pw, dt) {
+      if (pw <= .004 && !act.length) return; if (dirty) measure(); var i, l;
+      if (pw > .004) for (i = 0; i < L.length; i++) { l = L[i]; if (!l.on && Math.abs(X - l.cx) < CUT && Math.abs(Y - l.cy) < CUT) { l.on = true; act.push(l); } }
+      act = act.filter(function (l) {
+        if (!l.el.isConnected) { l.on = false; return false; }
+        var dx = X - l.cx, dy = Y - l.cy, dd = dx * dx + dy * dy, r = Math.sqrt(dd) + .001, g = dd < CUT * CUT ? pw * Math.exp(-dd / R2) : 0, q = l.k;
+        var pull = Math.min(r * .5, (5 + l.fs * .1) * q) * g, gx = dx / r * pull, gy = dy / r * pull, gr = Math.max(-1, Math.min(1, dx / R)) * 10 * q * g, gs = .14 * q * g;
+        l.vx += ((gx - l.x) * 170 - l.vx * 13) * dt; l.x += l.vx * dt; l.vy += ((gy - l.y) * 170 - l.vy * 13) * dt; l.y += l.vy * dt;
+        l.vr += ((gr - l.r) * 170 - l.vr * 13) * dt; l.r += l.vr * dt; l.vs += ((gs - l.s) * 170 - l.vs * 13) * dt; l.s += l.vs * dt;
+        if (g < .002 && Math.abs(l.x) + Math.abs(l.y) + Math.abs(l.r) + Math.abs(l.vx) + Math.abs(l.vy) + Math.abs(l.vr) < .03 && Math.abs(l.s) + Math.abs(l.vs) < .0008) { still(l); return false; }
+        var a = Math.atan2(l.y, l.x) * 57.296, p;
+        l.el.style.transform = 'translate3d(' + l.x.toFixed(2) + 'px,' + l.y.toFixed(2) + 'px,0) rotate(' + l.r.toFixed(2) + 'deg) rotate(' + a.toFixed(1) + 'deg) scale(' + (1 + l.s).toFixed(3) + ',' + (1 - l.s * .45).toFixed(3) + ') rotate(' + (-a).toFixed(1) + 'deg)';
+        p = l.glow ? Math.round(Math.max(0, Math.min(1, l.s / .14)) * 12) / 20 : 0;
+        if (p !== l.p) { if (p) { l.el.classList.add('hl-hot'); l.el.style.setProperty('--p', p); } else { l.el.classList.remove('hl-hot'); l.el.style.removeProperty('--p'); } l.p = p; }
+        return true;
+      });
+    }
+    function rest() { act.forEach(still); act = []; }
+    return { on: !reduce, word: word, split: split, step: step, rest: rest, dirty: function () { dirty = true; } };
+  })();
+  if (HL.on) {
+    [].forEach.call(document.querySelectorAll('.hero .statement, .hero .role'), HL.split);
+    window.addEventListener('resize', HL.dirty); if (document.fonts && document.fonts.ready) document.fonts.ready.then(HL.dirty);
+    setTimeout(HL.dirty, 1600); setTimeout(HL.dirty, 3200);      // after the opening rise has finished moving the text
+  }
   /* ── hero: a gravity field. Stars and planets drift; the cursor (or a finger) is a black hole. ──
      Inverse-square pull with softening, so bodies fall in, orbit, slingshot and get flung when the hole moves
      or lets go. Anything that crosses the event horizon is swallowed (flash) and re-enters from the edge. */
@@ -15,15 +70,15 @@
     var STARS = ['243,240,234', '207,227,255', '255,233,176', '255,214,232'];
     // game: planets are leads from a source; swallow 12 to build the system
     var LEADS = ['Google', 'Meta ad', 'WhatsApp', 'Referral', 'Website', 'Call', 'Instagram', 'Walk-in'], GOAL = 10, caught = 0, won = false;
-    var hud = document.getElementById('gw-hud'), hudN = document.getElementById('gw-count'), hudWin = document.getElementById('gw-win'), tip = document.getElementById('gw-tip');
+    var hud = document.getElementById('gw-hud'), hudN = document.getElementById('gw-count'), hudWin = document.getElementById('gw-win');
     var hero = document.getElementById('hero');
     var fine = window.matchMedia('(pointer: fine)').matches;
     var bh = { x: -999, y: -999, vx: 0, vy: 0, on: false, over: false, mass: 1, shown: 0, spin: 0 };
-    var D = 150, running = false, visible = true, last = 0, lastPulse = 0, fs = 1;
+    var D = 150, running = false, visible = true, last = 0, lastPulse = 0, fs = 1, ox = 0, oy = 0;
     var GM = 800, SOFT = 30, SWIRL = .34, HORIZON = 12, VMAX = 13, CRUISE = .34, RANGE = 300, RANGE_FADE = 170;
     function size() {
       var r = cv.getBoundingClientRect(), oW = W, oH = H; dpr = Math.min(window.devicePixelRatio || 1, fine ? 2 : 1.5);
-      W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ox = r.left + window.scrollX; oy = r.top + window.scrollY; HL.dirty();
       D = W < 700 ? 120 : 165;
       RANGE = clamp(Math.min(W, H) * .34, 140, 270); RANGE_FADE = RANGE * .55;
       var n = clamp(Math.round(W * H / 11000), 40, 150), i;
@@ -103,7 +158,7 @@
       if (caught >= GOAL) {
         won = true;
         for (var k = 0; k < 6; k++) flashes.push({ x: bh.x, y: bh.y, t: -k * .12, c: KEYS[k] });
-        if (hud) hud.classList.add('won'); if (hudWin) hudWin.hidden = false; if (tip) tip.hidden = true;
+        if (hud) hud.classList.add('won'); if (hudWin) hudWin.hidden = false;
         // play again after a pause
         setTimeout(function () { won = false; caught = 0; if (hudN) hudN.textContent = 0; if (hud) hud.classList.remove('won'); if (hudWin) hudWin.hidden = true; }, 9000);
       }
@@ -159,6 +214,7 @@
       for (var q = 0; q < disk.length; q++) disk[q].a += disk[q].s * f * (.5 + bh.mass * .5);
       step(f);
       draw(t);
+      if (HL.on) HL.step(ox + bh.x, oy + bh.y, bh.shown, clamp(raw / 60, .001, .033));
       raf(frame);
     }
     function draw(t) {
@@ -235,7 +291,7 @@
     }
 
     function start() { if (running || reduce || !visible || document.hidden) return; running = true; last = 0; raf(frame); }
-    function stop() { running = false; }
+    function stop() { running = false; HL.rest(); }
     size();
     var boot = function () { if (reduce) draw(0); else start(); };
     if ('requestIdleCallback' in window) requestIdleCallback(boot, { timeout: 900 }); else setTimeout(boot, 300);
@@ -259,7 +315,6 @@
     }
     if (!reduce) {
       if (fine) hero.classList.add('bh-cursor');
-      if (tip) { tip.textContent = fine ? 'Psst: your cursor is a black hole. Catch 10 leads.' : 'Psst: hold and drag to make a black hole. Catch 10 leads.'; tip.hidden = false; }
       hero.addEventListener('pointermove', function (e) {
         if (e.pointerType === 'touch' && !bh.on) return;
         place(e); bh.on = true;
@@ -273,6 +328,8 @@
       var lastP = [0, 0];
       hero.addEventListener('pointermove', function (e) { lastP = [e.clientX, e.clientY]; });
       addEventListener('scroll', function () { if (!bh.on) return; var b = hero.getBoundingClientRect(); if (lastP[1] < b.top || lastP[1] > b.bottom || lastP[0] < b.left || lastP[0] > b.right) release(); }, { passive: true });
+      /* the hand-off: the next section's black hole starts where this one is. at() says where that is on screen; go() lets this one fade */
+      window.__hero = { at: function () { if (bh.shown < .12) return null; var r = cv.getBoundingClientRect(); return [r.left + bh.x, r.top + bh.y]; }, go: release };
       document.addEventListener('pointermove', function (e) { if (bh.on && e.pointerType !== 'touch' && !hero.contains(e.target)) release(); }, { passive: true });
       addEventListener('blur', release); document.addEventListener('visibilitychange', function () { if (document.hidden) release(); });
     }
@@ -289,19 +346,19 @@
       return { t: li.textContent.trim(), by: li.getAttribute('data-by') || '' }; });
     var tEl = hq.querySelector('.hq-t'), byEl = hq.querySelector('.hq-by');
     if (!items.length || !tEl || !byEl) return;
-    var idx = 0, timer = 0, heroOn = true, heroEl = document.getElementById('hero');
+    var idx = 0, timer = 0, landed = 0, heroOn = true, heroEl = document.getElementById('hero');
     function render(q) {
-      tEl.textContent = ''; var n = 0;
+      tEl.textContent = ''; var n = 0, vis = tEl; if (HL.on) { tEl.appendChild(document.createElement('i')).className = 'hl-sr'; tEl.firstChild.textContent = q.t.replace(/\*/g, ''); vis = tEl.appendChild(document.createElement('i')); vis.className = 'hl-sp'; vis.setAttribute('aria-hidden', 'true'); }
       q.t.split(/(\*[^*]+\*)/).forEach(function (part) {
         if (!part) return;
         var acc = part.charAt(0) === '*' && part.length > 2, text = acc ? part.slice(1, -1) : part;
         text.split(/(\s+)/).forEach(function (tok) {
           if (!tok) return;
-          if (/^\s+$/.test(tok)) { tEl.appendChild(document.createTextNode(' ')); return; }
+          if (/^\s+$/.test(tok)) { vis.appendChild(document.createTextNode(' ')); return; }
           var w = document.createElement('span'), wi = document.createElement('span');
-          w.className = 'w'; wi.className = acc ? 'wi acc' : 'wi'; wi.textContent = tok;
+          w.className = 'w'; if (HL.on) { wi.className = 'wi'; wi.appendChild(HL.word(tok, acc)); } else { wi.className = acc ? 'wi acc' : 'wi'; wi.textContent = tok; }
           wi.style.transitionDelay = (n * 55) + 'ms'; n++;
-          w.appendChild(wi); tEl.appendChild(w);
+          w.appendChild(wi); vis.appendChild(w);
         });
       });
       byEl.textContent = q.by;
@@ -316,8 +373,9 @@
     function show(q) {
       var n = render(q);
       byEl.style.transitionDelay = (n * 55 + 300) + 'ms';
-      hq.classList.remove('leave', 'show');
+      hq.classList.remove('leave', 'show', 'rest'); clearTimeout(landed);
       raf(function () { raf(function () { hq.classList.add('show'); }); });
+      landed = setTimeout(function () { hq.classList.add('rest'); HL.dirty(); }, n * 55 + 1150);
       schedule();
     }
     function next() {
@@ -325,7 +383,7 @@
       var ws = tEl.querySelectorAll('.wi');
       for (var i = 0; i < ws.length; i++) ws[i].style.transitionDelay = (i * 28) + 'ms';
       byEl.style.transitionDelay = '0ms';
-      hq.classList.add('leave'); hq.classList.remove('show');
+      HL.rest(); hq.classList.add('leave'); hq.classList.remove('show', 'rest');
       setTimeout(function () { idx = (idx + 1) % items.length; show(items[idx]); }, 720 + ws.length * 28);
     }
     function schedule() { clearTimeout(timer); timer = setTimeout(next, 11000); }

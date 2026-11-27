@@ -10,12 +10,13 @@
 <meta name="theme-color" content="#050408">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="hero.css?v=1">
-<link rel="stylesheet" href="f.css?v=13">
+<link rel="stylesheet" href="hero.css?v=2">
+<link rel="stylesheet" href="f.css?v=15">
 <script src="data.js?v=1" defer></script>
-<script src="hero.js?v=2" defer></script>
-<script src="f.js?v=14" defer></script>
-<script src="studio.js?v=2" defer></script>
+<script src="hero.js?v=3" defer></script>
+<script src="f.js?v=15" defer></script>
+<script src="biz.js?v=1" defer></script>
+<script src="studio.js?v=3" defer></script>
 </head>
 <body id="top">
 <a class="skip" href="#projects">Skip to the list of projects</a>
@@ -26,10 +27,10 @@
 <div id="live" aria-hidden="true"></div>
 <header class="top">
   <a class="who" href="#top">Abhishek M</a>
-  <nav aria-label="Sections"><a href="#work">Work</a><a href="#lab">Lab</a><a href="#how">How I work</a><a href="#contact">Contact</a></nav>
+  <nav aria-label="Sections"><a href="#work">Work</a><a href="#lab">3D Lab</a><a href="#how">How I work</a><a href="#contact">Contact</a></nav>
   <a class="btn" href="mailto:abhimasih0505@gmail.com">Open to work</a>
 </header>
-<div class="usebar" id="usebar"><b id="useN"></b><button class="btn" type="button" id="back">Back to orbit (Esc)</button><a class="btn" id="open2" href="#">Open full screen ↗</a></div>
+<div class="usebar" id="usebar"><b id="useN"></b><button class="btn" type="button" id="back">Back to the projects (Esc)</button><a class="btn" id="open2" href="#">Open full screen ↗</a></div>
 <main>
 <section class="hero" id="hero" aria-labelledby="hero-name">
   <canvas class="net" id="net" aria-hidden="true"></canvas>
@@ -55,9 +56,8 @@
     <div class="hero-row">
       <p class="statement fx f3">I don’t build screens. I design <em>systems.</em></p>
       <div class="hero-side fx f4">
-        <p class="role">Operations &amp; CRM Lead<br><span>I build the CRM, website and automation a property, construction or service business runs on, and stay until the whole team uses it.</span></p>
+        <p class="role">Operations &amp; CRM Lead<br><span>I build the CRM, website and automation that property, construction and service businesses run on. I stay until the whole team uses it.</span></p>
         <div class="btns"><a class="hbtn" href="#work">See the work <span aria-hidden="true">↓</span></a><a class="hbtn ghost" href="#contact">Hire me</a></div>
-        <p class="gw-tip" id="gw-tip" hidden></p>
       </div>
     </div>
   <div class="gw-hud" id="gw-hud" aria-live="polite" hidden><p class="gw-n"><b id="gw-count">0</b><span>/ 10 leads captured</span></p><p class="gw-win" id="gw-win" hidden>One system. <em>Every lead accounted for.</em> <a href="#work">See the work ↓</a></p></div>
@@ -66,9 +66,9 @@
   <div id="world">
     <span id="work"></span>
     <section id="intro">
-      <h2 class="big">Everything I’ve built, <em>in one orbit.</em></h2>
-      <p class="lede">Scroll, and eleven of my projects orbit past. Six of them are live apps you can step into and use.</p>
-      <p class="acts"><a class="btn g" href="#fall">See the work ↓</a><a class="btn" href="#projects">Skip to the list</a></p>
+      <h2 class="big">Eleven projects. <em>Six you can use right now.</em></h2>
+      <p class="lede">Scroll to go through them one at a time. Six are working apps: open one and use it without leaving this page.</p>
+      <p class="acts"><a class="btn g" href="#fall">See the work ↓</a><a class="btn" href="#projects">See all 23 as a list</a></p>
       <div class="feed" hidden><label for="mess">Name your mess:</label><input id="mess" type="text" maxlength="34" autocomplete="off" placeholder="leads living in WhatsApp…"><button class="btn" type="button" id="throw">Throw it in</button><p class="hud" id="hud"><b id="count">0</b>of your messes swallowed.</p></div>
     </section>
     <div class="track" id="fall" aria-label="A fall towards a black hole. Eleven projects swing past in turn; six of them are running live. All the projects are listed further down."></div>
@@ -81,20 +81,20 @@
   <div id="flash" aria-hidden="true"></div>
 
   <section class="in" id="projects">
-    <div class="intro"><h2 class="h">Twenty-three projects, built and running.</h2><p>Six built for clients, a 3D planning tool of my own, and sixteen websites and business systems I designed and built. Open any of them and use it.</p></div>
+    <div class="intro"><h2 class="h">Twenty-three projects, built and running.</h2><p>Six for clients, a 3D planning tool of my own, and sixteen websites and business systems I designed and built. Open any of them.</p></div>
     <p class="ixnote" id="like"></p>
     <div class="ixw"><div class="ix" id="ix"></div><div class="pv" id="pv" aria-hidden="true"></div></div>
   </section>
 
   <section class="in dk" id="lab">
-    <div class="intro"><h2 class="h">The 3D Lab.</h2><p>Seven experiments you can turn around: product turntables, a room configurator, a property explorer and more. And the 3D that now lives inside the projects; each tile opens the live piece.</p></div>
-    <div class="labg"><a class="lt" href="../samples/revv/index.html"><img src="../img/lab/revv.webp" alt="" loading="lazy" width="760" height="475"><b>Revv</b><span>A car under an X-ray inspection lens</span></a><a class="lt" href="../samples/launch/index.html"><img src="../img/lab/aaranya.webp" alt="" loading="lazy" width="760" height="475"><b>Aaranya Residences</b><span>Three towers; pull a floor out like a drawer</span></a><a class="lt" href="../samples/build/index.html"><img src="../img/lab/sthira.webp" alt="" loading="lazy" width="760" height="475"><b>Sthira</b><span>A building that rises stage by stage</span></a><a class="lt" href="../samples/watch/index.html"><img src="../img/lab/ghatika.webp" alt="" loading="lazy" width="760" height="475"><b>Ghatika</b><span>A watch that comes apart as you scroll</span></a><a class="lt" href="../samples/resort/index.html"><img src="../img/lab/taradhura.webp" alt="" loading="lazy" width="760" height="475"><b>Taradhura</b><span>A ridge from dawn to starlight</span></a><a class="lt" href="#work"><img src="../img/lab/black-hole.webp" alt="" loading="lazy" width="760" height="475"><b>The black hole</b><span>Ray-marched, with projects in orbit</span></a></div>
-    <p class="acts"><a class="btn g" href="../lab.html">Enter the 3D Lab →</a></p>
+    <div class="intro"><h2 class="h">The 3D Lab.</h2><p>Ten pieces of live 3D. Six run inside real projects; four are experiments. Each tile opens the real thing.</p></div>
+    <div class="labg"><a class="lt" href="../samples/revv/index.html"><img src="../img/lab/revv.webp" alt="" loading="lazy" width="760" height="475"><b>Revv</b><span>A car under an X-ray lens</span></a><a class="lt" href="../samples/launch/index.html"><img src="../img/lab/aaranya.webp" alt="" loading="lazy" width="760" height="475"><b>Aaranya Residences</b><span>Three towers, with floors that pull out</span></a><a class="lt" href="../samples/build/index.html"><img src="../img/lab/sthira.webp" alt="" loading="lazy" width="760" height="475"><b>Sthira</b><span>A building that rises stage by stage</span></a><a class="lt" href="../samples/watch/index.html"><img src="../img/lab/ghatika.webp" alt="" loading="lazy" width="760" height="475"><b>Ghatika</b><span>A watch that comes apart as you scroll</span></a><a class="lt" href="../samples/resort/index.html"><img src="../img/lab/taradhura.webp" alt="" loading="lazy" width="760" height="475"><b>Taradhura</b><span>A ridge from dawn to starlight</span></a><a class="lt" href="#work"><img src="../img/lab/black-hole.webp" alt="" loading="lazy" width="760" height="475"><b>The black hole</b><span>Drawn one ray of light at a time</span></a></div>
+    <p class="acts"><a class="btn g" href="../lab.html">Open the 3D Lab →</a></p>
   </section>
 
   <section class="in" id="why">
     <link rel="stylesheet" href="why.css?v=6">
-    <div class="intro"><h2 class="h">Software built around your business, not the other way round.</h2><p>Rented tools charge per seat and make your team work their way. A custom workflow or SaaS product fits how you already work, grows one module at a time and keeps the cost in your hands. That is how a business stops leaking leads and starts to flourish.</p></div>
+    <div class="intro"><h2 class="h">Software built around your business, not the other way round.</h2><p>Rented tools charge per seat and make your team work their way. A custom workflow or SaaS product fits how you already work, grows one module at a time and keeps the cost in your hands. That is how a business stops losing leads.</p></div>
     <div class="wy" id="wy">
       <article class="wy-c wy-calc" aria-labelledby="wy-ch">
         <p class="wy-k">An estimate · minutes back</p>
@@ -143,7 +143,7 @@
         <div class="wy-dtx">
           <p><b>Old data, cleaned and moved in.</b> Spreadsheets, duplicates and broken phone numbers are de-duplicated and fixed during the migration.</p>
           <p><b>Analysis built in, live.</b> Your team’s activity and attendance beside website visitors, Google Search Console rankings, and Meta Pixel and Conversions API results, in one dashboard, so decisions rest on real numbers.</p>
-          <p class="wy-end">Endless possibilities of customisation: add the view your business needs next.</p>
+          <p class="wy-end">Built to extend: add the view your business needs next.</p>
         </div>
       </article>
       <article class="wy-c wy-eff">
@@ -166,7 +166,7 @@
         </div>
       </article>
       <article class="wy-c wy-team">
-        <h3>Employee management</h3>
+        <h3>Team management</h3>
         <p>Roles and permissions, attendance and field check-ins, targets, approvals and clean hand-overs in one place.</p>
         <div class="wy-ui" aria-hidden="true">
           <div class="wy-p"><span class="wy-av">NS</span><span class="wy-nm">Neha<span class="wy-role">LEAD</span><small>Sales</small></span><span class="wy-st">Checked in 9:41</span></div>
@@ -186,7 +186,7 @@
         </div>
       </article>
       <article class="wy-c wy-conn">
-        <h3>In-house and all connected</h3>
+        <h3>One system, all connected</h3>
         <p>Website, app and CRM or project tool on one system you own. Every task loses a few seconds of copying and checking, and those minutes go back to the work that makes money.</p>
         <div class="wy-ui" aria-hidden="true">
           <div class="wy-net">
@@ -201,7 +201,7 @@
         </div>
       </article>
       <article class="wy-c wy-cost">
-        <h3>Cost-effective by design</h3>
+        <h3>No per-seat fees</h3>
         <p>Start with the one module that hurts most and add the rest as you grow. No per-seat fees, and proven modules from my own projects keep the build short.</p>
         <div class="wy-ui" aria-hidden="true">
           <div class="wy-rail"><span class="wy-m on">Leads<small>Month 1</small></span><span class="wy-m on">Calling<small>Month 2</small></span><span class="wy-m on">Site visits<small>Month 3</small></span><span class="wy-m on">Quotes<small>Month 4</small></span><span class="wy-m on">Billing<small>Month 6</small></span><span class="wy-m on">Portal<small>Month 9</small></span></div>
@@ -218,7 +218,7 @@
         </div>
       </article>
       <article class="wy-c wy-srv">
-        <h3>Servers that cost little</h3>
+        <h3>Hosting that costs little</h3>
         <p>Hosting sized to what you actually need, and full setup for your first self-hosted website or app: domain, SSL, backups and monitoring included.</p>
         <div class="wy-ui" aria-hidden="true">
           <span class="wy-up"><i></i>99.98% uptime · 30 days</span>
@@ -245,7 +245,7 @@
   </section>
 
   <section class="in" id="how">
-    <div class="intro"><h2 class="h">How a mess gets pulled into one system.</h2><p>Five steps, always in this order. Nothing gets built until the team has been heard and the work has been mapped.</p></div>
+    <div class="intro"><h2 class="h">From mess to one system, in five steps.</h2><p>Always in this order. Nothing gets built until the team has been heard and the work has been mapped.</p></div>
     <ol class="steps">
       <li><h3>Listen</h3><p>Sit with the team and watch the real work, in the words they use.</p></li>
       <li><h3>Map</h3><p>Write down what feeds what: leads, listings, calls, quotes, tasks.</p></li>
@@ -256,12 +256,12 @@
     <div class="cols">
       <div><h3>Working with me</h3><ul class="notes"><li>I’ll ask “why” a lot. It’s how I find the rule behind the work.</li><li>I won’t oversell a feature nobody has used yet.</li><li>I show real numbers from live systems.</li><li>Quiet in the meeting, thorough in the plan.</li></ul>
         <p class="now">Now: starting out on my journey as a software developer, alongside a Bachelor of Computer Applications with an Agentic AI specialisation.</p></div>
-      <div><h3>What has landed so far, Nov 2026</h3><div class="facts"><p><b>4 years</b><span>leading operations and building the systems teams run on</span></p><p><b>6 live</b><span>projects: two CRMs, three websites and a 3D planning tool</span></p><p><b>3 months</b><span>from first requirements to go-live on a custom CRM</span></p><p><b>6,089</b><span>old records moved across, none rejected</span></p><p><b>Page 1</b><span>on Google within 30 days of a relaunch</span></p><p><b>~19 hours</b><span>to rebuild and relaunch a website</span></p></div></div>
+      <div><h3>Results so far, Nov 2026</h3><div class="facts"><p><b>4 years</b><span>leading operations and building the systems teams run on</span></p><p><b>6 live</b><span>projects: two CRMs, three websites and a 3D planning tool</span></p><p><b>3 months</b><span>from first requirements to go-live on a custom CRM</span></p><p><b>6,089</b><span>old records moved across, none rejected</span></p><p><b>Page 1</b><span>on Google within 30 days of a relaunch</span></p><p><b>~19 hours</b><span>to rebuild and relaunch a website</span></p></div></div>
     </div>
   </section>
   <section class="in" id="build">
     <p class="mine" id="mine"></p>
-    <div class="intro"><h2 class="h">Configure your system.</h2><p>Four steps, and a working app that follows them. Pick a trade, the modules and a look, then click around the result: every part reacts to the others.</p></div>
+    <div class="intro"><h2 class="h">Configure your system.</h2><p>Pick a trade, the modules and a look. A working app follows every choice: click through it, switch roles and move the week on.</p></div>
     <div class="st">
       <aside class="st-cfg" id="cfg" aria-label="Configure your system"></aside>
       <div class="st-pv">
@@ -300,17 +300,17 @@
           </div>
           <ul class="ft-chips" id="ft-mods" aria-label="Modules"></ul>
           <p class="ft-est" id="ft-est"></p>
-          <p class="ft-ba"><a class="btn b" id="cta2" href="mailto:abhimasih0505@gmail.com">Email me this brief →</a><a class="ft-edit" href="#build">Change it</a></p>
+          <p class="ft-ba"><a class="btn b" id="cta2" href="mailto:abhimasih0505@gmail.com">Email me this brief →</a><a class="ft-edit" href="#build">Edit it</a></p>
         </article>
         <article class="ft-card ft-call" id="ft-call" aria-labelledby="ft-ch">
-          <p class="ft-kick"><span>No brief yet</span><em>that’s fine</em></p>
+          <p class="ft-kick"><span>No brief yet</span><em>a call is enough</em></p>
           <h3 id="ft-ch">Start with a 20-minute call</h3>
           <ol>
             <li><time>0–5 min</time><span><b>You walk me through a normal week</b>, from the first enquiry to the last invoice.</span></li>
             <li><time>5–15 min</time><span><b>We find where time and leads slip away</b>, and what can stay exactly as it is.</span></li>
             <li><time>15–20 min</time><span><b>You leave with next steps.</b> A one-page plan follows by email: what to build first, a timeline and a price range.</span></li>
           </ol>
-          <p class="ft-ba"><a class="btn b" id="ft-callb" href="mailto:abhimasih0505@gmail.com?subject=A%2020-minute%20call&amp;body=Hi%20Abhishek%2C%0A%0ACould%20we%20do%20a%2020-minute%20call%3F%20Times%20that%20suit%20me%20%28IST%29%3A%0A%0AWhat%20we%20do%3A%0AWhat%20I%27d%20like%20to%20fix%20first%3A%0A">Ask for a 20-minute call →</a><a class="ft-edit" href="#build">or sketch your system first</a></p>
+          <p class="ft-ba"><a class="btn b" id="ft-callb" href="mailto:abhimasih0505@gmail.com?subject=A%2020-minute%20call&amp;body=Hi%20Abhishek%2C%0A%0ACould%20we%20do%20a%2020-minute%20call%3F%20Times%20that%20suit%20me%20%28IST%29%3A%0A%0AWhat%20we%20do%3A%0AWhat%20I%27d%20like%20to%20fix%20first%3A%0A">Ask for a 20-minute call →</a><a class="ft-edit" href="#build">or configure your system first</a></p>
         </article>
         <div class="ft-now">
           <span class="ft-clock" id="ft-clock" aria-hidden="true"><i class="ft-hh"></i><i class="ft-mh"></i></span>

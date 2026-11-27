@@ -53,11 +53,14 @@
   ['R', 'S', 'T', 'F', 'K', 'Q', 'C', 'BX', 'BY', 'BZ'].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
 
   /* ---------- camera (kept in JS too, so DOM cards and chips sit in the same space) ---------- */
-  var F = 1 / Math.tan((mobile ? 58 : 40) * Math.PI / 360), VW = 1, VH = 1, qs = 1, st = { r: 0, s: 0, o: 0 }, tg = { r: 0, s: 0, o: 0 };
+  var F = 1 / Math.tan((mobile ? 58 : 40) * Math.PI / 360), VW = 1, VH = 1, qs = 1, st = { r: 0, s: 0, o: 0, a: 1 }, tg = { r: 0, s: 0, o: 0, a: 1 }, AF = 6, ap = null, haK = -1;
   var C = [0, 7, 34], X = [1, 0, 0], Y = [0, 1, 0], Z = [0, 0, -1], SX = 0, SY = 0, TF = Math.PI / 2 + (mobile ? 0 : .6), H = {}, P = {};
+  /* The hand-off from the hero: while the hero scrolls away the camera is still far out (the hole is the size of the hero's own
+     small one) and it sits where that one was, or just above its place in the next frame. It grows and settles as the hero's slab thins. */
   function camera() {
-    var e = sm(st.r), eo = sm(st.o), D = lerp(mobile ? 54 : 66, 34, e), h = lerp(mobile ? 11 : 13, 6.5, e), roll = (mobile ? -.1 : -.2) * (1 - eo), L, c, s;
+    var e = sm(st.r), eo = sm(st.o), far = Math.pow(AF, 1 - st.a), D = lerp(mobile ? 54 : 66, 34, e) * far, h = lerp(mobile ? 11 : 13, 6.5, e) * far, roll = (mobile ? -.1 : -.2) * (1 - eo), L, c, s, w;
     SX = lerp(mobile ? 0 : .3, mobile ? 0 : .2, e) * (1 - eo); SY = lerp(mobile ? -.2 : 0, mobile ? .2 : .1, e) * (1 - eo);
+    if (st.a < .999) { w = sm(clamp((st.a - .1) / .8)); if (ap) { SX = lerp(ap.x, SX, w); SY = lerp(ap.y + (ap.h ? (window.scrollY - ap.s) / VH : 0), SY, w); } else SY = lerp(SY + .16, SY, w); }
     D = D * Math.pow(1.7 / D, eo); h = lerp(h, .45, eo); L = Math.hypot(h, D); c = Math.cos(roll); s = Math.sin(roll);
     C = [0, h, D]; Z = [0, -h / L, -D / L]; X = [c, s * D / L, -s * h / L]; Y = [-s, c * D / L, -c * h / L];
   }
@@ -84,17 +87,23 @@
   var CW = mobile ? 4.4 : 5.6;
   /* in the hero, nothing drifts across the headline: things fade as they near the text block */
   function clear(x, y) { var h = 1 - sm(clamp(st.r * 1.4)); return h < .01 ? 1 : (1 - h * (mobile ? 1 - clamp((y - VH * .62) / (VH * .1)) : 1 - clamp((x - VW * .5) / (VW * .08)))) * (1 - h * (1 - clamp((VH - 112 - y) / 50))); }   // nothing drifts over the text column or the bar at the bottom
+  /* The queue waits behind the hole where it can be seen (the next two, dimmed), then each window swings round the near side and in
+     from the left. Nothing is switched off at a threshold any more: every limit (the hole in front, the screen edge, the header) is
+     a fade, so a window recedes or arrives instead of blinking. */
   function placeCards(t) {
-    var hero = 1.6 * (1 - sm(st.r)), fade = clamp(1 - st.o * 3.2), i, c, u, rad, th, e, k, op, phi, zi, on, uq = sm(clamp(uu));
+    var hero = 1.6 * (1 - sm(st.r)), fade = clamp(1 - st.o * 3.2) * sm(clamp(st.r * 1.6 - .25)), ew = mobile ? 150 : 130, i, c, u, v, g, m, rad, th, e, k, op, zi, on, uq = sm(clamp(uu));
     for (i = 0; i < N; i++) {
-      c = cards[i]; u = i - st.s + hero;
-      if (u >= 0) { rad = 11 + 9 * (1 - Math.exp(-u * .22)); th = TF + 4.5 * (1 - Math.exp(-u * .17)) + Math.sin(t * .22 + i) * .04 * Math.min(u, 2); }
-      else { rad = 11 * Math.exp(u * 1.7); th = TF + u * .76 - 1.1 * u * u; }
-      e = u < 0 ? sm(clamp(-u * 1.05)) : 0; op = (u < 0 ? 1 - e * e : clamp(1.25 - u * .25)) * fade * sm(clamp(st.r * 1.6 - .25));     // the windows arrive as you start to fall; the intro stays clear
-      if (op < .01 || !proj(rad * Math.cos(th), u < 0 ? .5 * rad / 11 : .5, rad * Math.sin(th), P) || (P.z > H.z && Math.hypot(P.x - H.x, P.y - H.y) < 2.9 * H.k)) { if (c.vis) { c.vis = false; c.el.style.visibility = 'hidden'; } continue; }
-      op *= clear(P.x, P.y); if (uq > .001) op *= i === cur ? 1 : 1 - uq; if (i === cur) { fr.x = P.x; fr.y = P.y; fr.k = P.k * CW / 640; fr.op = op; } if (!c.vis) { c.vis = true; c.el.style.visibility = ''; }
+      c = cards[i]; u = i - st.s + hero; e = 0;
+      if (u >= 0) { g = u < 1 ? sm(Math.pow(u, 1.4)) : 1; v = u < 1 ? 0 : u - 1; rad = 11 + 4.6 * g + 1.9 * (1 - Math.exp(-v * .5)); th = TF + (mobile ? .95 : 1.8) * g + .8 * (1 - Math.exp(-v * .7)) + Math.sin(t * .22 + i) * .03 * Math.min(u, 1); op = u < 1 ? lerp(1, .7, sm(u)) * Math.max(1 - sm(clamp((u - .22) / .3)), sm(clamp((u - .72) / .28))) : .7 * Math.exp(-v * .56) * clamp(2.4 - v); }      // leaves its place in the queue slowly, is unseen for the middle of the swing, arrives slowly
+      else { rad = 11 * Math.exp(u * 1.7); th = TF + u * .76 - 1.1 * u * u; e = sm(clamp(-u * 1.05)); op = 1 - e * e; }     // a calm shrink-and-fade into the hole, no spin
+      op *= fade;
+      if (op < .01 || !proj(rad * Math.cos(th), u < 0 ? .5 * rad / 11 : .5, rad * Math.sin(th), P)) { if (c.vis) { c.vis = false; c.el.style.visibility = 'hidden'; } continue; }
+      k = P.k * CW / 640 * (1 - e * .6) * (i === hov ? 1.05 : 1); m = sm(clamp(u * 2 - 1));      // m: the window in front may cross the edge while it moves; a queued one is shown only when it is whole
+      if (P.z > H.z) op *= sm(clamp((Math.hypot(P.x - H.x, P.y - H.y) - 2.5 * H.k) / (1.5 * H.k)));
+      op *= clear(P.x, P.y) * clamp((P.y - 200 * k - 62) / 44) * sm(clamp((P.x - 320 * k * m + 56 - 70 * m) / ew)) * sm(clamp((VW - P.x - 320 * k * m + 56 - 70 * m) / ew));
+      if (uq > .001) op *= i === cur ? 1 : 1 - uq; if (i === cur) { fr.x = P.x; fr.y = P.y; fr.k = P.k * CW / 640; fr.op = op; }
+      if (op < .01) { if (c.vis) { c.vis = false; c.el.style.visibility = 'hidden'; } continue; } if (!c.vis) { c.vis = true; c.el.style.visibility = ''; }
       if (!c.hi && Math.abs(u) < 3.2) { c.hi = true; c.el.firstChild.src = thumb(c.w, true); }
-      k = P.k * CW / 640 * (1 - e * .6) * (i === hov ? 1.05 : 1); op *= clamp((P.y - 200 * k - 62) / 44); if (i !== cur) op *= clamp((VW - 14 - (P.x + 320 * k)) / 40) * clamp((P.x - 320 * k - 14) / 40);   // never clipped by the edge: a window that would be cut is not shown        // keep the header clear; a calm shrink-and-fade into the hole, no spin
       c.el.style.transform = 'translate3d(' + P.x.toFixed(1) + 'px,' + P.y.toFixed(1) + 'px,0) scale(' + k.toFixed(4) + ')';
       c.el.style.opacity = op.toFixed(3); zi = 2000 - Math.round(P.z * 20); if (zi !== c.zi) { c.zi = zi; c.el.style.zIndex = zi; }
       on = inOrb && i === cur; if (on !== c.on) { c.on = on; c.el.classList.toggle('on', on); } if ((i === hov) !== c.hv) { c.hv = i === hov; c.el.classList.toggle('hv', c.hv); }
@@ -122,13 +131,14 @@
   }
   function stepChips(dt) {
     rot -= dt * .085;
-    var amb = clamp(1.2 - sm(st.r) * 1.4) * clamp(1 - st.o * 4), i, c, n, r2, r, a, op, k;
+    var amb = clamp(1.2 - sm(st.r) * 1.4) * clamp(1 - st.o * 4) * sm(clamp((st.a - .72) / .28)), i, c, n, r2, r, a, op, k;
     for (i = chips.length - 1; i >= 0; i--) {
       c = chips[i];
       if (c.lane) { a = rot + c.slot * .7854; c.x = c.r * Math.cos(a); c.z = c.r * Math.sin(a); r = c.r; } else for (n = 0; n < 2; n++) { r2 = c.x * c.x + c.z * c.z; r = Math.sqrt(r2); a = -GM / (r2 * r) * dt / 2; c.vx = (c.vx + a * c.x) * (1 - c.drag * dt / 2); c.vz = (c.vz + a * c.z) * (1 - c.drag * dt / 2); c.x += c.vx * dt / 2; c.z += c.vz * dt / 2; }
       if (r < 2.5) { swallowed(c); continue; } if (r > 70) seed(c);
       op = (c.me ? 1 : amb) * clamp((r - 2.5) / 2);
-      if (op < .02 || !proj(c.x, c.y * Math.min(1, r / 9), c.z, P) || (P.z > H.z && Math.hypot(P.x - H.x, P.y - H.y) < 2.9 * H.k)) { if (c.vis) { c.vis = false; c.el.style.visibility = 'hidden'; } continue; }
+      if (op >= .02 && proj(c.x, c.y * Math.min(1, r / 9), c.z, P) && P.z > H.z) op *= sm(clamp((Math.hypot(P.x - H.x, P.y - H.y) - 2.5 * H.k) / (1.2 * H.k)));
+      if (op < .02 || !proj(c.x, c.y * Math.min(1, r / 9), c.z, P)) { if (c.vis) { c.vis = false; c.el.style.visibility = 'hidden'; } continue; }
       if (!c.me) op *= clear(P.x, P.y); if (!c.vis) { c.vis = true; c.el.style.visibility = ''; }
       op *= clamp((VW - 170 - P.x) / 50) * clamp((P.x - 8) / 40); k = clamp(P.k / 30, .42, 1.5); c.el.style.transform = 'translate3d(' + P.x.toFixed(1) + 'px,' + P.y.toFixed(1) + 'px,0) scale(' + k.toFixed(3) + ')'; c.el.style.opacity = op.toFixed(2); c.el.style.zIndex = 2000 - Math.round(P.z * 20);
     }
@@ -190,7 +200,11 @@
     if (want === i) { want = -1; setTimeout(function () { if (cur === i && inOrb) use(true); }, 950); }
   }
   function state() {
-    busy = false; if (using) return; var p = (window.scrollY - base) / innerHeight * 100, o = clamp((p - RISE - (N - 1) * STEP - 20) / (OUT - 20)), on, i;
+    busy = false; if (using) return; var hh;
+    tg.a = clamp(window.scrollY / Math.max(1, base));
+    if (tg.a <= 0) ap = null; else if (!ap && tg.a < .5) { hh = window.__hero && window.__hero.at(); ap = hh ? { x: (hh[0] - VW / 2) / VH, y: (VH / 2 - hh[1]) / VH, s: window.scrollY, h: 1 } : null; if (window.__hero) window.__hero.go(); }
+    run();
+    var p = (window.scrollY - base) / innerHeight * 100, o = clamp((p - RISE - (N - 1) * STEP - 20) / (OUT - 20)), on, i;
     tg.r = clamp(p / RISE); tg.s = clamp((p - RISE) / STEP, 0, N - 1); tg.o = o; on = p > RISE * .82 && o < .22; i = Math.round(tg.s);
     if (on !== inOrb) { inOrb = on; root.classList.toggle('orb', on); } if (on && i !== cur) show(i);
     var bt = build.getBoundingClientRect().top; if (!lit && (o >= .995 || p > END) && bt < innerHeight * .82) { lit = true; build.classList.add('lit'); } var iv = o > .68 || p > END; if (iv !== inv) { inv = iv; root.classList.toggle('inv', iv); }
@@ -209,16 +223,20 @@
   }
   function frame(now) {
     raf = requestAnimationFrame(frame); var ms = now - last, dt = Math.min(.05, ms / 1000 || .016), k = 1 - Math.exp(-dt * 5), t = (now - t0) / 1000; last = now;
-    st.r += (tg.r - st.r) * k; st.s += (tg.s - st.s) * (1 - Math.exp(-dt * 3.6)); st.o += (tg.o - st.o) * k; camera(); proj(0, 0, 0, H);
+    st.r += (tg.r - st.r) * k; st.s += (tg.s - st.s) * (1 - Math.exp(-dt * 3.6)); st.o += (tg.o - st.o) * k; st.a += (tg.a - st.a) * (1 - Math.exp(-dt * 7)); if (Math.abs(tg.a - st.a) < .0005) st.a = tg.a; slab(); camera(); proj(0, 0, 0, H);
     gl.uniform2f(U.R, cv.width, cv.height); gl.uniform2f(U.S, SX, SY); gl.uniform1f(U.T, t); gl.uniform1f(U.F, F); gl.uniform1f(U.Q, lerp(190, 70, clamp(st.o * 1.5))); var kk = clamp((st.o - .28) / .72); kk = kk * kk * kk * (kk * (kk * 6 - 15) + 10); gl.uniform1f(U.K, 0); land(kk); if (Math.abs(kk - scrim) > .01) { scrim = kk; cv.parentNode.style.setProperty('--sc', (1 - kk).toFixed(2)); } gl.uniform3fv(U.C, C); gl.uniform3fv(U.BX, X); gl.uniform3fv(U.BY, Y); gl.uniform3fv(U.BZ, Z);
     if (uu < .985) { gl.drawArrays(gl.TRIANGLES, 0, 3); placeCards(t); stepChips(dt); } liveTick(dt);
+    if (!wOn && window.scrollY <= 2 && st.a === tg.a) { stop(); return; }      // back at the very top: this still frame is enough, the loop sleeps
     if (ms < 200 && !using && st.o < .04) { slow += ms; if (++frames === 40) { var av = slow / 40; if (av > 22 && qs > .5) { qs = Math.max(.5, qs * .84); qcap = qs; size(); } else if (av < 12.5 && qs < qcap * .97) { qs = Math.min(qcap, qs * 1.15); size(); } slow = frames = 0; } }   // step the resolution down when frames run long, back up (never past a level that failed) when there is headroom
   }
+  function slab() { var v = sm(clamp(st.a / .55)); if (Math.abs(v - haK) > .003 || (v !== haK && (v === 0 || v === 1))) { haK = v; root.style.setProperty('--ha', v.toFixed(3)); } }
   function start() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
   function stop() { cancelAnimationFrame(raf); raf = 0; }
-  window.__bh = { jump: function () { state(); st.r = tg.r; st.s = tg.s; st.o = tg.o; } };
-  size(); addEventListener('resize', function () { size(); state(); }); state(); st.r = tg.r; st.s = tg.s; st.o = tg.o; start(); root.classList.add('live');
-  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting && !d.hidden) start(); else stop(); }).observe($('#world'));
-  d.addEventListener('visibilitychange', function () { if (d.hidden) stop(); else if ($('#world').getBoundingClientRect().bottom > 0) start(); });
+  var wOn = false;
+  function run() { if (!d.hidden && (wOn || (window.scrollY > 2 && window.scrollY <= base) || Math.abs(tg.a - st.a) > .001)) start(); else if (raf) { stop(); if (window.scrollY <= 2) { st.a = tg.a; frame(performance.now()); stop(); } } }
+  window.__bh = { jump: function () { state(); st.r = tg.r; st.s = tg.s; st.o = tg.o; st.a = tg.a; } };
+  size(); addEventListener('resize', function () { size(); state(); }); state(); st.r = tg.r; st.s = tg.s; st.o = tg.o; st.a = tg.a; frame(performance.now()); stop(); root.classList.add('live'); run();
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { wOn = es[0].isIntersecting; run(); }).observe($('#world')); else wOn = true;
+  d.addEventListener('visibilitychange', run);
   }
 })();

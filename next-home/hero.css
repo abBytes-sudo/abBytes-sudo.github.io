@@ -377,3 +377,12 @@
 @keyframes caret{50%{opacity:0}}
 @keyframes gwbump{0%{transform:scale(1.5);color:#fff}100%{transform:scale(1)}}
 .hero,.lv{font-family:var(--text)}
+
+/* hero text leans toward the black hole: letters are inline blocks, the words stay whole, a hidden copy is what screen readers get */
+.hl-sr{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;user-select:none;-webkit-user-select:none}
+.hl-sr,.hl-sp,.hl-w,.hl-lt{font-style:inherit}
+.hl-w{display:inline-block;white-space:nowrap}
+.hl-lt{display:inline-block;transform-origin:50% 70%}
+.hl-lt.hl-hot{text-shadow:0 0 calc(var(--p,0) * 18px) rgb(244 181 86 / calc(var(--p,0) * 1.1))}
+.js .hq.rest .w{overflow:visible}
+.hq-t{position:relative}
