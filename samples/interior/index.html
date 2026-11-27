@@ -3,208 +3,293 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Atelier Nori · Calm, lived-in interiors</title>
-<meta name="description" content="Atelier Nori designs calm, lived-in homes. Browse the rooms, walk through a live 3D living room and take the style quiz.">
+<title>Atelier Nori · Interior design studio, Bengaluru</title>
+<meta name="description" content="Atelier Nori designs homes in Bengaluru, starting with the light. Three rooms with their bills, a table of materials to move around, and a consultation you can book for four o’clock.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Atelier Nori">
-<meta property="og:title" content="Atelier Nori · Calm, lived-in interiors">
-<meta property="og:description" content="Walk through a live 3D living room, switch its style and lighting, and browse the rooms.">
+<meta property="og:title" content="Atelier Nori · First, the light.">
+<meta property="og:description" content="An interior design studio in Bengaluru. We find where the sun lands in your room at four o’clock, then design everything else around it.">
 <meta property="og:url" content="https://abbytes-sudo.github.io/samples/interior/">
-<meta property="og:image" content="https://abbytes-sudo.github.io/samples/interior/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="A bright open-plan home with a long kitchen island and a living room beyond">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Atelier Nori · Calm, lived-in interiors"><meta name="twitter:description" content="Walk through a live 3D living room and browse the rooms."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/interior/og.jpg">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/interior/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="The words First, the light pressed into a lime-plaster wall, with window light falling across them">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Atelier Nori · First, the light."><meta name="twitter:description" content="An interior design studio in Bengaluru that starts with where the sun lands at four o’clock."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/interior/og.jpg">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#E7E0D4">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'self' blob: data:; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="../assets/vendor/lenis.css">
-<link rel="stylesheet" href="nori.css?v=11">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Marcellus&family=Reenie+Beanie&display=swap" media="print" data-fonts>
+<link rel="stylesheet" href="nori.css?v=31">
 <link rel="stylesheet" href="../assets/back.css?v=2">
-<script src="../assets/vendor/gsap.min.js" defer></script>
-<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
-<script src="../assets/vendor/SplitText.min.js" defer></script>
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Marcellus&family=Reenie+Beanie&display=swap"><style>.aft{height:auto}.aft-s{position:relative;height:auto;overflow:visible}.aft-b{margin-top:clamp(64px,9vh,100px)}.cta{margin-top:22px}.beats{display:grid;gap:16px;min-height:0}.beat{position:static;opacity:1;transform:none}.datum .now,.aft-k,.wet-note{display:none}.sketch{--o:0;--t:1}</style></noscript>
 <script src="../assets/vendor/lenis.min.js" defer></script>
-<script src="../assets/motion.js?v=1" defer></script>
-<script src="../assets/room3d.js?v=10" defer></script>
-<script src="nori.js?v=10" defer></script>
+<script src="wall.js?v=31" defer></script>
+<script src="nori.js?v=31" defer></script>
 <script src="../assets/back.js?v=1" defer></script>
-<script src="concierge.js?v=4" defer data-agent="nori" data-brand="an" data-skin="concierge.css?v=5" data-title="Atelier Nori" data-sub="Studio front desk" data-label="Talk to the studio" data-nudge="work,style,room,book,process,services"></script>
+<script src="concierge.js?v=6" defer data-v="5" data-agent="nori" data-brand="an" data-skin="concierge.css?v=31" data-title="Atelier Nori" data-sub="The studio’s front desk" data-label="Ask the studio" data-nudge="longtable,table"></script>
 </head>
 <body>
-<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
-<header id="hdr"><div class="nav"><a class="logo" href="#top" aria-label="Atelier Nori, home">Atelier <em>Nori</em></a><nav aria-label="Main"><a class="ul" href="#work">Work</a><a class="ul" href="#services">Services</a><a class="ul" href="#room">Walk through</a><a class="ul" href="#style">Style quiz</a><a class="ul" href="#process">Process</a></nav><a class="btn sm bk" data-magnetic href="#book"><span>Book a consultation</span></a><button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="menu"><span>Menu</span></button></div></header>
-<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="#work">Work</a><a href="#services">Services</a><a href="#room">Walk through a room</a><a href="#style">Style quiz</a><a href="#process">Process</a><a href="#book">Book a consultation</a></nav><p>Atelier Nori · Indiranagar, Bengaluru</p></div>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a><span class="demo-s"><a href="studio.html">Open the studio desk</a></span></p>
+<canvas id="wall" aria-hidden="true"></canvas>
 
-<main id="top">
-<!-- 01 · HERO -->
-<section class="hero" aria-label="Atelier Nori">
-  <div class="hero-clip">
-    <video class="lazyv" muted loop playsinline preload="none" poster="photos/poster-wide.jpg" data-src="video/interior-wide.mp4" data-src-sm="video/interior-wide-sm.mp4" aria-hidden="true"></video>
-    <div class="hero-shade"></div>
-  </div>
-  <div class="hero-in">
-    <p class="eyebrow" data-hero>Interior design studio · Residential &amp; small commercial</p>
-    <h1 data-split data-now data-delay="1">Rooms that feel <em>like you.</em></h1>
-    <div class="hero-foot" data-hero>
-      <p>Calm, lived-in homes, designed slowly and drawn in 3D before anything is bought.</p>
-      <a class="scrollcue" href="#studio"><span>Scroll</span><i></i></a>
-      <p class="hero-no">Reel · A house on the hill<br>00:15</p>
+<header class="hd" id="hd">
+  <a class="logo" href="#top" aria-label="Atelier Nori, home"><svg viewBox="0 0 28 28" width="22" height="22" aria-hidden="true"><path d="M5 3v20h20" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M5 8h4M5 13h6M5 18h4M10 23v-4M15 23v-6M20 23v-4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg><span>Atelier Nori</span></a>
+  <nav class="nv" aria-label="Main"><a href="#rooms">Rooms</a><a href="#table">Materials</a><a href="#sums">Fees</a><a href="#how">How it goes</a></nav>
+  <a class="btn sm" href="#you">Book a consultation</a>
+  <a class="hd-b" href="#you">Book</a>
+  <button class="mb" type="button" aria-expanded="false" aria-controls="mn" aria-label="Menu"><i></i><i></i></button>
+</header>
+<div class="mn" id="mn" hidden><nav aria-label="Menu"><a href="#rooms">Three rooms</a><a href="#table">The table of materials</a><a href="#sums">Fees and a first number</a><a href="#how">How it goes</a><a href="#you">Book a consultation</a></nav><p>12th Main, Indiranagar, Bengaluru<br>Tuesday to Sunday, ten to six</p><p class="mn-o">Portfolio project by Abhishek. <a href="studio.html">Open the studio desk</a></p></div>
+
+<main>
+<!-- I. the light: one afternoon on the wall, pinned while you scroll through it -->
+<section class="aft" id="top" data-pin data-paint="lime" data-wet data-amb="1"
+  data-light='{"t":"panes","x":0.5,"y":-0.05,"w":0.37,"h":0.9,"sh":-0.33,"soft":9,"cols":2,"rows":3,"bar":0.026,"leaf":0.9,"c":"#FFD3A0","i":0.86,"dir":"r"}'
+  data-light-m='{"t":"panes","x":0.73,"y":0.02,"w":0.66,"h":0.62,"sh":-0.5,"soft":8,"cols":2,"rows":3,"bar":0.03,"leaf":0.9,"c":"#FFD3A0","i":0.86,"dir":"r"}'
+  data-light2='{"t":"lamp","x":0.752,"y":0.75,"r":0.2,"hgt":0.5,"c":"#FFC387","i":0}'
+  data-light2-m='{"t":"lamp","x":0.78,"y":0.83,"r":0.22,"hgt":0.5,"c":"#FFC387","i":0}'
+  data-keys='{"p":[-1,-0.5,0,0.3,0.6,0.82,1],"hour":[14.5,15.333,16.167,17,17.833,18.5,18.833],"L":{"x":[0.717,0.593,0.5,0.45,0.483,0.6,0.645],"y":[0.36,0.15,-0.05,-0.2,-0.36,-0.5,-0.56],"w":[0.29,0.33,0.37,0.42,0.5,0.58,0.6],"h":[0.74,0.82,0.9,0.94,0.96,0.9,0.88],"sh":[-0.1,-0.21,-0.33,-0.5,-0.74,-1,-1.1],"soft":[5,7,9,13,20,32,40],"i":[0.78,0.84,0.86,0.84,0.66,0.2,0]},"c":["#FFF2E0","#FFE4BE","#FFD3A0","#FFBC80","#FF9A62","#F27A50","#E8704A"],"L2":{"i":[0,0,0,0,0,1.1,2.3]},"amb":[1,1,1,0.97,0.86,0.5,0.24],"tr":[0.985,0.985,0.985,1,1.02,0.9,0.74],"tg":[1,1,1,0.985,0.97,0.93,0.86],"tb":[1.02,1.02,1.02,0.99,0.96,1.08,1.2],"sx":[0.5,0.66,0.78,0.86,0.92,0.95,0.95],"sy":[-0.74,-0.58,-0.42,-0.3,-0.18,-0.1,-0.1],"sz":[0.56,0.5,0.46,0.42,0.36,0.3,0.3]}'
+  data-keys-m='{"p":[-1,-0.5,0,0.3,0.6,0.82,1],"hour":[14.5,15.333,16.167,17,17.833,18.5,18.833],"L":{"x":[0.9,0.78,0.73,0.8,1.02,1.37,1.5],"y":[0.3,0.16,0.02,-0.1,-0.2,-0.28,-0.3],"w":[0.5,0.58,0.66,0.74,0.84,0.9,0.9],"h":[0.5,0.56,0.62,0.66,0.68,0.66,0.64],"sh":[-0.15,-0.32,-0.5,-0.72,-1,-1.3,-1.4],"soft":[4,6,8,11,16,24,30],"i":[0.78,0.84,0.86,0.84,0.66,0.2,0]},"c":["#FFF2E0","#FFE4BE","#FFD3A0","#FFBC80","#FF9A62","#F27A50","#E8704A"],"L2":{"i":[0,0,0,0,0,1.1,2.3]},"amb":[1,1,1,0.97,0.86,0.5,0.24],"tr":[0.985,0.985,0.985,1,1.02,0.9,0.74],"tg":[1,1,1,0.985,0.97,0.93,0.86],"tb":[1.02,1.02,1.02,0.99,0.96,1.08,1.2],"sx":[0.5,0.66,0.78,0.86,0.92,0.95,0.95],"sy":[-0.74,-0.58,-0.42,-0.3,-0.18,-0.1,-0.1],"sz":[0.56,0.5,0.46,0.42,0.36,0.3,0.3]}'>
+  <div class="aft-w" aria-hidden="true"><i></i></div>
+  <div class="aft-s" data-stick>
+    <p class="eyebrow">Interior design studio · Indiranagar, Bengaluru</p>
+    <h1 data-relief id="h1">First, the&nbsp;light.</h1>
+    <div class="datum" id="datum">
+      <div class="now" id="now" role="slider" tabindex="0" aria-label="Time of day on the wall" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="4:10 pm"><span class="now-l"><b id="hr">4:10 pm</b><i>west window</i></span></div>
+      <span class="aft-k" aria-hidden="true">scroll, and the afternoon goes by</span>
     </div>
-  </div>
-</section>
-
-<div class="mq" data-marquee="60" aria-hidden="true"><div class="mq-t"><span>Full-service design</span><span>Space planning</span><span>Kitchens &amp; bathrooms</span><span>Styling &amp; sourcing</span><span>Virtual design</span><span>Small commercial</span><span>Full-service design</span><span>Space planning</span><span>Kitchens &amp; bathrooms</span><span>Styling &amp; sourcing</span><span>Virtual design</span><span>Small commercial</span></div></div>
-
-<!-- 02 · STUDIO STATEMENT -->
-<section class="sec statement" id="studio">
-  <div class="g12">
-    <p class="label c1-3" data-reveal>(Studio)</p>
-    <h2 class="big c3-13" data-split>We design rooms slowly, and we live in them <em>before we draw them.</em></h2>
-    <div class="st-text c3-7" data-reveal><p>Atelier Nori is a small studio working on homes where quiet matters. We start with how you sit, where the light falls at four o’clock and what you reach for first in the morning, then we build everything else around that.</p><p>Every room is modelled, lit and styled in 3D first, so you can walk through it, change your mind and sign it off with confidence.</p><a class="ul arrow" href="#room">Walk through a room</a></div>
-    <figure class="st-fig c9-13" data-wipe><video class="lazyv" data-parallax="0.1" muted loop playsinline preload="none" poster="photos/poster-tall.jpg" data-src="video/interior-tall.mp4" aria-label="A living room, slowly filmed"></video><figcaption>Living room, afternoon. Film.</figcaption></figure>
-  </div>
-</section>
-
-<!-- 03 · SELECTED WORK -->
-<section class="work" id="work">
-  <div class="wrap work-h"><p class="label" data-reveal>(Selected projects · 2023–2025)</p><h2 class="mid" data-split>Three rooms, <em>closely.</em></h2></div>
-
-  <article class="spread s1 g12 wrap">
-    <figure class="img a" data-wipe><img data-parallax="0.12" src="photos/room-1.jpg" width="1400" height="1750" alt="A Japandi living room with a low linen sofa, pale oak and soft daylight" loading="lazy" decoding="async"><figcaption><b>01</b> Living room · Concept render</figcaption></figure>
-    <div class="tx">
-      <p class="rn" data-reveal>01</p>
-      <h3 data-split>House <em>on the hill</em></h3>
-      <p data-reveal>A long, low living room opened up to the garden. Pale oak, undyed linen and a low sofa that faces the garden, with nothing on the walls that the room did not ask for.</p>
-      <dl data-reveal><div><dt>Style</dt><dd>Japandi</dd></div><div><dt>Area</dt><dd>46 m²</dd></div><div><dt>Year</dt><dd>2025</dd></div></dl><p class="samp" data-reveal>Concept render · drawn and lit in 3D</p>
-    </div>
-    <figure class="img b" data-wipe><img data-parallax="0.1" src="photos/room-5.jpg" width="1400" height="1867" alt="A quiet study with a timber desk and a window" loading="lazy" decoding="async"><figcaption><b>Detail</b> Study · Concept render</figcaption></figure>
-  </article>
-
-  <article class="spread s2 g12 wrap">
-    <div class="tx">
-      <p class="rn" data-reveal>02</p>
-      <h3 data-split>The <em>long table</em></h3>
-      <p data-reveal>A kitchen and dining room for people who cook for a crowd. Walnut joinery drawn to the millimetre, a seamless pale floor, and a table long enough to forget about the time.</p>
-      <dl data-reveal><div><dt>Style</dt><dd>Warm minimal</dd></div><div><dt>Area</dt><dd>38 m²</dd></div><div><dt>Year</dt><dd>2024</dd></div></dl><p class="samp" data-reveal>Concept render · drawn and lit in 3D</p>
-    </div>
-    <figure class="img a" data-wipe><img data-parallax="0.12" src="photos/room-2.jpg" width="1400" height="1750" alt="A warm minimal kitchen and dining room with oak cabinetry and a long table" loading="lazy" decoding="async"><figcaption><b>02</b> Kitchen &amp; dining</figcaption></figure>
-    <figure class="img b" data-wipe><img data-parallax="0.1" src="photos/clay.jpg" width="1600" height="2400" alt="Three hand-built clay vessels on a pale stone plinth" loading="lazy" decoding="async"><figcaption><b>Detail</b> Clay, on the plinth</figcaption></figure>
-  </article>
-
-  <article class="spread s3">
-    <figure class="s3-img" data-wipe><img data-parallax="0.1" src="photos/room-4.jpg" width="1400" height="788" alt="A dark, intimate tea room lit by a single warm lamp" loading="lazy" decoding="async"></figure>
-    <div class="s3-tx wrap">
-      <p class="rn" data-reveal>03</p>
-      <h3 data-split>The <em>tea room</em></h3>
-      <div class="s3-cap" data-reveal><p><b>Project 03</b> A fourteen-square-metre room, painted the colour of strong tea and lit by one lamp. Moody, on purpose.</p><p class="meta">Moody · 14 m² · 2025</p></div>
-    </div>
-  </article>
-</section>
-
-<!-- 04 · PINNED HORIZONTAL GALLERY -->
-<section class="hgal" id="rooms" data-pin-scrub aria-label="Rooms in passing, a horizontal gallery">
-  <div class="hg-track" data-track>
-    <div class="hg-intro"><p class="label">(More rooms)</p><h2 class="mid">Rooms, <em>in passing.</em></h2><p>Bedrooms, baths and the small things that make them. Keep scrolling.</p></div>
-    <figure class="hg h1"><img src="photos/room-3.jpg" width="1400" height="2100" alt="A single lamp glowing against a dark wall" loading="lazy" decoding="async"><figcaption>Lamp, tea room</figcaption></figure>
-    <figure class="hg h2"><img src="photos/bedroom.jpg" width="1600" height="1257" alt="A calm bedroom with an arched oak headboard and cream linen" loading="lazy" decoding="async"><figcaption>Bedroom, warm minimal</figcaption></figure>
-    <figure class="hg h3"><img src="photos/bath-oak.jpg" width="1600" height="2000" alt="A black stone bath beside a tall window and an oak wall" loading="lazy" decoding="async"><figcaption>Bathroom, oak and stone</figcaption></figure>
-    <figure class="hg h4"><img src="photos/linen.jpg" width="1600" height="1067" alt="Soft undyed linen curtain falling to a pale floor" loading="lazy" decoding="async"><figcaption>Linen, undyed</figcaption></figure>
-    <figure class="hg h5"><img src="photos/bath-stone.jpg" width="1600" height="1867" alt="A stone vanity with two glass basins under warm light" loading="lazy" decoding="async"><figcaption>Bathroom, vanity</figcaption></figure>
-    <figure class="hg h6"><img src="photos/vase.jpg" width="1600" height="2400" alt="A white ceramic vase with a trailing branch beside an abstract print" loading="lazy" decoding="async"><figcaption>Styling, the corner</figcaption></figure>
-    <div class="hg-end"><p>Next, a room you can <em>step into.</em></p></div>
-  </div>
-</section>
-
-<!-- 05 · SERVICES INDEX -->
-<section class="sec services" id="services">
-  <div class="g12">
-    <p class="label c1-3" data-reveal>(Services)</p>
-    <h2 class="mid c3-13" data-split>One room, or <em>the whole house.</em></h2>
-  </div>
-  <ol class="index" data-stagger="0.07">
-    <li><span class="ix">01</span><h3>Full-service design</h3><p>Concept, layout, sourcing, contractors and installation, managed end to end.</p><img src="photos/room-1.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
-    <li><span class="ix">02</span><h3>Space planning</h3><p>Scaled layouts that make a small or awkward room work hard.</p><img src="photos/room-5.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
-    <li><span class="ix">03</span><h3>Kitchens &amp; bathrooms</h3><p>Joinery and stone drawn and detailed for your builder.</p><img src="photos/bath-oak.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
-    <li><span class="ix">04</span><h3>Styling &amp; sourcing</h3><p>Furniture, lighting, textiles and art, chosen and placed.</p><img src="photos/vase.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
-    <li><span class="ix">05</span><h3>Virtual design</h3><p>A 3D room plan and shopping list delivered online, wherever you live.</p><img src="photos/room-3.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
-    <li><span class="ix">06</span><h3>Small commercial</h3><p>Cafés, studios and boutique offices with a calm, considered feel.</p><img src="photos/room-4.jpg" alt="" loading="lazy" width="220" height="275" decoding="async"></li>
-  </ol>
-</section>
-
-<!-- 06 · WALK THROUGH A ROOM (3D) -->
-<section class="tour" id="room" aria-label="Walk through a room, a live 3D living room">
-  <div class="stick" id="stick">
-    <div class="tcol">
-      <div>
-        <p class="label">(Live in 3D)</p>
-        <h2 class="mid">Walk through <em>a room.</em></h2>
-        <div class="caps" aria-live="polite">
-          <div class="cap on"><p class="k">01 · Comfort first</p><p>Every plan begins with how you actually live: where you read, where guests land, where the light falls.</p></div>
-          <div class="cap"><p class="k">02 · Light &amp; nature</p><p>We plan around daylight and bring the outside in: plants, natural fibres and colour that changes with the hour.</p></div>
-          <div class="cap"><p class="k">03 · Every piece</p><p>A clear layout, a sourced shopping list and a contractor-ready plan. Try another style, or switch to evening.</p></div>
-        </div>
+    <div class="aft-b">
+      <div class="beats" id="beats">
+        <p class="beat on">Before the oak, the linen or the sofa, we find where the sun lands in your room at four o’clock. Everything else is designed around that.</p>
+        <p class="beat">It starts with an afternoon. One of us sits in your room from two until dusk and pencils on the wall where the light goes.</p>
+        <p class="beat">At four it landed here. So the sofa goes here, and the rest of the room is drawn outwards from it.</p>
+        <p class="beat">By half past six it has gone. That is what the one low lamp is for.</p>
       </div>
-      <p class="hint"><span id="stepNo">01</span> / 03 · Scroll to move through the room</p>
+      <p class="cta"><a class="btn" href="#you">Book a consultation</a><a class="lnk" href="#rooms">See three rooms</a></p>
     </div>
-    <div class="stage">
-      <canvas id="room3d" role="img" aria-label="A 3D living room. Scroll to move through it; choose a style below."></canvas>
-      <p class="ld" id="ld" role="status">Setting the room</p>
-      <img class="fb" id="fb" src="photos/room-1.jpg" alt="A Japandi living room" hidden>
-    </div>
-    <div class="ctrl" role="group" aria-label="Room style and lighting">
-      <div class="styles"><span class="cl">Style</span>
-        <button class="th" type="button" data-theme="japandi" aria-pressed="true">Japandi</button><button class="th" type="button" data-theme="midcentury" aria-pressed="false">Mid-century</button><button class="th" type="button" data-theme="coastal" aria-pressed="false">Coastal</button><button class="th" type="button" data-theme="moody" aria-pressed="false">Moody</button></div>
-      <button class="sw" type="button" id="night" aria-pressed="false"><span>Day</span><i aria-hidden="true"></i><span>Evening</span></button>
-      <div class="rail" aria-hidden="true"><i id="railFill"></i></div>
-    </div>
+    <svg class="sketch" id="sketch" viewBox="0 0 520 262" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path pathLength="1" d="M6 227.4C92 225.6 204 228.2 318 226.4S468 227.8 514 226"/>
+        <path pathLength="1" d="M41 216.4C120 215.4 204 217 281 216"/>
+        <path pathLength="1" d="M41 216.6L40.4 171C40.2 165 43.6 163.6 48 163.6L56 163.8C61 163.8 63 166 63 171.4L63.4 216"/>
+        <path pathLength="1" d="M281 216L281.4 171C281.6 165.4 278 163.8 273.6 163.8L266 164C261 164 258.6 166.4 258.6 171.6L258.4 216"/>
+        <path pathLength="1" d="M63.2 172.4L63 150.6C63 145 66 143.6 70.4 143.6L251 144C256 144 258.4 146.2 258.4 151L258.6 172"/>
+        <path pathLength="1" d="M63.4 190.6C96 187.4 128 187.6 160.6 190.4C194 187.2 226 187.6 258.4 190.2"/>
+        <path pathLength="1" d="M160.6 145.4L160.8 216"/>
+        <path pathLength="1" d="M76 189L71.6 166.6L95.4 162.6L100 186.4"/>
+        <path pathLength="1" d="M57 216.6L55.4 226.6M265 216.6L266.8 226.4"/>
+        <path pathLength="1" d="M300 196.4C316 195.4 332 196.6 348 195.8M305.4 196.4L308.6 226.6M342.6 196.2L339.4 226.4M307.6 211.6L340.6 211.2"/>
+        <path pathLength="1" d="M317.6 195.6C313.6 186.4 315.4 180.6 320.4 178.4L328.6 178.2C333.6 180.4 335.4 186.6 331.4 195.4"/>
+        <path pathLength="1" d="M324.6 178C323.4 160 329.6 146 325.6 127.6C324.8 118.6 327.4 110.4 331.6 103"/>
+        <path pathLength="1" d="M325.8 150.6C333 144.6 339.6 140.4 345.6 132.4M324.8 163C318 157 313.6 150.6 309.6 142.6M326.4 131C320.4 125.4 316.6 119.6 314.6 112.4"/>
+        <path class="sk-cord" pathLength="1" d="M423 -46L423.4 84"/>
+        <path pathLength="1" d="M398.6 108C398.4 92.6 409 84.2 423.4 84.2C437.6 84.2 448.4 92.8 448.4 108.4C448.2 123.6 437.4 132 423.2 132C409 132 398.8 123.4 398.6 108Z"/>
+        <path pathLength="1" d="M401.4 99.6C416 98.4 431 98.6 445.6 99.8M399 108.4C415 107.2 432 107.4 448 108.6M401.6 117.2C416 116.2 431 116.4 445.4 117.4"/>
+        <path pathLength="1" d="M399.4 209.4C407 205.6 439 205.4 447.4 209.2C449.4 214.6 449 221.4 446.6 226.4M399.4 209.4C397.6 215 398.2 221.6 400.4 226.6"/>
+        <g stroke-width="1.1">
+          <path pathLength="1" d="M41 245L281 245.4M41 239.6L41 251M281 240L281 251.4M37.6 248.4L44.4 241.6M277.6 248.8L284.4 242"/>
+          <path pathLength="1" d="M478 226L478.4 132.4M472.4 226L484 226M472.6 132.4L484.2 132.4M474.8 229.4L481.6 222.6M475 135.8L481.8 129"/>
+        </g>
+      </g>
+      <g class="sk-t"><text x="143" y="240.6">2400</text><text x="486" y="184">1100</text><text x="86" y="126">the four o’clock seat</text><path d="M152 132C156 139 158 144 157.6 151M157.6 151L152.6 145.6M157.6 151L161.6 144.6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></g>
+    </svg>
+    <p class="wet-note" id="wetn" aria-hidden="true">The plaster is still wet. Draw in it.</p>
   </div>
 </section>
 
-<!-- 07 · STYLE QUIZ -->
-<section class="sec quiz" id="style">
-  <div class="g12">
-    <p class="label c1-3" data-reveal>(Style quiz)</p>
-    <h2 class="mid c3-9" data-split>Three questions, <em>one room.</em></h2>
-    <div class="qz c3-13">
-      <div class="q" data-q="1"><p class="qh"><span>I</span>Your perfect Sunday?</p><div class="opts"><button class="opt" type="button" data-v="japandi" aria-pressed="false">Tea and a quiet book</button><button class="opt" type="button" data-v="midcentury" aria-pressed="false">Records and friends</button><button class="opt" type="button" data-v="coastal" aria-pressed="false">A long walk by water</button><button class="opt" type="button" data-v="moody" aria-pressed="false">Candles and a film</button></div></div>
-      <div class="q" data-q="2"><p class="qh"><span>II</span>Pick a material.</p><div class="opts"><button class="opt" type="button" data-v="japandi" aria-pressed="false">Pale oak</button><button class="opt" type="button" data-v="midcentury" aria-pressed="false">Walnut</button><button class="opt" type="button" data-v="coastal" aria-pressed="false">Linen</button><button class="opt" type="button" data-v="moody" aria-pressed="false">Velvet</button></div></div>
-      <div class="q" data-q="3"><p class="qh"><span>III</span>And a colour?</p><div class="opts"><button class="opt" type="button" data-v="japandi" aria-pressed="false">Sage</button><button class="opt" type="button" data-v="midcentury" aria-pressed="false">Mustard</button><button class="opt" type="button" data-v="coastal" aria-pressed="false">Sea blue</button><button class="opt" type="button" data-v="moody" aria-pressed="false">Forest green</button></div></div>
-      <div class="res" id="qRes" aria-live="polite"><p class="rk">Your style</p><p class="rt" id="qTitle">Answer three to see it</p><p class="rd" id="qDesc">Your result will restyle the 3D room above.</p><div class="sws" id="qSw" aria-hidden="true"></div><button class="btn" id="qGo" data-magnetic type="button" hidden><span>See it in the room</span></button></div>
+<section class="studio" id="studio" data-amb="1"
+  data-light='{"t":"sheer","x":-0.06,"y":0.06,"w":0.36,"h":0.86,"sh":0.3,"soft":70,"cols":6,"c":"#FFEBD0","i":0.34,"dir":"r"}'>
+  <div class="studio-g">
+    <p class="big rv">We are six people on 12th Main, and we take ten homes a year. After the light come the wall, the floor, what your hand touches and what you keep on the shelf, in that order.</p>
+    <div class="studio-s rv">
+      <p>You see every rupee before anything is ordered, and the price is fixed at the third meeting.</p>
+      <dl class="facts"><div><dt>Since</dt><dd>2017</dd></div><div><dt>Homes finished</dt><dd>61</dd></div><div><dt>On the team</dt><dd>6</dd></div><div><dt>Taken each year</dt><dd>10</dd></div></dl>
     </div>
+    <p class="nori rv"><b>Nori</b> is a carpenter’s word in Japan for a measurement. <i>Uchi-nori</i> is the clear width inside a room, post to post: the part you live in.</p>
   </div>
 </section>
 
-<!-- 08 · PROCESS -->
-<section class="sec process" id="process">
-  <div class="g12">
-    <p class="label c1-3" data-reveal>(Process)</p>
-    <h2 class="mid c3-13" data-split>From first call to <em>last cushion.</em></h2>
-  </div>
-  <ol class="steps" data-stagger="0.12">
-    <li><span class="sn">I</span><h3>Consultation</h3><p>A visit or video call to see the space and hear how you live.</p></li>
-    <li><span class="sn">II</span><h3>Concept</h3><p>Moodboards, a 3D layout and a first look at materials.</p></li>
-    <li><span class="sn">III</span><h3>Design plan</h3><p>Final drawings, finishes and a full shopping list with prices.</p></li>
-    <li><span class="sn">IV</span><h3>Installation</h3><p>We order, coordinate the trades and style the room, ready to live in.</p></li>
-  </ol>
+<!-- II. the wall -->
+<section class="chap" id="rooms" data-amb="1">
+  <p class="eyebrow rv">Three rooms, with their bills</p>
+  <h2 data-relief>Then, the wall.</h2>
+  <p class="chap-p rv">Lime plaster in three coats, and a limewash mixed for the room. Keep scrolling: we’ll paint this wall once for each house.</p>
 </section>
 
-<!-- 09 · BOOK + FOOTER -->
-<section class="book" id="book">
-  <div class="g12 wrap">
-    <div class="b-l c1-6"><p class="label" data-reveal>(Consultation)</p><h2 class="big" data-split>Let’s design <em>your room.</em></h2><p data-reveal>Tell us about the space. We reply within one working day.</p><p class="cg-hook" data-reveal><a class="ul" href="#book" data-concierge="flow:book" data-concierge-label="Book a consultation">Or pick an open slot with a designer, in chat →</a></p></div>
-    <form id="bForm" class="c8-13" autocomplete="off">
-      <label class="f">Name<input name="n" required autocomplete="off"></label>
-      <label class="f">Email or phone<input name="c" required autocomplete="off"></label>
-      <label class="f">Which room?<select name="r"><option>Living room</option><option>Kitchen &amp; dining</option><option>Bedroom</option><option>Bathroom</option><option>Whole home</option><option>Commercial space</option></select></label>
-      <label class="f">Tell us more<textarea name="m" rows="3"></textarea></label>
-      <button class="btn lt" data-magnetic type="submit"><span>Request a consultation</span></button>
-      <p id="bDone" role="status" hidden>Thank you. A designer will reply within one working day.</p>
-    </form>
+<section class="room r-hill" id="hill" data-paint="#A3B096" data-amb="1"
+  data-light='{"t":"lattice","x":0.5,"y":0.66,"w":0.5,"h":0.66,"sh":-0.42,"soft":6,"cols":9,"rows":9,"bar":0.36,"leaf":0.35,"c":"#FFE0B4","i":0.72,"dir":"r"}'
+  data-light-m='{"t":"lattice","x":0.3,"y":0.55,"w":0.9,"h":0.5,"sh":-0.4,"soft":5,"cols":7,"rows":7,"bar":0.36,"leaf":0.3,"c":"#FFE0B4","i":0.72,"dir":"r"}'
+  data-light2='{"t":"lattice","x":0.66,"y":0.06,"w":0.3,"h":0.24,"sh":-0.42,"soft":5,"cols":6,"rows":4,"bar":0.36,"c":"#FFE0B4","i":0.6,"dir":"r"}'>
+  <figure class="print pa" data-depth="9"><img src="photos/room-1.jpg" srcset="photos/room-1-800.jpg 800w, photos/room-1.jpg 1400w" sizes="(max-width:760px) 92vw, 46vw" width="1400" height="1750" loading="lazy" alt="A long living room with an oak lattice screen, a low sofa and afternoon sun on the rug"><figcaption>Living room, looking west · Photo: Unsplash</figcaption></figure>
+  <div class="room-t">
+    <p class="tag rv"><b>01</b>Whitefield · 46 m² · eight weeks</p>
+    <h3 data-relief>House on the hill</h3>
+    <p class="rv">A long, low living room with one west window that glared from three until six. We stood an oak lattice in front of the glass. Now the four o’clock sun arrives in squares, and the sofa faces it.</p>
+    <p class="wash rv"><i style="--c:#A3B096"></i>Limewash N-07, <b>Hill sage</b></p>
+    <p class="sum rv"><span>The whole room</span><b>₹11.4 L</b><a class="lnk" href="hill.html">Open the room and its bill</a></p>
   </div>
-  <footer class="ft">
-    <div class="wrap ft-row"><p>© Atelier Nori. A portfolio project by <a class="ul" href="../../index.html">Abhishek</a></p><p>Photos: Unsplash · Video: Pexels · 3D: Poly Haven (CC0), Wayfair via Khronos glTF assets (CC BY 4.0)</p></div>
-    <p class="mark" data-split aria-hidden="true">Atelier <em>Nori</em></p>
-  </footer>
+  <figure class="print pb" data-depth="6"><img src="photos/linen.jpg" srcset="photos/linen-800.jpg 800w, photos/linen.jpg 1600w" sizes="(max-width:760px) 58vw, 30vw" width="1600" height="1067" loading="lazy" alt="Undyed linen curtains pooling on a pale oak floor"><figcaption>Undyed linen, 280 gsm · Photo: Unsplash</figcaption></figure>
+  <p class="pencil pn n1" aria-hidden="true">lattice 40 × 40, oak<svg viewBox="0 0 90 40" width="90" height="40"><path d="M4 30C30 34 60 26 84 8M84 8l-11 1M84 8l-3 10" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></p>
+</section>
+
+<section class="room r-table" id="longtable" data-paint="#C2917A" data-amb="1"
+  data-light='{"t":"blinds","x":0.0,"y":0.72,"w":0.56,"h":0.62,"sh":0.34,"soft":5,"rows":14,"bar":0.44,"c":"#FFE3BA","i":0.75,"dir":"l"}'
+  data-light2='{"t":"blinds","x":0.02,"y":0.15,"w":0.42,"h":0.27,"sh":0.34,"soft":4,"rows":7,"bar":0.44,"c":"#FFE3BA","i":0.7,"dir":"l"}'
+  data-light-m='{"t":"blinds","x":-0.1,"y":0.6,"w":0.95,"h":0.42,"sh":0.3,"soft":5,"rows":12,"bar":0.44,"c":"#FFE3BA","i":0.78,"dir":"l"}'>
+  <figure class="print pa" data-depth="9"><img src="photos/room-2.jpg" srcset="photos/room-2-800.jpg 800w, photos/room-2.jpg 1440w" sizes="(max-width:760px) 92vw, 46vw" width="1440" height="1800" loading="lazy" alt="A kitchen and dining room with a long timber table, three pendants and a garden beyond"><figcaption>Kitchen and dining, breakfast light · Photo: Unsplash</figcaption></figure>
+  <div class="room-t">
+    <p class="tag rv"><b>02</b>Jayanagar · 38 m² · ten weeks</p>
+    <h3 data-relief>The long table</h3>
+    <p class="rv">A kitchen for a family that cooks for twelve on Sundays. East light at breakfast, cut into bars by oak blinds, and a table long enough to forget the time at.</p>
+    <p class="wash rv"><i style="--c:#C2917A"></i>Limewash N-12, <b>Kiln clay</b></p>
+    <p class="sum rv"><span>The whole room</span><b>₹14.6 L</b><a class="lnk" href="table.html">Open the room and its bill</a></p>
+  </div>
+  <figure class="print pb" data-depth="6"><img src="photos/clay.jpg" srcset="photos/clay-800.jpg 800w, photos/clay.jpg 1200w" sizes="(max-width:760px) 58vw, 23vw" width="1200" height="1800" loading="lazy" alt="Three hand-built clay vessels on a plaster plinth"><figcaption>Vessels by a potter in Khanapur · Photo: Unsplash</figcaption></figure>
+  <p class="pencil pn n2" aria-hidden="true">pendants at 1.6 m<svg viewBox="0 0 90 40" width="90" height="40"><path d="M6 6c22 20 50 26 78 22M84 28l-9-6M84 28l-10 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></p>
+</section>
+
+<section class="room r-tea" id="tearoom" data-paint="#221E1B" data-amb="0.2"
+  data-light='{"t":"lamp","x":0.66,"y":0.42,"r":0.25,"hgt":0.5,"c":"#FFC387","i":2.5,"follow":1}'>
+  <figure class="print pa" data-depth="9"><img src="photos/room-4.jpg" srcset="photos/room-4-800.jpg 800w, photos/room-4.jpg 1400w" sizes="(max-width:760px) 92vw, 62vw" width="1400" height="788" loading="lazy" alt="A dark tea room with a long low table, a calligraphy scroll and one lit niche"><figcaption>The tea room at nine in the evening · Photo: Unsplash</figcaption></figure>
+  <div class="room-t">
+    <p class="tag rv"><b>03</b>Sadashivanagar · 14 m² · six weeks</p>
+    <h3 data-relief="gilt">The tea room</h3>
+    <p class="rv">Fourteen square metres with the shutters closed on purpose. One lamp, hung low. The walls are the colour of strong tea, so the lamp has something to hold.</p>
+    <p class="wash rv"><i style="--c:#3A332E"></i>Limewash N-19, <b>Sumi</b></p>
+    <p class="sum rv"><span>The whole room</span><b>₹6.8 L</b><a class="lnk" href="tea.html">Open the room and its bill</a></p>
+  </div>
+  <figure class="print pb" data-depth="6"><img src="photos/room-3.jpg" srcset="photos/room-3-800.jpg 800w, photos/room-3.jpg 1400w" sizes="(max-width:760px) 58vw, 30vw" width="1400" height="2100" loading="lazy" alt="Two paper lamps in front of a sheer curtain and a dark timber shelf"><figcaption>Paper lamps, dimmed to a third · Photo: Unsplash</figcaption></figure>
+  <p class="pencil pn n3" id="n3" aria-hidden="true">you are holding the lamp</p>
+</section>
+
+<!-- III. the table -->
+<section class="tablet" id="table" data-surface="table" data-amb="1"
+  data-light='{"t":"panes","x":0.56,"y":0.02,"w":0.36,"h":0.5,"sh":-0.5,"soft":14,"cols":2,"rows":2,"bar":0.03,"leaf":0.7,"c":"#FFDDB0","i":0.7,"dir":"r"}'
+  data-light2='{"t":"plain","x":-0.1,"y":0.0,"w":1.2,"h":2.6,"sh":0,"soft":160,"c":"#FFF3E2","i":0.22,"dir":"r"}'>
+  <div class="tb-h">
+    <p class="eyebrow rv">On the studio table</p>
+    <h2 data-relief>Then, what you touch.</h2>
+    <p class="chap-p rv">Eight things decide how a room feels under your hand. <span class="on-desk">Move them about, put the ones you could live with next to each other,</span><span class="on-phone">Tap the ones you could live with,</span> then choose a wall.</p>
+  </div>
+  <div class="tray" id="tray" aria-label="Materials on the studio table. Drag to arrange, or focus one and use the arrow keys.">
+    <button class="smp" type="button" data-mat="oak" data-id="oak" data-rep="1" style="--x:6;--y:4;--w:20;--h:30;--r:-4"><span><b>Pale oak</b>Floor, oiled</span></button>
+    <button class="smp" type="button" data-mat="walnut" data-id="walnut" data-rep="1" style="--x:23;--y:38;--w:17;--h:28;--r:3"><span><b>Smoked walnut</b>Joinery</span></button>
+    <button class="smp" type="button" data-mat="linen" data-id="linen" style="--x:38;--y:2;--w:19;--h:26;--r:2"><span><b>Undyed linen</b>Curtains, 280 gsm</span></button>
+    <button class="smp" type="button" data-mat="kota" data-id="kota" style="--x:55;--y:30;--w:18;--h:26;--r:-3"><span><b>Kota stone</b>Honed, for floors</span></button>
+    <button class="smp" type="button" data-mat="brass" data-id="brass" style="--x:71;--y:6;--w:9;--h:26;--r:5"><span><b>Brushed brass</b>Handles, switches</span></button>
+    <button class="smp" type="button" data-mat="terrazzo" data-id="terrazzo" style="--x:79;--y:44;--w:15;--h:24;--r:-2"><span><b>Terrazzo</b>Cast in place</span></button>
+    <button class="smp" type="button" data-mat="parquet" data-id="parquet" data-rep="1" style="--x:40;--y:56;--w:15;--h:25;--r:-5"><span><b>Oak strip block</b>Studies, halls</span></button>
+    <button class="smp" type="button" data-mat="ash" data-id="ash" data-rep="1" style="--x:8;--y:58;--w:14;--h:25;--r:4"><span><b>Limed ash</b>Wall panelling</span></button>
+  </div>
+  <p class="tray-k rv"><span class="on-desk">Drag to arrange. Click a piece to keep it:</span><span class="on-phone">Tap a piece to keep it:</span> a brass pin marks the ones that come to your consultation.</p>
+  <div class="wash-g">
+    <div class="wash-t rv">
+      <h3>Now choose the wall.</h3>
+      <p>Eight limewashes we mix in the studio. Pick one and we’ll brush it on this board. The rest of the page is painted in it too.</p>
+      <p class="yours" id="yours" aria-live="polite">No wall chosen yet.</p>
+    </div>
+    <div class="chart" id="chart" role="radiogroup" aria-label="Limewash colours">
+      <button class="chipc" type="button" role="radio" aria-checked="false" data-c="#E6DFD2" data-n="N-00 Bare lime" style="--c:#E6DFD2"><b>N-00</b>Bare lime</button>
+      <button class="chipc" type="button" role="radio" aria-checked="false" data-c="#D9C8AC" data-n="N-03 Rice paper" style="--c:#D9C8AC"><b>N-03</b>Rice paper</button>
+      <button class="chipc" type="button" role="radio" aria-checked="false" data-c="#A3B096" data-n="N-07 Hill sage" style="--c:#A3B096"><b>N-07</b>Hill sage</button>
+      <button class="chipc" type="button" role="radio" aria-checked="false" data-c="#C9A24E" data-n="N-09 Turmeric" style="--c:#C9A24E"><b>N-09</b>Turmeric</button>
+      <button class="chipc" type="button" role="radio" aria-checked="false" data-c="#C2917A" data-n="N-12 Kiln clay" style="--c:#C2917A"><b>N-12</b>Kiln clay</button>
+      <button class="chipc" type="button" role="radio" aria-checked="false" data-c="#8D9AA6" data-n="N-14 Monsoon" style="--c:#8D9AA6"><b>N-14</b>Monsoon</button>
+      <button class="chipc" type="button" role="radio" aria-checked="false" data-c="#44566B" data-n="N-16 Indigo vat" style="--c:#44566B"><b>N-16</b>Indigo vat</button>
+      <button class="chipc" type="button" role="radio" aria-checked="false" data-c="#3A332E" data-n="N-19 Sumi" style="--c:#3A332E"><b>N-19</b>Sumi</button>
+    </div>
+    <div class="board" data-depth="5" data-rad="2" aria-hidden="true"></div>
+  </div>
+
+  <!-- IV. the sums, on paper -->
+  <div class="papers" id="sums">
+    <div class="tb-h">
+      <p class="eyebrow rv">Two sheets of paper</p>
+      <h2 data-relief>Then, the sums.</h2>
+    </div>
+    <article class="paper fee" data-cast="4" data-rad="1">
+      <header><h3>Fee sheet, 2026</h3><p>Design and build, before GST</p></header>
+      <ul class="fees">
+        <li><b>A whole home</b><span>Every room, kitchen and baths, lighting, furniture, styling</span><i>from ₹2,200 a sq ft</i></li>
+        <li><b>One room</b><span>Layout, joinery, lighting, furniture and soft things</span><i>from ₹2.4 L</i></li>
+        <li><b>Kitchen or bathroom</b><span>Joinery or stone drawings, fittings, waterproofing</span><i>from ₹3.4 L</i></li>
+        <li><b>The afternoon</b><span>A light study and colour consult at your home. Credited if you go ahead</span><i>₹18,000</i></li>
+        <li><b>Styling and sourcing</b><span>Furniture, lamps, textiles and art, chosen and placed</span><i>12% of spend</i></li>
+        <li><b>Small commercial</b><span>Cafés, studios and shops under 2,000 sq ft</span><i>by quote</i></li>
+      </ul>
+      <form class="est" id="est" novalidate>
+        <h4>A first number</h4>
+        <div class="est-r"><label for="e-room">Room</label><select id="e-room"><option value="living">Living room</option><option value="bedroom">Bedroom</option><option value="kitchen">Kitchen and dining</option><option value="bathroom">Bathroom</option><option value="study">Study</option><option value="home">Whole home</option></select></div>
+        <div class="est-r"><label for="e-size">Size <output id="e-so" for="e-size">280 sq ft</output></label><input id="e-size" type="range" min="40" max="600" step="10" value="280"></div>
+        <fieldset class="est-r tiers"><legend>Finish</legend><label><input type="radio" name="tier" value="essential"><span>Essential</span></label><label><input type="radio" name="tier" value="considered" checked><span>Considered</span></label><label><input type="radio" name="tier" value="bespoke"><span>Bespoke</span></label></fieldset>
+        <p class="est-o" aria-live="polite"><b id="e-out">₹6.7 L – ₹10.1 L</b><span id="e-wk">6 to 9 weeks on site</span></p>
+        <p class="est-n" id="e-inc">Includes layout, lit drawings, furniture, lighting and soft furnishings.</p>
+        <button class="btn sm ghost" type="button" id="e-go">Bring this number to a consultation</button>
+      </form>
+    </article>
+    <article class="paper how" id="how" data-cast="4" data-rad="1">
+      <header><h3>How it goes</h3><p>Four meetings, about twelve weeks</p></header>
+      <ol class="steps">
+        <li><b>The afternoon</b><span>We sit in the room from two until dusk and mark the light. You tell us how you live. No drawings yet.</span><i>Week 0 · at yours, four o’clock</i></li>
+        <li><b>The wall and the plan</b><span>A layout, a limewash, a tray of materials and a first number to the nearest lakh.</span><i>Week 2 · at the studio</i></li>
+        <li><b>The drawings and the price</b><span>Every joint drawn, every item priced. The total is fixed here and does not move.</span><i>Week 4 · signed</i></li>
+        <li><b>The build, and the last cushion</b><span>One site lead, photographs every Friday, and a final day when we style it and hand you the keys.</span><i>Weeks 5 to 12</i></li>
+      </ol>
+      <p class="pay">You pay in four parts, one after each meeting: 10, 40, 40 and 10 per cent.</p>
+    </article>
+  </div>
+</section>
+
+<!-- V. you -->
+<section class="you" id="you" data-paint="#D9C8AC" data-paint-from="lime" data-amb="0.86"
+  data-light='{"t":"sheer","x":0.56,"y":0.04,"w":0.5,"h":0.9,"sh":-0.2,"soft":90,"cols":6,"c":"#FFD9A8","i":0.36,"dir":"r"}'
+  data-light2='{"t":"lamp","x":0.2,"y":0.55,"r":0.34,"hgt":0.7,"c":"#FFD09A","i":0.42}'>
+  <div class="you-t">
+    <p class="eyebrow rv">A first meeting</p>
+    <h2 data-relief>Last, you.</h2>
+    <p class="rv">Come to the studio, or we come to you. Home visits are at four, when we can see your light. Bring a floor plan if you have one. A phone photo of the room at four o’clock is better.</p>
+    <p class="carry rv" id="carry" hidden></p>
+    <dl class="where rv"><div><dt>Studio</dt><dd>12th Main, Indiranagar, Bengaluru 560038</dd></div><div><dt>Open</dt><dd>Tuesday to Sunday, ten to six</dd></div><div><dt>You’ll meet</dt><dd>Ira Menon or Kavya Rao</dd></div></dl>
+  </div>
+  <form class="note" id="book" data-cast="5" data-rad="1" novalidate>
+    <ol class="bk">
+      <li class="bk-s on" data-step="1"><h3>What are we looking at?</h3>
+        <div class="opts" role="radiogroup" aria-label="Room"><label><input type="radio" name="room" value="living" checked><span>Living room</span></label><label><input type="radio" name="room" value="kitchen"><span>Kitchen and dining</span></label><label><input type="radio" name="room" value="bedroom"><span>Bedroom</span></label><label><input type="radio" name="room" value="bathroom"><span>Bathroom</span></label><label><input type="radio" name="room" value="study"><span>Study</span></label><label><input type="radio" name="room" value="home"><span>The whole home</span></label></div>
+        <h3>Where shall we meet?</h3>
+        <div class="opts" role="radiogroup" aria-label="How to meet"><label><input type="radio" name="mode" value="studio" checked><span>At the studio<small>75 minutes, materials out</small></span></label><label><input type="radio" name="mode" value="home"><span>At your home<small>90 minutes, at four</small></span></label><label><input type="radio" name="mode" value="video"><span>On a video call<small>45 minutes</small></span></label></div>
+        <p class="bk-n"><button class="btn" type="button" data-go="2">Choose a day</button></p>
+      </li>
+      <li class="bk-s" data-step="2" hidden><h3>Which day?</h3>
+        <div class="days" id="days" role="radiogroup" aria-label="Day"></div>
+        <h3>And the hour?</h3>
+        <div class="slots" id="slots" role="radiogroup" aria-label="Time"></div>
+        <p class="bk-n"><button class="lnk" type="button" data-go="1">Back</button><button class="btn" type="button" data-go="3" id="to3" disabled>Your details</button></p>
+      </li>
+      <li class="bk-s" data-step="3" hidden><h3>Who should we ask for?</h3>
+        <p class="fld"><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required></p>
+        <p class="fld"><label for="f-contact">Email or mobile</label><input id="f-contact" name="contact" autocomplete="email" inputmode="email" required aria-describedby="f-err"></p>
+        <p class="fld"><label for="f-note">Anything we should know <span>(optional)</span></label><textarea id="f-note" name="note" rows="2"></textarea></p>
+        <p class="err" id="f-err" role="alert" hidden></p>
+        <p class="bk-n"><button class="lnk" type="button" data-go="2">Back</button><button class="btn" type="submit">Book the consultation</button></p>
+      </li>
+      <li class="bk-s done" data-step="4" hidden tabindex="-1"><p class="stamp" aria-hidden="true">Booked</p><h3 id="bk-h">You’re in the diary.</h3><p id="bk-p"></p><p class="bk-ref" id="bk-ref"></p><p class="bk-n"><a class="lnk" href="#rooms">Look at the rooms again</a></p></li>
+    </ol>
+    <p class="bk-sum" id="bk-sum" aria-live="polite"></p>
+  </form>
+  <div class="faq rv">
+    <details><summary>What does the first meeting cost?</summary><p>Nothing at the studio or on a video call. A home visit with the light study is ₹18,000, and it comes off your design fee if you go ahead.</p></details>
+    <details><summary>Is there a smallest job you take?</summary><p>One room, properly. We don’t do single pieces of furniture, and we don’t do a home in under ten weeks.</p></details>
+    <details><summary>Do you work outside Bengaluru?</summary><p>Mysuru regularly, Chennai now and then. Further away, we design and draw; a builder you trust builds.</p></details>
+    <details><summary>Will the price move?</summary><p>Not after the third meeting. If you add something, we price it before we touch it.</p></details>
+  </div>
 </section>
 </main>
+
+<footer class="ft" data-amb="0.86">
+  <div class="ft-g">
+    <div class="ft-a"><p class="ft-l">Atelier Nori</p><p>12th Main, Indiranagar<br>Bengaluru 560038</p><p>Tuesday to Sunday, ten to six.<br>Home visits at four.</p></div>
+    <nav class="ft-n" aria-label="Footer"><a href="#rooms">Rooms</a><a href="hill.html">House on the hill</a><a href="table.html">The long table</a><a href="tea.html">The tea room</a><a href="#table">Materials</a><a href="#sums">Fees</a><a href="#how">How it goes</a><a href="#you">Book a consultation</a></nav>
+    <div class="ft-c"><p class="ft-h">The limewash chart</p><ul class="card"><li style="--c:#E6DFD2">N-00<b>Bare lime</b></li><li style="--c:#D9C8AC">N-03<b>Rice paper</b></li><li style="--c:#A3B096">N-07<b>Hill sage</b></li><li style="--c:#C9A24E">N-09<b>Turmeric</b></li><li style="--c:#C2917A">N-12<b>Kiln clay</b></li><li style="--c:#8D9AA6">N-14<b>Monsoon</b></li><li style="--c:#44566B">N-16<b>Indigo vat</b></li><li style="--c:#3A332E">N-19<b>Sumi</b></li></ul></div>
+  </div>
+  <p class="ft-s">© Atelier Nori. A portfolio project by <a href="../../index.html">Abhishek</a>. <span>Photographs: Unsplash. Wood textures: Poly Haven (CC0). The plaster is drawn live.</span> <a href="studio.html">Open the studio desk</a></p>
+</footer>
 </body>
 </html>

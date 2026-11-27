@@ -17,6 +17,7 @@
   var touch = matchMedia('(pointer: coarse)').matches;
   function el(t, c, h) { var e = doc.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; }
   function ss(k, v) { try { if (v === undefined) return sessionStorage.getItem(k); sessionStorage.setItem(k, v); } catch (e) { return null; } }
+  function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
   var ICON = {
@@ -154,21 +155,29 @@
   }, true);
   root.addEventListener('submit', buzz, true);
 
-  /* ---------- proactive nudge: 20 s on a key page, once per session, dismissible ---------- */
-  var nudgeKey = 'cg-nudge-' + AGENT, nudgeBtn = null;
+  /* ---------- proactive nudge: after 20 s on a key part of the page, shown once, for eight seconds, dismissible ---------- */
+  var nudgeKey = 'cg-nudge-' + AGENT, nudgeBtn = null, nudgeT = 0;
   function keyPage() { if (!NUDGE) return false; var c = context(); return NUDGE.split(',').some(function (p) { p = p.trim(); return p === '*' || p === c.page || p === c.file || p === c.section; }); }
   function showNudge() {
-    if (open || chat || ss(nudgeKey) || !keyPage()) return;
+    if (open || chat || ls(nudgeKey) || !keyPage()) return;
     load(function () {
       if (open || chat) return; var a = Orbit.agents[AGENT], n = a && a.nudge ? a.nudge(context()) : null; if (!n) return;
       nudgeBtn = n.button || null; $('.cg-nudge-t').textContent = n.text; $('.cg-nudge-cta').textContent = n.cta || 'Yes, show me';
-      nudge.hidden = false; void nudge.offsetWidth; root.classList.add('cg-nudging'); ss(nudgeKey, '1');
+      nudge.hidden = false; void nudge.offsetWidth; root.classList.add('cg-nudging'); ls(nudgeKey, '1'); clearTimeout(nudgeT); nudgeT = setTimeout(function () { hideNudge(); }, 8000);
     });
   }
-  function hideNudge(quick) { if (nudge.hidden) return; root.classList.remove('cg-nudging'); setTimeout(function () { nudge.hidden = true; }, quick || reduce ? 0 : 260); }
+  function hideNudge(quick) { clearTimeout(nudgeT); if (nudge.hidden) return; root.classList.remove('cg-nudging'); setTimeout(function () { nudge.hidden = true; }, quick || reduce ? 0 : 260); }
   $('.cg-nudge-x').addEventListener('click', function () { hideNudge(); launch.focus(); });
   $('.cg-nudge-go').addEventListener('click', function () { var b = nudgeBtn; hideNudge(true); if (b) pend.push(b); show(); });
   setTimeout(showNudge, 20000);
+  /* phones: the launcher (and the page's back button) tuck away while the visitor scrolls down, and return when they stop */
+  var lastY = scrollY, tucked = false, tuckT = 0;
+  function tuck(on) { if (on !== tucked) { tucked = on; doc.body.classList.toggle('cg-tuck', on); } }
+  addEventListener('scroll', function () {
+    var y = scrollY, d = y - lastY; if (Math.abs(d) < 6) return; lastY = y;
+    var on = sheetMQ.matches && !open && d > 0 && y > 240 && innerHeight + y < doc.documentElement.scrollHeight - 40;
+    tuck(on); clearTimeout(tuckT); if (on) tuckT = setTimeout(function () { tuck(false); }, 1100);
+  }, { passive: true });
   // the chat sent the visitor to another page (a product, live tracking): reopen it there
   if (ss('cg-reopen-' + AGENT)) { try { sessionStorage.removeItem('cg-reopen-' + AGENT); } catch (e) {} var re = function () { setTimeout(show, 350); }; if (doc.readyState === 'complete') re(); else addEventListener('load', re); }
 

@@ -1,7 +1,7 @@
-/* Agent: Atelier Nori (fictional interior design studio, Bengaluru). The studio's own front desk: prices a room, books a
-   consultation on a real slot picker, runs the three-question style quiz (and restyles the live 3D room on the page),
+/* Agent: Atelier Nori (interior design studio, Bengaluru). The studio's own front desk: prices a room, books a
+   consultation on a real slot picker, runs the three-question style quiz (and lays out the material tray on the page),
    and looks up a client project's stage. Everything it books lands in the studio's staff screen (interior/studio.html).
-   Rate cards, slots and projects are made-up demo data. Demo only: nothing leaves the browser. */
+   Rate cards, slots and projects are seeded sample data; nothing leaves the browser. */
 (function () {
   'use strict';
   var O = window.Orbit, N = O.nlp, B = function (l, v) { return { label: l, value: v }; };
@@ -15,7 +15,7 @@
 
   /* ---------- rate card: ₹ per sq ft, design and execution, before GST ---------- */
   var ROOM = {
-    living: { n: 'Living room', typ: 280, sizes: [180, 280, 420], rate: { essential: [1400, 2200], considered: [2400, 3600], bespoke: [3800, 6000] }, wk: [6, 9], img: 'room-1.jpg', inc: 'layout, 3D walkthrough, furniture, lighting and soft furnishings' },
+    living: { n: 'Living room', typ: 280, sizes: [180, 280, 420], rate: { essential: [1400, 2200], considered: [2400, 3600], bespoke: [3800, 6000] }, wk: [6, 9], img: 'room-1.jpg', inc: 'layout, lit drawings, furniture, lighting and soft furnishings' },
     bedroom: { n: 'Bedroom', typ: 180, sizes: [130, 180, 260], rate: { essential: [1200, 1900], considered: [2000, 3200], bespoke: [3400, 5200] }, wk: [5, 8], img: 'bedroom.jpg', inc: 'layout, wardrobes, bed and headboard, lighting and linen' },
     kitchen: { n: 'Kitchen and dining', typ: 160, sizes: [100, 160, 240], rate: { essential: [2600, 3800], considered: [4000, 6200], bespoke: [6500, 10000] }, wk: [7, 11], img: 'room-2.jpg', inc: 'joinery drawings, worktops, appliances plan, lighting and the dining table' },
     bathroom: { n: 'Bathroom', typ: 60, sizes: [40, 60, 90], rate: { essential: [2200, 3200], considered: [3400, 5200], bespoke: [5600, 9000] }, wk: [4, 7], img: 'bath-oak.jpg', inc: 'waterproofing, stone and tile, fittings, vanity and lighting' },
@@ -32,8 +32,8 @@
     moody: { n: 'Moody', d: 'Deep green walls, rust velvet and brass, made for evenings.', p: ['room-4.jpg', 'The tea room', 'Tea room · 14 m² · 2025'] }
   };
   var WORK = [['room-1.jpg', 'House on the hill', 'Japandi living room, 46 m²', 'living'], ['room-2.jpg', 'The long table', 'Warm minimal kitchen and dining, 38 m²', 'kitchen'], ['room-4.jpg', 'The tea room', 'Moody tea room, 14 m²', 'living'], ['bedroom.jpg', 'Arched oak bedroom', 'Warm minimal bedroom, 17 m²', 'bedroom'], ['bath-stone.jpg', 'Stone vanity', 'Bathroom in oak and stone, 8 m²', 'bathroom'], ['room-5.jpg', 'The quiet study', 'Study with timber desk, 11 m²', 'study']];
-  var MODES = { studio: ['Studio visit', 'At the studio in Indiranagar, with samples on the table', 75], home: ['Home visit', 'We come to you, measure and listen (Bengaluru)', 90], video: ['Video call', 'Anywhere, with a shared moodboard', 45] };
-  var SLOTS = ['10:30', '12:00', '15:00', '17:30'];
+  var MODES = { studio: ['Studio visit', 'At the studio in Indiranagar, with the materials on the table', 75], home: ['Home visit', 'We come to you, measure and listen (Bengaluru)', 90], video: ['Video call', 'Anywhere, with a shared moodboard', 45] };
+  var SLOTS = ['10:30', '12:00', '16:00', '17:30'];
   var STAGES = ['Consultation', 'Concept', 'Design plan', 'Procurement', 'Site work', 'Styling', 'Handover'];
 
   function roomFrom(t) {
@@ -60,17 +60,17 @@
   function taken(bot, dIso, t) { var bk = bot.db('bookings') || []; if (bk.some(function (b) { return b.date === dIso && b.time === t && b.status !== 'cancelled'; })) return true; var h = 0; (dIso + t).split('').forEach(function (c) { h = (h * 31 + c.charCodeAt(0)) | 0; }); return Math.abs(h) % 3 === 0; }
   function dayLabel(dIso) { var p = dIso.split('-'); return O.fmtDay(new Date(+p[0], +p[1] - 1, +p[2])); }
   function code(prefix, list) { return prefix + (1040 + (list ? list.length : 0) + Math.floor(Math.random() * 9)); }
-  function restyle(style) { try { var map = { japandi: 0, midcentury: 1, coastal: 2, moody: 3 }; [1, 2, 3].forEach(function (q) { var b = document.querySelectorAll('.q[data-q="' + q + '"] .opt')[map[style]]; if (b && b.getAttribute('aria-pressed') !== 'true') b.click(); }); return !!document.querySelector('#qGo'); } catch (e) { return false; } }
+  function restyle(style) { try { var M = { japandi: ['#A3B096', 'N-07 Hill sage', ['oak', 'linen']], midcentury: ['#C2917A', 'N-12 Kiln clay', ['walnut', 'brass']], coastal: ['#D9C8AC', 'N-03 Rice paper', ['ash', 'linen', 'kota']], moody: ['#3A332E', 'N-19 Sumi', ['walnut', 'brass', 'kota']] }[style]; if (!M || !window.Nori || !document.querySelector('#tray')) return false; window.Nori.wall(M[0], M[1]); window.Nori.keep(M[2]); return true; } catch (e) { return false; } }
 
   var MENU = [B('Price my room', 'flow:price'), B('Book a consultation', 'flow:book'), B('Take the style quiz', 'flow:quiz'), B('My project’s status', 'flow:status'), B('See our work', 'intent:work')];
 
   O.registerAgent({
-    id: 'nori', name: 'Atelier Nori', business: 'Atelier Nori', role: 'Studio front desk', industry: 'Interior design', initials: 'AN', accent: '#A45E3B', phoneLabel: 'Atelier Nori studio',
+    id: 'nori', name: 'Atelier Nori', business: 'Atelier Nori', role: 'Studio front desk', industry: 'Interior design', initials: 'AN', accent: '#2F3A32', phoneLabel: 'Atelier Nori studio',
     blurb: 'The studio’s own front desk: prices a room in four taps, books a consultation on a live slot picker, runs the style quiz and looks up a project’s stage.',
     helloLine: 'I can price a room, book a consultation or look up your project.',
     samples: ['how much for a 280 sq ft living room', 'book a home visit saturday morning', 'kitchen kitne ka padega', 'status of NR-2417'],
     kind: 'customer', menu: MENU,
-    contexts: [{ label: 'Looking at the work', context: { section: 'work' } }, { label: 'In the style quiz', context: { section: 'style' } }],
+    contexts: [{ label: 'Looking at the work', context: { section: 'rooms' } }, { label: 'At the studio table', context: { section: 'table' } }],
     synonyms: { 'how much': ['kitne ka padega', 'kitne ka hoga', 'kitna padega', 'kitna hoga', 'kitne ka hai', 'kitna hai', 'kitne ka', 'kitna', 'kitni', 'kharcha kitna', 'kharcha'], 'book a consultation': ['milte hai', 'milte hain', 'milna hai', 'mil sakte', 'appointment chahiye', 'visit chahiye', 'schedule a call'], 'style quiz': ['what is my style', 'find my style'], 'my project': ['mera project', 'hamara project'], 'how long': ['kab tak', 'kitne din', 'kitna time'], 'talk to a person': ['baat karni hai', 'baat karna hai', 'designer se baat'] },
     seeds: {
       bookings: function () { var d = days(6), now = Date.now(); return [
@@ -78,26 +78,27 @@
         { ref: 'AN-1032', name: 'Arjun & Meghna Rao', phone: '+91 99001 •• 087', room: 'home', mode: 'home', date: iso(d[1]), time: '10:30', status: 'confirmed', t: now - 2 * DAY, source: 'Instagram ad', note: '3 BHK in Whitefield, handover in March.' },
         { ref: 'AN-1033', name: 'Sameer Kapoor', email: 'sameer.k@example.com', room: 'commercial', mode: 'video', date: iso(d[2]), time: '17:30', status: 'confirmed', t: now - DAY, source: 'Google search', note: 'A 900 sq ft café in Jayanagar.' }]; },
       projects: function () { var now = Date.now(); return [
-        { code: 'NR-2417', client: 'Iyer', name: 'Meera Iyer', title: 'Living and dining, Koramangala', stage: 3, pct: 52, designer: 'Kavya (lead designer)', next: 'Sofa and dining table arrive', due: now + 9 * DAY, note: 'Oak samples approved. Linen curtains ordered from the Kannur weavers.', img: 'room-1.jpg' },
+        { code: 'NR-2417', client: 'Iyer', name: 'Meera Iyer', title: 'Living and dining, Koramangala', stage: 3, pct: 52, designer: 'Kavya (lead designer)', next: 'Sofa and dining table arrive', due: now + 9 * DAY, note: 'Oak pieces approved. Linen curtains ordered from the Kannur weavers.', img: 'room-1.jpg' },
         { code: 'NR-2398', client: 'Bose', name: 'Ritwik Bose', title: 'Kitchen, Indiranagar', stage: 4, pct: 71, designer: 'Arun (site lead)', next: 'Worktop template and fitting', due: now + 4 * DAY, note: 'Carcasses installed. Plumbing points moved as drawn.', img: 'room-2.jpg' },
         { code: 'NR-2431', client: 'Khan', name: 'Sana Khan', title: 'Bedroom and bath, HSR Layout', stage: 1, pct: 18, designer: 'Kavya (lead designer)', next: 'Concept presentation', due: now + 3 * DAY, note: 'Moodboard draft ready; two layout options for the bath.', img: 'bedroom.jpg' },
         { code: 'NR-2380', client: 'Menon', name: 'Diya Menon', title: 'Tea room and study, Frazer Town', stage: 5, pct: 92, designer: 'Ira (principal)', next: 'Styling day and handover walk', due: now + 2 * DAY, note: 'Paint cured. Lamp rewired. Rugs arrive Thursday.', img: 'room-4.jpg' }]; }
     },
     nudge: function (c) {
-      if (c.section === 'work') return { text: 'Like one of these rooms? I can tell you roughly what a room like it would cost, in four taps.', cta: 'Price a room', button: B('Price my room', 'flow:price') };
-      if (c.section === 'style') return { text: 'Not sure which answer is you? Take the quiz with me and I’ll show you rooms we’ve made in that style.', cta: 'Take it here', button: B('Take the style quiz', 'flow:quiz') };
-      if (c.section === 'book' || c.section === 'process') return { text: 'Rather pick a time yourself? I can show you open consultation slots this week.', cta: 'See open slots', button: B('Book a consultation', 'flow:book') };
-      if (c.section === 'room') return { text: 'Changing styles in the 3D room? I can price that room in your size and finish.', cta: 'Price it', button: B('Price my room', 'flow:price') };
+      if (c.section === 'rooms') return { text: 'Like one of these rooms? I can tell you roughly what a room like it would cost, in four taps.', cta: 'Price a room', button: B('Price my room', 'flow:price') };
+      if (c.section === 'table') return { text: 'Not sure where to start? Three questions with me and I’ll lay the table for you.', cta: 'Take it here', button: B('Take the style quiz', 'flow:quiz') };
+      if (c.section === 'you') return { text: 'Rather pick a time yourself? I can show you open consultation slots this week.', cta: 'See open slots', button: B('Book a consultation', 'flow:book') };
+      if (c.section === 'hill' || c.section === 'longtable' || c.section === 'tearoom') return { text: 'Like this room? I can tell you roughly what one like it would cost in your size, in four taps.', cta: 'Price a room', button: B('Price my room', 'flow:price') };
+      if (c.section === 'bill') return { text: 'Every line of this bill has a price. I can price a room like it in your size and finish.', cta: 'Price it', button: B('Price this room', 'act:price:living') };
       return { text: 'Planning a room? I can give you a first number and an open slot with a designer.', cta: 'Let’s start', button: B('Price my room', 'flow:price') };
     },
     greeting: function (bot) {
       var c = bot.ctx;
       if (c.from === 'web') { bot.say('Hello' + (c.name ? ' ' + c.name.split(' ')[0] : '') + ', this is Atelier Nori on WhatsApp. Send photos of your room any time; a designer reads them every morning.', { buttons: MENU.slice(0, 4) }); return; }
       var open = 'Hello, welcome to Atelier Nori. ';
-      if (c.section === 'work') { bot.say(open + 'Those are three rooms we’ve lived with for a while. I can tell you what a room like one of them would cost, or find you a time with a designer.', { buttons: [B('Price a room like these', 'flow:price'), B('Book a consultation', 'flow:book'), B('See more work', 'intent:work')] }); return; }
-      if (c.section === 'style') { bot.say(open + 'Three questions, one room. Shall we take the style quiz together? I’ll restyle the 3D room above as we go.', { buttons: [B('Take the style quiz', 'flow:quiz'), B('Price my room', 'flow:price'), B('Something else', 'menu')] }); return; }
-      if (c.section === 'book' || c.section === 'process') { bot.say(open + 'I can book your consultation right here and show you the open slots. Studio, home visit or a video call.', { buttons: [B('Book a consultation', 'flow:book'), B('What does it cost?', 'say:consultation fee'), B('Something else', 'menu')] }); return; }
-      if (c.section === 'room') { bot.say(open + 'Enjoying the walk-through? I can price that room in your size and finish, or take you through the style quiz.', { buttons: [B('Price this room', 'act:price:living'), B('Take the style quiz', 'flow:quiz'), B('Book a consultation', 'flow:book')] }); return; }
+      if (c.section === 'rooms') { bot.say(open + 'Those are three rooms we’ve lived with for a while. I can tell you what a room like one of them would cost, or find you a time with a designer.', { buttons: [B('Price a room like these', 'flow:price'), B('Book a consultation', 'flow:book'), B('See more work', 'intent:work')] }); return; }
+      if (c.section === 'table') { bot.say(open + 'Three questions, then a table laid for you. Shall we take the style quiz together? I’ll put the materials out and choose a limewash as we go.', { buttons: [B('Take the style quiz', 'flow:quiz'), B('Price my room', 'flow:price'), B('Something else', 'menu')] }); return; }
+      if (c.section === 'you') { bot.say(open + 'I can book your consultation right here and show you the open slots. Studio, home visit or a video call.', { buttons: [B('Book a consultation', 'flow:book'), B('What does it cost?', 'say:consultation fee'), B('Something else', 'menu')] }); return; }
+      if ((c.section === 'hill' || c.section === 'longtable' || c.section === 'tearoom' || c.section === 'bill')) { bot.say(open + 'Each of these rooms has its full bill on its own page. I can price a room like it in your size and finish, or take you through the style quiz.', { buttons: [B('Price this room', 'act:price:living'), B('Take the style quiz', 'flow:quiz'), B('Book a consultation', 'flow:book')] }); return; }
       bot.say(open + 'I can give you a first number for a room, book you a consultation with a designer, take the style quiz with you, or look up a project we’re building.', { buttons: MENU });
     },
     extract: function (text, bot) {
@@ -112,7 +113,7 @@
       { id: 'book', label: 'Book a consultation', kw: ['book', 'book a consultation', 'appointment', 'meet', 'visit', 'slot', 'available', 'when can', 'schedule', 'call me', 'talk to a designer'], re: [/\b(book|schedule|fix)\b/i], priority: 1, run: function (bot, m) { bot.startFlow('book', { room: m.ent.room, mode: m.ent.mode, date: m.ent.date, contact: m.ent.contact }); } },
       { id: 'quiz', label: 'Style quiz', kw: ['style quiz', 'quiz', 'my style', 'which style', 'japandi', 'mid-century', 'coastal', 'moody', 'what style'], priority: 1, run: function (bot) { bot.startFlow('quiz'); } },
       { id: 'status', label: 'Project status', kw: ['my project', 'project status', 'status', 'update', 'progress', 'how far', 'when will it be done', 'handover date', 'where are we'], re: [/\bNR[- ]?\d{4}\b/i], priority: 1, run: function (bot, m) { bot.startFlow('status', { code: m.ent.code }); } },
-      { id: 'work', label: 'See our work', kw: ['portfolio', 'your work', 'projects', 'examples', 'show me', 'past work', 'photos', 'rooms you have done'], priority: 0, run: function (bot, m) { var r = m.ent && m.ent.room, L = WORK.filter(function (w) { return !r || w[3] === r; }); if (!L.length) L = WORK; bot.say(r ? 'A few ' + ROOM[r].n.toLowerCase() + 's we’ve made:' : 'A few rooms from the last two years. Each was drawn and lit in 3D before anything was bought.', { cards: L.slice(0, 4).map(function (w) { return { title: w[1], sub: w[2], img: PH(w[0]), meta: ['From our work'], buttons: [B('Price a room like this', 'act:price:' + w[3]), B('Book a consultation', 'act:book:' + w[3])] }; }), buttons: [B('Take the style quiz', 'flow:quiz'), B('Price my room', 'flow:price')] }); } }
+      { id: 'work', label: 'See our work', kw: ['portfolio', 'your work', 'projects', 'examples', 'show me', 'past work', 'photos', 'rooms you have done'], priority: 0, run: function (bot, m) { var r = m.ent && m.ent.room, L = WORK.filter(function (w) { return !r || w[3] === r; }); if (!L.length) L = WORK; bot.say(r ? 'A few ' + ROOM[r].n.toLowerCase() + 's we’ve made:' : 'A few rooms from the last two years, shown with the reference photographs from each brief.', { cards: L.slice(0, 4).map(function (w) { return { title: w[1], sub: w[2], img: PH(w[0]), meta: ['Reference photo for the brief'], buttons: [B('Price a room like this', 'act:price:' + w[3]), B('Book a consultation', 'act:book:' + w[3])] }; }), buttons: [B('Take the style quiz', 'flow:quiz'), B('Price my room', 'flow:price')] }); } }
     ],
     flows: {
       price: { intent: 'price', slots: [
@@ -136,7 +137,7 @@
         var M = MODES[s.mode], r = ROOM[s.room], bk = bot.db('bookings') || [], ref = code('AN-', bk);
         bot.user.name = s.name; if (/@/.test(s.contact)) bot.user.email = s.contact; else bot.user.phone = s.contact;
         bk.push({ ref: ref, name: s.name, phone: /@/.test(s.contact) ? '' : s.contact, email: /@/.test(s.contact) ? s.contact : '', room: s.room, mode: s.mode, date: s.date, time: s.time, status: 'confirmed', t: Date.now(), source: bot.source, convo: bot.id, est: bot.mem.est || null }); bot.save('bookings', bk);
-        bot.say('You’re booked, ' + s.name.split(' ')[0] + '. We’ll send a confirmation and, the day before, a short list of things to have ready.', { cards: [{ title: M[0] + ' · ' + O.fmtDay(new Date(s.date + 'T00:00')), sub: r.n + ' with Kavya, our lead designer', img: PH(r.img), badge: ref, meta: [O.fmtTime(s.time) + ' · ' + M[2] + ' minutes', s.mode === 'studio' ? 'Atelier Nori, 12th Main, Indiranagar' : s.mode === 'home' ? 'At your home. We bring samples.' : 'Link sent to ' + s.contact, 'Bring: floor plan, photos, one thing you love'], buttons: [B('Add a note for Kavya', 'say:I want to add a note'), B('Change the time', 'flow:book')] }], buttons: [B('Take the style quiz first', 'flow:quiz'), B('That’s all', 'say:bye')] });
+        bot.say('You’re booked, ' + s.name.split(' ')[0] + '. We’ll send a confirmation and, the day before, a short list of things to have ready.', { cards: [{ title: M[0] + ' · ' + O.fmtDay(new Date(s.date + 'T00:00')), sub: r.n + ' with Kavya, our lead designer', img: PH(r.img), badge: ref, meta: [O.fmtTime(s.time) + ' · ' + M[2] + ' minutes', s.mode === 'studio' ? 'Atelier Nori, 12th Main, Indiranagar' : s.mode === 'home' ? 'At your home. We bring the materials.' : 'Link sent to ' + s.contact, 'Bring: floor plan, photos, one thing you love'], buttons: [B('Add a note for Kavya', 'say:I want to add a note'), B('Change the time', 'flow:book')] }], buttons: [B('Take the style quiz first', 'flow:quiz'), B('That’s all', 'say:bye')] });
         bot.event('booking', { kind: 'consultation' }); lead(bot, 'consultation', { ref: ref, room: r.n, mode: M[0], date: s.date, time: s.time, estimate: bot.mem.est && bot.mem.est.lo ? R(bot.mem.est.lo) + ' – ' + R(bot.mem.est.hi) : '' }, { name: s.name, phone: /@/.test(s.contact) ? '' : s.contact, email: /@/.test(s.contact) ? s.contact : undefined });
       } },
       quiz: { intent: 'quiz', slots: [
@@ -146,7 +147,7 @@
       ], done: function (bot, s) {
         var c = {}; [s.q1, s.q2, s.q3].forEach(function (v) { c[v] = (c[v] || 0) + 1; }); var win = Object.keys(c).sort(function (a, b) { return c[b] - c[a]; })[0], S = STY[win], others = Object.keys(STY).filter(function (k) { return k !== win; }).slice(0, 2);
         bot.mem.style = win; var room3d = restyle(win);
-        bot.say('You’re **' + S.n + '**. ' + S.d + (room3d ? ' I’ve restyled the 3D room on this page to match.' : ''), { cards: [{ title: S.p[1], sub: S.p[2], img: PH(S.p[0]), badge: S.n, meta: ['From our work'], buttons: [B('Price a room like this', 'act:price:' + (win === 'midcentury' ? 'kitchen' : win === 'coastal' ? 'bathroom' : 'living')), B('Book a consultation', 'flow:book')] }].concat(others.map(function (k) { return { title: STY[k].p[1], sub: STY[k].n + ' · ' + STY[k].p[2], img: PH(STY[k].p[0]), meta: ['Also close to you'], buttons: [B('Price a room like this', 'act:price:living')] }; })), buttons: room3d ? [B('Walk through it in 3D', 'act:tour:1'), B('Book a consultation', 'flow:book')] : [B('Book a consultation', 'flow:book'), B('Price my room', 'flow:price')] });
+        bot.say('You’re **' + S.n + '**. ' + S.d + (room3d ? ' I’ve put its materials on the studio table and chosen its limewash, further down this page.' : ''), { cards: [{ title: S.p[1], sub: S.p[2], img: PH(S.p[0]), badge: S.n, meta: ['Reference photo for the brief'], buttons: [B('Price a room like this', 'act:price:' + (win === 'midcentury' ? 'kitchen' : win === 'coastal' ? 'bathroom' : 'living')), B('Book a consultation', 'flow:book')] }].concat(others.map(function (k) { return { title: STY[k].p[1], sub: STY[k].n + ' · ' + STY[k].p[2], img: PH(STY[k].p[0]), meta: ['Also close to you'], buttons: [B('Price a room like this', 'act:price:living')] }; })), buttons: room3d ? [B('Show me the table', 'act:tour:1'), B('Book a consultation', 'flow:book')] : [B('Book a consultation', 'flow:book'), B('Price my room', 'flow:price')] });
         bot.event('booking', { kind: 'style_quiz' }); lead(bot, 'style_quiz', { style: S.n, answers: [s.q1, s.q2, s.q3].join(', ') });
       } },
       status: { intent: 'status', slots: [
@@ -165,7 +166,7 @@
       price: function (bot, room) { bot.startFlow('price', { room: room }); },
       retier: function (bot, room) { var e = bot.mem.est; bot.startFlow('price', { room: room, size: e ? e.size : undefined }); },
       book: function (bot, room) { if (!bot.mem.est || bot.mem.est.room !== room) bot.mem.est = { room: room }; bot.startFlow('book', { room: room }); },
-      tour: function (bot) { var g = document.querySelector('#qGo'); if (g && !g.hidden) { bot.say('Taking you to the room. Scroll to walk through it; I’ll be here.', { delay: 200 }); setTimeout(function () { try { window.Concierge && Concierge.close(); } catch (e) {} g.click(); }, 700); } else bot.say('The 3D room is further up this page, under “Walk through a room”.'); }
+      tour: function (bot) { var g = document.querySelector('#tray'); if (g) { bot.say('Taking you to the studio table. Move the pieces about, keep the ones you like, and choose a wall.', { delay: 200 }); setTimeout(function () { try { window.Concierge && Concierge.close(); } catch (e) {} if (window.Nori) window.Nori.go('#table'); else g.scrollIntoView({ block: 'start' }); }, 700); } else bot.say('The studio table and the limewash chart are on the home page, under “Then, what you touch”.'); }
     },
     freeText: function (bot, m) {
       var r = m.ent.room; if (r && (m.ent.size || m.ent.tier)) { bot.convo.lastIntent = 'price'; bot.startFlow('price', { room: r, size: m.ent.size, tier: m.ent.tier }); return true; }
@@ -174,15 +175,15 @@
     },
     kb: [
       { id: 'fee', q: 'How do you charge?', a: 'A design fee of **8 to 12%** of the project, depending on the finish, plus the cost of execution at what we pay (we pass on every trade discount). The first consultation is free and credited to your fee if you go ahead.', keys: ['design fee', 'how do you charge', 'fees', 'commission', 'consultation fee', 'charges'] },
-      { id: 'process', q: 'How does it work?', a: 'Four steps: a **consultation**, a **concept** with a 3D layout and moodboard, a **design plan** with drawings and a priced shopping list, then **installation** where we order, run the trades and style the room.', keys: ['process', 'how does it work', 'steps', 'what happens', 'how do you work'] },
+      { id: 'process', q: 'How does it work?', a: 'Four steps: a **consultation**, a **concept** with a drawn layout and a material tray, a **design plan** with drawings and a priced shopping list, then **installation** where we order, run the trades and style the room.', keys: ['process', 'how does it work', 'steps', 'what happens', 'how do you work'] },
       { id: 'time', q: 'How long does a room take?', a: 'Most single rooms take **5 to 9 weeks** from concept to styling; kitchens 7 to 11; a whole home 14 to 22. Made-to-order furniture is usually what sets the pace.', keys: ['how long', 'timeline', 'duration', 'weeks', 'how much time'] },
-      { id: 'where', q: 'Which cities do you work in?', a: 'We take on full projects in **Bengaluru and Mysuru**, and a few in Chennai. Virtual design works anywhere: a 3D plan and a shopping list, delivered online.', keys: ['which city', 'cities', 'location', 'where are you', 'do you work in', 'mumbai', 'chennai', 'outside bangalore', 'bangalore', 'bengaluru'] },
-      { id: 'virtual', q: 'How does virtual design work?', a: 'You send a floor plan and photos; we send back a 3D room, a layout and a shopping list with links, in about **three weeks**. From ₹28,000 a room.', keys: ['virtual design', 'online design', 'e-design', 'remote'] },
+      { id: 'where', q: 'Which cities do you work in?', a: 'We take on full projects in **Bengaluru and Mysuru**, and a few in Chennai. Virtual design works anywhere: a drawn plan and a shopping list, delivered online.', keys: ['which city', 'cities', 'location', 'where are you', 'do you work in', 'mumbai', 'chennai', 'outside bangalore', 'bangalore', 'bengaluru'] },
+      { id: 'virtual', q: 'How does virtual design work?', a: 'You send a floor plan and photos; we send back a drawn room, a lighting plan and a shopping list with links, in about **three weeks**. From ₹28,000 a room.', keys: ['virtual design', 'online design', 'e-design', 'remote'] },
       { id: 'min', q: 'Is there a minimum budget?', a: 'We take on single rooms from about **₹3 lakh**, and whole homes from about ₹18 lakh. Below that, virtual design is usually the better fit.', keys: ['minimum budget', 'minimum', 'small budget', 'smallest project', 'low budget'] },
-      { id: '3d', q: 'Will I see it before it’s built?', a: 'Yes. Every room is modelled, lit and styled in **3D** first, so you can walk through it, change your mind and sign it off with confidence. Like the room further up this page.', keys: ['3d', 'render', 'visualise', 'see it before', 'walkthrough', 'preview'] },
+      { id: '3d', q: 'Will I see it before it’s built?', a: 'Yes. Every room is drawn, lit and walked through first, with a price and a lead time on every piece, so you can change your mind and sign it off with confidence. “Step into the picture” on this page shows how we present one.', keys: ['3d', 'render', 'visualise', 'see it before', 'walkthrough', 'preview'] },
       { id: 'pay', q: 'How do payments work?', a: 'Design fee in three parts: **30%** to start, 40% at the design plan, 30% at handover. Furniture and trades are paid as they’re ordered, against invoices you see.', keys: ['payment', 'payment terms', 'advance', 'installments', 'emi', 'pay'] },
       { id: 'warranty', q: 'Is there a warranty?', a: 'Our joinery carries a **one-year** warranty, and we come back at six months to tighten, adjust and touch up, at no charge.', keys: ['warranty', 'guarantee', 'after sales', 'defects', 'repairs'] },
-      { id: 'revisions', q: 'How many revisions do I get?', a: 'Two rounds on the concept and one on the design plan are included. Most clients don’t need them all, because the 3D walk-through answers questions early.', keys: ['revisions', 'changes', 'change my mind', 'how many changes', 'redo'] },
+      { id: 'revisions', q: 'How many revisions do I get?', a: 'Two rounds on the concept and one on the design plan are included. Most clients don’t need them all, because walking through the drawn room answers questions early.', keys: ['revisions', 'changes', 'change my mind', 'how many changes', 'redo'] },
       { id: 'rent', q: 'Do you work on rented homes?', a: 'Yes, with a light touch: no drilling where it matters, freestanding storage, lighting that plugs in and textiles that move with you.', keys: ['rented', 'rental', 'tenant', 'renting', 'landlord'] },
       { id: 'vastu', q: 'Can you follow Vastu?', a: 'Of course. Tell us at the consultation and we’ll plan the layout around it from the start, rather than bending a finished design.', keys: ['vastu', 'vaastu', 'feng shui', 'direction'] },
       { id: 'kids', q: 'Is it practical with kids and pets?', a: 'Calm doesn’t mean fragile. We use performance linen, oiled oak that can be re-sanded, washable paint and rounded edges where little heads are.', keys: ['kids', 'children', 'pets', 'dog', 'cat', 'durable', 'practical'] },

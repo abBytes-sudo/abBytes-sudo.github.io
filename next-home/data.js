@@ -40,7 +40,7 @@ window.WORK = [
   { id: 'saas', name: 'Orbit Assistants', short: 'ORBIT', type: 'ASSISTANTS', kind: 'Scripted assistants', cat: 'sys', trade: 'software', status: 'Open to try', img: 'saas', a: 5.693, href: '../samples/saas/index.html', cta: 'Try the assistants',
     blurb: 'Scripted assistants for a clinic, salon, restaurant, real estate agency, construction firm and online store, on web, WhatsApp or Instagram.' },
   { id: 'interior', name: 'Atelier Nori', short: 'ATELIER NORI', type: 'INTERIORS', kind: 'Interior design studio', cat: 'web', trade: 'build', status: 'Open to try', img: 'interior', a: 5.693, href: '../samples/interior/index.html', cta: 'Open the site',
-    blurb: 'Room-by-room photo stories, a 3D living room you walk through by scrolling, and a three-question quiz that restyles the room.' },
+    blurb: 'One lime-plaster wall, drawn live. Scroll through an afternoon of light, lay a table of materials, and book a consultation that lands on the studio\'s desk.' },
   { id: 'masonry', name: 'Ashlar & Co.', short: 'ASHLAR & CO.', type: 'MASONRY', kind: 'Masonry & construction', cat: 'web', trade: 'build', status: 'Open to try', img: 'masonry', a: 5.693, href: '../samples/masonry/index.html', cta: 'Open the site',
     blurb: 'A 3D material lab where the wall rises in your chosen stone, a before-and-after slider, an instant estimator and a quote form.' },
   { id: 'build', name: 'Sthira', short: 'STHIRA', type: 'DESIGN-BUILD', kind: 'Design-build firm', cat: 'web', trade: 'build', status: 'Open to try', img: 'build', a: 5.625, href: '../samples/build/index.html', cta: 'Open the firm',
