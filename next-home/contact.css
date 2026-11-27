@@ -1,0 +1,201 @@
+/* The contact form on the paper card: a short letter, not a stock form. Fields sit on the card like lines on a printed brief,
+   needs are chips, the message is a ruled sheet that drafts itself, and sending, the thank-you and the error all stay in the
+   same card. Scoped to #contact; loaded by the contact section itself (no inline styles: CSP). */
+#contact [hidden]{display:none!important}
+#contact .cf-form{gap:18px}
+#contact .cf-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px}
+#contact .cf-f{display:flex;flex-direction:column;gap:7px;min-width:0;margin:0;padding:0;border:0}
+#contact .cf-form fieldset{min-width:0;margin:0;padding:0;border:0}
+#contact .cf-form label,#contact .cf-form legend{font:600 11.5px/1.25 var(--ft-mono);letter-spacing:.07em;text-transform:uppercase;color:#4a4657}
+#contact .cf-form legend{padding:0;margin:0 0 10px}
+#contact .cf-form label small,#contact .cf-form legend small{margin-left:5px;font:500 11px/1 var(--ft-mono);letter-spacing:.02em;text-transform:none;color:#5d5970}
+
+/* text fields: a soft fill and an inked rule, like a line on the card */
+#contact .cf-form input[type=text],#contact .cf-form input[type=email],#contact .cf-form input[type=tel],#contact .cf-form textarea{-webkit-appearance:none;appearance:none;width:100%;min-height:48px;margin:0;padding:12px 14px 11px;border:0;border-bottom:2px solid #3b3747;border-radius:10px 10px 3px 3px;background-color:#fffdf8;color:var(--k);font:500 16px/1.4 var(--txt);box-shadow:inset 0 0 0 1px rgba(14,12,18,.09);transition:background-color .2s,border-color .2s,box-shadow .2s}
+#contact .cf-form input:hover,#contact .cf-form textarea:hover{background-color:#fff}
+#contact .cf-form input:focus,#contact .cf-form textarea:focus{outline:none;background-color:#fff;border-bottom-color:var(--b);box-shadow:inset 0 0 0 1px rgba(106,61,240,.45),0 0 0 3px rgba(106,61,240,.3)}
+#contact .cf-form [aria-invalid=true]{border-bottom-color:#b3261e;background-color:#fff8f6}
+#contact .cf-form input:disabled,#contact .cf-form textarea:disabled{opacity:.72}
+
+/* phone: a country code you can search, then the number. The code sits on the same inked line as the number */
+#contact .cf-tel{position:relative;display:flex;min-width:0}
+#contact .cf-cc{flex:none;display:inline-flex;align-items:center;gap:7px;min-height:48px;margin:0;padding:0 10px 0 12px;border:0;border-bottom:2px solid #3b3747;border-radius:10px 0 0 3px;background:#efe9dd;color:var(--k);font:600 15px/1 var(--txt);cursor:pointer;box-shadow:inset 0 0 0 1px rgba(14,12,18,.09);transition:background .2s}
+#contact .cf-cc:hover{background:#e8e0d0}
+#contact .cf-cc:focus-visible{position:relative;z-index:1;outline:3px solid var(--b);outline-offset:2px}
+#contact .cf-cc:disabled{opacity:.72;cursor:default}
+#contact .cf-flag{font-size:18px;line-height:1}
+#contact .cf-cc i{width:7px;height:7px;margin:0 1px 0 2px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+#contact .cf-cc[aria-expanded=true] i{transform:translateY(2px) rotate(-135deg)}
+#contact .cf-form .cf-tel input[type=tel]{flex:1;min-width:0;border-radius:0 10px 3px 0}
+#contact .cf-ccp{position:absolute;z-index:20;top:calc(100% + 8px);left:0;right:0;min-width:250px;padding:8px;border-radius:14px;background:#fff;box-shadow:0 0 0 1.5px var(--k),0 22px 44px -14px rgba(14,12,18,.5);animation:cf-in .18s ease-out}
+#contact .cf-form .cf-ccp input.cf-ccq{min-height:42px;padding:9px 12px;border-bottom-width:1.5px;border-radius:9px;font-size:15px}
+#contact .cf-ccl{max-height:270px;margin:6px 0 0;padding:0;overflow-y:auto;overscroll-behavior:contain;list-style:none}
+#contact .cf-ccl li{display:flex;align-items:center;gap:10px;min-height:40px;padding:6px 10px;border-radius:9px;font:500 15px/1.25 var(--txt);color:var(--k);cursor:pointer}
+#contact .cf-ccl .cf-flag{flex:none;width:22px;text-align:center}
+#contact .cf-cn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#contact .cf-cd{flex:none;font:600 13px/1 var(--ft-mono);color:#5d5970}
+#contact .cf-ccl li.is-act{background:#f2ede2}
+#contact .cf-ccl li[aria-selected=true] .cf-cn{font-weight:700}
+#contact .cf-ccl li[aria-selected=true] .cf-cd::after{content:" ✓";color:var(--k)}
+#contact .cf-ccl li.cf-ccsep{min-height:0;height:1px;margin:6px 6px;padding:0;background:#e3ddd1;cursor:default}
+#contact .ft-card .cf-ccn{padding:10px 8px 6px;font-size:14px;color:#5d5970}
+
+/* what do you need: chips that are real checkboxes (and radios for how you found me) */
+#contact .cf-chips{display:flex;flex-wrap:wrap;gap:8px}
+#contact .cf-form .cf-chips label{position:relative;display:inline-flex;font:inherit;letter-spacing:0;text-transform:none;color:inherit;cursor:pointer}
+#contact .cf-chips input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+#contact .cf-chips span{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:9px 16px 9px 13px;border-radius:99px;border:1.5px solid #8a8496;background:#fff;color:var(--k);font:600 15px/1.2 var(--txt);transition:background .18s,border-color .18s,color .18s,transform .2s cubic-bezier(.3,1.5,.5,1)}
+#contact .cf-chips span::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;box-shadow:inset 0 0 0 1.5px #8a8496;transition:background .18s,box-shadow .18s}
+#contact .cf-chips label:hover span{border-color:var(--k)}
+#contact .cf-chips input:checked+span{background:var(--k);border-color:var(--k);color:#fff}
+#contact .cf-chips input:checked+span::before{background:var(--gold);box-shadow:0 0 0 3px rgba(244,181,86,.28)}
+#contact .cf-chips input:active+span{transform:scale(.96)}
+#contact .cf-chips input:focus-visible+span{outline:3px solid var(--b);outline-offset:2px}
+#contact .cf-chips.sm span{min-height:38px;padding:7px 13px 7px 11px;font-size:14px}
+
+/* the builder's setup, attached like a ticket clipped to the letter */
+#contact .cf-att{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px 14px;padding:10px 12px 10px 10px;border-radius:14px;background:#fff;border:1.5px dashed #a59e90}
+#contact .cf-thumb{width:74px;height:49px;border-radius:7px;overflow:hidden}
+#contact .cf-thumb .ft-mini{transform:scale(.42);transform-origin:0 0;box-shadow:none}
+#contact .cf-atx{min-width:0}
+#contact .ft-card .cf-atx p{margin:0;font-size:14px;line-height:1.35}
+#contact .ft-card .cf-atk{font:600 10.5px/1.4 var(--ft-mono);letter-spacing:.07em;text-transform:uppercase;color:#4a4657}
+#contact .cf-atk em{margin-left:6px;font-style:normal;font-weight:500;letter-spacing:.02em;text-transform:none;color:var(--mut)}
+#contact .ft-card .cf-atn{font:700 16px/1.3 var(--dis);letter-spacing:-.01em;color:var(--k);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#contact .ft-card .cf-att .ft-meta{margin-top:2px;gap:2px 6px;font-size:13px}
+#contact .cf-atc{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+#contact .cf-atc .ft-edit{padding:5px 0;font-size:13.5px}
+#contact .cf-form .cf-tog{position:relative;display:inline-flex;align-items:center;min-height:30px;font:600 13.5px/1 var(--txt);letter-spacing:0;text-transform:none;color:var(--k);cursor:pointer}
+#contact .cf-tog input{position:absolute;left:0;top:50%;width:30px;height:18px;margin:-9px 0 0;opacity:0;cursor:pointer}
+#contact .cf-tog span{position:relative;padding-left:38px;line-height:20px}
+#contact .cf-tog span::before{content:"";position:absolute;left:0;top:50%;width:30px;height:18px;margin-top:-9px;border-radius:99px;background:#d8d2c6;box-shadow:inset 0 0 0 1.5px #8a8496;transition:background .2s,box-shadow .2s}
+#contact .cf-tog span::after{content:"";position:absolute;left:4px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:#fff;box-shadow:0 0 0 1.5px #8a8496;transition:transform .22s cubic-bezier(.3,1.4,.5,1),background .2s,box-shadow .2s}
+#contact .cf-tog input:checked+span::before{background:var(--k);box-shadow:none}
+#contact .cf-tog input:checked+span::after{transform:translateX(12px);background:var(--gold);box-shadow:none}
+#contact .cf-tog input:focus-visible+span::before{outline:3px solid var(--b);outline-offset:2px}
+
+/* the message: a ruled sheet that drafts itself, and grows with what is written */
+#contact .cf-msg{display:flex;flex-direction:column;gap:8px;animation:cf-in .45s cubic-bezier(.2,.8,.2,1)}
+#contact .cf-mh{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px}
+#contact .cf-draft{display:inline-flex;align-items:center;gap:7px;font:500 12px/1.3 var(--ft-mono);color:#5d5970}
+#contact .cf-draft::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(244,181,86,.3)}
+#contact .cf-form textarea{display:block;min-height:156px;max-height:440px;resize:vertical;overflow-y:auto;padding:10px 14px 12px;line-height:26px;background-image:linear-gradient(transparent 25px,#ebe4d4 25px);background-size:100% 26px;background-position:0 10px;background-attachment:local}
+#contact .cf-form textarea.cf-new{animation:cf-flash 1s ease-out}
+
+/* errors and tips: said kindly, under the field they belong to. Empty ones stay in the page for screen readers */
+#contact .ft-card .cf-e{margin:0;font:500 13.5px/1.35 var(--txt);color:#b3261e}
+#contact .ft-card .cf-e.tip{color:#4a4657}
+#contact .cf-e:empty,#contact .cf-st,#contact .cf-fail:empty{position:absolute;width:1px;height:1px;margin:0;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+#contact .cf-lnk{display:inline;padding:0;margin:0;border:0;background:none;font:inherit;font-weight:600;color:var(--k);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;cursor:pointer}
+#contact .cf-lnk:hover{color:var(--b)}
+#contact .cf-msg .cf-lnk{align-self:flex-start;font-size:14px}
+
+/* add details: out of the way until asked for */
+#contact .cf-x{display:flex;flex-direction:column;gap:14px}
+#contact .cf-more{align-self:flex-start;display:inline-flex;align-items:center;flex-wrap:wrap;gap:4px 10px;min-height:44px;margin:-11px -4px;padding:9px 4px;border:0;border-radius:8px;background:none;color:var(--k);font:600 15px/1.2 var(--txt);cursor:pointer}
+#contact .cf-more i{position:relative;flex:none;width:22px;height:22px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--k);color:var(--k);transition:transform .3s cubic-bezier(.3,1.4,.5,1),background .2s,color .2s}
+#contact .cf-more i::before,#contact .cf-more i::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:1.5px;margin:-.75px 0 0 -5px;border-radius:1px;background:currentColor}
+#contact .cf-more i::after{transform:rotate(90deg)}
+#contact .cf-more[aria-expanded=true] i{transform:rotate(135deg);background:var(--k);color:#fff}
+#contact .cf-more small{font:500 13px/1.2 var(--txt);color:#5d5970}
+#contact .cf-more:hover span{text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+#contact .cf-more:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+#contact .cf-xb{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;animation:cf-in .35s ease-out}
+#contact .cf-hp{display:none}
+
+/* send, with the reply time beside it */
+#contact .cf-go{display:flex;align-items:center;flex-wrap:wrap;gap:12px 18px;margin-top:2px}
+#contact .ft-card .cf-send{min-height:52px;padding:13px 24px;gap:10px}
+#contact .ft-card .cf-rt{flex:1 1 180px;font-size:14px;line-height:1.4;color:#4a4657}
+#contact .cf-form.is-busy .cf-send{cursor:progress;background:#2a2633;border-color:#2a2633}
+#contact .cf-form.is-busy .cf-send span[aria-hidden]{display:none}
+#contact .cf-form.is-busy .cf-send::after{content:"";width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.28);border-top-color:var(--gold);animation:cf-spin .8s linear infinite}
+
+/* the error: what happened, that nothing is lost, and email as the way round */
+#contact .cf-fail{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border-radius:14px;background:#fff3f0;border:1.5px solid #e2a597;animation:cf-in .3s ease-out}
+#contact .ft-card .cf-fail p{color:#5b1a12}
+#contact .cf-fail b{color:#8c1d10}
+#contact .ft-card .cf-fa{display:flex;flex-wrap:wrap;gap:8px}
+#contact .ft-card .cf-fa .btn{padding:10px 16px;font-size:15px}
+#contact .ft-card .cf-fa .btn:not(.b){background:#fff;border-color:var(--k);color:var(--k)}
+
+/* the thank-you: a receipt of what was sent, then what happens next */
+#contact .cf-ok{gap:16px;animation:cf-in .55s cubic-bezier(.2,.8,.2,1)}
+#contact .cf-ok:focus{outline:none}
+#contact .cf-ok:focus-visible{outline:3px solid var(--b);outline-offset:4px}
+#contact .cf-okr{display:flex;align-items:center;gap:14px}
+#contact .cf-okr h3{text-wrap:balance}
+#contact .cf-tick{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--k);color:var(--gold)}
+#contact .cf-tick path{fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:22;stroke-dashoffset:22;animation:cf-draw .5s .3s ease-out forwards}
+#contact .cf-sum{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 18px;margin:0;padding:14px 16px;border-radius:14px;background:#fff;border:1.5px solid #e3ddd1}
+#contact .cf-sum dt{padding-top:2px;font:600 11px/1.5 var(--ft-mono);letter-spacing:.07em;text-transform:uppercase;color:#5d5970}
+#contact .cf-sum dd{margin:0;font:500 15px/1.45 var(--txt);color:var(--k);overflow-wrap:anywhere}
+#contact .cf-q{margin:0;padding:2px 0 2px 16px;border-left:3px solid var(--gold);font:400 15px/1.55 var(--txt);color:#3b3747;white-space:pre-line;overflow-wrap:anywhere}
+#contact .cf-next{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+#contact .cf-next li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:baseline;font-size:15px;line-height:1.45;color:#4a4657}
+#contact .cf-when{justify-self:start;padding:4px 8px;border-radius:7px;background:var(--k);color:var(--gold);font:600 11.5px/1 var(--ft-mono);white-space:nowrap}
+#contact .cf-next li>span b{color:var(--k)}
+
+/* ---- one screen, two even columns: the New Delhi card closes the left column on the form's baseline, and the form is
+   compact (name | email, phone | best way, two rows of needs, a one-line setup, how you found me and Send on one row) ---- */
+#contact{padding-top:clamp(56px,6.5vw,96px);padding-bottom:clamp(48px,5.5vw,84px)}
+@media (min-width:981px){#contact .ft-top{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(28px,4.5vw,72px);align-items:stretch}}
+#contact .ft-l{display:flex;flex-direction:column;min-width:0}
+#contact .ft-l .acts{margin-bottom:30px}
+#contact .ft-l .ft-now{margin-top:auto;max-width:600px}
+#contact .ft-r{max-width:620px}
+#contact .cf-form{gap:13px}
+#contact .cf-form h3{font-size:clamp(22px,2vw,28px)}
+#contact .cf-two{gap:12px 14px}
+#contact .cf-f{gap:5px}
+#contact .cf-form legend{margin-bottom:7px}
+#contact .cf-form input[type=text],#contact .cf-form input[type=email],#contact .cf-form input[type=tel],#contact .cf-cc{min-height:44px}
+#contact .cf-form input[type=text],#contact .cf-form input[type=email],#contact .cf-form input[type=tel]{padding:10px 13px 9px}
+#contact .cf-chips{gap:6px}
+#contact .cf-chips span{min-height:36px;padding:7px 13px 7px 11px;font-size:14px;gap:7px}
+#contact .cf-chips.sm span{min-height:36px;padding:6px 11px 6px 9px;font-size:13.5px}
+#contact .cf-form textarea{min-height:114px;max-height:244px}
+#contact .cf-att{gap:8px 12px;padding:6px 10px 6px 7px}
+#contact .cf-thumb{width:48px;height:32px;border-radius:5px}
+#contact .cf-thumb .ft-mini{transform:scale(.275)}
+#contact .cf-atx{display:flex;align-items:baseline;gap:9px;min-width:0;white-space:nowrap;overflow:hidden}
+#contact .ft-card .cf-atx p{flex:none}
+#contact .cf-atk em{display:none}
+#contact .ft-card .cf-att .ft-meta{flex:1 1 auto;min-width:0;margin:0;flex-wrap:nowrap;overflow:hidden}
+#contact .cf-atc{flex-direction:row;align-items:center;gap:12px}
+#contact .cf-go{gap:10px 16px;margin-top:3px}
+#contact .cf-go .cf-more{margin:0 auto 0 -4px}
+#contact .ft-card .cf-rt{flex:none;font-size:13.5px}
+#contact .ft-card .cf-send{min-height:48px;padding:11px 22px}
+
+@keyframes cf-in{from{opacity:0;transform:translateY(8px)}}
+@keyframes cf-draw{to{stroke-dashoffset:0}}
+@keyframes cf-spin{to{transform:rotate(360deg)}}
+@keyframes cf-flash{from{background-color:#fff0c9}}
+@media (prefers-reduced-motion:reduce){#contact .cf-tick path{stroke-dashoffset:0}}
+
+@media (max-width:560px){
+  #contact .cf-form{gap:16px}
+  #contact .cf-chips{gap:7px 6px}
+  #contact .cf-chips span{gap:7px;padding:8px 12px 8px 10px;font-size:14.5px}
+  #contact .cf-two,#contact .cf-xb{grid-template-columns:minmax(0,1fr)}
+  #contact .cf-att{grid-template-columns:auto minmax(0,1fr)}
+  #contact .cf-atc{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between;padding-top:8px;border-top:1px dashed #d6cfc1}
+  #contact .cf-chips span,#contact .cf-chips.sm span{min-height:40px}
+  #contact .cf-go .cf-more{order:1}
+  #contact .ft-card .cf-rt{order:2;margin-left:auto;font-size:13px}
+  #contact .ft-card .cf-send{order:3;justify-content:center;width:100%}
+  #contact .cf-atx{flex-wrap:wrap;white-space:normal;row-gap:2px}
+  #contact .ft-l .acts{margin-bottom:22px}
+  #contact .cf-sum{grid-template-columns:minmax(0,1fr);gap:2px}
+  #contact .cf-sum dd+dt{margin-top:8px}
+  #contact .cf-next li{grid-template-columns:minmax(0,1fr);gap:6px}
+}
+@media print{#contact .cf-form,#contact .cf-ok{display:none}}
+/* wide screens: the form takes about 55% of the row, and stretches to the left column so Send and the New Delhi card share a baseline */
+@media (min-width:981px){
+  #contact .ft-r{max-width:780px}
+  #contact .ft-r>.cf-form{flex:1 1 auto;justify-content:space-between}
+  #contact .ft-l .mail{font-size:clamp(24px,2.6vw,38px)}
+  #contact .cf-chips:not(.sm) span{gap:6px;padding:7px 11px 7px 9px;font-size:13.5px}
+}

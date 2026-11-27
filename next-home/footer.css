@@ -50,15 +50,40 @@
 #contact .ft-ml i{display:flex;align-items:center;gap:4px;height:9px}
 #contact .ft-ml i::before{content:"";flex:none;width:5px;height:5px;border-radius:50%;background:var(--fb)}
 #contact .ft-ml i::after{content:"";height:4px;width:var(--w,70%);border-radius:2px;background:var(--mln)}
-#contact .ft-mini[data-th="midnight"]{--mbg:#14131c;--mpn:#1f1d2b;--mln:#38344d;--mtx:#cfcbe0;--mrl:#0b0a10;--mic:#2b2838;border-color:#0b0a10}
-#contact .ft-mini[data-th="midnight"] .ft-ms i:first-child{background:var(--fb)}
-#contact .ft-mini[data-th="boutique"]{--mbg:#fbf6ee;--mpn:#f2e9da;--mln:#e0d2bc;--mtx:#6b5a42;border-radius:16px}
-#contact .ft-mini[data-th="bold"]{--mpn:#fff;--mln:#0e0c12;--mrl:#0e0c12;--mic:#3a3546;border-width:2.5px;box-shadow:4px 4px 0 var(--fb)}
-#contact .ft-mini[data-th="bold"] .ft-mk i{border-width:1.5px}
-#contact .ft-mini[data-th="bold"] .ft-ms i:first-child{background:var(--fb)}
-#contact .ft-mini[data-th="soft"]{--mbg:#f7f4ff;--mpn:#fff;--mln:#e3dcf6;border-radius:18px;border-color:#d9d0f2}
-#contact .ft-mini[data-th="soft"] .ft-mk i{border-radius:7px}
-@supports (color:color-mix(in srgb,red,blue)){#contact .ft-mini[data-th="soft"]{--mrl:color-mix(in srgb,var(--fb) 42%,#fff)}}
+/* the five looks of the builder, each in a few strokes: where the menu sits, how the panels are drawn, the look's own ground */
+#contact .ft-mini[data-th="atlas"]{--mbg:#f3f1f5;--mpn:#fff;--mln:#dcd7e3;--mtx:#4b4456;--mrl:linear-gradient(180deg,#3b1b47,#23102b);--mic:rgba(255,255,255,.26);border-color:#3b1b47}
+#contact .ft-mini[data-th="atlas"] .ft-ms i:first-child{background:#ecc9f5}
+#contact .ft-mini[data-th="atlas"] .ft-mk i{border-left:2px solid var(--fb)}
+#contact .ft-mini[data-th="blueprint"]{--mbg:#f1f4f8;--mpn:#fff;--mln:#b4bfce;--mtx:#e2e8f0;--mrl:#fff;--mic:#cbd5e1;border-radius:5px;border-color:#0f172a}
+#contact .ft-mini[data-th="blueprint"] .ft-mt{background:#0f172a;border-bottom-color:#0f172a}
+#contact .ft-mini[data-th="blueprint"] .ft-mt i{background:#475569}
+#contact .ft-mini[data-th="blueprint"] .ft-ms{border-right:1px solid var(--mln)}
+#contact .ft-mini[data-th="blueprint"] .ft-ms i{border-radius:1px}
+#contact .ft-mini[data-th="blueprint"] .ft-ms i:first-child{background:#1d4ed8}
+#contact .ft-mini[data-th="blueprint"] .ft-mk i{border-radius:0;border-top:2px solid #0f172a}
+#contact .ft-mini[data-th="blueprint"] .ft-mk i::after,#contact .ft-mini[data-th="blueprint"] .ft-ml i::after{border-radius:0}
+#contact .ft-mini[data-th="blueprint"] .ft-ml i::before{border-radius:1px}
+#contact .ft-mini[data-th="till"]{--mbg:#f4f4f6;--mpn:#fff;--mln:#e2e2e8;--mtx:#5b5b66;--mrl:#fff;--mic:#e4e4ea;border-radius:16px;border-color:#17171c}
+#contact .ft-mini[data-th="till"] .ft-mb{grid-template-columns:minmax(0,1fr);grid-template-rows:15px minmax(0,1fr)}
+#contact .ft-mini[data-th="till"] .ft-ms{flex-direction:row;align-items:center;gap:4px;padding:0 7px}
+#contact .ft-mini[data-th="till"] .ft-ms i{width:13px;height:6px;border-radius:3px}
+#contact .ft-mini[data-th="till"] .ft-ms i:first-child{width:17px;background:#17171c}
+#contact .ft-mini[data-th="till"] .ft-mm{padding-top:5px}
+#contact .ft-mini[data-th="till"] .ft-mk i{height:18px;border:0;border-radius:6px}
+#contact .ft-mini[data-th="till"] .ft-ml i{height:8px}
+#contact .ft-mini[data-th="lobby"]{--mbg:#f6f1e8;--mpn:#fbf7ef;--mln:#dccfb9;--mtx:#6b5a42;--mrl:#3a1a22;--mic:rgba(255,255,255,.22);border-radius:12px;border-color:#3a1a22}
+#contact .ft-mini[data-th="lobby"] .ft-ms{margin:4px 0 4px 4px;border-radius:7px}
+#contact .ft-mini[data-th="lobby"] .ft-ms i{border-radius:50%}
+#contact .ft-mini[data-th="lobby"] .ft-ms i:first-child{background:#c9a063}
+#contact .ft-mini[data-th="lobby"] .ft-mk i{border:0;border-top:1px solid #2a2118;border-radius:0;background:none}
+#contact .ft-mini[data-th="lobby"] .ft-mk i::after{left:0;height:3px;border-radius:0}
+#contact .ft-mini[data-th="lobby"] .ft-ml i::after{height:1px}
+#contact .ft-mini[data-th="console"]{--mbg:#0e0f12;--mpn:#16171c;--mln:#2a2c36;--mtx:#b9bbc8;--mrl:#0b0c0f;--mic:#2a2c36;border-color:#0b0c0f}
+#contact .ft-mini[data-th="console"] .ft-ms{border-right:1px solid #1f2129}
+#contact .ft-mini[data-th="console"] .ft-ms i:first-child{background:var(--fb)}
+#contact .ft-mini[data-th="console"] .ft-mk{gap:0;border:1px solid var(--mln);border-radius:4px;overflow:hidden}
+#contact .ft-mini[data-th="console"] .ft-mk i{border:0;border-left:1px solid var(--mln);border-radius:0;background:none}
+#contact .ft-mini[data-th="console"] .ft-mk i:first-child{border-left:0}
 
 /* no brief yet: what happens on a 20-minute call */
 #contact .ft-call ol{display:grid;gap:12px;list-style:none;margin:0;padding:0}

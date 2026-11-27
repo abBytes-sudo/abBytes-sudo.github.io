@@ -1,6 +1,7 @@
-/* The end of the page. "Let's build yours." shows the visitor's own brief from the builder (or, with none yet, what
-   happens on a 20-minute call), New Delhi time, a small black hole near the cursor that pulls every letter of the section
-   about, and a footer that reads like a status line. Plain DOM. Motion only while on screen, none under reduced motion. */
+/* The end of the page. "Let's build yours." attaches the visitor's own brief from the builder to the contact form (contact.js
+   runs the form), shows New Delhi time, keeps a small black hole near the cursor that pulls every letter of the section about
+   (the form itself holds still), and ends on a footer that reads like a status line. Plain DOM. Motion only while on screen,
+   none under reduced motion. */
 (function () {
   'use strict';
   var d = document, sec = d.getElementById('contact');
@@ -11,39 +12,40 @@
   function E(tag, cls, txt) { var e = d.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; }
   function seen(el, fn, th) { if (!el) return; if (!('IntersectionObserver' in window)) { fn(true); return; } new IntersectionObserver(function (es) { fn(es[es.length - 1].isIntersecting); }, { threshold: th || 0 }).observe(el); }
 
-  /* ---- your brief: read from the builder, which restores the same saved setup (localStorage am-build, or a #b= link) ---- */
-  var brief = $('#ft-brief'), call = $('#ft-call');
+  /* ---- your brief: read from the builder, which restores the same saved setup (localStorage am-build, or a #b= link). It rides on
+     the contact form as a small ticket, and contact.js gets the same reading through sec.ftBrief and an 'ft-brief' event ---- */
+  var brief = $('#ft-brief');
   function source() {
     if (location.hash.indexOf('#b=') === 0) return 'from a shared link';
     try { if (localStorage.getItem('am-build')) return 'saved in this browser'; } catch (e) { /* private mode */ }
     return '';
   }
   function on(g) { return $$('#build [data-g="' + g + '"] button[aria-pressed="true"]'); }
+  function set(s, t) { var e = $(s); if (e) e.textContent = t; }
   function render() {
-    var src = source(), trade = on('trade')[0], has = !!(src && trade && brief);
+    var src = source(), trade = on('trade')[0], has = !!(src && trade), info = { has: has };      // no card any more: the setup rides along quietly
     if (brief) brief.hidden = !has;
-    if (call) call.hidden = has;
-    if (!has) return;
-    var name = (($('#biz') || {}).value || '').trim(), theme = on('theme')[0], mods = on('mods'), autos = on('autos').length;
-    var pick = $('#build [data-g="color"] input[type="color"]'), col = pick && /^#[0-9a-f]{6}$/i.test(pick.value) ? pick.value.toLowerCase() : '#6a3df0';
-    brief.style.setProperty('--fb', col);
-    $('#ft-src').textContent = src;
-    $('#ft-bn').textContent = name || 'Your business';
-    $('#ft-tr').textContent = trade.textContent.trim();
-    $('#ft-th').textContent = theme ? theme.textContent.trim() + ' theme' : 'Theme to pick';
-    $('#ft-hex').textContent = col;
-    var ul = $('#ft-mods'); ul.textContent = '';
-    if (mods.length) mods.forEach(function (m) { ul.appendChild(E('li', '', m.textContent.trim())); });
-    else ul.appendChild(E('li', 'none', 'No modules picked yet'));
-    var weeks = ''; $$('#build .spec dt').forEach(function (dt) { if (/timeline/i.test(dt.textContent) && dt.nextElementSibling) weeks = dt.nextElementSibling.textContent.trim(); });
-    $('#ft-est').textContent = (weeks ? 'First estimate: ' + weeks + ' · ' : '') + (autos ? autos + (autos === 1 ? ' automation' : ' automations') + ' on' : 'no automations yet') + ' · not a quote';
-    /* the tiny preview: theme, brand colour, a rail icon and a row for each module */
-    var mini = $('#ft-mini'), rail = $('#ft-ms'), rows = $('#ft-ml'), n = Math.max(1, mods.length), i, r;
-    mini.dataset.th = theme ? theme.dataset.v : 'clean';
-    $('#ft-mu').textContent = (name.toLowerCase().replace(/[^a-z0-9]+/g, '') || 'yourbusiness') + '.app';
-    rail.textContent = ''; rows.textContent = '';
-    for (i = 0; i < Math.min(n + 1, 8); i++) rail.appendChild(E('i'));
-    for (i = 0; i < Math.min(n, 4); i++) { r = E('i'); r.style.setProperty('--w', [78, 54, 66, 42][i] + '%'); rows.appendChild(r); }
+    if (has) {
+      var name = (($('#biz') || {}).value || '').trim(), theme = on('theme')[0], mods = on('mods'), autos = on('autos').length;
+      var pick = $('#build [data-g="color"] input[type="color"]'), col = pick && /^#[0-9a-f]{6}$/i.test(pick.value) ? pick.value.toLowerCase() : '#6a3df0';
+      var weeks = ''; $$('#build .spec dt').forEach(function (dt) { if (/timeline/i.test(dt.textContent) && dt.nextElementSibling) weeks = dt.nextElementSibling.textContent.trim(); });
+      if (brief) brief.style.setProperty('--fb', col);
+      set('#ft-src', src); set('#ft-bn', name || 'Your business'); set('#ft-tr', trade.textContent.trim());
+      set('#ft-th', theme ? theme.textContent.trim() + ' look' : 'Look to pick');
+      set('#ft-mc', mods.length ? mods.length + (mods.length === 1 ? ' module' : ' modules') : 'no modules yet');
+      /* the tiny preview: the look (atlas, blueprint, till, lobby or console), its colour, a menu icon and a row for each module */
+      var mini = $('#ft-mini'), rail = $('#ft-ms'), rows = $('#ft-ml'), n = Math.max(1, mods.length), i, r;
+      if (mini && rail && rows) {
+        mini.dataset.th = theme ? theme.dataset.v : 'atlas';
+        set('#ft-mu', (name.toLowerCase().replace(/[^a-z0-9]+/g, '') || 'yourbusiness') + '.app');
+        rail.textContent = ''; rows.textContent = '';
+        for (i = 0; i < Math.min(n + 1, 8); i++) rail.appendChild(E('i'));
+        for (i = 0; i < Math.min(n, 4); i++) { r = E('i'); r.style.setProperty('--w', [78, 54, 66, 42][i] + '%'); rows.appendChild(r); }
+      }
+      info = { has: true, src: src, name: name, trade: trade.dataset.v || '', tradeName: trade.textContent.trim(), look: theme ? theme.textContent.trim() + ' look' : '', mods: mods.map(function (m) { return m.dataset.v; }), autos: autos, weeks: weeks, color: col };
+    }
+    sec.ftBrief = info;
+    if (typeof CustomEvent === 'function') sec.dispatchEvent(new CustomEvent('ft-brief', { detail: info }));
   }
   render();
   var q = 0;
@@ -90,7 +92,7 @@
      (the headline, the brief, the clock, the copy button) is split again by a MutationObserver. ---- */
   var foot = $('.ft-bar'), ROOTS = [sec].concat(foot ? [foot] : []);
   if (reduce) return;
-  var SKIP = '.ft-sp,.ft-sr,script,style,textarea,select,option,input,[aria-hidden="true"],[contenteditable]';
+  var SKIP = '.ft-sp,.ft-sr,.cf-still,script,style,textarea,select,option,input,[aria-hidden="true"],[contenteditable]';      // .cf-still: the contact form holds still while you write
   var OBS = { childList: true, characterData: true, subtree: true };
   var L = [], SP = [], act = [], mo = null, dirty = true, R = 110, R2 = R * R, CUT = R * 2.1;
   var vis = {}, running = false, last = 0, inside = false, cx = 0, cy = 0, hx = 0, hy = 0, pw = 0, tap = 0;
@@ -177,8 +179,9 @@
       act.forEach(function (l) { l.x = l.y = l.r = l.s = l.vx = l.vy = l.vr = l.vs = 0; l.el.style.transform = ''; if (l.p) { l.p = 0; l.el.classList.remove('ft-hot'); l.el.style.removeProperty('--p'); } l.on = false; }); act = [];
     } else wake();
   }
-  function mv(e) { if (e.pointerType === 'touch') return; cx = e.clientX; cy = e.clientY; if (!inside) { inside = true; dirty = true; } wake(); }
-  function dn(e) { if (e.pointerType !== 'touch') return; cx = e.clientX; cy = e.clientY; tap = performance.now() + 520; dirty = true; wake(); }
+  function calm(e) { return e.target && e.target.closest && e.target.closest('.cf-still'); }        // over the form, the hole lets go
+  function mv(e) { if (e.pointerType === 'touch') return; if (calm(e)) { if (inside) drop(); return; } cx = e.clientX; cy = e.clientY; if (!inside) { inside = true; dirty = true; } wake(); }
+  function dn(e) { if (e.pointerType !== 'touch' || calm(e)) return; cx = e.clientX; cy = e.clientY; tap = performance.now() + 520; dirty = true; wake(); }
   ROOTS.forEach(function (r) { r.addEventListener('pointermove', mv); r.addEventListener('pointerleave', function (e) { if (e.pointerType === 'touch') { inside = false; wake(); } else drop(); }); r.addEventListener('pointercancel', function () { drop(); }); r.addEventListener('pointerdown', dn); });
   addEventListener('scroll', function () { if (tap || (inside && !over())) drop(); else if (inside || pw > .004) wake(); }, { passive: true });
   d.addEventListener('pointermove', function (e) { if (inside && e.pointerType !== 'touch' && !ROOTS.some(function (r) { return r.contains(e.target); })) drop(); }, { passive: true });

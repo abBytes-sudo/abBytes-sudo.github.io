@@ -34,7 +34,8 @@
       check: ['Keys collected', 'Walk-through done', 'Feedback noted'], night: [['Tanya G.', '2 BHK · Saket', 55000, 1], ['Mr Oberoi', 'Office · GK II', 180000, 4]],
       bot: 'Hello! Buying or renting?', chat: [['Anita S.', 'Is the 2 BHK in Saket still available?', 'Yes, it is. Rent is ₹65,000 a month. Shall I book a visit?']],
       qr: [['3 BHK to rent under ₹1.5 lakh', 'Four homes match, in Vasant Vihar and Saket. Shall I book a visit?', ['Sunita P.', '3 BHK · Vasant Vihar', 140000, 0], 0], ['Book a site visit for Saturday', 'Done. Saturday, 11 am is held for you.', ['Rohit A.', '2 BHK · Saket', 65000, 1], 5]],
-      pins: [['3 BHK · Vasant Vihar', '₹1.4 L a month', 24, 30], ['2 BHK · Saket', '₹65K a month', 58, 22], ['Shop · Hauz Khas', '₹1.2 L a month', 44, 54], ['Plot · Gurugram', '₹95 L', 18, 70], ['Office · GK II', '₹2.1 L a month', 74, 58]], like: ['recrm', 'reweb', 'estate', 'launch'] },
+      pins: [['3 BHK · Vasant Vihar', '₹1.4 L a month', 24, 30], ['2 BHK · Saket', '₹65K a month', 58, 22], ['Shop · Hauz Khas', '₹1.2 L a month', 44, 54], ['Plot · Gurugram', '₹95 L', 18, 70], ['Office · GK II', '₹2.1 L a month', 74, 58]], like: ['recrm', 'reweb', 'estate', 'launch'],
+      hist: { src: { Website: [14, 2], Referral: [6, 3], WhatsApp: [11, 2], 'Property portal': [18, 1], 'Walk-in': [5, 2], Instagram: [9, 1] }, rev: [[310000, 265000], [285000, 240000], [420000, 300000], [365000, 410000], [298000, 255000], [455000, 330000], [390000, 372000]], use: [1, 2, .5, .5, 1], vis: [22, 7], team: { Arjun: [18, 84, 7], Kavya: [42, 61, 4] } } },
     build: { n: 'Construction', home: 'Projects', def: 'pipe cal stock inv field rep', st: ['Enquiry', 'Quote sent', 'Won'], mid: 0,
       w: { pipe: 'Quotes', cal: 'Site surveys', stock: 'Materials', book: 'Site survey', po: 'Purchase order', job: 'Site start', free: 'free', fin: 'Finished on site', won: 'Quote won', au: ['When a site survey is booked', 'When a quote is won'], ty: 'Today’s work on site is done. Photos are on their way to you.' },
       team: { owner: ['Kabir', 'Owner'], sales: ['Sana', 'Estimator'], s2: 'Dev', field: ['Ramesh', 'Site supervisor'], acct: ['Priti', 'Accounts'] },
@@ -46,8 +47,9 @@
       check: ['Measurements taken', 'Photos uploaded', 'Client walk-through', 'Sign-off captured'], night: [['Mrs Khanna', 'Wardrobes · 3 rooms', 420000, 2], ['Bakery, Saket', 'Counter and seating', 880000, 0]],
       bot: 'Hello! What are you building?', chat: [['Gupta duplex', 'Can you share the false-ceiling options?', 'Sent: three options with prices. Want a site survey to measure up?']],
       qr: [['Price for a modular kitchen?', 'Most come to ₹2.4 to 4 lakh. Want a line-by-line quote?', ['Verma kitchen', 'Modular kitchen', 320000, 2], 0], ['Book a site survey', 'Booked. The supervisor will call an hour before.', ['Flat, Dwarka', 'Full interiors', 1400000, 0], 1]],
-      proj: [['Villa, Sainik Farm', 0, 6], ['Café fit-out', 2, 4], ['Arora residence', 3, 3], ['Office, 4th floor', 1, 7]], like: ['interp', 'studio', 'quotes', 'build', 'masonry', 'interior'] },
-    retail: { n: 'Retail', home: 'Counter', def: 'pipe stock inv chat rep portal', st: ['In cart', 'Checkout', 'Ordered'], mid: 0,
+      proj: [['Villa, Sainik Farm', 0, 6], ['Café fit-out', 2, 4], ['Arora residence', 3, 3], ['Office, 4th floor', 1, 7]], like: ['interp', 'studio', 'quotes', 'build', 'masonry', 'interior'],
+      hist: { src: { Referral: [9, 4], Website: [12, 2], Instagram: [10, 1], WhatsApp: [8, 2] }, rev: [[820000, 610000], [1250000, 900000], [640000, 720000], [980000, 540000], [1420000, 1180000], [760000, 690000], [1100000, 830000]], use: [38, 120, 22, 30, 6], vis: [22, 9], slip: [-2, 9, 0, 3], team: { Sana: [35, 78, 6], Dev: [95, 55, 3] } } },
+    retail: { n: 'Retail', home: 'Till', def: 'pipe stock inv chat rep portal', st: ['In cart', 'Checkout', 'Ordered'], mid: 0,
       w: { pipe: 'Online orders', cal: 'Store pickups', stock: 'Inventory', book: 'Store pickup', po: 'Purchase order', job: 'Delivery', free: 'free', fin: 'Handed over', won: 'Order placed', au: ['When a store pickup is booked', 'When an order is placed'], ty: 'Your order has been handed over. Thank you for shopping with us.' },
       team: { owner: ['Tara', 'Owner'], sales: ['Jai', 'Store staff'], s2: 'Mitali', field: ['Suresh', 'Delivery'], acct: ['Leena', 'Accounts'] },
       fee: null, adv: ['Order total', 1],
@@ -58,8 +60,9 @@
       check: ['Parcel scanned', 'Handed over', 'Photo taken'], night: [['Meenal', 'Harbor jacket × 1', 8000, 0], ['Arnav', 'Canvas tote × 3', 5400, 3]],
       bot: 'Hi! Need help with an order?', chat: [['Aman V.', 'Do you have the wool coat in a medium?', 'Yes, five left in medium. I have put one in your cart.']],
       qr: [['Is the linen shirt in stock?', 'Yes. Shall I add two to a cart for you?', ['Farhan', 'Linen shirt × 2', 5000, 1], 0], ['Can I pick up in store tomorrow?', 'Yes. Your order will be held at the counter from 11 am.', ['Lata', 'Canvas tote × 1', 1800, 3], 1]],
-      price: [8000, 2500, 14000, 1800, 2200], like: ['store', 'orders', 'watch', 'revv', 'stockroom'] },
-    stay: { n: 'Hospitality', home: 'Tape chart', def: 'pipe cal stock inv chat rep portal', st: ['Enquiry', 'Held', 'Booked'], mid: 1,
+      price: [8000, 2500, 14000, 1800, 2200], like: ['store', 'orders', 'watch', 'revv', 'stockroom'],
+      hist: { src: { 'Walk-in': [60, 44], Website: [46, 21], Instagram: [38, 12], WhatsApp: [22, 9], Referral: [6, 4] }, rev: [[142000, 138000], [168000, 150000], [121000, 126000], [189000, 171000], [156000, 149000], [203000, 182000], [174000, 168000]], use: [6, 14, 2, 9, 1], vis: [112, 90], team: { Jai: [6, 92, 52], Mitali: [14, 80, 38] } } },
+    stay: { n: 'Hospitality', home: 'Front desk', def: 'pipe cal stock inv chat rep portal', st: ['Enquiry', 'Held', 'Booked'], mid: 1,
       w: { pipe: 'Enquiries', cal: 'Arrivals', stock: 'Supplies', book: 'Stay', po: 'Purchase order', job: 'Room prep', free: 'free', fin: 'Guest checked in', won: 'Booking confirmed', au: ['When a stay is held', 'When a booking is confirmed'], ty: 'You are checked in. Dinner is from 7:30 pm. Enjoy your stay.' },
       team: { owner: ['Meera', 'Owner'], sales: ['Aditi', 'Front desk'], s2: 'Rohan', field: ['Lakshmi', 'Housekeeping'], acct: ['Vinod', 'Accounts'] },
       fee: ['Advance to hold the room', 6500], adv: ['Room charges', 1],
@@ -70,7 +73,8 @@
       check: ['Room cleaned', 'Linen changed', 'Minibar restocked', 'Ready for check-in'], night: [['Aarav P.', 'Ridge room · long weekend', 33000, 0], ['Joshi family', 'Valley suite · 3 nights', 46000, 1]],
       bot: 'Namaste! When are you visiting?', chat: [['Dr Thomas', 'Is the garden room free for four nights from Thursday?', 'It is. ₹9,500 a night with breakfast. Shall I hold it?']],
       qr: [['Any rooms this weekend?', 'Two ridge rooms are free, ₹11,000 a night. Shall I hold one?', ['Nair, weekend', 'Ridge room', 22000, 0], 5], ['A table for four tonight', 'Held for 8 pm. See you then.', ['Dinner, table of 4', 'Dining room', 4800, 2], 0]],
-      rooms: ['Ridge 1', 'Ridge 2', 'Valley suite', 'Garden room'], held: [[0, 1, 3, 'Menon'], [2, 0, 2, 'Kohli'], [1, 4, 2, 'Rao']], like: ['resort', 'saas', 'store'] },
+      rooms: ['Ridge 1', 'Ridge 2', 'Valley suite', 'Garden room'], rate: [11000, 11000, 15500, 9500], held: [[0, 1, 3, 'Menon'], [2, 0, 2, 'Kohli'], [1, 4, 2, 'Rao'], [1, -1, 3, 'Bedi'], [3, -2, 4, 'Shah']], like: ['resort', 'saas', 'store'],
+      hist: { src: { Website: [24, 9], Referral: [8, 5], Instagram: [15, 3], WhatsApp: [12, 5], 'Walk-in': [4, 2] }, rev: [[186000, 172000], [242000, 205000], [158000, 166000], [301000, 244000], [224000, 231000], [268000, 240000], [215000, 198000]], use: [14, 30, 55, 9, 2], vis: [38, 24], occ: [64, 11200], team: { Aditi: [9, 90, 15], Rohan: [26, 72, 9] } } },
     service: { n: 'Services', home: 'Appointments', def: 'pipe cal inv chat rep portal', st: ['Enquiry', 'Trial', 'Member'], mid: 1,
       w: { pipe: 'Enquiries', cal: 'Calendar', stock: 'Shop and kits', book: 'Trial session', po: 'Purchase order', job: 'Induction session', free: 'free', fin: 'Session done', won: 'New member', au: ['When a trial is booked', 'When someone joins'], ty: 'Good session today. See you at the next one.' },
       team: { owner: ['Zoya', 'Owner'], sales: ['Nikhil', 'Front desk'], s2: 'Farah', field: ['Coach Dev', 'Trainer'], acct: ['Asha', 'Accounts'] },
@@ -82,7 +86,8 @@
       check: ['Assessment done', 'Plan explained', 'Notes saved'], night: [['Rhea K.', 'Morning batch · 3 months', 12000, 0], ['Samar', 'Personal training × 12', 24000, 1]],
       bot: 'Hey! Want to try a class?', chat: [['Ishaan', 'What does personal training cost?', 'Twelve sessions are ₹24,000. A trial is ₹500, adjusted when you join.']],
       qr: [['What does a trial cost?', 'A trial class is ₹500, adjusted when you join. Shall I book one?', ['Tara V.', 'Strength · 3 months', 12000, 0], 0], ['Book me in for 7 pm', 'You are in for 7 pm. Bring water and a towel.', ['Yash', 'HYROX prep · 3 months', 18000, 0], 1]],
-      slots: [['6:00 am', 'Ananya'], ['7:00 am', ''], ['8:00 am', 'Vikram'], ['5:00 pm', ''], ['6:00 pm', 'Sneha'], ['7:00 pm', '']], like: ['boxx', 'gym', 'saas', 'work', 'crm'] }
+      slots: [['6:00 am', 'Ananya'], ['7:00 am', ''], ['8:00 am', 'Vikram'], ['5:00 pm', ''], ['6:00 pm', 'Sneha'], ['7:00 pm', '']], like: ['boxx', 'gym', 'saas', 'work', 'crm'],
+      hist: { src: { Referral: [10, 6], 'Walk-in': [16, 7], Instagram: [28, 6], WhatsApp: [9, 3], Website: [14, 3] }, rev: [[86000, 80000], [112000, 94000], [74000, 79000], [128000, 101000], [96000, 97000], [141000, 118000], [104000, 99000]], use: [5, 8, 4, 3, 10], vis: [41, 25], sess: [78, 31], team: { Nikhil: [12, 88, 16], Farah: [30, 70, 9] } } }
   };
   function autos(t) {
     var P = PACK[t]; return AUTOS.map(function (a) {
@@ -257,6 +262,9 @@
       return n;
     };
     M.done = function (k) { k.done = k.done ? 0 : 1; };
+    /* typed in by a person: a new enquiry from the form, a reply in a chat */
+    M.add = function (n, dsc, v, item, src, own) { var l = lead(n, dsc, v, item, src); if (own) l.own = own; log('', 'New ' + P.st[0].toLowerCase() + ': ' + n, [['Filed for ' + l.own, 1]], ['lead', l.id]); return l; };
+    M.send = function (n, txt) { say(n, 0, txt); };
     /* the clock: the team works, deliveries arrive, reminders go out, unpaid invoices turn overdue, quiet leads get noticed */
     M.tick = function () {
       var d = ++D.day, n = [], x; hush = [];

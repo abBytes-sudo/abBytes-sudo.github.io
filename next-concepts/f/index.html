@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<title>Abhishek M · Freelance CRM, website and automation builder, New Delhi</title>
+<meta name="description" content="I build custom CRMs, booking and stock systems, chat assistants and websites for real businesses. Fall in, use them live, then watch yours assemble.">
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#050408">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self'; font-src 'self'; script-src 'self'; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/bricolagegrotesque96pt-extrabold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="f.css?v=3">
+<script src="data.js?v=1" defer></script>
+<script src="f.js?v=1" defer></script>
+<script src="yours.js?v=1" defer></script>
+</head>
+<body>
+<a class="skip" href="#work">Skip to the list of projects</a>
+<div id="stage" aria-hidden="true">
+  <picture><source media="(max-width:760px)" srcset="img/poster-m.webp"><img class="po" src="img/poster.webp" alt="" fetchpriority="high"></picture>
+  <canvas id="gl"></canvas><div id="orbit"></div>
+</div>
+<div id="live" aria-hidden="true"></div>
+<header class="top">
+  <a class="who" href="#hero">Abhishek M</a>
+  <nav aria-label="Sections"><a href="#fall">Fall in</a><a href="#yours">Yours</a><a href="#work">Projects</a><a href="#how">How I work</a><a href="#contact">Contact</a></nav>
+  <a class="btn" href="#contact">Start a project</a>
+</header>
+<div class="usebar" id="usebar"><b id="useN"></b><button class="btn" type="button" id="back">Back to orbit (Esc)</button><a class="btn" id="open2" href="#">Open full screen ↗</a></div>
+<main>
+  <div id="world">
+    <section id="hero">
+      <h1>Every mess is a <em>system</em> nobody has drawn yet.</h1>
+      <p class="lede">I’m Abhishek, a freelance builder in New Delhi. I build the one system that pulls everything in: CRMs, booking and stock systems, chat assistants and the websites in front of them. Fall in, use what I’ve built, then watch yours come together.</p>
+      <p class="acts"><a class="btn g" href="#fall">Fall in ↓</a><a class="btn" href="#contact">Start a project</a></p>
+      <div class="feed"><label for="mess">Name your mess:</label><input id="mess" type="text" maxlength="34" autocomplete="off" placeholder="leads living in WhatsApp…"><button class="btn" type="button" id="throw">Throw it in</button><p class="hud" id="hud"><b id="count">0</b>messes swallowed. Drag anywhere to fling one.</p></div>
+    </section>
+    <div class="track" id="fall" aria-label="A fall towards a black hole. Eleven projects swing past in turn; six of them are running live. All the projects are listed further down."></div>
+  </div>
+  <aside class="cap" id="cap" aria-live="polite"><p class="cap-n" id="capN"></p><h2 id="capH"></h2><p class="cap-k" id="capK"></p><p class="cap-b" id="capB"></p><p class="cap-f"><button class="btn g" type="button" id="use">Use it live</button><a class="btn" id="capG" href="#"></a><button type="button" id="prev" aria-label="Previous project">←</button><button type="button" id="next" aria-label="Next project">→</button></p></aside>
+  <p class="gauge" aria-hidden="true"><b id="dist">0</b>Schwarzschild radii to the horizon<br>Click a project to step inside it<br><a href="#yours">Skip the fall ↓</a></p>
+  <div id="flash" aria-hidden="true"></div>
+
+  <section class="in" id="yours">
+    <p class="mine" id="mine"></p>
+    <h2 class="h">Past the horizon, the mess becomes a system. Now yours.</h2>
+    <div class="yr">
+      <div>
+        <p class="lede">Name the business, pick the trade and a colour. A working system puts itself together out of the loose pieces. Then use it: every part is live, and every part knows about the others.</p>
+        <div class="cfg">
+          <div><label for="biz">Your business</label><input id="biz" type="text" maxlength="28" autocomplete="off" placeholder="Type its name"></div>
+          <div><span class="l" id="tl">What it does</span><div class="chips" id="trades" role="group" aria-labelledby="tl"></div></div>
+          <div><span class="l" id="cl">Its colour</span><div class="swt" id="cols" role="group" aria-labelledby="cl"></div></div>
+        </div>
+        <p class="acts"><a class="btn b" href="#contact" id="cta1">Build this for real →</a><a class="btn" href="#work">See real projects</a></p>
+      </div>
+      <div class="ystage" id="ystage">
+        <div class="app loose" id="app" aria-label="A small working system: pipeline, calendar, assistant and stock. Illustrative data.">
+          <div class="abar"><i></i><i></i><i></i><b id="appName">Your business</b><span>one system</span></div>
+          <div class="kpis"><p><b id="k1">0</b><span id="k1l">New</span></p><p><b id="k2">0</b><span id="k2l">Booked</span></p><p><b id="k3">0</b><span>Won this week</span></p></div>
+          <div class="mods">
+            <section class="m" data-mess="leads in WhatsApp"><h3>Pipeline <small>drag a card</small></h3><div class="cols3" id="pipe"></div></section>
+            <section class="m" data-mess="bookings in a diary"><h3 id="calT">Calendar</h3><div class="slots" id="slots"></div></section>
+            <section class="m" data-mess="enquiries missed at night"><h3>Assistant <small>scripted, not AI</small></h3><div class="msgs" id="msgs" aria-live="polite"></div><div class="qr" id="qr"></div></section>
+            <section class="m" data-mess="stock in a spreadsheet"><h3 id="stT">Stock</h3><ul class="stockl" id="stock"></ul></section>
+          </div>
+          <p class="toast" id="toast" role="status"></p>
+        </div>
+        <p class="tip" id="tip">Try it: drag a card across to the last column.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="in" id="work">
+    <div class="intro"><h2 class="h">That was a sketch. These are real, and every one opens.</h2><p>Six projects built for clients, a 3D planning tool of my own, and sixteen websites and business systems I designed and built. <span id="like">The ones closest to your business are at the top.</span></p></div>
+    <div class="ix" id="ix"></div>
+    <div class="pv" id="pv" aria-hidden="true"></div>
+  </section>
+
+  <section class="in" id="how">
+    <div class="intro"><h2 class="h">How a mess gets pulled into one system.</h2><p>Five steps, always in this order. Nothing gets built until the team has been heard and the work has been mapped.</p></div>
+    <ol class="steps">
+      <li><h3>Listen</h3><p>Sit with the team and watch the real work, in the words they use.</p></li>
+      <li><h3>Map</h3><p>Write down what feeds what: leads, listings, calls, quotes, tasks.</p></li>
+      <li><h3>Decide</h3><p>Agree the rules and what ships first, before anything is built.</p></li>
+      <li><h3>Build</h3><p>AI coding tools write the code under my direction. I test every change on desktop and phone.</p></li>
+      <li><h3>Launch</h3><p>Move the old records across, train the team, then measure how the system is used.</p></li>
+    </ol>
+    <div class="cols">
+      <div><h3>Working with me</h3><ul class="notes"><li>I’ll ask “why” a lot. It’s how I find the rule behind the work.</li><li>I won’t oversell a feature nobody has used yet.</li><li>I show real numbers from live systems.</li><li>Quiet in the meeting, thorough in the plan.</li></ul>
+        <p class="now">Now: studying for a Bachelor of Computer Applications with an Agentic AI specialisation, and learning C so I can read the code my tools write as well as direct it.</p></div>
+      <div><h3>What has landed so far, Nov 2026</h3><div class="facts"><p><b>4 years</b><span>building the systems teams run on, and keeping them running</span></p><p><b>6 live</b><span>projects: two CRMs, three websites and a 3D planning tool</span></p><p><b>3 months</b><span>from first requirements to go-live on a custom CRM</span></p><p><b>6,089</b><span>old records moved across, none rejected</span></p><p><b>Page 1</b><span>on Google within 30 days of a relaunch</span></p><p><b>~19 hours</b><span>to rebuild and relaunch a website</span></p></div></div>
+    </div>
+  </section>
+  <section class="in" id="contact">
+    <h2 class="h" id="endH">Let’s build yours.</h2>
+    <p>If the work lives in spreadsheets and a rented tool, I can map it, build one system for it, move your records across and train the team to use it. Open to new projects.</p>
+    <p class="w"><a class="mail" id="mail" href="mailto:abhimasih0505@gmail.com">abhimasih0505@gmail.com</a></p>
+    <p class="acts w"><a class="btn b" id="cta2" href="mailto:abhimasih0505@gmail.com">Email me this brief →</a><button class="btn" type="button" id="copy">Copy the address</button><a class="btn" href="https://www.linkedin.com/in/abhishek-m-b934a925a" rel="noopener">LinkedIn</a><a class="btn" href="https://github.com/abBytes-sudo" rel="noopener">GitHub</a></p>
+  </section>
+</main>
+<footer class="foot"><span>Abhishek M · Freelance CRM, website and automation builder · New Delhi</span><span>The system you assemble uses made-up names and numbers. Client screens are white-labelled unless marked live · © 2026</span></footer>
+</body>
+</html>

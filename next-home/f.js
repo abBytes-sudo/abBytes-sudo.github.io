@@ -3,12 +3,12 @@
    projects spiral in one by one, messes orbit and can be flung in, and past the horizon everything is laid out in order. */
 (function () {
   'use strict';
-  var d = document, root = d.documentElement, LIVE = { crm: 1, estate: 1, stockroom: 1, store: 1, resort: 1, saas: 1 }, W = ['recrm', 'reweb', 'interp', 'boxx', 'studio', 'crm', 'estate', 'stockroom', 'store', 'resort', 'saas'].map(function (id) { return window.WORK.filter(function (w) { return w.id === id; })[0]; }), N = W.length, $ = function (s) { return d.querySelector(s); };
+  var d = document, root = d.documentElement, LIVE = { crm: 1, estate: 1, stockroom: 1, store: 1, resort: 1, saas: 1 }, CAT = { client: 'Client work', live: 'Runs live on this page' }, W = ['recrm', 'reweb', 'interp', 'boxx', 'studio', 'crm', 'estate', 'stockroom', 'store', 'resort', 'saas'].map(function (id) { return window.WORK.filter(function (w) { return w.id === id; })[0]; }), N = W.length, $ = function (s) { return d.querySelector(s); };
   var mobile = matchMedia('(max-width: 760px)').matches, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var clamp = function (v, a, b) { a = a || 0; b = b === undefined ? 1 : b; return v < a ? a : v > b ? b : v; }, sm = function (t) { return t * t * (3 - 2 * t); }, lerp = function (a, b, t) { return a + (b - a) * t; };
-  var RISE = 100, STEP = mobile ? 52 : 58, OUT = 130, END = RISE + (N - 1) * STEP + OUT;
+  var RISE = 100, STEP = mobile ? 50 : 56, OUT = 130, END = RISE + (N - 1) * STEP + OUT;
   var BASE = root.dataset.base || '';
-  function thumb(w, big) { if (!w.img && !w.card) return ''; return BASE + (w.img ? 'img/' + w.img + (big ? '' : '-s') + '.webp' : w.card ? 'img/cards/' + w.card + '.webp' : ''); }
+  function thumb(w) { return w.img ? BASE + 'img/' + w.img + '-c.webp' : w.card ? BASE + 'img/cards/' + w.card + '.webp' : ''; }      // -c: the top of the page capture, the only part a window shows
 
   var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('abhimasih0505@gmail.com').then(done, done); else done(); });
 
@@ -18,13 +18,16 @@
   $('#fall').style.setProperty('--len', END); var pjEl = $('#projects');
   if (reduce || !gl) {
     root.classList.add('no3d', 'inv');
-    [].forEach.call(d.querySelectorAll('a[href="#fall"]'), function (a) { a.setAttribute('href', '#build'); if (a.classList.contains('g')) a.textContent = 'See the projects ↓'; else a.hidden = true; });
+    [].forEach.call(d.querySelectorAll('a[href="#fall"]'), function (a) { a.setAttribute('href', '#projects'); if (a.classList.contains('g')) a.textContent = 'See the projects ↓'; else a.hidden = true; });
     return;
   }
 
   root.classList.add('fall'); pjEl.classList.add('landed');     // the index sits under the end of the fall; see land() below
+  /* until the fall has started (it waits until it is near the screen), a page opened below it, by a link or a reload, still gets the light page's menu */
+  function pre() { root.classList.toggle('inv', (window.scrollY - $('#world').offsetTop) / innerHeight * 100 > END); } addEventListener('scroll', pre, { passive: true }); pre();
   if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { o.disconnect(); boot(); } }, { rootMargin: '70% 0px' }).observe($('#world')); else boot();   // the shader starts only when the fall is near      // let the page paint (poster and text) before compiling the shader
   function boot() {
+  removeEventListener('scroll', pre);
   /* ---------- the shader: photons bent around a Schwarzschild hole (rs = 1), disk in the y = 0 plane ---------- */
   var FS = 'precision highp float;uniform vec2 R,S;uniform float T,F,K,Q;uniform vec3 C,BX,BY,BZ;' +
     'float h1(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}' +
@@ -74,36 +77,55 @@
   }
   function size() {
     VW = innerWidth; VH = innerHeight; base = $('#world').offsetTop; $('#fall').style.setProperty('--len', END - Math.max(0, $('#intro').offsetHeight / innerHeight * 100 - 100)); liveSize(); var q = (mobile ? .85 : 1) * qs;      // 1 = one render pixel per CSS pixel; the loop below raises or lowers qs to hold the frame rate
-    cv.width = Math.max(2, Math.round(VW * q)); cv.height = Math.max(2, Math.round(VH * q)); gl.viewport(0, 0, cv.width, cv.height);
+    cv.width = Math.max(2, Math.round(VW * q)); cv.height = Math.max(2, Math.round(VH * q)); gl.viewport(0, 0, cv.width, cv.height); anchors();
   }
 
   /* ---------- projects in orbit ---------- */
   var orbit = $('#orbit'), cards = W.map(function (w, i) {
     var a = d.createElement('a'), src = thumb(w), b = d.createElement('b'); a.className = 'pc'; a.href = w.href; a.tabIndex = -1; a.setAttribute('aria-hidden', 'true');
-    if (src) { var im = new Image(); im.alt = ''; im.src = src; a.appendChild(im); } else { var no = d.createElement('i'); no.textContent = 'Not launched publicly. Screens on request.'; a.appendChild(no); }
+    if (src) { var im = new Image(); im.alt = ''; im.decoding = 'async'; a.appendChild(im); } else { var no = d.createElement('i'); no.textContent = 'Not launched publicly. Screens on request.'; a.appendChild(no); }
     b.textContent = w.name; a.appendChild(b); if (LIVE[w.id]) { var lv = d.createElement('em'); lv.textContent = 'Live'; a.appendChild(lv); } orbit.appendChild(a);
-    return { el: a, w: w, live: !!LIVE[w.id], hi: !src, on: false, hv: false, vis: true, zi: 0 };
+    return { el: a, w: w, live: !!LIVE[w.id], hi: !src, src: src, on: false, hv: false, vis: true, zi: 0 };
   });
   var CW = mobile ? 4.4 : 5.6;
   /* in the hero, nothing drifts across the headline: things fade as they near the text block */
   function clear(x, y) { var h = 1 - sm(clamp(st.r * 1.4)); return h < .01 ? 1 : (1 - h * (mobile ? 1 - clamp((y - VH * .62) / (VH * .1)) : 1 - clamp((x - VW * .5) / (VW * .08)))) * (1 - h * (1 - clamp((VH - 112 - y) / 50))); }   // nothing drifts over the text column or the bar at the bottom
-  /* The queue waits behind the hole where it can be seen (the next two, dimmed), then each window swings round the near side and in
-     from the left. Nothing is switched off at a threshold any more: every limit (the hole in front, the screen edge, the header) is
-     a fade, so a window recedes or arrives instead of blinking. */
+  /* Where a window rests. Four places, given on screen for this viewport and then turned into points in the scene so they follow the
+     camera: in front (0), next (1), after next (2), and where the queue is fed from (3). A step of scroll moves every window one
+     place, in turn: the one in front goes into the hole first, the next comes down once it has gone, the ones behind move up last.
+     Nothing is ever cut: a window is shown whole or not at all. It fades before a screen edge, the menu or the caption could cover
+     any part of it, and the places are spaced so one window does not cross another. */
+  var AN = [], OPA = [1, .8, .45, 0], cr = { left: 1e5, right: 1e5, top: 1e5, bottom: 1e5 }, capTall = 0;
+  function capRect() { var b = cap.getBoundingClientRect(), x = mobile ? 72 : 98; return { left: b.left, right: b.right, top: b.top - x, bottom: b.bottom }; }      // the caption and the pile that builds above it
+  function unproj(sx, sy, w) { var t = VH * CW / w, ux = (sx - VW / 2) / VH - SX, uy = (VH / 2 - sy) / VH - SY; return [C[0] + (ux * X[0] + uy * Y[0] + F * Z[0]) * t, C[1] + (ux * X[1] + uy * Y[1] + F * Z[1]) * t, C[2] + (ux * X[2] + uy * Y[2] + F * Z[2]) * t]; }
+  function anchors() {
+    var r = st.r, o = st.o, a = st.a, wF, xF, yF, w1, w2, x1, y1, x2, y2, top;
+    st.r = 1; st.o = 0; st.a = 1; camera(); proj(0, 0, 0, H); cr = capRect();
+    if (mobile) {
+      top = VH - Math.max(capTall, 240) - 72; wF = Math.min(VW - 96, top - 62); yF = Math.min(top - 26 - wF * .3125, 62 + (top - 62) * .68); w1 = wF * .5; w2 = wF * .4; y1 = yF - wF * .3125 - 26 - w1 * .3125; y2 = yF - wF * .3125 - 40 - w2 * .3125;
+      AN = [unproj(VW / 2, yF, wF), unproj(22 + w1 / 2, y1, w1), unproj(VW - 22 - w2 / 2, y2, w2), unproj(VW - 22 - w2 / 2 + 8, y2 - 6, w2 * .8)];
+    } else {
+      wF = Math.min(.6 * VH, cr.left - 92); xF = Math.max(62 + wF / 2, Math.min(H.x - .63 * VH, cr.left - 30 - wF / 2)); yF = Math.min(.66 * VH, VH - 24 - wF * .3125); w1 = wF * .56; w2 = wF * .44; x1 = xF - wF / 2 + w1 / 2 + wF * .12; y1 = yF - wF * .3125 - .07 * VH - w1 * .3125; x2 = x1 + w1 / 2 + w2 / 2 + 26;
+      AN = [unproj(xF, yF, wF), unproj(x1, y1, w1), unproj(x2, y1 - .04 * VH, w2), unproj(x2 + w2 / 2 + wF * .2, y1 - .05 * VH, wF * .34)];
+    }
+    st.r = r; st.o = o; st.a = a; camera(); proj(0, 0, 0, H);
+  }
   function placeCards(t) {
-    var hero = 1.6 * (1 - sm(st.r)), fade = clamp(1 - st.o * 3.2) * sm(clamp(st.r * 1.6 - .25)), ew = mobile ? 150 : 130, i, c, u, v, g, m, rad, th, e, k, op, zi, on, uq = sm(clamp(uu));
+    var hero = 1.6 * (1 - sm(st.r)), fade = clamp(1 - st.o * 3.2) * sm(clamp(st.r * 1.6 - .25)), uq = sm(clamp(uu)), er = mobile ? 18 : 60, floor = (mobile ? cr.top : VH) - 6, i, c, u, j, f, a, b, x, y, z, e, s, k, op, zi, on, l, r, tp, bt, ox, oy;
     for (i = 0; i < N; i++) {
-      c = cards[i]; u = i - st.s + hero; e = 0;
-      if (u >= 0) { g = u < 1 ? sm(Math.pow(u, 1.4)) : 1; v = u < 1 ? 0 : u - 1; rad = 11 + 4.6 * g + 1.9 * (1 - Math.exp(-v * .5)); th = TF + (mobile ? .95 : 1.8) * g + .8 * (1 - Math.exp(-v * .7)) + Math.sin(t * .22 + i) * .03 * Math.min(u, 1); op = u < 1 ? lerp(1, .7, sm(u)) * Math.max(1 - sm(clamp((u - .22) / .3)), sm(clamp((u - .72) / .28))) : .7 * Math.exp(-v * .56) * clamp(2.4 - v); }      // leaves its place in the queue slowly, is unseen for the middle of the swing, arrives slowly
-      else { rad = 11 * Math.exp(u * 1.7); th = TF + u * .76 - 1.1 * u * u; e = sm(clamp(-u * 1.05)); op = 1 - e * e; }     // a calm shrink-and-fade into the hole, no spin
-      op *= fade;
-      if (op < .01 || !proj(rad * Math.cos(th), u < 0 ? .5 * rad / 11 : .5, rad * Math.sin(th), P)) { if (c.vis) { c.vis = false; c.el.style.visibility = 'hidden'; } continue; }
-      k = P.k * CW / 640 * (1 - e * .6) * (i === hov ? 1.05 : 1); m = sm(clamp(u * 2 - 1));      // m: the window in front may cross the edge while it moves; a queued one is shown only when it is whole
-      if (P.z > H.z) op *= sm(clamp((Math.hypot(P.x - H.x, P.y - H.y) - 2.5 * H.k) / (1.5 * H.k)));
-      op *= clear(P.x, P.y) * clamp((P.y - 200 * k - 62) / 44) * sm(clamp((P.x - 320 * k * m + 56 - 70 * m) / ew)) * sm(clamp((VW - P.x - 320 * k * m + 56 - 70 * m) / ew));
+      c = cards[i]; u = i - st.s + hero; e = 0; if (!c.hi && u < 4.6) { c.hi = true; c.el.firstChild.src = c.src; }      // its preview is asked for four places ahead
+      if (u >= 3 || fade < .01) { if (c.vis) { c.vis = false; c.el.style.visibility = 'hidden'; } continue; }
+      if (u >= 0) {
+        j = u | 0; f = u - j; f = j ? sm(clamp(f / (mobile ? .2 : .5))) : mobile ? sm(clamp(f / .48)) : sm(clamp((f - .25) / .6));
+        a = AN[j]; b = AN[j + 1]; x = lerp(a[0], b[0], f); y = lerp(a[1], b[1], f) + (j ? Math.sin(t * .6 + i * 1.7) * .04 : 0); z = lerp(a[2], b[2], f); op = lerp(OPA[j], OPA[j + 1], f);
+      } else { e = sm(clamp(-u * (mobile ? 1.7 : 1.05))); s = Math.exp(u * 1.7); x = AN[0][0] * s; y = AN[0][1] * s; z = AN[0][2] * s; op = 1 - e * e; }      // straight into the hole: a calm shrink and fade
+      if (!proj(x, y, z, P)) { if (c.vis) { c.vis = false; c.el.style.visibility = 'hidden'; } continue; }
+      k = P.k * CW / 640 * (1 - e * .6); l = P.x - 320 * k; r = P.x + 320 * k; tp = P.y - 200 * k; bt = P.y + 200 * k;
+      op *= fade * clear(P.x, P.y) * clamp((tp - 62) / 44) * sm(clamp((l - 4) / er)) * sm(clamp((VW - 4 - r) / er)) * sm(clamp((floor - bt) / (mobile ? 18 : 50)));
+      if (!mobile) { ox = Math.min(r, cr.right) - Math.max(l, cr.left); oy = Math.min(bt, cr.bottom) - Math.max(tp, cr.top); if (ox > 0 && oy > 0) op *= 1 - sm(clamp(ox * oy / ((r - l) * (bt - tp)) * 3)); }
       if (uq > .001) op *= i === cur ? 1 : 1 - uq; if (i === cur) { fr.x = P.x; fr.y = P.y; fr.k = P.k * CW / 640; fr.op = op; }
       if (op < .01) { if (c.vis) { c.vis = false; c.el.style.visibility = 'hidden'; } continue; } if (!c.vis) { c.vis = true; c.el.style.visibility = ''; }
-      if (!c.hi && Math.abs(u) < 3.2) { c.hi = true; c.el.firstChild.src = thumb(c.w, true); }
+      if (i === hov) k *= 1.05;
       c.el.style.transform = 'translate3d(' + P.x.toFixed(1) + 'px,' + P.y.toFixed(1) + 'px,0) scale(' + k.toFixed(4) + ')';
       c.el.style.opacity = op.toFixed(3); zi = 2000 - Math.round(P.z * 20); if (zi !== c.zi) { c.zi = zi; c.el.style.zIndex = zi; }
       on = inOrb && i === cur; if (on !== c.on) { c.on = on; c.el.classList.toggle('on', on); } if ((i === hov) !== c.hv) { c.hv = i === hov; c.el.classList.toggle('hv', c.hv); }
@@ -190,24 +212,61 @@
   $('#use').addEventListener('click', function () { use(true); }); $('#back').addEventListener('click', function () { use(false); });
 
   /* ---------- scroll is gravity ---------- */
-  var cap = $('#cap'), flash = $('#flash'), dist = $('#dist'), cur = -1, inOrb = false, busy = false, inv = false;
+  var cap = $('#cap'), flash = $('#flash'), dist = $('#dist'), cur = -1, inOrb = false, busy = false, inv = root.classList.contains('inv');
+  /* The caption is a deck. Every project has its own card. As a project comes to the front its card is dealt onto the pile, and the
+     ones before it stay underneath with their names showing, so the pile builds as you go and unbuilds as you scroll back; a name
+     in the pile takes you back to that project. Under the deck: Previous and Next, a rail of all the projects (click or drag to
+     scrub) and the way to the full list. The cards are one size (they share a grid cell), like a real deck. */
+  var deck = d.createElement('div'), ctl = d.createElement('div'), rail = d.createElement('div'), all = d.createElement('a'), capI = d.createElement('span'), ci = d.createElement('b'), ticks = [], dks = [], scrub = false, dealt = false, nav = cap.querySelector('.cap-nav'), pv = $('#prev'), nx = $('#next');
+  cap.textContent = ''; deck.className = 'deck'; ctl.className = 'cap-ctl';
+  W.forEach(function (w, i) {
+    var a = d.createElement('article'), r = d.createElement('p'), g = d.createElement('span'), n = d.createElement('span'), h = d.createElement('h3'), k = d.createElement('p'), f = d.createElement('p'), o = d.createElement('a'), u;
+    a.className = 'capc'; r.className = 'capc-r'; g.className = 'capc-g'; n.className = 'capc-n'; k.className = 'capc-k'; f.className = 'capc-f';
+    g.textContent = CAT[w.cat === 'client' ? 'client' : 'live']; n.textContent = w.name; h.textContent = w.name; k.textContent = w.kind + ' · ' + w.status;
+    if (LIVE[w.id]) { u = d.createElement('button'); u.type = 'button'; u.className = 'btn g'; u.textContent = 'Use it live'; u.addEventListener('click', function () { if (cur === i) use(true); }); f.appendChild(u); }
+    o.className = LIVE[w.id] ? 'btn' : 'btn g'; o.href = w.href; o.textContent = LIVE[w.id] ? 'Open ↗' : w.cta + ' →'; f.appendChild(o);
+    r.appendChild(g); r.appendChild(n); a.appendChild(r); a.appendChild(h); a.appendChild(k); a.appendChild(f);
+    a.addEventListener('click', function (e) { if (i !== cur && !e.target.closest('a,button')) go(i); });      // a card in the pile: back to that project
+    deck.appendChild(a); dks.push(a);
+  });
+  capI.id = 'capI'; capI.appendChild(ci); capI.appendChild(d.createTextNode(' of ' + N)); nav.textContent = ''; nav.appendChild(pv); nav.appendChild(capI); nav.appendChild(nx);
+  rail.className = 'rail'; rail.tabIndex = 0; rail.setAttribute('role', 'slider'); rail.setAttribute('aria-label', 'Project'); rail.setAttribute('aria-valuemin', 1); rail.setAttribute('aria-valuemax', N);
+  W.forEach(function (w, i) { var t = d.createElement('i'); t.title = w.name; if (i && (w.cat === 'client') !== (W[i - 1].cat === 'client')) t.className = 'g'; rail.appendChild(t); ticks.push(t); });
+  all.className = 'cap-all'; all.href = '#projects'; all.textContent = 'All ' + window.WORK.length + ' as a list ↓';
+  ctl.appendChild(nav); ctl.appendChild(rail); ctl.appendChild(all); cap.appendChild(deck); cap.appendChild(ctl); capTall = cap.offsetHeight;
+  function railAt(e) { var b = rail.getBoundingClientRect(); return clamp(Math.floor((e.clientX - b.left) / b.width * N), 0, N - 1); }
+  rail.addEventListener('pointerdown', function (e) { if (e.button) return; scrub = true; try { rail.setPointerCapture(e.pointerId); } catch (x) { /* older engines */ } window.scrollTo(0, top(railAt(e))); });
+  rail.addEventListener('pointermove', function (e) { if (scrub) window.scrollTo(0, top(railAt(e))); });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (t) { rail.addEventListener(t, function () { scrub = false; }); });
+  rail.addEventListener('keydown', function (e) { if (e.key === 'Home') { go(0); e.preventDefault(); } else if (e.key === 'End') { go(N - 1); e.preventDefault(); } });
   var base = 0, build = $('#build'), lit = false, landK = -1;
   function top(i) { return base + (RISE + i * STEP) / 100 * innerHeight + 2; }
   function go(i) { window.scrollTo({ top: top(clamp(i, 0, N - 1)), behavior: 'smooth' }); }
+  /* A project comes to the front: its card is dealt onto the deck (or, going back, lifted off it), every card under it moves one
+     place, the number rolls the same way and the rail follows. The moves are CSS transitions, so scrubbing fast just retargets them. */
   function show(i) {
-    var w = W[i]; cur = i; $('#capH').textContent = w.name; $('#capK').textContent = w.kind + ' · ' + w.status; $('#capI').textContent = (i + 1) + ' of ' + N;
-    var g = $('#capG'), lv = cards[i].live; g.href = w.href; g.textContent = lv ? 'Open ↗' : w.cta + ' →'; g.classList.toggle('g', !lv); $('#use').hidden = !lv; cap.classList.remove('sw'); void cap.offsetWidth; cap.classList.add('sw'); liveShow(i);
+    var dir = cur < 0 ? 0 : i > cur ? 1 : -1; cur = i;
+    if (!dealt) deck.classList.add('still');      // the first time, the pile is simply there
+    dks.forEach(function (a, j) {
+      var dd = i - j, s = dd < 0 ? 'n' : dd > 4 ? '5' : String(dd); if (a.dataset.d !== s) a.dataset.d = s;
+      if (j === i) a.removeAttribute('aria-hidden'); else a.setAttribute('aria-hidden', 'true');
+      [].forEach.call(a.querySelectorAll('a,button'), function (b) { b.tabIndex = j === i ? 0 : -1; });
+    });
+    if (!dealt) { dealt = true; void deck.offsetWidth; deck.classList.remove('still'); }
+    ci.textContent = i + 1; if (dir && ci.animate && !reduce) ci.animate([{ opacity: 0, transform: 'translateY(' + dir * 9 + 'px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 320, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    rail.setAttribute('aria-valuenow', i + 1); rail.setAttribute('aria-valuetext', W[i].name); ticks.forEach(function (t, j) { t.classList.toggle('on', j === i); t.classList.toggle('past', j < i); });
+    cr = capRect(); liveShow(i);
     if (want === i) { want = -1; setTimeout(function () { if (cur === i && inOrb) use(true); }, 950); }
   }
   function state() {
     busy = false; if (using) return; var hh;
     tg.a = clamp(window.scrollY / Math.max(1, base));
     if (tg.a <= 0) ap = null; else if (!ap && tg.a < .5) { hh = window.__hero && window.__hero.at(); ap = hh ? { x: (hh[0] - VW / 2) / VH, y: (VH / 2 - hh[1]) / VH, s: window.scrollY, h: 1 } : null; if (window.__hero) window.__hero.go(); }
-    run();
     var p = (window.scrollY - base) / innerHeight * 100, o = clamp((p - RISE - (N - 1) * STEP - 20) / (OUT - 20)), on, i;
     tg.r = clamp(p / RISE); tg.s = clamp((p - RISE) / STEP, 0, N - 1); tg.o = o; on = p > RISE * .82 && o < .22; i = Math.round(tg.s);
     if (on !== inOrb) { inOrb = on; root.classList.toggle('orb', on); } if (on && i !== cur) show(i);
     var bt = build.getBoundingClientRect().top; if (!lit && (o >= .995 || p > END) && bt < innerHeight * .82) { lit = true; build.classList.add('lit'); } var iv = o > .68 || p > END; if (iv !== inv) { inv = iv; root.classList.toggle('inv', iv); }
+    run();
   }
   addEventListener('scroll', function () { if (!busy) { busy = true; requestAnimationFrame(state); } }, { passive: true });
   $('#prev').addEventListener('click', function () { go(cur - 1); }); $('#next').addEventListener('click', function () { go(cur + 1); });
@@ -219,21 +278,33 @@
   /* the exit: a crisp disc of light opens from the centre of the shadow and the projects index, already in place underneath, fades in at its final position */
   function land(k) {
     if (Math.abs(k - landK) < .002 && k !== 1) return; landK = k; flash.style.transform = 'scale(' + Math.pow(k, 1.4).toFixed(4) + ')';
-    root.style.setProperty('--land', clamp((k - .5) / .42).toFixed(3)); pjEl.classList.toggle('landed', k > .995);
+    root.style.setProperty('--land', clamp((k - .32) / .4).toFixed(3)); pjEl.classList.toggle('landed', k > .995); if (window.__ix) window.__ix.land(k);
   }
   function frame(now) {
     raf = requestAnimationFrame(frame); var ms = now - last, dt = Math.min(.05, ms / 1000 || .016), k = 1 - Math.exp(-dt * 5), t = (now - t0) / 1000; last = now;
     st.r += (tg.r - st.r) * k; st.s += (tg.s - st.s) * (1 - Math.exp(-dt * 3.6)); st.o += (tg.o - st.o) * k; st.a += (tg.a - st.a) * (1 - Math.exp(-dt * 7)); if (Math.abs(tg.a - st.a) < .0005) st.a = tg.a; slab(); camera(); proj(0, 0, 0, H);
-    gl.uniform2f(U.R, cv.width, cv.height); gl.uniform2f(U.S, SX, SY); gl.uniform1f(U.T, t); gl.uniform1f(U.F, F); gl.uniform1f(U.Q, lerp(190, 70, clamp(st.o * 1.5))); var kk = clamp((st.o - .28) / .72); kk = kk * kk * kk * (kk * (kk * 6 - 15) + 10); gl.uniform1f(U.K, 0); land(kk); if (Math.abs(kk - scrim) > .01) { scrim = kk; cv.parentNode.style.setProperty('--sc', (1 - kk).toFixed(2)); } gl.uniform3fv(U.C, C); gl.uniform3fv(U.BX, X); gl.uniform3fv(U.BY, Y); gl.uniform3fv(U.BZ, Z);
+    gl.uniform2f(U.R, cv.width, cv.height); gl.uniform2f(U.S, SX, SY); gl.uniform1f(U.T, t); gl.uniform1f(U.F, F); gl.uniform1f(U.Q, lerp(190, 70, clamp(st.o * 1.5))); var kk = opened(); gl.uniform1f(U.K, 0); land(kk); if (Math.abs(kk - scrim) > .01) { scrim = kk; cv.parentNode.style.setProperty('--sc', (1 - kk).toFixed(2)); } gl.uniform3fv(U.C, C); gl.uniform3fv(U.BX, X); gl.uniform3fv(U.BY, Y); gl.uniform3fv(U.BZ, Z);
     if (uu < .985) { gl.drawArrays(gl.TRIANGLES, 0, 3); placeCards(t); stepChips(dt); } liveTick(dt);
     if (!wOn && window.scrollY <= 2 && st.a === tg.a) { stop(); return; }      // back at the very top: this still frame is enough, the loop sleeps
+    if (!wOn && window.scrollY > base && Math.abs(tg.o - st.o) < .002) { stop(); settle(); return; }      // past the fall and the light has finished opening: rest there
     if (ms < 200 && !using && st.o < .04) { slow += ms; if (++frames === 40) { var av = slow / 40; if (av > 22 && qs > .5) { qs = Math.max(.5, qs * .84); qcap = qs; size(); } else if (av < 12.5 && qs < qcap * .97) { qs = Math.min(qcap, qs * 1.15); size(); } slow = frames = 0; } }   // step the resolution down when frames run long, back up (never past a level that failed) when there is headroom
   }
   function slab() { var v = sm(clamp(st.a / .55)); if (Math.abs(v - haK) > .003 || (v !== haK && (v === 0 || v === 1))) { haK = v; root.style.setProperty('--ha', v.toFixed(3)); } }
   function start() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
   function stop() { cancelAnimationFrame(raf); raf = 0; }
   var wOn = false;
-  function run() { if (!d.hidden && (wOn || (window.scrollY > 2 && window.scrollY <= base) || Math.abs(tg.a - st.a) > .001)) start(); else if (raf) { stop(); if (window.scrollY <= 2) { st.a = tg.a; frame(performance.now()); stop(); } } }
+  function opened() { var k = clamp((st.o - .28) / .72); return k * k * k * (k * (k * 6 - 15) + 10); }
+  /* The loop only runs while the fall is on screen. A fast flick, a link or a restored scroll can leave the page past the fall while the
+     light is half open, and a loop that simply stopped there left a black ring over the list. So: a loop that is already running carries
+     on until the light has finished opening (frame() then rests it), and whenever nothing is running and the page is past the fall,
+     settle() puts the fall where the scroll says it is. Either way the list is never left behind a half-open light. */
+  function settle() { st.r = tg.r; st.s = tg.s; st.o = tg.o; st.a = tg.a; slab(); var kk = opened(); if (kk === landK && kk === scrim) return; land(kk); scrim = kk; cv.parentNode.style.setProperty('--sc', (1 - kk).toFixed(2)); }
+  function run() {
+    if (!d.hidden && (wOn || (window.scrollY > 2 && window.scrollY <= base) || Math.abs(tg.a - st.a) > .001)) { start(); return; }
+    if (raf && !d.hidden && window.scrollY > base && Math.abs(tg.o - st.o) >= .002) return;
+    if (raf) { stop(); if (window.scrollY <= 2) { st.a = tg.a; frame(performance.now()); stop(); } }
+    if (window.scrollY > base) settle();
+  }
   window.__bh = { jump: function () { state(); st.r = tg.r; st.s = tg.s; st.o = tg.o; st.a = tg.a; } };
   size(); addEventListener('resize', function () { size(); state(); }); state(); st.r = tg.r; st.s = tg.s; st.o = tg.o; st.a = tg.a; frame(performance.now()); stop(); root.classList.add('live'); run();
   if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { wOn = es[0].isIntersecting; run(); }).observe($('#world')); else wOn = true;
