@@ -37,6 +37,8 @@
     var raw = null; try { raw = localStorage.getItem(KEY); } catch (e) { }
     if (raw) { try { S = JSON.parse(raw); } catch (e) { S = null; } }
     if (!S || S.v !== 3) S = OW.seed();
+    // one-time: the old persimmon default on an untouched, unrenamed workspace becomes the ink default
+    if (S.brand && !S.inkMig) { S.inkMig = 1; if (String(S.brand.accent).toUpperCase() === '#C2461C' && S.brand.name === 'Ordwell') { S.brand.accent = '#111317'; save(); } }
     rebase();
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } }

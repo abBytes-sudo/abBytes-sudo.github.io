@@ -33,6 +33,93 @@
   }
   var AKIND = { mention: ['at', 'var(--accent)'], over: ['clock', 'var(--bad)'], review: ['eye', 'var(--c-review)'], today: ['calendar', 'var(--warn)'], blocked: ['blocked', 'var(--bad)'] };
 
+  /* ---------- the week, as the client will see it ---------- */
+  var wk = { view: 'my', client: '', open: {}, focus: null, jd: false };
+  function clientOf(t) { var c = (Q.project(t.project) || {}).client || ''; return c && c !== 'Internal' && c.indexOf('Fernhill') !== 0 ? c : ''; }
+  function tagged(t) { var par = t.parent && Q.task(t.parent); return t.tags.indexOf('client-visible') > -1 || !!(par && par.tags.indexOf('client-visible') > -1); }
+  function seenBy(t) { return tagged(t) && clientOf(t) === wk.client; }
+  function wkChip(t) {
+    var p = Q.project(t.project), st = Q.status(t), ci = wk.view === 'client', ok = !ci || seenBy(t), guest = Q.isGuest();
+    var why = ok ? '' : (tagged(t) ? 'other client' : 'internal');
+    return '<div class="wk-chip' + (ok ? '' : ' int') + '" data-tid="' + t.id + '"><button type="button" class="wk-o" data-act="wk-open" data-id="' + t.id + '">' +
+      '<span class="wk-k"><span class="pdot" style="--h:' + p.hue + '"></span><span class="mono">' + esc(t.num) + '</span><span class="sp"></span>' + UI.sdot(st) + '</span>' +
+      '<span class="wk-t">' + esc(t.title) + '</span>' + (ok ? '' : '<span class="wk-i mono">' + why + '</span>') + '<span class="sr">, ' + esc(st.name + ', due ' + D.fmt(t.due) + (guest ? '' : '. Left and right arrow keys change the due date')) + '</span></button>' +
+      (guest ? '' : '<button type="button" class="wk-mv" data-act="wk-move" data-id="' + t.id + '">Move to…</button>') + '</div>';
+  }
+  function weekPanel() {
+    var today = D.today(), mine = myOpen().filter(function (t) { return t.due; }), days = [], over = [], i;
+    for (i = 0; i < 7; i++) days.push({ d: D.add(today, i), ts: [] });
+    mine.forEach(function (t) { var n = D.diff(today, t.due); if (n < 0) over.push(t); else if (n < 7) days[n].ts.push(t); });
+    var srt = function (a, b) { return b.priority - a.priority || (a.num < b.num ? -1 : 1); };
+    over.sort(function (a, b) { return a.due < b.due ? -1 : a.due > b.due ? 1 : srt(a, b); }); days.forEach(function (d) { d.ts.sort(srt); });
+    var cnt = {}; myOpen().forEach(function (t) { var c = clientOf(t); if (c) cnt[c] = (cnt[c] || 0) + 1; });
+    var clients = Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a]; });
+    if (clients.indexOf(wk.client) < 0) wk.client = clients[0] || '';
+    var all = over.slice(); days.forEach(function (d) { all = all.concat(d.ts); });
+    var compact = matchMedia('(max-width:1180px)').matches, ci = wk.view === 'client', guest = Q.isGuest(), seen = all.filter(seenBy).length;
+    var count = ci ? seen + ' of ' + all.length + ' visible to ' + (wk.client || 'the client') : all.length + (all.length === 1 ? ' task' : ' tasks') + (over.length ? ' · ' + over.length + ' overdue' : '');
+    var h = '<section class="wk" aria-labelledby="wk-h"><div class="wk-hd"><h2 id="wk-h">The week, as the client will see it</h2><span class="wk-cnt mono" role="status">' + esc(count) + '</span><span class="sp"></span>' +
+      (ci && clients.length > 1 ? '<button type="button" class="wk-cl" data-act="wk-client" aria-haspopup="menu">' + esc(wk.client) + I('chd', 's') + '</button>' : '') +
+      '<div class="kswitch" role="group" aria-label="Whose view"><button type="button" class="kcap" data-act="wk-view" data-v="my" aria-pressed="' + !ci + '">My view</button><button type="button" class="kcap" data-act="wk-view" data-v="client" aria-pressed="' + ci + '">Client view</button></div></div>';
+    h += '<div class="wk-strip' + (over.length ? ' has-od' : '') + '">';
+    if (over.length) h += '<div class="wk-day od"><div class="wk-dh"><span class="wk-dn">Overdue</span><span class="wk-dc">' + over.length + '</span></div><div class="wk-body">' + over.map(wkChip).join('') + '</div></div>';
+    days.forEach(function (d, k) {
+      var dt = D.parse(d.d), open = wk.open[d.d] != null ? wk.open[d.d] : k === 0, nm = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dt.getDay()];
+      var dh = '<span class="wk-dn">' + nm + '</span><span class="wk-dd">' + dt.getDate() + '<small> ' + D.fmt(d.d).split(' ')[1] + '</small></span>' + (k === 0 ? '<span class="wk-td">Today</span>' : '') + '<span class="wk-dc">' + (d.ts.length || '') + '</span>';
+      h += '<div class="wk-day' + (k === 0 ? ' td' : '') + (compact && !open ? ' shut' : '') + (D.wkend(d.d) ? ' we' : '') + '" data-day="' + d.d + '">' +
+        (compact ? '<button type="button" class="wk-dh" data-act="wk-tog" data-d="' + d.d + '" aria-expanded="' + open + '">' + dh + I('chd', 's chev') + '</button>' : '<div class="wk-dh">' + dh + '</div>') + '<div class="wk-body">' +
+        (d.ts.length ? d.ts.map(wkChip).join('') : (guest ? '<span class="wk-none">Nothing due</span>' : '<button type="button" class="wk-add" data-act="wk-add" data-day="' + d.d + '" aria-label="Add a task due ' + esc(D.fmt(d.d, 'long')) + '">' + I('plus', 's') + '<span>Add a task</span></button>')) + '</div></div>';
+    });
+    h += '</div>';
+    if (!all.length) h += '<div class="wk-empty"><b>Nothing of yours lands this week.</b><span>Plan it: add a task on a day above, or pull one forward from the backlog.</span><a class="btn sm" href="#/p/*/list">Open all tasks</a></div>';
+    else h += '<p class="wk-foot">' + (guest ? 'Open a task to see the detail.' : 'Drag a task to another day to change its due date, or focus it and use <kbd>←</kbd> <kbd>→</kbd>. <kbd>⌘</kbd> <kbd>Z</kbd> undoes.') + '</p>';
+    return h + '</section>';
+  }
+  function wkMove(t, d) {
+    if (!t || t.due === d || Q.isGuest()) return; wk.focus = t.id;
+    store.commit(t.num + ' due ' + D.fmt(d), function () { var delta = t.due ? D.diff(t.due, d) : 0; if (t.start && t.due) t.start = D.add(t.start, delta); else if (!t.start) t.start = D.add(d, -Math.max(0, Math.round((t.est || 8) / 8) - 1)); t.due = d; if (t.start > d) t.start = d; t.updated = Date.now(); store.log(t, 'moved due date to ' + D.fmt(d)); });
+  }
+  UI.act('wk-open', function (el) { if (wk.jd) return; app.openTask(el.getAttribute('data-id')); });
+  UI.act('wk-view', function (el) { wk.view = el.getAttribute('data-v'); app.render(); var b = document.querySelector('.kcap[data-v="' + wk.view + '"]'); if (b) b.focus({ preventScroll: true }); });
+  UI.act('wk-tog', function (el) { var d = el.getAttribute('data-d'); wk.open[d] = el.getAttribute('aria-expanded') !== 'true'; app.render(); var b = document.querySelector('.wk-dh[data-d="' + d + '"]'); if (b) b.focus({ preventScroll: true }); });
+  UI.act('wk-add', function (el) { app.newTask({ due: el.getAttribute('data-day') }); });
+  UI.act('wk-client', function (el) {
+    var cnt = {}; myOpen().forEach(function (t) { var c = clientOf(t); if (c) cnt[c] = 1; });
+    UI.menu(el, [{ head: 'Show the week as seen by' }].concat(Object.keys(cnt).map(function (c) { return { label: c, checked: c === wk.client, fn: function () { wk.client = c; app.render(); } }; })));
+  });
+  UI.act('wk-move', function (el) {
+    var t = Q.task(el.getAttribute('data-id')), items = [{ head: 'Move ' + t.num + ' to' }];
+    for (var i = 0; i < 7; i++) (function (d, i) { items.push({ label: i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : D.fmt(d, 'long'), hint: i < 2 ? D.fmt(d) : '', checked: t.due === d, fn: function () { wkMove(t, d); } }); })(D.add(D.today(), i), i);
+    items.push({ sep: true }, { label: 'Pick a date…', icon: 'calendar', fn: function () { UI.pickDate(el, t.due, function (d) { if (d) wkMove(t, d); }); } });
+    UI.menu(el, items);
+  });
+  // drag a chip to another day (mouse and pen; touch uses "Move to…")
+  var wd = null, wmq = matchMedia('(max-width:1180px)');
+  wmq.addEventListener('change', function () { if (app.route && app.route.name === 'home') app.render(); });
+  document.addEventListener('pointerdown', function (e) {
+    var c = e.target.closest && e.target.closest('.wk-chip'); if (!c || e.button !== 0 || e.pointerType === 'touch' || Q.isGuest() || e.target.closest('.wk-mv')) return;
+    wd = { c: c, x: e.clientX, y: e.clientY, id: e.pointerId, on: false, clone: null, last: null };
+  });
+  document.addEventListener('pointermove', function (e) {
+    if (!wd || e.pointerId !== wd.id) return;
+    if (!wd.on) { if (Math.abs(e.clientX - wd.x) + Math.abs(e.clientY - wd.y) < 6) return; wd.on = true; var r = wd.c.getBoundingClientRect(); wd.clone = wd.c.cloneNode(true); wd.clone.classList.add('wk-drag'); wd.clone.style.width = r.width + 'px'; document.body.appendChild(wd.clone); wd.c.classList.add('lift'); }
+    e.preventDefault(); wd.clone.style.left = (e.clientX - 24) + 'px'; wd.clone.style.top = (e.clientY - 18) + 'px';
+    var u = document.elementFromPoint(e.clientX, e.clientY), tg = u && u.closest('.wk-day[data-day]');
+    if (wd.last && wd.last !== tg) wd.last.classList.remove('over'); if (tg) tg.classList.add('over'); wd.last = tg;
+  }, { passive: false });
+  function wkEnd(e, cancel) {
+    if (!wd || e.pointerId !== wd.id) return; var s = wd; wd = null;
+    if (!s.on) return; wk.jd = true; setTimeout(function () { wk.jd = false; }, 80);
+    s.clone.remove(); s.c.classList.remove('lift'); if (s.last) s.last.classList.remove('over');
+    if (!cancel && s.last) wkMove(Q.task(s.c.getAttribute('data-tid')), s.last.getAttribute('data-day'));
+  }
+  document.addEventListener('pointerup', function (e) { wkEnd(e); });
+  document.addEventListener('pointercancel', function (e) { wkEnd(e, true); });
+  document.addEventListener('keydown', function (e) {
+    var b = e.target.closest && e.target.closest('.wk-o'); if (!b || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') || e.metaKey || e.ctrlKey || e.altKey || Q.isGuest()) return;
+    var t = Q.task(b.getAttribute('data-id')); if (!t || !t.due) return; e.preventDefault(); wkMove(t, D.add(t.due, e.key === 'ArrowLeft' ? -1 : 1));
+  });
+
   OW.routes.home = function (main) {
     var S = store.S, me = Q.user(Q.me()), mine = myOpen(), hr = new Date().getHours();
     var over = mine.filter(function (t) { return bucket(t) === 'over'; }), today = mine.filter(function (t) { return bucket(t) === 'today'; }), week = mine.filter(function (t) { return bucket(t) === 'week'; });
@@ -45,10 +132,14 @@
     var doneWk = sDone.reduce(function (a, b) { return a + b; }, 0), mins = sMins.reduce(function (a, b) { return a + b; }, 0);
     function delta(now, prev, goodUp, unit) { var d = now - prev; if (!d) return '<span class="dl">same as last week</span>'; var good = goodUp ? d > 0 : d < 0; return '<span class="dl ' + (good ? 'up' : 'dn') + '">' + (d > 0 ? '▲ ' : '▼ ') + Math.abs(Math.round(d)) + (unit || '') + ' vs last week</span>'; }
     var att = attention();
-    var h = '<div class="page home">';
-    // slim greeting + primary action
-    h += '<div class="home-h"><h1>' + (hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : 'Good evening') + ', ' + esc(me.name.split(' ')[0]) + '</h1><span class="muted">' + D.fmt(D.today(), 'long') + ' · ' + (today.length ? today.length + ' due today' : 'nothing due today') + (over.length ? ', ' + over.length + ' overdue' : '') + '</span><span class="sp"></span>' +
-      (queue.length ? '<button type="button" class="btn pri" data-act="focus-start">' + I('play', 's') + 'Start my day <kbd class="kbd-on">F</kbd></button>' : '') + '</div>';
+    var h = '';
+    // the day's headline, from live data (weekday first)
+    var waiting = mine.filter(function (t) { return Q.cat(t) === 'review2'; }).length, bits = [];
+    if (today.length) bits.push(today.length + ' due today'); if (over.length) bits.push(over.length + ' overdue');
+    var head = D.fmt(D.today(), 'long').split(',')[0] + ' · ' + (bits.length ? bits.join(', ') : 'nothing due, nothing overdue') + (waiting ? ' · ' + waiting + ' waiting on a client' : '');
+    var sub = D.fmt(D.today(), 'long') + ' · ' + me.name + ' · ' + ((OW.byId(S.workspaces, S.ws) || {}).name || '');
+    var act = queue.length ? '<button type="button" class="btn pri" data-act="focus-start">' + I('play', 's') + 'Start my day <kbd class="kbd-on">F</kbd></button>' : '';
+    h += weekPanel();
     // now and next
     var run = S.timer && Q.task(S.timer.task), nowT = run || mine.filter(function (t) { return Q.cat(t) === 'active'; }).sort(function (a, b) { return (a.due || '9') < (b.due || '9') ? -1 : 1; })[0];
     var nexts = queue.filter(function (t) { return t !== nowT; }).slice(0, 2);
@@ -95,7 +186,17 @@
     var acts = S.activity.slice().sort(function (a, b) { return b.at - a.at; }).filter(function (a) { var t = Q.task(a.task); return t && Q.canSee(t) && a.uid !== Q.me() && Q.projectsVisible().indexOf(Q.project(t.project)) > -1; }).slice(0, 7);
     h += '<div class="wbox"><div class="wbox-h">Activity<span class="sp"></span><a class="btn sm ghost" href="#/inbox">Inbox</a></div><div style="padding:6px 14px 10px">' + (acts.map(function (a) { var t = Q.task(a.task), u = Q.user(a.uid); return '<div class="act"><span class="ad">' + (u ? UI.av(a.uid, 's') : UI.av('bot', 's')) + '</span><span><b>' + esc(u ? u.name.split(' ')[0] : 'Automation') + '</b> ' + esc(a.text) + ' · <button type="button" data-act="open-task" data-id="' + t.id + '" class="lnk">' + esc(t.num) + '</button><time>' + D.ago(a.at) + '</time></span></div>'; }).join('') || '<p class="faint" style="padding:10px 0">Quiet so far today.</p>') + '</div></div>';
     h += '</div></div></div>';
-    main.innerHTML = h;
+    // the headline lives in the static shell (index.html) and is updated in place, never replaced
+    var pg = main.querySelector(':scope > .page'), hd = pg && pg.querySelector('#home-hd');
+    if (hd) {
+      while (pg.lastChild !== hd) pg.removeChild(pg.lastChild);
+      var h1 = hd.querySelector('#home-h1'); if (h1.firstChild && h1.firstChild.nodeType === 3) h1.firstChild.data = head; else h1.textContent = head;
+      hd.querySelector('#home-sub').textContent = sub; hd.querySelector('#home-act').innerHTML = act;
+      pg.className = 'page home'; pg.insertAdjacentHTML('beforeend', h);
+    } else {
+      main.innerHTML = '<div class="page home"><div class="home-h" id="home-hd"><div class="home-t"><h1 id="home-h1">' + esc(head) + '</h1><p class="muted" id="home-sub">' + esc(sub) + '</p></div><span class="sp"></span><span id="home-act">' + act + '</span></div>' + h + '</div>';
+    }
+    if (wk.focus) { var fc = main.querySelector('.wk-chip[data-tid="' + wk.focus + '"] .wk-o'); wk.focus = null; if (fc) fc.focus({ preventScroll: true }); }
   };
   UI.act('att-reply', function (el) { var id = el.getAttribute('data-id'); app.openTask(id); setTimeout(function () { var c = document.getElementById('tp-cmt'); if (c) { c.scrollIntoView({ block: 'center' }); c.focus(); } }, 340); });
   UI.act('att-open', function (el) { app.openTask(el.getAttribute('data-id')); });
@@ -129,20 +230,20 @@
     if (F.i >= F.q.length) {
       var done = F.q.filter(function (id) { return F.res[id] === 'done'; }).length, skipped = F.q.length - done;
       h += '<div class="fdone"><div style="font-size:42px">' + (done ? '✦' : '·') + '</div><h2>' + (done ? done + ' done' : 'Queue finished') + (skipped ? ', ' + skipped + ' left for later' : '') + '</h2><p>' + UI.hm((Date.now() - F.t0) / 60000) + ' in focus. Leave a closing note so tomorrow starts with context.</p>' +
-        '<label class="sr" for="f-note">Closing note</label><textarea id="f-note" placeholder="Where you stopped, what’s blocked, who to chase…"></textarea><button type="button" class="btn pri lg" data-f="note" style="background:var(--accent);color:var(--on-accent);border:0">Save note and finish</button> <button type="button" class="btn lg" data-f="exit" style="background:#24221F;color:#F2F0EA;border-color:#3A362F">Finish without a note</button></div>';
+        '<label class="sr" for="f-note">Closing note</label><textarea id="f-note" placeholder="Where you stopped, what’s blocked, who to chase…"></textarea><button type="button" class="btn pri lg" data-f="note" style="background:var(--accent);color:var(--on-accent);border:0">Save note and finish</button> <button type="button" class="btn lg" data-f="exit" style="background:#1F232A;color:#E6E9EE;border-color:#3A404A">Finish without a note</button></div>';
       F.el.innerHTML = h; setTimeout(function () { var n = F.el.querySelector('#f-note'); if (n) n.focus(); }, 30); return;
     }
     var t = Q.task(F.q[F.i]); if (!t) { F.i++; return fdraw(); }
     var p = Q.project(t.project), last = S.comments.filter(function (c) { return c.task === t.id; }).sort(function (a, b) { return b.at - a.at; })[0], running = S.timer && S.timer.task === t.id;
     var left = Math.max(0, (t.est || 0) * 60 - Q.logged(t));
-    h += '<div class="fcard"><div class="fk">' + UI.pdot(p) + esc(t.num) + ' · ' + esc(p.name) + '<span class="ftime">' + (running ? '<span class="rec" style="width:8px;height:8px;border-radius:50%;background:#F05A4A;display:inline-block"></span><span data-live-timer>' + UI.clock(Date.now() - S.timer.start) + '</span>' : '') + '</span></div>' +
-      '<h2>' + esc(t.title) + '</h2><div class="fmeta"><span>' + UI.sdot(Q.status(t)) + esc(Q.status(t).name) + '</span>' + (t.due ? '<span>' + I('calendar', 's') + (Q.overdue(t) ? '<b style="color:#F08A80">' + D.rel(t.due) + '</b>' : 'Due ' + D.rel(t.due).toLowerCase()) + '</span>' : '') + '<span>' + UI.prio(t.priority) + UI.PRI[t.priority] + '</span>' + (t.est ? '<span>' + I('clock', 's') + (left ? '≈ ' + UI.hm(left) + ' left' : 'over estimate') + ' · aim ≈ ' + UI.hm(Math.min(left || 30, 90)) + '</span>' : '') + '</div>' +
+    h += '<div class="fcard"><div class="fk">' + UI.pdot(p) + esc(t.num) + ' · ' + esc(p.name) + '<span class="ftime">' + (running ? '<span class="rec" style="width:8px;height:8px;border-radius:50%;background:var(--bad);display:inline-block"></span><span data-live-timer>' + UI.clock(Date.now() - S.timer.start) + '</span>' : '') + '</span></div>' +
+      '<h2>' + esc(t.title) + '</h2><div class="fmeta"><span>' + UI.sdot(Q.status(t)) + esc(Q.status(t).name) + '</span>' + (t.due ? '<span>' + I('calendar', 's') + (Q.overdue(t) ? '<b style="color:#EE6A62">' + D.rel(t.due) + '</b>' : 'Due ' + D.rel(t.due).toLowerCase()) + '</span>' : '') + '<span>' + UI.prio(t.priority) + UI.PRI[t.priority] + '</span>' + (t.est ? '<span>' + I('clock', 's') + (left ? '≈ ' + UI.hm(left) + ' left' : 'over estimate') + ' · aim ≈ ' + UI.hm(Math.min(left || 30, 90)) + '</span>' : '') + '</div>' +
       (last ? '<div class="fnote"><small>Latest note · ' + esc((Q.user(last.uid) || { name: 'Automation' }).name) + ', ' + D.ago(last.at) + '</small>' + esc(last.text.length > 220 ? last.text.slice(0, 220) + '…' : last.text) + '</div>' : (t.desc ? '<div class="fnote"><small>Brief</small>' + esc(t.desc.slice(0, 220)) + '</div>' : '')) +
       (t.checklist.length ? '<div class="fchk">' + t.checklist.map(function (c) { return '<label><input type="checkbox" class="cb" data-fck="' + c.id + '"' + (c.done ? ' checked' : '') + '>' + esc(c.t) + '</label>'; }).join('') + '</div>' : '') +
       '<div class="fout"><small>How did it go? One tap logs it and moves on</small><div>' + [['approved', '✓', 'Client approved'], ['changes', '↺', 'Changes requested'], ['noreply', '…', 'No reply yet'], ['blocked', '⦸', 'Blocked']].map(function (o) { return '<button type="button" data-o="' + o[0] + '"><span aria-hidden="true">' + o[1] + '</span>' + o[2] + '</button>'; }).join('') + '</div></div>' +
       '<div class="fact"><button type="button" class="btn pri" data-f="done">' + I('check') + 'Mark done · Save & next <kbd style="background:transparent;border-color:rgba(255,255,255,.35);color:inherit;box-shadow:none;margin-left:4px">D</kbd></button>' +
-      '<button type="button" class="btn" data-f="timer">' + I(running ? 'pause' : 'play') + (running ? 'Pause' : 'Start timer') + ' <kbd style="background:transparent;border-color:#4A4740;color:#B8B3A9;box-shadow:none">T</kbd></button>' +
-      '<button type="button" class="btn" data-f="skip">Skip <kbd style="background:transparent;border-color:#4A4740;color:#B8B3A9;box-shadow:none">S</kbd></button>' +
+      '<button type="button" class="btn" data-f="timer">' + I(running ? 'pause' : 'play') + (running ? 'Pause' : 'Start timer') + ' <kbd style="background:transparent;border-color:#454B55;color:#B4BAC4;box-shadow:none">T</kbd></button>' +
+      '<button type="button" class="btn" data-f="skip">Skip <kbd style="background:transparent;border-color:#454B55;color:#B4BAC4;box-shadow:none">S</kbd></button>' +
       '<button type="button" class="btn" data-f="tomorrow">' + I('calendar', 's') + 'Move to tomorrow</button>' +
       '<button type="button" class="btn" data-f="open">' + I('expand', 's') + 'Open</button></div></div>' +
       '<div class="fhint"><span><kbd>D</kbd> done</span><span><kbd>S</kbd> skip</span><span><kbd>T</kbd> timer</span><span><kbd>Esc</kbd> exit</span></div>';

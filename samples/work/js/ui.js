@@ -296,7 +296,7 @@
     o = o || {};
     if (!tw) { tw = document.createElement('div'); tw.className = 'toasts'; tw.setAttribute('role', 'status'); tw.setAttribute('aria-live', 'polite'); document.body.appendChild(tw); }
     var t = document.createElement('div'); t.className = 'toast';
-    t.innerHTML = (o.icon ? I(o.icon) : '') + '<span>' + text + '</span>' + (o.undo ? '<button type="button" data-tu>Undo <kbd style="background:transparent;border-color:#4A4740;color:#B8B3A9;box-shadow:none;margin-left:4px">⌘Z</kbd></button>' : '') + (o.action ? '<button type="button" data-ta>' + esc(o.action.label) + '</button>' : '');
+    t.innerHTML = (o.icon ? I(o.icon) : '') + '<span>' + text + '</span>' + (o.undo ? '<button type="button" data-tu>Undo <kbd style="background:transparent;border-color:#454B55;color:#B4BAC4;box-shadow:none;margin-left:4px">⌘Z</kbd></button>' : '') + (o.action ? '<button type="button" data-ta>' + esc(o.action.label) + '</button>' : '');
     tw.appendChild(t); while (tw.children.length > 3) tw.firstChild.remove();
     var timer = setTimeout(kill, o.ms || 5200);
     function kill() { clearTimeout(timer); t.classList.add('out'); setTimeout(function () { t.remove(); }, 220); }
@@ -316,7 +316,7 @@
     var r = parseInt(c.substr(0, 2), 16) / 255, g = parseInt(c.substr(2, 2), 16) / 255, b = parseInt(c.substr(4, 2), 16) / 255;
     function L(v) { return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }
     var lum = 0.2126 * L(r) + 0.7152 * L(g) + 0.0722 * L(b);
-    return (1.05 / (lum + 0.05)) >= 4.5 ? '#FFFFFF' : '#1B1A17';
+    return (1.05 / (lum + 0.05)) >= 4.5 ? '#FFFFFF' : '#111317';
   };
   UI.reduced = function () { return matchMedia('(prefers-reduced-motion: reduce)').matches; };
   UI.vt = function (fn) {

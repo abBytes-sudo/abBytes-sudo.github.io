@@ -218,7 +218,7 @@
   OW.seed = function () {
     var S = {
       v: 3, base: dayStr(0), me: 'u1', viewAs: null, ws: 'w1', seq: 500,
-      brand: { name: 'Ordwell', accent: '#C2461C', logo: null, domain: 'work.fernhill-digital.in', domainState: 'verified', sender: 'Fernhill Digital', poweredBy: true, loginNote: 'Sign in to the Fernhill client workroom.' },
+      brand: { name: 'Ordwell', accent: '#111317', logo: null, domain: 'work.fernhill-digital.in', domainState: 'verified', sender: 'Fernhill Digital', poweredBy: true, loginNote: 'Sign in to the Fernhill client workroom.' },
       prefs: { theme: 'light', sidebar: true, density: 'comfortable', autoShift: true },
       users: clone(USERS), workspaces: clone(WORKSPACES), spaces: clone(SPACES), projects: [], fields: clone(FIELDS),
       tasks: [], comments: [], activity: [], notifs: [], automations: [], runs: [], docs: [], dashboards: [], forms: [], views: [], invites: [], timer: null, favs: ['p1', 'p3']

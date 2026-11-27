@@ -17,10 +17,12 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#F6F7F9">
 <link rel="preload" href="fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/site.min.css?v=521917">
+<link rel="stylesheet" href="css/site.min.css?v=813693">
+<link rel="stylesheet" href="css/duo.css?v=1">
 <link rel="stylesheet" href="../assets/back.css?v=2">
 <script src="../assets/back.js?v=1" defer></script>
-<script src="js/site-loader.js?v=521917" data-v="521917" defer></script>
+<script src="js/site-loader.js?v=813693" data-v="813693" defer></script>
+<script src="js/duo.js?v=1" defer></script>
 <script src="concierge.js?v=1" defer data-agent="work-sales" data-file="work" data-skin="concierge.css?v=1" data-brand="ow" data-title="Ordwell" data-sub="Sales desk · replies instantly" data-label="Ask Ordwell" data-nudge="product,pricing,templates" data-v="5" data-foot="Automated answers · a person joins on the walkthrough"></script>
 <style>@view-transition{navigation:auto}</style>
 </head>
@@ -35,7 +37,7 @@
     </nav>
     <span class="sp"></span>
     <a class="btn sm ghost-m" href="pricing.html#walkthrough">Book a walkthrough</a>
-    <a class="btn sm pri" href="index.html">Open Ordwell</a>
+    <a class="btn sm pri" href="index.html" data-open><span>Open <span data-bname>Ordwell</span></span></a>
   </div>
 </header>
 
@@ -43,22 +45,75 @@
   <section class="hero" aria-labelledby="h1">
     <div class="wrap">
       <div class="eyebrow rise"><span class="pillx"><kbd class="kc">⌘K</kbd>The work OS agencies put their own name on</span></div>
-      <h1 class="h-xl" id="h1">One plan. Six views. Your name on the door.</h1>
+      <h1 class="h-xl" id="h1">One plan. Six views. <span class="yn" id="yn"><span data-yname>Your name</span><i class="yn-c" aria-hidden="true"></i></span> on the door.</h1>
+      <div class="plate rise" style="--d:.08s" id="plate">
+        <label class="pl-l" for="pl-n"><kbd class="kc" aria-hidden="true">Aa</kbd>Type your agency’s name</label>
+        <input id="pl-n" class="pl-in" maxlength="22" placeholder="Fernhill" autocomplete="off" autocapitalize="words" spellcheck="false">
+        <div class="pl-sw" role="group" aria-label="Pick your colour"><button type="button" class="pk" style="--sw:#111317" data-plc="#111317" aria-pressed="true" aria-label="Ink, no colour"></button><button type="button" class="pk" style="--sw:#C2461C" data-plc="#C2461C" aria-pressed="false" aria-label="Persimmon"></button><button type="button" class="pk" style="--sw:#2B59C3" data-plc="#2B59C3" aria-pressed="false" aria-label="Ultramarine"></button><button type="button" class="pk" style="--sw:#0F7B6C" data-plc="#0F7B6C" aria-pressed="false" aria-label="Teal"></button><button type="button" class="pk" style="--sw:#7A3FC4" data-plc="#7A3FC4" aria-pressed="false" aria-label="Violet"></button><button type="button" class="pk" style="--sw:#B4235A" data-plc="#B4235A" aria-pressed="false" aria-label="Rani pink"></button></div>
+        <button type="button" class="pl-copy" id="pl-copy" hidden><span>Copy my link</span></button>
+        <span class="pl-note" id="pl-note" aria-live="polite">The whole page takes your name. So does the app.</span>
+      </div>
       <div class="hero-row">
-        <p class="lede rise" style="--d:.12s">Ordwell runs client delivery for agencies and growing teams — board, list, sheet, timeline, calendar and workload on the same tasks, with automations, docs, dashboards and client forms. Then you put your logo on it and sell it as your own.</p>
+        <p class="lede rise" style="--d:.12s">Run client work on a board, a list, a sheet, a timeline, a calendar and a workload chart, all the same tasks. Then put your logo on it and sell it as yours.</p>
         <div>
-          <div class="cta-row rise" style="--d:.2s"><a class="btn pri" href="index.html" data-magnetic>Open Ordwell <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn" href="pricing.html">See pricing</a></div>
-          <p class="cta-note" style="margin-top:10px">No sign-up. Opens a full workspace in your browser.</p>
+          <div class="cta-row rise" style="--d:.2s"><a class="btn pri" href="index.html" data-magnetic data-open><span>Open <span data-bname>Ordwell</span></span> <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn" href="pricing.html">See pricing</a></div>
+          <p class="cta-note" style="margin-top:10px">No sign-up. Opens a full workspace, already carrying your name.</p>
         </div>
       </div>
     </div>
 
-    <!-- the shape-shift: one dataset, five shapes, scrubbed by scroll -->
-    <div class="shift" id="views" aria-label="One dataset shown as board, list, timeline, calendar and table">
+  </section>
+
+  <section class="sec full views" id="views" aria-labelledby="h-duo">
+    <div class="wrap">
+      <div class="sec-h">
+        <p class="idx"><span>Move task…</span></p>
+        <div class="hh">
+          <h2 class="h-l" id="h-duo"><span class="v-duo"><span class="ln">Drag it here.</span> <span class="ln">It moves there.</span></span><span class="v-seq">Six views, one set of tasks.</span></h2>
+          <p><span class="v-duo">Two views of the same ten tasks. Move something in one and watch the other.</span><span class="v-seq">Scroll through the same ten tasks as a board, a list, a table, a timeline, a calendar and a workload chart.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- two stages, one array of ten tasks: drag in either and the other follows (js/duo.js) -->
+    <div class="duo" id="duo">
+      <div class="duo-bar">
+        <button type="button" class="kt kt-sw" id="duo-cv" aria-pressed="false"><span class="sw-k" aria-hidden="true"></span>What the client sees</button>
+        <span class="duo-hint mono">Drag a card. Pull a bar. Or focus one and press ← →.</span>
+      </div>
+      <div class="frame duo-frame" id="duo-frame">
+        <aside class="f-side" aria-hidden="true">
+          <div class="f-brand"><span class="mk brand-mk" data-bmark>O</span><span data-bname>Ordwell</span></div>
+          <span class="it">My work</span><span class="it">Inbox</span><span class="it">Dashboards</span><span class="it">Automations</span>
+          <span class="gh">Client delivery</span>
+          <span class="it on"><i></i>Coorg Ember — website</span><span class="it"><i></i>Coorg Ember — social</span><span class="it"><i></i>Tarangini — onboarding</span><span class="it"><i></i>Neelkurinji — monsoon</span>
+        </aside>
+        <div class="f-main">
+          <div class="f-top"><span class="ft-h"><i aria-hidden="true"></i>Coorg Ember — website relaunch</span><span class="sp"></span><span class="avs" aria-hidden="true"><span class="av">AR</span><span class="av">PN</span><span class="av">RI</span><span class="av">SQ</span></span></div>
+          <div class="stages">
+            <div class="stage" data-stage="0">
+              <div class="st-tabs" role="group" aria-label="View on the left"><button type="button" class="kt" data-v="0" aria-pressed="true">Board</button><button type="button" class="kt" data-v="1" aria-pressed="false">List</button><button type="button" class="kt" data-v="4" aria-pressed="false">Table</button><button type="button" class="kt" data-v="2" aria-pressed="false">Timeline</button><button type="button" class="kt" data-v="3" aria-pressed="false">Calendar</button><button type="button" class="kt" data-v="5" aria-pressed="false">Workload</button></div>
+              <div class="st-cv" role="group" aria-label="Left view of the ten tasks"></div>
+            </div>
+            <div class="stage" data-stage="1">
+              <div class="st-tabs" role="group" aria-label="View on the right"><button type="button" class="kt" data-v="0" aria-pressed="false">Board</button><button type="button" class="kt" data-v="1" aria-pressed="false">List</button><button type="button" class="kt" data-v="4" aria-pressed="false">Table</button><button type="button" class="kt" data-v="2" aria-pressed="true">Timeline</button><button type="button" class="kt" data-v="3" aria-pressed="false">Calendar</button><button type="button" class="kt" data-v="5" aria-pressed="false">Workload</button></div>
+              <div class="st-cv" role="group" aria-label="Right view of the ten tasks"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="duo-foot">
+        <p class="duo-cap mono" id="duo-cap" role="status" aria-live="polite">Nothing moved yet. Drag CEW-108 to Review, or pull the end of a timeline bar.</p>
+        <button type="button" class="lk" id="duo-reset">Reset the ten tasks</button>
+      </div>
+    </div>
+
+    <!-- the scroll sequence: small screens and reduced motion. Same ten tasks, six shapes. -->
+    <div class="shift" aria-label="One dataset shown as board, list, timeline, calendar, table and workload">
       <div class="shift-pin">
         <div class="shift-cap">
           <div class="shift-dots" role="group" aria-label="Choose a view">
-            <button type="button" data-go="0" aria-pressed="true" aria-label="1 · Board">1</button><button type="button" data-go="1" aria-pressed="false" aria-label="2 · List">2</button><button type="button" data-go="2" aria-pressed="false" aria-label="3 · Timeline">3</button><button type="button" data-go="3" aria-pressed="false" aria-label="4 · Calendar">4</button><button type="button" data-go="4" aria-pressed="false" aria-label="5 · Table">5</button>
+            <button type="button" data-go="0" aria-pressed="true" aria-label="1 · Board">1</button><button type="button" data-go="1" aria-pressed="false" aria-label="2 · List">2</button><button type="button" data-go="2" aria-pressed="false" aria-label="3 · Timeline">3</button><button type="button" data-go="3" aria-pressed="false" aria-label="4 · Calendar">4</button><button type="button" data-go="4" aria-pressed="false" aria-label="5 · Table">5</button><button type="button" data-go="5" aria-pressed="false" aria-label="6 · Workload">6</button>
           </div>
           <div class="caps" aria-live="polite">
             <p class="cap on"><b>Board</b><span>Drag work between stages. Every card carries its owner, due date, subtasks and blockers.</span></p>
@@ -66,20 +121,77 @@
             <p class="cap"><b>Timeline</b><span>Drag bars to reschedule, stretch them to resize, link them for dependencies. A late blocker turns red.</span></p>
             <p class="cap"><b>Calendar</b><span>Every due date on one month. Drop unscheduled work straight onto a day.</span></p>
             <p class="cap"><b>Table</b><span>A real sheet: custom columns, ₹ budgets and formulas like {Budget} − {Spent} that update as you type.</span></p>
+            <p class="cap"><b>Workload</b><span>Hours per person per day against capacity. A block turns amber when someone has more than a day’s worth.</span></p>
           </div>
-          <span class="cap-n" aria-hidden="true"><b id="cap-i">01</b> / 05<span class="cn-x"> · same 10 tasks</span></span>
+          <span class="cap-n" aria-hidden="true"><b id="cap-i">01</b> / 06<span class="cn-x"> · same 10 tasks</span></span>
         </div>
         <div class="frame" id="frame">
           <aside class="f-side" aria-hidden="true">
-            <div class="f-brand"><span class="mk brand-mk" data-bmark style="width:22px;height:22px;border-radius:6px;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-size:11px;font-weight:700">O</span><span data-bname>Ordwell</span></div>
+            <div class="f-brand"><span class="mk brand-mk" data-bmark>O</span><span data-bname>Ordwell</span></div>
             <span class="it">My work</span><span class="it">Inbox</span><span class="it">Dashboards</span><span class="it">Automations</span>
             <span class="gh">Client delivery</span>
-            <span class="it on" style="--h:18"><i></i>Coorg Ember — website</span><span class="it" style="--h:28"><i></i>Coorg Ember — social</span><span class="it" style="--h:200"><i></i>Tarangini — onboarding</span><span class="it" style="--h:150"><i></i>Neelkurinji — monsoon</span>
+            <span class="it on"><i></i>Coorg Ember — website</span><span class="it"><i></i>Coorg Ember — social</span><span class="it"><i></i>Tarangini — onboarding</span><span class="it"><i></i>Neelkurinji — monsoon</span>
           </aside>
           <div class="f-main">
-            <div class="f-top"><span class="ft-h"><i aria-hidden="true"></i>Coorg Ember — website relaunch</span><span class="sp"></span><span class="avs" aria-hidden="true"><span class="av" style="--h:18">AR</span><span class="av" style="--h:330">PN</span><span class="av" style="--h:200">RI</span><span class="av" style="--h:280">SQ</span></span></div>
-            <div class="f-tabs" aria-hidden="true"><span class="f-tab on" data-tab="0">Board</span><span class="f-tab" data-tab="1">List</span><span class="f-tab" data-tab="2">Timeline</span><span class="f-tab" data-tab="3">Calendar</span><span class="f-tab" data-tab="4">Table</span><span class="f-tab">Workload</span></div>
+            <div class="f-top"><span class="ft-h"><i aria-hidden="true"></i>Coorg Ember — website relaunch</span><span class="sp"></span><span class="avs" aria-hidden="true"><span class="av">AR</span><span class="av">PN</span><span class="av">RI</span><span class="av">SQ</span></span></div>
+            <div class="f-tabs" aria-hidden="true"><span class="f-tab on" data-tab="0">Board</span><span class="f-tab" data-tab="1">List</span><span class="f-tab" data-tab="2">Timeline</span><span class="f-tab" data-tab="3">Calendar</span><span class="f-tab" data-tab="4">Table</span><span class="f-tab" data-tab="5">Workload</span></div>
             <div class="canvas" id="canvas" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec full wall" id="white-label" aria-labelledby="h-wl">
+    <div class="wrap">
+      <div class="sec-h">
+        <p class="idx"><span>Change brand name, logo or accent…</span></p>
+        <div class="hh">
+          <h2 class="h-l" id="h-wl"><span class="ln">Your name on the door.</span> <span class="ln">The whole door.</span></h2>
+          <p>Type a name and pick a colour. The sign-in page, the invite email and the workspace take it as you type, and so does this page. Then open Ordwell as that product.</p>
+        </div>
+      </div>
+      <div class="wall-f">
+        <div class="wf-n"><label for="pg-n">Product name</label><input id="pg-n" class="inp mono-in" maxlength="28" value="" placeholder="Fernhill Workroom" autocomplete="off"><div class="err" id="pg-e" hidden></div></div>
+        <div class="wf-c"><span id="pg-cl" class="lbl">Accent colour</span><div class="sws" role="group" aria-labelledby="pg-cl">
+          <button type="button" class="pk" style="--sw:#111317" data-sw="#111317" aria-pressed="true" aria-label="Ink, no colour"></button><button type="button" class="pk" style="--sw:#C2461C" data-sw="#C2461C" aria-pressed="false" aria-label="Persimmon"></button><button type="button" class="pk" style="--sw:#2B59C3" data-sw="#2B59C3" aria-pressed="false" aria-label="Ultramarine"></button><button type="button" class="pk" style="--sw:#0F7B6C" data-sw="#0F7B6C" aria-pressed="false" aria-label="Teal"></button><button type="button" class="pk" style="--sw:#7A3FC4" data-sw="#7A3FC4" aria-pressed="false" aria-label="Violet"></button><button type="button" class="pk" style="--sw:#B4235A" data-sw="#B4235A" aria-pressed="false" aria-label="Rani pink"></button></div></div>
+        <div class="wf-d"><label for="pg-d">Your domain</label><input id="pg-d" class="inp mono-in" value="work.fernhill-digital.in" autocomplete="off" spellcheck="false"></div>
+        <div class="wf-b"><button type="button" class="btn pri" id="pg-go"><span>Open <span data-bname>Ordwell</span></span></button><button type="button" class="btn" id="pg-reset">Reset</button></div>
+        <p class="cta-note wf-note">Change it any time in Settings › Branding.</p>
+      </div>
+
+      <div class="wall-g">
+        <div class="w-card w-login" role="group" aria-labelledby="wc-1">
+          <p class="w-cap mono" id="wc-1">1 · The client sign-in</p>
+          <div class="w-body">
+            <span class="mk w-mk" data-bmark aria-hidden="true">O</span>
+            <h3 class="w-h">Sign in to <span data-bname>Ordwell</span></h3>
+            <p class="w-sub">Your plan, your files and anything waiting for your approval.</p>
+            <a class="btn pri w-btn" href="index.html#/settings/members" data-open>Continue as Farhan (client guest)</a>
+            <p class="w-dom mono"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11h12v9H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg><span data-bdomain>work.fernhill-digital.in</span></p>
+          </div>
+        </div>
+        <div class="w-card w-mail" role="group" aria-labelledby="wc-2">
+          <p class="w-cap mono" id="wc-2">2 · The invite email</p>
+          <div class="w-body">
+            <div class="em-h"><b><span data-bname>Ordwell</span> invited you to Website relaunch</b><small class="mono">From <span data-bname>Ordwell</span> · projects@<span data-bdomain>work.fernhill-digital.in</span></small></div>
+            <div class="em-b">
+              <span class="mk em-mk" data-bmark aria-hidden="true">O</span>
+              <p>Hi Farhan, Aditi added you to Website relaunch. You can follow the plan, comment, and approve work when it’s ready. It’s free for you.</p>
+              <span class="em-btn">Open the project</span>
+              <p class="em-f">Sent by <span data-bname>Ordwell</span></p>
+            </div>
+          </div>
+        </div>
+        <div class="w-card w-ws" role="group" aria-labelledby="wc-3">
+          <p class="w-cap mono" id="wc-3">3 · The workspace</p>
+          <div class="w-body">
+            <div class="mini">
+              <div class="ms"><div class="mb"><span class="mk" data-bmark aria-hidden="true">O</span><span class="nm" data-bname>Ordwell</span></div><span>My work</span><span>Inbox</span><span class="on">Website relaunch</span><span>Social retainer</span><span>Dashboards</span></div>
+              <div class="mm"><div class="url"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11h12v9H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg><span data-bdomain>work.fernhill-digital.in</span></div>
+                <div class="row1"><b>Website relaunch</b><span class="nb">+ Task</span></div>
+                <div class="cols"><div><b><span class="sd" style="--c:var(--c-todo)"></span>Brief</b><i>Checkout with UPI</i><i>Gift box configurator</i><i>Launch plan</i></div><div><b><span class="sd" style="--c:var(--c-active)"></span>In progress</b><i class="a">Shop and filters</i><i>Brew guides</i><i>Product page</i></div></div></div>
+            </div>
           </div>
         </div>
       </div>
@@ -90,24 +202,24 @@
 
   <section class="sec" aria-labelledby="h-sys">
     <div class="wrap">
-      <div class="sec-h"><p class="idx"><span>Create automation…</span></p><div><h2 class="h-l" id="h-sys" data-split>Everything around the work, wired in.</h2><p data-reveal>Rules move tasks for you, docs hold live task lists, dashboards read the same numbers, and client forms become tasks with an owner before anyone opens their inbox.</p></div></div>
+      <div class="sec-h"><p class="idx"><span>Create automation…</span></p><div><h2 class="h-l" id="h-sys" data-split>Automations, docs, dashboards and forms, on the same tasks.</h2><p data-reveal>Rules move tasks for you, docs hold live task lists, dashboards read the same numbers, and client forms become tasks with an owner before anyone opens their inbox.</p></div></div>
       <div class="bento" data-stagger>
         <article class="bx s3"><h3>Automations you can read</h3><p>Every rule is a sentence. Build it with blocks, test it on a real task without changing anything, and check the run log when a client asks “who moved this?”.</p>
           <div class="ui"><p class="au-s">When status changes to <em>Approved</em> in <em>Coorg Ember — social</em>, then move to <em>Delivered archive</em>, then notify <em>the project owner</em>.</p>
             <div style="margin-top:10px"><div class="log-l"><i></i><b>Archive approved work</b> · CES-102 <span class="mono">41 ms</span></div><div class="log-l"><i></i><b>Route new client briefs</b> · CEW-134 <span class="mono">63 ms</span></div><div class="log-l"><i></i><b>Due tomorrow reminder</b> · 5 tasks <span class="mono">28 ms</span></div></div></div></article>
         <article class="bx s3"><h3>Docs with live tasks inside</h3><p>Write the brief, the SOP or the retro as blocks — headings, to-dos, callouts — and embed the project’s open work. Tick a task in the doc and it’s done on the board.</p>
-          <div class="ui doc-m"><h2 class="fh">Coorg Ember — brand and site brief</h2><p>The relaunch has one job: turn one-time gifting buyers into fortnightly subscribers.</p>
+          <div class="ui doc-m"><p class="dh">Coorg Ember — brand and site brief</p><p>The relaunch has one job: turn one-time gifting buyers into fortnightly subscribers.</p>
             <div class="emb"><div><span class="cbx on"></span><span class="t" style="text-decoration:line-through;color:var(--muted)">Moodboard and visual direction</span><span class="pill" style="--c:var(--c-done)">Approved</span></div><div><span class="cbx"></span><span class="t">Subscription flow — “Fresh every fortnight”</span><span class="pill" style="--c:var(--c-review)">Internal review</span></div><div><span class="cbx"></span><span class="t">Checkout with UPI and COD</span><span class="pill" style="--c:var(--c-todo)">Brief</span></div></div></div></article>
         <article class="bx s2"><h3>Dashboards that click through</h3><p>Burn-up, by-status, overdue by person. Click a bar to see the tasks behind it.</p>
-          <div class="ui"><svg viewBox="0 0 260 110" style="width:100%;height:auto" role="img" aria-label="Burn-up chart: completed work rising toward scope"><g stroke="#ECEAE4"><line x1="0" x2="260" y1="20" y2="20"/><line x1="0" x2="260" y1="55" y2="55"/><line x1="0" x2="260" y1="90" y2="90"/></g><polyline points="0,90 260,14" fill="none" stroke="#D4CFC4"/><polyline points="0,78 40,70 80,52 120,40 160,30 190,26" fill="none" stroke="#37352F" stroke-width="1.5" stroke-dasharray="4 4"/><polygon points="0,90 0,88 40,84 80,74 120,62 160,50 190,42 190,90" style="fill:color-mix(in srgb,var(--accent) 14%,transparent)"/><polyline points="0,88 40,84 80,74 120,62 160,50 190,42" fill="none" style="stroke:var(--accent)" stroke-width="2.2"/><polyline points="190,42 260,22" fill="none" style="stroke:var(--accent)" stroke-dasharray="3 4" opacity=".6"/><circle cx="190" cy="42" r="4" fill="#fff" style="stroke:var(--accent)" stroke-width="2"/></svg></div></article>
+          <div class="ui chart-ui"><svg class="burn" viewBox="0 0 260 130" preserveAspectRatio="none" role="img" aria-label="Burn-up chart: completed work rising toward scope"><g stroke="#E3E6EB"><line x1="0" x2="260" y1="25" y2="25"/><line x1="0" x2="260" y1="65" y2="65"/><line x1="0" x2="260" y1="105" y2="105"/></g><polyline points="0,105 260,18" fill="none" stroke="#C5CAD3"/><polyline points="0,92 40,84 80,64 120,50 160,38 190,32" fill="none" stroke="#565C68" stroke-width="1.5" stroke-dasharray="4 4"/><polyline points="0,102 40,98 80,86 120,72 160,58 190,48" fill="none" style="stroke:var(--accent)" stroke-width="2.4"/><polyline points="190,48 260,24" fill="none" style="stroke:var(--accent)" stroke-dasharray="3 4" opacity=".6"/></svg><p class="chart-n mono">Burn-up · Coorg Ember — website</p></div></article>
         <article class="bx s2"><h3>Forms that become tasks</h3><p>A branded brief form for clients. Each answer maps to a field; an automation routes it.</p>
-          <div class="ui form-m"><div class="fbox" aria-hidden="true"><i style="width:60%"></i><i></i><i style="width:80%"></i><span class="b"></span></div><svg class="ic arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg><div class="fbox" style="gap:4px"><span class="mono" style="font-size:10px;color:var(--faint)">CEW-134 · via form</span><b style="font-size:12px">Diwali gift box banner</b><span style="display:flex;gap:6px;align-items:center;font-size:11px;color:var(--muted)"><span class="av" style="--h:40">MP</span>Meera · High</span></div></div></article>
-        <article class="bx s2"><h3>Workload, not guesswork</h3><p>Estimates spread across working days, against each person’s capacity.</p>
-          <div class="ui heat" aria-label="Workload heat map example"><b>Priya</b><i class="ov">9.5</i><i class="ov">9.5</i><i class="mid">7</i><i class="ok">5</i><i class="ok">4</i><b>Rohan</b><i class="ok">4</i><i class="mid">7.5</i><i class="mid">7</i><i class="ok">6</i><i class="no"></i><b>Sana</b><i class="ok">3</i><i class="ok">5</i><i class="ok">2</i><i class="mid">6.5</i><i class="ok">4</i></div></article>
+          <div class="ui form-m"><div class="fbox" aria-hidden="true"><i style="width:60%"></i><i></i><i style="width:80%"></i><span class="b"></span></div><svg class="ic arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg><div class="fbox" style="gap:4px"><span class="mono" style="font-size:10.5px;color:var(--faint)">CEW-134 · via form</span><b style="font-size:12.5px">Diwali gift box banner</b><span style="display:flex;gap:6px;align-items:center;font-size:11.5px;color:var(--muted)"><span class="av">MP</span>Meera · High</span></div></div></article>
+        <article class="bx s2"><h3>Workload, not guesswork</h3><p>Estimates spread across working days, against each person’s capacity. Amber means a day is over.</p>
+          <div class="ui heat" role="img" aria-label="Workload: three people over five days, one day over capacity for Priya"><span></span><small>Mon</small><small>Tue</small><small>Wed</small><small>Thu</small><small>Fri</small><b>Priya</b><i class="ok">6</i><i class="ok">7.5</i><i class="ov">9.5</i><i class="ok">5</i><i class="ok">4</i><b>Rohan</b><i class="ok">4</i><i class="ok">7</i><i class="ok">6</i><i class="ok">5.5</i><i class="no"></i><b>Sana</b><i class="ok">3</i><i class="ok">5</i><i class="ok">2</i><i class="ok">6</i><i class="ok">4</i><p class="heat-n">Capacity 8 h a day</p></div></article>
         <article class="bx s3"><h3>⌘K for everything</h3><p>Jump to any task, project, doc or person, switch views, start a timer, undo — without the mouse. Every list also does J/K, X to select and Enter to open.</p>
           <div class="ui" style="background:var(--sunk)"><div class="pal-m" aria-hidden="true"><div class="in"><svg class="ic" viewBox="0 0 24 24"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg>subscr<kbd>esc</kbd></div><div class="r on"><span class="pill" style="--c:var(--c-review)">Review</span>Subscription flow — “Fresh every fortnight”<small>CEW-110</small></div><div class="r">Review subscription flow in the sandbox<small>CEW-131</small></div><div class="r">Start timer on Subscription flow<small>T</small></div></div></div></article>
         <article class="bx s3"><h3>An inbox that clears itself</h3><p>Mentions, assignments, automation results and form submissions in one place. Reply, mark done or snooze till tomorrow without opening the task. Replies land while you watch.</p>
-          <div class="ui"><div class="log-l"><span class="av" style="--h:200">RI</span><b>Rohan</b> mentioned you on CEW-110 <span class="mono">9:12</span></div><div class="log-l"><span class="av" style="--h:40">MP</span><b>Meera</b> mentioned you on TAR-103 <span class="mono">10:04</span></div><div class="log-l"><i style="background:var(--accent)"></i><b>Form</b> New brief: Pongal lookbook <span class="mono">Mon</span></div></div></article>
+          <div class="ui"><div class="log-l"><span class="av">RI</span><b>Rohan</b> mentioned you on CEW-110 <span class="mono">9:12</span></div><div class="log-l"><span class="av">MP</span><b>Meera</b> mentioned you on TAR-103 <span class="mono">10:04</span></div><div class="log-l"><i style="background:var(--accent)"></i><b>Form</b> New brief: Pongal lookbook <span class="mono">Mon</span></div><div class="log-l"><span class="av">AR</span><b>Aditi</b> assigned you CEW-122 <span class="mono">11:30</span></div><div class="log-l"><i></i><b>Route new client briefs</b> ran on CEW-134 <span class="mono">12:02</span></div></div></article>
       </div>
       <div class="small-list" data-stagger>
         <div><b>Undo everything</b><span>⌘Z reverses any change — a drag, a bulk edit, a deleted column.</span></div>
@@ -151,7 +263,7 @@
           <div class="gr"><span class="pill" style="--c:var(--c-review2)">Client review</span><span class="t">Homepage design — hero and story</span><span class="money">₹1,80,000</span></div>
           <div class="gr"><span class="pill" style="--c:var(--c-review)">Internal review</span><span class="t">Subscription flow</span><span class="money">₹2,20,000</span></div>
           <div class="gr"><span class="pill" style="--c:var(--c-active)">In progress</span><span class="t">Estate story film — edit</span><span class="money">₹2,10,000</span></div>
-          <div class="cmt"><span class="int">INTERNAL</span><span>Kabir: “B for sure. Can we get this in front of Farhan before Friday?”</span></div></div>
+          <div class="cmt"><span class="int">Internal</span><span>Kabir: “B for sure. Can we get this in front of Farhan before Friday?”</span></div></div>
         <div class="gpane"><div class="gh">Farhan (client guest) sees <small>· same project</small></div>
           <div class="gr"><span class="pill" style="--c:var(--c-review2)">Client review</span><span class="t">Homepage design — hero and story</span><span class="money">—</span></div>
           <div class="gr hid"><span class="t">Subscription flow</span></div>
@@ -162,39 +274,17 @@
     </div>
   </section>
 
-  <section class="sec" id="white-label" aria-labelledby="h-wl" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
-    <div class="wrap">
-      <div class="sec-h"><p class="idx"><span>Change brand name, logo or accent</span></p><div><h2 class="h-l" id="h-wl" data-split>Make it yours. Right now.</h2><p data-reveal>Type a name and pick a colour — this whole page re-brands as you do. Then open Ordwell as that product, logo, accent and all.</p></div></div>
-      <div class="play">
-        <div class="play-f">
-          <div><label for="pg-n">Product name</label><input id="pg-n" class="inp" maxlength="28" value="Fernhill Workroom" autocomplete="off"><div class="err" id="pg-e" hidden></div></div>
-          <div><span id="pg-cl" style="font-size:13px;font-weight:500;color:var(--ink-2);display:block;margin-bottom:8px">Accent colour</span><div class="sws" role="group" aria-labelledby="pg-cl">
-            <button type="button" class="sw" style="--sw:#C2461C" data-sw="#C2461C" aria-pressed="true" aria-label="Persimmon"></button><button type="button" class="sw" style="--sw:#2B59C3" data-sw="#2B59C3" aria-pressed="false" aria-label="Ultramarine"></button><button type="button" class="sw" style="--sw:#0F7B6C" data-sw="#0F7B6C" aria-pressed="false" aria-label="Teal"></button><button type="button" class="sw" style="--sw:#7A3FC4" data-sw="#7A3FC4" aria-pressed="false" aria-label="Violet"></button><button type="button" class="sw" style="--sw:#B4235A" data-sw="#B4235A" aria-pressed="false" aria-label="Rani pink"></button><button type="button" class="sw" style="--sw:#1B1A17" data-sw="#1B1A17" aria-pressed="false" aria-label="Ink"></button></div></div>
-          <div><label for="pg-d">Your domain</label><input id="pg-d" class="inp" value="work.fernhill-digital.in" autocomplete="off"></div>
-          <div class="cta-row" style="margin-top:4px"><button type="button" class="btn pri" id="pg-go"><span>Open Ordwell as <span data-bname-live>Fernhill Workroom</span></span></button><button type="button" class="btn" id="pg-reset">Reset</button></div>
-          <p class="cta-note">Saved in your browser only. Change it any time in Settings › Branding.</p>
-        </div>
-        <div class="mini" aria-label="Live preview of your branded workspace">
-          <div class="ms"><div class="mb"><span class="mk brand-mk" data-bmark style="background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:700">F</span><span data-bname-live style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Fernhill Workroom</span></div><span>My work</span><span>Inbox</span><span class="on">Website relaunch</span><span>Social retainer</span><span>Dashboards</span></div>
-          <div class="mm"><div class="url"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width:13px;height:13px"><path d="M6 11h12v9H6zM8.5 11V8a3.5 3.5 0 0 1 7 0v3"/></svg><span id="pg-url">work.fernhill-digital.in</span></div>
-            <div class="row1"><b>Website relaunch</b><span class="nb">+ New task</span></div>
-            <div class="cols"><div><b><span class="sd" style="--c:var(--c-todo)"></span>Brief</b><i>Checkout with UPI</i><i>Gift box configurator</i></div><div><b><span class="sd f" style="--c:var(--c-active)"></span>In progress</b><i class="a">Shop and filters</i><i>Brew guides</i></div><div><b><span class="sd f" style="--c:var(--c-done)"></span>Approved</b><i>Moodboard</i></div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="sec" aria-labelledby="h-tpl">
     <div class="wrap">
-      <div class="sec-h"><p class="idx"><span>New project from a template</span></p><div><h2 class="h-l" id="h-tpl" data-split>Start from a plan that already works.</h2><p data-reveal>Statuses, custom fields with formulas, dated tasks with dependencies and the automations to run them.</p></div></div>
-      <div class="tgrid" id="tpl-strip" data-stagger></div>
+      <div class="sec-h"><p class="idx"><span>New project from a template</span></p><div><h2 class="h-l" id="h-tpl" data-split>Six plans. Take one.</h2><p data-reveal>Statuses, custom fields with formulas, dated tasks with dependencies and the automations to run them.</p></div></div>
+      <div class="tgrid t2" id="tpl-strip" data-stagger></div>
       <p style="margin-top:22px"><a class="btn" href="templates.html">All templates</a></p>
     </div>
   </section>
 
   <section class="sec" aria-labelledby="h-faq" style="padding-top:0">
     <div class="wrap">
-      <div class="sec-h"><p class="idx"><span>Search help…</span></p><div><h2 class="h-l" id="h-faq">Asked by agencies every week.</h2></div></div>
+      <div class="sec-h"><p class="idx"><span>Search help…</span></p><div><h2 class="h-l" id="h-faq">Before you ask.</h2></div></div>
       <div class="faq">
         <details><summary>Can my clients tell it’s Ordwell?</summary><p>Not unless you want them to. On the Agency plan your domain, logo, colours, email sender name and login page are yours, and the “Powered by” credit can be switched off.</p></details>
         <details><summary>Do guests cost anything?</summary><p>No. Client guests are free and unlimited on every plan. They see only tasks you tag client-visible, can comment and approve, and never see internal comments or money fields.</p></details>
@@ -206,7 +296,7 @@
 
   <section class="cta-big" aria-labelledby="h-cta">
     <div class="wrap"><h2 id="h-cta" data-split>Run the work. Keep the brand.</h2>
-      <div class="cta-row"><a class="btn pri" href="index.html" data-magnetic>Open Ordwell</a><a class="btn" href="pricing.html#walkthrough">Book a walkthrough</a></div></div>
+      <div class="cta-row"><a class="btn pri" href="index.html" data-magnetic data-open><span>Open <span data-bname>Ordwell</span></span></a><a class="btn" href="pricing.html#walkthrough">Book a walkthrough</a></div></div>
   </section>
 </main>
 
@@ -215,10 +305,10 @@
     <div class="foot-g">
       <div><a class="brand" href="product.html"><span class="mk" data-bmark aria-hidden="true">O</span><span data-bname>Ordwell</span></a><p style="margin-top:12px">The white-label work OS for agencies and the teams they serve. Made in Bengaluru.</p></div>
       <div><h2 class="fh">Product</h2><a href="index.html">Open the app</a><a href="#views">Views</a><a href="templates.html">Templates</a><a href="pricing.html">Pricing</a></div>
-      <div><h2 class="fh">Company</h2><a href="pricing.html#walkthrough">Book a walkthrough</a><a href="staff.html">Staff</a><a href="legal.html">Terms and privacy</a></div>
+      <div><h2 class="fh">Company</h2><a href="pricing.html#walkthrough">Book a walkthrough</a><a href="legal.html">Terms and privacy</a></div>
       <div><h2 class="fh">Try it in the app</h2><a href="index.html#/p/p1/timeline">Timeline with dependencies</a><a href="index.html#/auto">Automations</a><a href="index.html#/settings/brand">Branding</a></div>
     </div>
-    <div class="wordmark" aria-hidden="true">Ordwell<span class="cur"></span></div>
+    <div class="wordmark" aria-hidden="true"><span data-bname data-fit>Ordwell</span><span class="cur"></span></div>
     <div class="credits"><span>© 2026 Ordwell. A portfolio project by Abhishek.</span><span>Made in Bengaluru</span></div>
   </div>
 </footer>

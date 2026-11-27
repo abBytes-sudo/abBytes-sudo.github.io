@@ -3,7 +3,7 @@
 (function () {
   'use strict';
   var OW = window.OW, UI = OW.UI, Q = OW.Q, D = OW.D, I = UI.I, esc = UI.esc, store = OW.store, app = OW.app;
-  var SW = ['#C2461C', '#2B59C3', '#0F7B6C', '#7A3FC4', '#B4235A', '#1B1A17', '#B7791F', '#2F7D32'];
+  var SW = ['#111317', '#C2461C', '#2B59C3', '#0F7B6C', '#7A3FC4', '#B4235A', '#B7791F', '#2F7D32'];
   var TABS = [['Workspace', [['brand', 'Branding', 'brush'], ['domain', 'Domain and login', 'globe'], ['members', 'Members and guests', 'users'], ['roles', 'Roles and permissions', 'shield'], ['workspace', 'General', 'settings']]], ['You', [['notifications', 'Notifications', 'bell'], ['shortcuts', 'Shortcuts', 'keyb'], ['data', 'Data', 'db']]]];
 
   OW.routes.settings = function (main, args) {
@@ -66,7 +66,7 @@
   }
   UI.act('br-acc', function (el) { var c = el.getAttribute('data-c'); store.commit('Accent ' + c, function (S) { S.brand.accent = c; }); });
   UI.act('br-logo-rm', function () { store.commit('Removed logo', function (S) { S.brand.logo = null; }); });
-  UI.act('br-reset', function () { store.commit('Branding reset', function (S) { S.brand.name = 'Ordwell'; S.brand.accent = '#C2461C'; S.brand.logo = null; }); });
+  UI.act('br-reset', function () { store.commit('Branding reset', function (S) { S.brand.name = 'Ordwell'; S.brand.accent = '#111317'; S.brand.logo = null; }); });
 
   /* ---------- domain & login ---------- */
   P.domain = function (S) {
@@ -159,7 +159,7 @@
   };
   P.data = function (S) {
     var kb = Math.round(JSON.stringify(S).length / 1024);
-    return head('Data', 'Your workspace is stored in this browser (' + kb + ' KB). Export it any time.') +
+    return head('Data', 'Your workspace is saved on this device (' + kb + ' KB). Export it any time.') +
       sec('Export', 'Download the whole workspace as JSON.', '<button type="button" class="btn" data-act="data-export">' + I('download') + 'Export workspace (.json)</button>') +
       sec('Start fresh', 'Restore the original Fernhill Digital projects, tasks and settings.', '<button type="button" class="btn danger" data-act="data-reset">' + I('refresh') + 'Start fresh</button>');
   };

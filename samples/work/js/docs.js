@@ -197,7 +197,7 @@
       { label: 'Move to space…', icon: 'folder', fn: function () { UI.menu(el, store.S.spaces.filter(function (s) { return s.ws === store.S.ws; }).map(function (s) { return { label: s.name, checked: s.id === d.space, fn: function () { store.commit('Moved doc to ' + s.name, function () { d.space = s.id; }); } }; })); } },
       { label: 'Copy as Markdown', icon: 'copy', fn: function () {
         var n = 0, md = '# ' + d.title + '\n\n' + d.blocks.map(function (b) { if (b.t === 'numbered') n++; else n = 0; var t = b.t === 'task' && Q.task(b.ref) ? Q.task(b.ref) : null; return { p: b.x, h1: '# ' + b.x, h2: '## ' + b.x, h3: '### ' + b.x, bullet: '- ' + b.x, numbered: n + '. ' + b.x, todo: '- [' + (b.d ? 'x' : ' ') + '] ' + b.x, quote: '> ' + b.x, callout: '> **Note:** ' + b.x, divider: '---', task: t ? '- [' + (Q.isDone(t) ? 'x' : ' ') + '] ' + t.num + ' ' + t.title : '', tasks: '_(live task list)_' }[b.t]; }).join('\n\n');
-        try { navigator.clipboard.writeText(md).then(function () { UI.toast('Copied as Markdown', { icon: 'copy' }); }); } catch (e) { UI.toast('Copy isn’t available in this browser'); }
+        try { navigator.clipboard.writeText(md).then(function () { UI.toast('Copied as Markdown', { icon: 'copy' }); }); } catch (e) { UI.toast('Copying isn’t available here'); }
       } },
       { sep: true }, { label: 'Delete doc', icon: 'trash', danger: true, fn: function () { store.commit('Deleted ' + (d.title || 'doc'), function (S) { S.docs = S.docs.filter(function (x) { return x.id !== d.id; }); }); app.go('#/docs'); } }
     ], { alignRight: true });

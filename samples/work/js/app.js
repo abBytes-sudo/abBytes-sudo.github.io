@@ -261,7 +261,7 @@
   };
   UI.act('exit-view-as', function () { app.viewAs(null); });
   app.toggleTheme = function () { store.commit('Theme', function (S) { S.prefs.theme = S.prefs.theme === 'dark' ? 'light' : 'dark'; }, { quiet: true }); };
-  app.resetDemo = function () { UI.confirm('Start fresh?', 'This puts back the original Fernhill Digital projects, tasks, docs and settings. Anything you changed in this browser is cleared.', 'Start fresh', function () { store.reset(); app.go('#/home'); UI.toast('Workspace restored', { icon: 'refresh' }); }, true); };
+  app.resetDemo = function () { UI.confirm('Start fresh?', 'This puts back the original Fernhill Digital projects, tasks, docs and settings. Changes you made to tasks, docs and settings are cleared.', 'Start fresh', function () { store.reset(); app.go('#/home'); UI.toast('Workspace restored', { icon: 'refresh' }); }, true); };
   UI.act('side-toggle', function () { var a = $('.app'); var c = a.classList.toggle('collapsed'); $('#side-t').setAttribute('aria-expanded', String(!c)); });
   UI.act('ham', function () { document.body.classList.toggle('nav-open'); });
   UI.act('scrim', function () { document.body.classList.remove('nav-open'); });
@@ -379,6 +379,9 @@
     store.load(); app.applyBrand();
     $('#side').hidden = false;
     render();
+    // opened as a client workspace from the reseller console: offer the way back
+    var rb = store.S.rebrand;
+    if (rb && rb.prev) setTimeout(function () { UI.toast('Showing the workspace as <b>' + esc(store.S.brand.name) + '</b>', { icon: 'eye', ms: 9000, action: { label: 'Undo', fn: function () { store.commit('Restored the previous brand', function (S) { Object.keys(rb.prev).forEach(function (k) { S.brand[k] = rb.prev[k]; }); delete S.rebrand; }, { quiet: true }); app.applyBrand(); } } }); }, 600);
     store.scheduled();
     // simulated teammates: replies to @mentions arrive a little later (demo)
     OW.sim && OW.sim.start();

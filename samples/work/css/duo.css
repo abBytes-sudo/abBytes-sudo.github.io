@@ -1,0 +1,44 @@
+/* Ordwell, product page: "Drag it here. It moves there." Two stages, one set of ten tasks (js/duo.js).
+   The task layers (.it2 .ly), the backdrops (.bg-*) and the workload blocks (.wl-*) come from site.css. */
+.duo{max-width:1360px;width:calc(100% - var(--gut) * 2);margin:0 auto}
+.duo-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:16px}
+.duo-hint{font-size:12.5px;color:var(--muted)}
+
+/* keycaps: 1 px ink border, a hard 3 px key-travel shadow, pressed = moved down */
+.kt{height:30px;padding:0 11px;border:1px solid var(--ink);border-radius:7px;background:var(--surface);color:var(--ink);font:600 12.5px var(--font);box-shadow:0 3px 0 var(--ink);margin-bottom:3px;transition:transform .12s,box-shadow .12s,background .12s,color .12s;white-space:nowrap}
+.kt:hover{transform:translateY(1px);box-shadow:0 2px 0 var(--ink)}
+.kt[aria-pressed=true]{background:var(--accent);color:var(--on-accent);transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.kt:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.kt-sw{height:36px;padding:0 14px 0 12px;display:inline-flex;align-items:center;gap:9px;font-size:13.5px}
+.sw-k{width:9px;height:9px;border-radius:50%;border:1.6px solid currentColor;flex:none}
+.kt-sw[aria-pressed=true] .sw-k{background:currentColor}
+
+.duo-frame{width:100%;max-width:none;flex:none;height:auto;grid-template-columns:168px minmax(0,1fr);animation:none}
+.duo-frame .f-top{padding:12px 16px 12px}
+.stages{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--line)}
+.stage{display:flex;flex-direction:column;min-width:0;padding:12px 12px 14px}
+.stage+.stage{border-left:1px solid var(--line)}
+.st-tabs{display:flex;gap:6px;flex-wrap:wrap;padding:0 2px 8px}
+.st-cv{user-select:none;-webkit-user-select:none;position:relative;height:440px;border:1px solid var(--line-2);border-radius:10px;background:var(--surface);overflow:hidden;contain:layout paint}
+.st-bg{position:absolute;inset:0;transition:opacity .15s}
+.st-bg.out{opacity:0}
+.st-cv .bg-col{transition:background .2s,border-color .2s}
+.st-cv .bg-col.drop{background:var(--sunk);border-color:var(--ink)}
+.st-cv .it2{transition:transform .3s var(--ease),opacity .3s,border-color .2s,box-shadow .2s;outline:none}
+.st-cv .it2 .ly{transition:opacity .3s}
+.st-cv .it2.nofl{transition:none}
+.st-cv .it2:focus-visible{outline:2px solid var(--ink);outline-offset:1px;z-index:6}
+.st-cv .it2.drag{transition:none;z-index:7;border-color:var(--ink);box-shadow:0 3px 0 var(--ink);cursor:grabbing}
+.st-cv .it2.hid{opacity:0;pointer-events:none;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
+.st-cv .it2.ghost{background:transparent;border:1px dashed var(--line-3);box-shadow:none;pointer-events:none}
+.st-cv .it2.ghost .ly{opacity:0}
+.stage[data-view="0"] .it2,.stage[data-view="2"] .it2,.stage[data-view="3"] .it2{touch-action:none;cursor:grab}
+.stage[data-view="2"] .it2.ew{cursor:ew-resize}
+.stage[data-view="2"] .it2.ms{cursor:grab}
+
+.duo-foot{display:flex;align-items:baseline;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;margin-top:16px}
+.duo-cap{flex:1 1 440px;min-height:3.1em;font:500 12.5px/1.55 var(--mono);color:var(--ink-2)}
+.lk{font:600 13.5px var(--font);color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;padding:4px 0}
+.lk:hover{text-decoration-thickness:2px}
+
+@media (max-width:1240px){.duo-frame{grid-template-columns:minmax(0,1fr)}.duo-frame .f-side{display:none}}

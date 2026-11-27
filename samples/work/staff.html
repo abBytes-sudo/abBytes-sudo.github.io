@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'none'; base-uri 'none'; form-action 'none'">
-<title>Staff — walkthrough requests · Ordwell</title>
-<meta name="description" content="The back office for Ordwell’s marketing site: walkthrough requests with stages, outcomes and workspace provisioning.">
+<title>Fernhill Digital · reseller console</title>
+<meta name="description" content="The reseller console for Fernhill Digital: walkthrough requests, client workspaces, provisioning, conversations and payouts for an agency that resells Ordwell under its own name.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Staff — walkthrough requests · Ordwell">
-<meta property="og:description" content="The back office for Ordwell’s marketing site: walkthrough requests with stages, outcomes and workspace provisioning.">
+<meta property="og:title" content="Fernhill Digital · reseller console">
+<meta property="og:description" content="Requests, client workspaces, provisioning, conversations and payouts for an agency that resells Ordwell.">
 <meta property="og:image" content="https://abbytes-sudo.github.io/samples/work/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -17,53 +17,62 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#F6F7F9">
 <link rel="preload" href="fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/site.min.css?v=521917">
+<link rel="stylesheet" href="css/staff.css?v=4">
 <link rel="stylesheet" href="../assets/back.css?v=2">
 <script src="../assets/back.js?v=1" defer></script>
-<script src="js/site.min.js?v=521917" defer></script>
-<script src="js/staff.js?v=521917" defer></script>
+<script src="js/staff.js?v=813693" defer></script>
 <meta name="robots" content="noindex">
-<style>@view-transition{navigation:auto}</style>
 </head>
 <body>
 <div class="demo" role="note">Portfolio project by Abhishek</div>
 <a class="skip" href="#main">Skip to content</a>
-<header class="nav" id="nav">
-  <div class="wrap">
-    <a class="brand" href="product.html"><span class="mk" data-bmark aria-hidden="true">O</span><span data-bname>Ordwell</span></a>
-    <nav class="nav-l" aria-label="Site">
-      <a href="product.html#views">Product</a><a href="templates.html">Templates</a><a href="pricing.html">Pricing</a><a href="product.html#white-label">White-label</a>
+<div class="shell" id="shell">
+  <aside class="cside" aria-label="Console">
+    <div class="cbrand"><span class="kk" style="--c:#111317;--o:#FFFFFF" aria-hidden="true">F</span><span><b>Fernhill Digital</b><small>Reseller console</small></span></div>
+    <nav class="cnav" id="cnav" aria-label="Views">
+      <a href="#/home" data-v="home"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z"/></svg>Home</a>
+      <a href="#/requests" data-v="requests"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h5l1.5 3h5L16 13h5M5.5 5h13L21 13v5.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5V13z"/></svg>Requests<span class="cnt" id="n-requests"></span></a>
+      <a href="#/workspaces" data-v="workspaces"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5zM3 13l9 5 9-5"/></svg>Workspaces<span class="cnt" id="n-workspaces"></span></a>
+      <a href="#/chats" data-v="chats"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Conversations<span class="cnt" id="n-chats"></span></a>
+      <a href="#/payouts" data-v="payouts"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>Payouts</a>
     </nav>
-    <span class="sp"></span>
-    <a class="btn sm ghost-m" href="pricing.html#walkthrough">Book a walkthrough</a>
-    <a class="btn sm pri" href="index.html">Open Ordwell</a>
-  </div>
-</header>
-<main id="main">
-
-<div class="staff" aria-labelledby="h1">
-  <div class="staff-h"><div><p class="muted" style="font-size:13px;margin-bottom:6px">Ordwell team · sales back office</p><h1 id="h1">Walkthrough requests</h1></div><span class="sp"></span><a class="btn sm" href="pricing.html#walkthrough">Open the public form</a><button type="button" class="btn sm" id="st-reset">Reset leads</button></div>
-  <div class="seg st-tabs" role="tablist" aria-label="Back office"><button type="button" role="tab" data-tab="req" aria-selected="true" aria-pressed="true">Requests</button><button type="button" role="tab" data-tab="chat" aria-selected="false" aria-pressed="false">Conversations <small id="st-chatn"></small></button></div>
-  <div id="pane-req">
-  <div class="kpi4" id="st-kpi" role="group" aria-label="Filter by stage"></div>
-  <div class="leads" id="st-list" role="list"></div>
-  <div id="st-detail"></div>
-  </div>
-  <div id="pane-chat" hidden><p class="muted" style="font-size:14px;margin:4px 0 14px">Every chat from the sales assistant on the website. Take one over, reply as yourself, hand it back or resolve it.</p><div class="convos" id="st-convos"><div class="cv-load">Loading conversations…</div></div></div>
-</div>
-
-</main>
-<footer class="foot">
-  <div class="wrap">
-    <div class="foot-g">
-      <div><a class="brand" href="product.html"><span class="mk" data-bmark aria-hidden="true">O</span><span data-bname>Ordwell</span></a><p style="margin-top:12px">The white-label work OS for agencies and the teams they serve. Made in Bengaluru.</p></div>
-      <div><h2 class="fh">Product</h2><a href="index.html">Open the app</a><a href="product.html#views">Views</a><a href="templates.html">Templates</a><a href="pricing.html">Pricing</a></div>
-      <div><h2 class="fh">Company</h2><a href="pricing.html#walkthrough">Book a walkthrough</a><a href="staff.html">Staff</a><a href="legal.html">Terms and privacy</a></div>
-      <div><h2 class="fh">Try it in the app</h2><a href="index.html#/p/p1/timeline">Timeline with dependencies</a><a href="index.html#/auto">Automations</a><a href="index.html#/settings/brand">Branding</a></div>
+    <div class="cfoot">
+      <a href="index.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-8 8M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>Open the app</a>
+      <a href="pricing.html#walkthrough"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v18H7zM10 18h4"/></svg>Public request form</a>
+      <button type="button" data-a="reset"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v4.5h4.5"/></svg><span>Reset console</span></button>
     </div>
-    <div class="wordmark" aria-hidden="true">Ordwell</div>
-    <div class="credits"><span>© 2026 Ordwell. A portfolio project by Abhishek.</span><span>Made in Bengaluru</span></div>
+  </aside>
+  <div class="mainc">
+    <header class="ctop">
+      <div class="crumbs"><span>Fernhill Digital</span><span class="sep" aria-hidden="true">/</span><b id="crumb">Home</b></div>
+      <span class="sp"></span>
+      <button type="button" class="srch" data-a="palette"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+      <button type="button" class="btn pri" id="new-btn" data-a="new" aria-haspopup="menu"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span class="hide-s">New</span><span class="sr">Create new</span></button>
+    </header>
+    <main class="content" id="main" tabindex="-1">
+      <div class="page">
+        <div class="ph"><div><h1 id="h1">Reseller console</h1><p class="muted" id="sub">Loading your workspaces</p></div><div class="acts" id="acts"></div></div>
+        <div id="view"></div>
+      </div>
+    </main>
   </div>
-</footer>
+</div>
+<nav class="tabbar" id="tabbar" aria-label="Mobile">
+  <a href="#/home" data-v="home"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z"/></svg>Home</a>
+  <a href="#/requests" data-v="requests"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h5l1.5 3h5L16 13h5M5.5 5h13L21 13v5.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5V13z"/></svg>Requests</a>
+  <a href="#/workspaces" data-v="workspaces"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5zM3 13l9 5 9-5"/></svg>Workspaces</a>
+  <a href="#/chats" data-v="chats"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Chats</a>
+  <button type="button" data-a="more" aria-haspopup="menu"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>More</button>
+</nav>
+<div class="scrim" id="scrim" data-a="so-close" hidden></div>
+<aside class="so" id="so" role="dialog" aria-modal="true" aria-labelledby="so-h" hidden tabindex="-1"></aside>
+<div class="pal-wrap" id="pal" hidden>
+  <div class="pal" role="dialog" aria-modal="true" aria-label="Search the console">
+    <input id="pal-q" type="text" placeholder="Search requests, workspaces, chats, views…" aria-label="Search the console" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-l">
+    <div class="pal-l" id="pal-l" role="listbox" aria-label="Results"></div>
+  </div>
+</div>
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+<noscript><p style="padding:24px">The reseller console needs JavaScript to run.</p></noscript>
 </body>
 </html>
