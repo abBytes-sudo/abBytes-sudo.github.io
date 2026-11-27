@@ -9,9 +9,12 @@
   if (qs.get('in') && qs.get('in') >= today) { st.in = qs.get('in'); st.out = qs.get('out') && qs.get('out') > st.in ? qs.get('out') : D.add(st.in, 2); }
   if (qs.get('ad')) st.adults = Math.max(1, Math.min(8, +qs.get('ad') || 2));
   if (qs.get('type') && TD.type(qs.get('type'))) st.type = qs.get('type');
+  // a window chosen on the ridge (home page): that room, of that type, goes first in the quote
+  st.room = null;
+  if (qs.get('room')) { var rq = qs.get('room').toUpperCase(), rt = TD.allRooms.filter(function (x) { return x.id === rq; })[0]; if (rt) { st.type = rt.type; st.room = rq; } }
   var step = 0, maxStep = 0;
   function save() { try { var c = Object.assign({}, st); delete c.guest; sessionStorage.setItem('td:draft', JSON.stringify(c)); } catch (e) {} }
-  function req() { return { type: st.type, checkin: st.in, checkout: st.out, rooms: st.rooms, adults: st.adults, kids: st.kids, plan: st.plan, addons: st.addons, pay: st.pay }; }
+  function req() { return { type: st.type, room: st.room, checkin: st.in, checkout: st.out, rooms: st.rooms, adults: st.adults, kids: st.kids, plan: st.plan, addons: st.addons, pay: st.pay }; }
 
   // ---------- steps ----------
   var panes = $$('.be-pane'), stepBtns = $$('#steps button');
@@ -109,9 +112,15 @@
   ages(); cal();
 
   // ---------- 2 · cottage + meals ----------
+  // the room chosen from its window on the ridge, if there is one
+  function windowNote() {
+    if (!st.room || !st.type || st.rooms > 1) return '';
+    var t = TD.type(st.type), free = TD.freeRooms(st.type, st.in, st.out);
+    return free.indexOf(st.room) >= 0 ? ' Your window: ' + t.name + ' ' + st.room + ', held for you on the ridge.' : ' ' + st.room + ' is taken for these dates, so we will give you the next free ' + t.name + '.';
+  }
   function renderOpts() {
     if (!st.in || !st.out) return;
-    $('#p1-sub').textContent = D.fmt(st.in, { weekday: 'short' }) + ' to ' + D.fmt(st.out, { weekday: 'short' }) + ' · ' + TD.nights(D.diff(st.in, st.out)) + ' · ' + st.adults + ' adult' + (st.adults > 1 ? 's' : '') + (st.kids.length ? ' + ' + st.kids.length + ' child' + (st.kids.length > 1 ? 'ren' : '') : '') + '. Totals include breakfast, before GST.';
+    $('#p1-sub').textContent = D.fmt(st.in, { weekday: 'short' }) + ' to ' + D.fmt(st.out, { weekday: 'short' }) + ' · ' + TD.nights(D.diff(st.in, st.out)) + ' · ' + st.adults + ' adult' + (st.adults > 1 ? 's' : '') + (st.kids.length ? ' + ' + st.kids.length + ' child' + (st.kids.length > 1 ? 'ren' : '') : '') + '. Totals include breakfast, before GST.' + windowNote();
     var list = TD.types.map(function (t) {
       // how many cottages this party needs at minimum
       var need = Math.max(1, Math.ceil(st.adults / t.maxAdults), Math.ceil((st.adults + st.kids.length) / t.maxGuests), t.maxKids ? Math.ceil(st.kids.length / t.maxKids) : st.kids.length ? 99 : 1);
@@ -128,7 +137,7 @@
         '<div><h3>' + esc(t.plural) + '</h3><p class="sub">' + esc(t.line) + '</p><div class="meta"><span class="tag">' + t.size + ' m²</span><span class="tag">Sleeps ' + esc(t.sleeps) + '</span>' + (o.ok && q.free.length <= 2 && t.rooms.length > 1 ? '<span class="tag lamp">' + q.free.length + ' left</span>' : '') + (o.need > 1 && o.ok ? '<span class="tag">' + o.need + ' needed</span>' : '') + '</div>' + (o.ok ? '' : '<p class="why">' + esc(why || 'Not available') + '</p>') + '</div>' +
         '<div class="pr">' + (o.ok ? '<div><b>' + TD.inr(q.subtotal) + '</b><span>' + TD.inr(Math.round(q.lines[0].amt / nights / q.rooms)) + ' avg a night</span></div><span class="sel">' + (st.type === t.id ? 'Selected' : 'Choose') + '</span>' : '<span class="small muted">' + (q.free && q.free.length ? '' : 'Full') + '</span>') + '</div></label>';
     }).join('');
-    $$('#opts input').forEach(function (r) { r.onchange = function () { st.type = r.value; var o = list.filter(function (x) { return x.t.id === r.value; })[0]; st.rooms = o.need; if (st.addons.pet && st.type !== 'deodar') delete st.addons.pet; renderOpts(); summary(); save(); }; });
+    $$('#opts input').forEach(function (r) { r.onchange = function () { if (st.room && (TD.allRooms.filter(function (x) { return x.id === st.room; })[0] || {}).type !== r.value) st.room = null; st.type = r.value; var o = list.filter(function (x) { return x.t.id === r.value; })[0]; st.rooms = o.need; if (st.addons.pet && st.type !== 'deodar') delete st.addons.pet; renderOpts(); summary(); save(); }; });
     // rooms
     var sel = list.filter(function (o) { return o.t.id === st.type; })[0];
     $('#rooms-row').hidden = !sel || sel.t.rooms.length < 2;
@@ -237,7 +246,7 @@
   function confirmPane(b, q, paid, method) {
     var t = TD.type(b.type), n = D.diff(b.checkin, b.checkout);
     var p = $('[data-p="5"]');
-    p.innerHTML = '<p class="kicker"><span class="dot"></span> Confirmed</p><h2 id="p5-h" style="margin-top:16px">See you on the ridge, <em>' + esc(b.guest.first) + '.</em></h2>' +
+    p.innerHTML = '<p class="kicker"><span class="dot"></span> Confirmed</p><h2 id="p5-h" style="margin-top:16px">See you on the ridge, ' + esc(b.guest.first) + '.</h2>' +
       '<p>Your ' + esc(t.name) + ' is booked. A confirmation is on its way to ' + esc(b.guest.email) + '.</p>' +
       '<div class="conf-ref"><span class="small muted">Booking reference</span><b>' + b.ref + '</b><button class="ul small" type="button" id="copy-ref" style="font-weight:600">Copy</button></div>' +
       '<div class="voucher" id="voucher"><div><div><span>Arrive</span><b>' + D.long(b.checkin) + '</b><br><small class="muted">from 2 pm</small></div><div><span>Leave</span><b>' + D.long(b.checkout) + '</b><br><small class="muted">by 2 pm (direct perk)</small></div><div><span>Cottage</span><b>' + esc(t.name) + (q.rooms > 1 ? ' × ' + q.rooms : '') + '</b><br><small class="muted">' + b.room + (q.rooms > 1 ? ' + more' : '') + '</small></div><div><span>Guests</span><b>' + b.adults + ' adult' + (b.adults > 1 ? 's' : '') + (b.kids.length ? ', ' + b.kids.length + ' child' + (b.kids.length > 1 ? 'ren' : '') : '') + '</b><br><small class="muted">' + esc(TD.plans.filter(function (x) { return x.id === b.plan; })[0].name) + '</small></div></div>' +

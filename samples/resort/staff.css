@@ -79,13 +79,13 @@ body.staff { background: var(--white); font-size: 14px; line-height: 1.45; --to-
 .kpi span { font-size: 12.5px; color: var(--muted); }
 .kpi b { font: 500 24px/1.15 var(--sans); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
 .kpi small { font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
-.kpi .up { color: var(--ok); } .kpi .dn { color: var(--bad); }
+.kpi .up { color: var(--ok); } .kpi .down { color: var(--bad); }
 .spark { width: 100%; height: 22px; margin-top: 2px; } .spark path { stroke: var(--ridge-2); stroke-width: 1.4; } .spark .a { fill: rgba(110, 114, 150, .12); stroke: none; }
 @media (max-width: 1200px) { .kpis { grid-template-columns: repeat(3, 1fr); } .kpi:nth-child(3) { border-right: 0; } .kpi:nth-child(-n+3) { border-bottom: 1px solid var(--line-2); } }
 .home { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 24px; margin-top: 22px; align-items: start; }
 @media (max-width: 1100px) { .home { grid-template-columns: minmax(0, 1fr); } }
 .greet { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
-.greet h2 { font: 500 22px/1.2 var(--serif); } .greet h2 b { font-weight: 500; color: var(--ember); }
+.greet h2 { font: 500 21px/1.25 var(--serif); font-variant-numeric: tabular-nums; }
 .greet p { margin: 0; color: var(--muted); font-size: 13.5px; }
 /* lists (attention, rows) */
 .list { display: grid; }
@@ -321,3 +321,15 @@ select.fchip { padding-right: 26px; appearance: none; -webkit-appearance: none; 
 }
 .m-back { display: none; }
 @media (max-width: 900px) { .m-back { display: inline-flex; } }
+
+/* tonight on the ridge: the thirteen rooms as windows, at the top of Home */
+.tonight { display: grid; grid-template-columns: repeat(13, minmax(0, 1fr)); gap: 6px; margin: 0 0 14px; padding: 12px; border-radius: 12px; background: linear-gradient(180deg, #1b1830, var(--night)); }
+.tn-w { display: grid; justify-items: center; gap: 4px; padding: 8px 2px 6px; border-radius: 8px; color: var(--on-night-2); text-align: center; min-height: 44px; text-decoration: none; }
+.tn-w i { width: 20px; height: 26px; border-radius: 2px; border: 1.5px solid rgba(241, 178, 102, .55); }
+.tn-w.lit i { background: var(--lamp); border-color: var(--lamp); box-shadow: 0 0 12px rgba(241, 178, 102, .5); }
+.tn-w.arr i { background: linear-gradient(180deg, transparent 45%, var(--lamp) 45%); }
+.tn-w b { font: 600 12.5px/1 var(--sans); color: var(--on-night); }
+.tn-w small { font-size: 11px; line-height: 1.25; color: var(--on-night-2); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tn-w:hover, .tn-w:focus-visible { background: rgba(241, 178, 102, .12); }
+@media (max-width: 900px) { .tonight { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+@media (max-width: 420px) { .tonight { grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 8px; gap: 4px; } }

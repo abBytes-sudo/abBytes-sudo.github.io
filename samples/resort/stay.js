@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var TD = window.TD, ui = TD.ui, $ = ui.$, $$ = ui.$$, esc = ui.esc, D = TD.date, today = D.today();
-  $('#cots').innerHTML = TD.types.map(ui.cotCard).join('');
+  $('#cots').innerHTML = TD.types.map(ui.keyCard).join('');
 
   // ---------- site plan ----------
   var POS = { D1: [250, 352, -8], D2: [312, 368, -4], D3: [376, 378, 2], D4: [214, 300, -12], D5: [282, 300, -6], D6: [350, 312, 0],

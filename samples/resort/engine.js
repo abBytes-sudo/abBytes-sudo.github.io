@@ -23,6 +23,54 @@
     range: function (a, b) { var out = [], s = a; while (s < b) { out.push(s); s = D.add(s, 1); } return out; }
   };
   TD.inr = function (n) { return '₹' + NF.format(Math.round(n)); };
+
+  // ---------- the sky over the ridge: sun and moon for a date, from standard low-precision formulas (no network) ----------
+  // Hours are IST (UTC+5:30). Azimuth is measured from south, positive towards the west.
+  TD.sky = (function () {
+    var LAT = 29.47, LNG = 79.65, PI = Math.PI, rad = PI / 180, OB = rad * 23.4397;
+    function days(ms) { return ms / 864e5 + 2440587.5 - 2451545; }
+    function ra(l, b) { return Math.atan2(Math.sin(l) * Math.cos(OB) - Math.tan(b) * Math.sin(OB), Math.cos(l)); }
+    function dc(l, b) { return Math.asin(Math.sin(b) * Math.cos(OB) + Math.cos(b) * Math.sin(OB) * Math.sin(l)); }
+    function lst(d) { return rad * (280.16 + 360.9856235 * d) + rad * LNG; }
+    function sun(d) { var M = rad * (357.5291 + 0.98560028 * d), C = rad * (1.9148 * Math.sin(M) + 0.02 * Math.sin(2 * M) + 0.0003 * Math.sin(3 * M)), L = M + C + rad * 102.9372 + PI; return { ra: ra(L, 0), dec: dc(L, 0) }; }
+    function moon(d) { var L = rad * (218.316 + 13.176396 * d), M = rad * (134.963 + 13.064993 * d), F = rad * (93.272 + 13.22935 * d), l = L + rad * 6.289 * Math.sin(M), b = rad * 5.128 * Math.sin(F); return { ra: ra(l, b), dec: dc(l, b), dist: 385001 - 20905 * Math.cos(M) }; }
+    function pos(d, c) { var H = lst(d) - c.ra, phi = rad * LAT; return { alt: Math.asin(Math.sin(phi) * Math.sin(c.dec) + Math.cos(phi) * Math.cos(c.dec) * Math.cos(H)), az: Math.atan2(Math.sin(H), Math.cos(H) * Math.sin(phi) - Math.tan(c.dec) * Math.cos(phi)) }; }
+    function ms(iso, h) { var p = iso.split('-'); return Date.UTC(+p[0], +p[1] - 1, +p[2]) + (h - 5.5) * 36e5; }
+    function sunAlt(iso, h) { var d = days(ms(iso, h)); return pos(d, sun(d)).alt; }
+    // first crossing of the horizon (-0.833°) between a and b hours, by bisection
+    function cross(iso, a, b, up) { var h0 = -0.833 * rad, lo = a, hi = b; for (var i = 0; i < 22; i++) { var m = (lo + hi) / 2; if ((sunAlt(iso, m) > h0) === up) hi = m; else lo = m; } return (lo + hi) / 2; }
+    var cache = {};
+    return {
+      // { rise, set } in IST hours for a date; noon altitude in degrees
+      sun: function (iso) { if (!cache[iso]) { cache[iso] = { rise: cross(iso, 3, 10, true), set: cross(iso, 15, 21, false), noonAlt: sunAlt(iso, 12.3) / rad }; } return cache[iso]; },
+      // the moon at an IST hour on a date: altitude and azimuth (radians), lit fraction, phase 0..1 (0 new, 0.5 full)
+      moon: function (iso, h) {
+        var d = days(ms(iso, h)), s = sun(d), m = moon(d), sd = 149598000;
+        var phi = Math.acos(Math.sin(s.dec) * Math.sin(m.dec) + Math.cos(s.dec) * Math.cos(m.dec) * Math.cos(s.ra - m.ra));
+        var inc = Math.atan2(sd * Math.sin(phi), m.dist - sd * Math.cos(phi));
+        var ang = Math.atan2(Math.cos(s.dec) * Math.sin(s.ra - m.ra), Math.sin(s.dec) * Math.cos(m.dec) - Math.cos(s.dec) * Math.sin(m.dec) * Math.cos(s.ra - m.ra));
+        var p = pos(d, m);
+        return { alt: p.alt, az: p.az, fraction: (1 + Math.cos(inc)) / 2, phase: 0.5 + 0.5 * inc * (ang < 0 ? -1 : 1) / PI };
+      },
+      phaseName: function (ph) { var n = ['new', 'waxing crescent', 'first quarter', 'waxing gibbous', 'full', 'waning gibbous', 'last quarter', 'waning crescent']; return n[Math.round(ph * 8) % 8]; },
+      // now on the ridge: today's date and the hour, in IST, whatever the visitor's clock says
+      now: function () { var t = new Date(Date.now() + 5.5 * 36e5); return { iso: t.getUTCFullYear() + '-' + pad(t.getUTCMonth() + 1) + '-' + pad(t.getUTCDate()), h: t.getUTCHours() + t.getUTCMinutes() / 60 + t.getUTCSeconds() / 3600 }; },
+      hm: function (h) { var m = Math.round(((h % 24) + 24) % 24 * 60) % 1440; return pad(Math.floor(m / 60)) + ':' + pad(m % 60); },
+      // what a month is like up here: mornings the range shows (of 30), nights and days in °C
+      CLIMATE: [null, [22, -1, 11], [19, 1, 13], [15, 4, 17], [11, 8, 21], [7, 12, 24], [4, 14, 23], [1, 15, 20], [2, 15, 20], [9, 13, 20], [25, 8, 18], [27, 4, 15], [23, 2, 12]],
+      // the scene preset for a month
+      season: function (iso) { var m = +iso.slice(5, 7); return m === 12 || m <= 2 ? 'winter' : m <= 4 ? 'spring' : m <= 6 ? 'premonsoon' : m <= 9 ? 'monsoon' : 'autumn'; },
+      note: function (iso) {
+        var p = iso.split('-'), m = +p[1], day = +p[2], c = this.CLIMATE[m];
+        var when = (day <= 10 ? 'Early ' : day <= 20 ? 'Mid-' : 'Late ') + ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][m];
+        var s = this.season(iso);
+        if (s === 'monsoon') return when + ': cloud fills the valley most mornings and the range shows about ' + c[0] + ' in 30. Rates are about a fifth lower.';
+        if (s === 'spring') return when + ': the buransh is in flower on the slopes; the range shows about ' + c[0] + ' mornings in 30. Nights near ' + c[1] + '°.';
+        if (s === 'premonsoon') return when + ': warm days and a haze over the plains; the range shows about ' + c[0] + ' mornings in 30. Nights near ' + c[1] + '°.';
+        return when + ': range visible about ' + c[0] + ' mornings in 30. Nights near ' + c[1] + '°.';
+      }
+    };
+  })();
   TD.nights = function (n) { return n + (n === 1 ? ' night' : ' nights'); };
 
   // ---------- storage ----------
@@ -140,6 +188,9 @@
     // availability and minimum stay
     if (seeding) { q.free = [t.rooms[0]]; return q; } // the seed only needs totals
     q.free = TD.freeRooms(t.id, req.checkin, req.checkout, req.ignoreRef);
+    // a room chosen on the ridge (home page windows) goes first when it is free
+    if (req.room && q.free.indexOf(req.room) > 0) { q.free.splice(q.free.indexOf(req.room), 1); q.free.unshift(req.room); }
+    q.chosen = !!(req.room && q.free[0] === req.room);
     if (q.free.length < rooms) q.errors.push(q.free.length ? 'Only ' + q.free.length + ' ' + (q.free.length > 1 ? t.plural : t.name) + ' free for these dates.' : t.plural + (t.rooms.length > 1 ? ' are' : ' is') + ' full for these dates.');
     var ms = TD.minStay(req.checkin); if (n < ms) q.errors.push('A minimum of ' + ms + ' nights applies from ' + D.fmt(req.checkin) + '.');
     return q;

@@ -79,6 +79,16 @@
   TD.ui.photo = function (name, alt, sizes, cls, eager) {
     return '<img' + (cls ? ' class="' + cls + '"' : '') + ' src="photos/' + name + '-s.jpg" srcset="photos/' + name + '-s.jpg 760w, photos/' + name + '.jpg 1600w" sizes="' + (sizes || '(max-width:900px) 100vw, 50vw') + '" alt="' + esc(alt) + '"' + (eager ? '' : ' loading="lazy"') + ' decoding="async" width="1600" height="1200">';
   };
+  // the four ways to stay as four tall windows in one strip: each opens (wider, its line and facts) when you reach for it
+  TD.ui.keyCard = function (t, i) {
+    var n = t.rooms.length, words = ['', 'one house', 'two houses', 'three', 'four cottages', 'five', 'six rooms'], span = n > 1 ? t.rooms[0] + '–' + t.rooms[n - 1] : t.rooms[0];
+    return '<a class="key" href="cottage.html?id=' + t.id + '" data-cot="' + t.id + '">' +
+      '<div class="key-img">' + TD.ui.photo(t.hero, t.name + ': ' + t.captions[0], '(max-width:900px) 100vw, 40vw') + '</div>' +
+      '<div class="key-top"><span class="ix">' + esc(span) + '</span><span>' + words[n] + '</span></div>' +
+      '<div class="key-b"><div class="key-h"><h3>' + esc(t.plural) + '</h3><span class="from">from <b>' + TD.inr(t.base) + '</b></span></div>' +
+      '<div class="key-more"><p>' + esc(t.line) + '</p><span class="key-facts">' + t.size + ' m² · sleeps ' + esc(t.sleeps) + ' · ' + esc(t.view.charAt(0).toLowerCase() + t.view.slice(1)) + '</span>' +
+      '<span class="key-go">See ' + (n > 1 ? 'the ' : 'the ') + esc(t.plural) + ' <span class="ar" aria-hidden="true">→</span></span></div></div></a>';
+  };
   TD.ui.cotCard = function (t, i) {
     return '<a class="cot" href="cottage.html?id=' + t.id + '" data-cot="' + t.id + '">' +
       '<div class="cot-img">' + TD.ui.photo(t.hero, t.name + ': ' + t.captions[0], i === 0 || i === 3 ? '(max-width:900px) 100vw, 60vw' : '(max-width:900px) 100vw, 35vw') + '</div>' +
@@ -92,8 +102,12 @@
     try { sessionStorage.setItem('td:cot', a.dataset.cot); } catch (err) {}
   });
   // coming back from a cottage page: morph its photo back into the right card
+  // a page transition the browser skips (a heavy 3D frame, a quick second click) rejects its promises: nothing to report
+  function quiet(vt) { if (vt) { vt.ready.catch(function () {}); vt.finished.catch(function () {}); } }
+  addEventListener('pageswap', function (e) { quiet(e.viewTransition); });
   addEventListener('pagereveal', function (e) {
     if (!e.viewTransition) return;
+    quiet(e.viewTransition);
     var id; try { id = sessionStorage.getItem('td:cot'); } catch (err) {}
     var nav = window.navigation && navigation.activation;
     var from = nav && nav.from && nav.from.url || '';

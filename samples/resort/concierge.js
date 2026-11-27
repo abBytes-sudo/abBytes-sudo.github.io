@@ -154,15 +154,17 @@
   }, true);
   root.addEventListener('submit', buzz, true);
 
-  /* ---------- proactive nudge: 20 s on a key page, once per session, dismissible ---------- */
-  var nudgeKey = 'cg-nudge-' + AGENT, nudgeBtn = null;
+  /* ---------- proactive nudge: 20 s on a key page, shown once for this visitor and for eight seconds, dismissible ---------- */
+  var nudgeKey = 'cg-nudge-' + AGENT, nudgeBtn = null, nudgeT = 0;
+  function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
   function keyPage() { if (!NUDGE) return false; var c = context(); return NUDGE.split(',').some(function (p) { p = p.trim(); return p === '*' || p === c.page || p === c.file || p === c.section; }); }
   function showNudge() {
-    if (open || chat || ss(nudgeKey) || !keyPage()) return;
+    if (open || chat || ss(nudgeKey) || ls(nudgeKey) || !keyPage()) return;
     load(function () {
       if (open || chat) return; var a = Orbit.agents[AGENT], n = a && a.nudge ? a.nudge(context()) : null; if (!n) return;
       nudgeBtn = n.button || null; $('.cg-nudge-t').textContent = n.text; $('.cg-nudge-cta').textContent = n.cta || 'Yes, show me';
-      nudge.hidden = false; void nudge.offsetWidth; root.classList.add('cg-nudging'); ss(nudgeKey, '1');
+      nudge.hidden = false; void nudge.offsetWidth; root.classList.add('cg-nudging'); ss(nudgeKey, '1'); ls(nudgeKey, '1');
+      clearTimeout(nudgeT); nudgeT = setTimeout(function () { hideNudge(); }, 8000);
     });
   }
   function hideNudge(quick) { if (nudge.hidden) return; root.classList.remove('cg-nudging'); setTimeout(function () { nudge.hidden = true; }, quick || reduce ? 0 : 260); }

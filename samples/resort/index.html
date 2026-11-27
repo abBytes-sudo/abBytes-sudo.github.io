@@ -15,18 +15,17 @@
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#2A2140">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'">
+<script src="sky-pre.js?v=32"></script>
 <link rel="preload" href="fonts/alegreya-400-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/alegreya-sans-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" as="image" href="photos/hero-dawn.jpg" imagesrcset="photos/hero-dawn-s.jpg 760w, photos/hero-dawn.jpg 1920w" imagesizes="100vw" media="(min-aspect-ratio: 4/5)" fetchpriority="high">
-<link rel="preload" as="image" href="photos/hero-dawn-m.jpg" media="(max-aspect-ratio: 4/5)" fetchpriority="high">
-<link rel="stylesheet" href="resort.min.css?v=28">
+<link rel="stylesheet" href="resort.min.css?v=32">
 <link rel="stylesheet" href="../assets/back.css?v=2">
-<script src="motion-boot.min.js?v=28" defer></script>
-<script src="data.min.js?v=28" defer></script>
-<script src="engine.min.js?v=28" defer></script>
-<script src="app.min.js?v=28" defer></script>
-<script src="home.min.js?v=28" defer></script>
-<script src="cg-boot.js?v=28" defer data-src="concierge.min.js?v=28" data-agent="resort" data-brand="td" data-skin="concierge.min.css?v=28" data-title="Taradhura" data-sub="The front desk, on the ridge" data-label="Ask the ridge" data-nudge="index,stay,cottage,experiences,celebrations,getting-there" data-v="23"></script>
+<script src="motion-boot.min.js?v=32" defer></script>
+<script src="data.min.js?v=32" defer></script>
+<script src="engine.min.js?v=32" defer></script>
+<script src="app.min.js?v=32" defer></script>
+<script src="home.min.js?v=32" defer></script>
+<script src="cg-boot.js?v=32" defer data-src="concierge.min.js?v=32" data-agent="resort" data-brand="td" data-skin="concierge.min.css?v=32" data-title="Taradhura" data-sub="The front desk, on the ridge" data-label="Ask the ridge" data-nudge="index,stay,cottage,experiences,celebrations,getting-there" data-v="23"></script>
 <script src="../assets/back.js?v=1" defer></script>
 </head>
 <body class="home">
@@ -43,30 +42,42 @@
   <div class="menu-foot"><span>Front desk 7 am – 11 pm IST</span><span>stay@taradhura.in</span><span>Dhura village, above Mukteshwar, Uttarakhand</span></div>
 </div>
 <main id="main">
-<!-- 01 · Hero: the day, from dawn to starlight. A live 3D ridge; scroll moves the hour. -->
+<!-- 01 · Hero: the ridge at the real hour. It opens at the time it is on the ridge now; scroll runs a whole day from there.
+     Your dates change the season, and at dusk the thirteen windows show which rooms are free for them. -->
 <section class="dn" id="dn" aria-labelledby="h1">
   <div class="dn-stage">
-    <picture><source media="(max-aspect-ratio: 4/5)" srcset="photos/hero-dawn-m.jpg"><img class="dn-poster" id="poster" src="photos/hero-dawn.jpg" srcset="photos/hero-dawn-s.jpg 760w, photos/hero-dawn.jpg 1920w" sizes="100vw" alt="" width="1920" height="1080" fetchpriority="high"></picture>
-    <canvas id="land" role="img" aria-label="A live 3D view from the Taradhura ridge: layered hills, valley mist and the Himalayan range. Scrolling moves the hour from dawn to starlight, and the cottage lamps come on at dusk."></canvas>
+    <div class="dn-poster" id="poster"></div>
+    <canvas id="land" role="img" aria-label="A live 3D view from the Taradhura ridge at this hour: layered hills, valley mist and the Himalayan range. Scrolling runs the day round from now, and at dusk the cottage windows show which rooms are free for your dates."></canvas>
+    <div class="dn-hs" id="dn-hs" aria-hidden="true"></div>
     <div class="dn-shade"></div>
     <div class="dn-title" id="dn-title">
       <span class="dn-mean">Tara, a star · Dhura, a ridge</span>
       <h1 class="display" id="h1">Taradhura</h1>
       <p>Thirteen rooms on a Kumaon ridge at 2,140 metres, facing three hundred kilometres of Himalaya.</p>
     </div>
-    <div class="dn-lit" id="lit" aria-hidden="true"><i id="lit-i"></i><span id="lit-t">0 of 13 lamps lit</span></div>
     <div class="dn-copy" id="dn-copy" aria-live="polite">
       <article class="dn-ch on" data-h="5.5"><p class="kicker">05:40 · Before first light</p><h2>The range is still a rumour.</h2><p>A blue hour so quiet you can hear the stream 600 metres below. Three windows are already lit: the early risers.</p></article>
       <article class="dn-ch" data-h="6.333"><p class="kicker">06:20 · Alpenglow</p><h2>Trishul turns pink first.</h2><p>Nanda Devi follows four minutes later. Chai is at your door in a kulhad before either.</p></article>
       <article class="dn-ch" data-h="9"><p class="kicker">09:00 · The valley lets go</p><h2>Mist lifts like a held breath.</h2><p>Breakfast on the deck: buckwheat pancakes, pahadi honey, eggs from Dhura village.</p></article>
       <article class="dn-ch" data-h="13"><p class="kicker">13:00 · Noon</p><h2>Long walks, longer lunches.</h2><p>Oak and rhododendron down to the village, apricot orchards on the way back. Our naturalist knows every call.</p></article>
       <article class="dn-ch" data-h="17.333"><p class="kicker">17:20 · Copper hour</p><h2>Everyone stops talking for six minutes.</h2><p>The range goes amber, then rose, then a cold blue-white that holds after the valley is dark.</p></article>
-      <article class="dn-ch" data-h="18.5"><p class="kicker">18:30 · Lamps</p><h2>Thirteen windows, one by one.</h2><p>Stoves are lit at turndown. Dinner is Kumaoni, slow, and by the fire in the Long Room.</p></article>
-      <article class="dn-ch" data-h="21.5"><p class="kicker">21:30 · Starlight</p><h2>No town lights for nine kilometres.</h2><p>So the sky does what it used to. The telescope is on the Star House deck; come up after dinner.</p></article>
+      <article class="dn-ch dn-lamps" data-h="18.5"><p class="kicker">18:30 · Lamps</p><h2>Thirteen windows, one by one.</h2><p class="rooms-line">Stoves are lit at turndown. Dinner is Kumaoni, slow, and by the fire in the Long Room.</p><div class="rooms" data-rooms role="group" aria-label="The thirteen rooms"></div></article>
+      <article class="dn-ch" data-h="21.5"><p class="kicker">21:30 · Starlight</p><h2>No town lights for nine kilometres.</h2><p>So the sky does what it used to. The telescope is on the Star House deck; come up after dinner.<span id="moon-line"></span></p></article>
     </div>
-    <div class="dn-clock" aria-hidden="true">
-      <svg class="dn-arc" viewBox="0 0 150 58"><line x1="0" y1="54" x2="150" y2="54"/><path d="M6 54 Q75 -18 144 54"/><circle id="sun" cx="6" cy="54" r="4"/></svg>
-      <b id="clk">05:40</b><span id="clk-s">Sunrise 06:44 · IST</span>
+    <div class="dn-clock">
+      <svg class="dn-arc" viewBox="0 0 150 58" aria-hidden="true"><line x1="0" y1="54" x2="150" y2="54"/><path d="M6 54 Q75 -18 144 54"/><circle id="sun" cx="6" cy="54" r="4"/></svg>
+      <b id="clk" aria-hidden="true">05:40</b><span id="clk-now">On the ridge, IST</span><span id="clk-s">Sunrise 06:44 · sunset 17:24</span>
+    </div>
+    <div class="room-card" id="room-card" role="status" aria-live="polite"></div>
+    <div class="dn-dates" id="dn-dates">
+      <button type="button" class="dd-chip" id="dd-open" aria-expanded="false" aria-controls="dd-pop"><span class="dd-k">Your dates</span><b id="dd-v">Tonight</b><span class="dd-e" aria-hidden="true">Change</span></button>
+      <p class="dd-note" id="dd-note"></p>
+      <form class="dd-pop" id="dd-pop" hidden novalidate aria-label="Your dates on the ridge">
+        <label><span>Arrive</span><input type="date" id="dd-in" required></label>
+        <label><span>Leave</span><input type="date" id="dd-out" required></label>
+        <label><span>Guests</span><select id="dd-ad"><option value="1">1 adult</option><option value="2" selected>2 adults</option><option value="3">3 adults</option><option value="4">4 adults</option><option value="5">5 adults</option><option value="6">6 adults</option></select></label>
+        <button class="btn sm" type="submit"><span class="lbl">Show me the ridge</span></button>
+      </form>
     </div>
     <div class="dn-hint" id="hint">Scroll through a day</div>
     <nav class="dn-rail" id="rail" aria-label="Jump to an hour of the day">
@@ -85,6 +96,7 @@
     <article><p class="kicker">09:00</p><h3>Mist lifts from the valley</h3><p>Breakfast on the deck.</p></article>
     <article><p class="kicker">17:20</p><h3>Copper hour</h3><p>The range goes amber, then rose.</p></article>
     <article><p class="kicker">18:30</p><h3>Thirteen windows</h3><p>Lamps on, stoves lit, dinner by the fire.</p></article>
+    <article class="dn-sr"><p class="kicker">Your dates</p><h3>Choose your window</h3><p class="rooms-line">Each window is a room. Lit ones are taken; dark ones are free.</p><div class="rooms" data-rooms role="group" aria-label="The thirteen rooms"></div><p class="rooms-note small" aria-live="polite"></p></article>
     <article><p class="kicker">21:30</p><h3>Starlight</h3><p>The telescope is on the Star House deck.</p></article>
   </div>
 </section>
@@ -101,7 +113,7 @@
     <p class="small muted" style="margin-top:12px">Book direct: breakfast, a 2 pm check-out and the best rate are always included. <a class="ul" href="#direct">Why direct?</a></p>
     <div class="g12" style="margin-top:clamp(72px,9vw,140px)">
       <p class="kicker"><span class="ix">06:20</span> The ridge</p>
-      <h2 class="lede-xl" id="intro-h" data-split>We built thirteen rooms where the old bridle path meets the ridge, and turned every one of them to face <em>the range.</em></h2>
+      <h2 class="lede-xl" id="intro-h" data-split>We built thirteen rooms where the old bridle path meets the ridge, and turned every one of them to face the range.</h2>
       <div class="facts" data-stagger>
         <div><b>2,140 m</b><span>above the sea, above the oak line, below the snow</span></div>
         <div><b>300 km</b><span>of Himalaya from Gangotri to Panchachuli on a clear day</span></div>
@@ -115,8 +127,9 @@
 <!-- 03 · The cottages (each opens with a shared-element transition) -->
 <section class="sec" id="stay" aria-labelledby="stay-h" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head"><p class="kicker"><span class="ix">08:40</span> Stay</p><h2 class="d2 display" id="stay-h" data-split>Four ways to sleep <em>on the ridge</em></h2><a class="lnk aside" href="stay.html"><span>Compare all four</span><span class="ar" aria-hidden="true">→</span></a></div>
-    <div class="cots" id="cots"></div>
+    <div class="sec-head"><p class="kicker"><span class="ix">08:40</span> Stay</p><h2 class="d2 display" id="stay-h" data-split>Four ways to sleep on the ridge</h2><a class="lnk aside" href="stay.html"><span>Compare all four</span><span class="ar" aria-hidden="true">→</span></a></div>
+    <div class="keys" id="cots"></div>
+    <p class="keys-sum">Thirteen keys in all: six rooms under the deodars, four stone cottages on the lip of the ridge, two houses in the orchard and one at the very top.</p>
   </div>
 </section>
 
@@ -139,7 +152,7 @@
     <figure style="grid-column:1/7;margin:0;aspect-ratio:4/5;overflow:hidden" data-clip><img src="photos/thali-s.jpg" srcset="photos/thali-s.jpg 760w, photos/thali.jpg 1600w" sizes="(max-width:900px) 100vw, 50vw" alt="A Kumaoni thali in brass bowls: dal, greens, raita, rice and madua roti" loading="lazy" decoding="async" width="1600" height="1200" style="width:100%;height:100%;object-fit:cover"></figure>
     <div style="grid-column:8/13" class="dine-copy">
       <p class="kicker"><span class="ix">13:30</span> The Long Room</p>
-      <h2 class="d2 display" id="dine-h" style="margin:20px 0 24px" data-split>Kumaoni food, <em>cooked slowly</em>, mostly from within a kilometre.</h2>
+      <h2 class="d2 display" id="dine-h" style="margin:20px 0 24px" data-split>Kumaoni food, cooked slowly, mostly from within a kilometre.</h2>
       <p class="muted">Chef Kamala Rawat cooks what her mother cooked: bhatt ki churkani in iron, madua roti on stone, jhangora kheer with jaggery from the plains. Half the vegetables come from our garden and the rest from Dhura. Breakfast is on the deck; dinner is at one long table by the fire, or on your own deck if you’d rather.</p>
       <a class="lnk" href="dining.html"><span>Menus and the kitchen garden</span><span class="ar" aria-hidden="true">→</span></a>
     </div>
@@ -151,7 +164,7 @@
   <div class="wrap direct">
     <div>
       <p class="kicker"><span class="ix">16:10</span> Book direct</p>
-      <h2 class="d2 display" id="direct-h" style="margin:20px 0 24px" data-split>The same room, <em>more of the stay.</em></h2>
+      <h2 class="d2 display" id="direct-h" style="margin:20px 0 24px" data-split>The same room, more of the stay.</h2>
       <p class="muted" style="max-width:40ch">Travel portals keep 18 to 22 percent of every booking. When you book with us, we spend that on you instead.</p>
       <a class="btn" data-magnetic href="book.html" style="margin-top:16px"><span class="lbl">Check dates and rates</span> <span class="ar" aria-hidden="true">→</span></a>
     </div>
@@ -172,7 +185,7 @@
 <!-- 07 · Guest notes -->
 <section class="sec night" aria-labelledby="notes-h">
   <div class="wrap">
-    <div class="sec-head"><p class="kicker"><span class="ix">17:20</span> From the guest book</p><h2 class="d2 display" id="notes-h" data-split>What people <em>write down</em> before they leave</h2></div>
+    <div class="sec-head"><p class="kicker"><span class="ix">17:20</span> From the guest book</p><h2 class="d2 display" id="notes-h" data-split>What people write down before they leave</h2></div>
     <div class="notes" data-stagger>
       <blockquote><p>“We booked two nights and stayed five. On the third morning Naveen knocked at 6 to show us Nanda Devi going pink. We have the photo on our fridge.”</p><cite>Ananya and Rohan · Bengaluru · October</cite></blockquote>
       <blockquote><p>“The quietest place I have slept in ten years. My daughter learnt aipan from Pushpa and painted our front step when we got home.”</p><cite>Kavya Menon · Pune · Orchard House, May</cite></blockquote>
@@ -186,7 +199,7 @@
   <div class="wrap g12" style="align-items:end;row-gap:40px">
     <div style="grid-column:1/6">
       <p class="kicker"><span class="ix">18:30</span> Weddings &amp; offsites</p>
-      <h2 class="d2 display" id="cel-h" style="margin:20px 0 24px" data-split>Take the whole ridge <em>for three days.</em></h2>
+      <h2 class="d2 display" id="cel-h" style="margin:20px 0 24px" data-split>Weddings under the apricot trees.</h2>
       <p class="muted">Intimate weddings of up to 90 under the apricot trees, and leadership offsites of 12 to 30 with the Library to yourselves. One planner from the first call to the last guest’s car.</p>
       <a class="lnk" href="celebrations.html"><span>Plan a wedding or an offsite</span><span class="ar" aria-hidden="true">→</span></a>
     </div>
@@ -197,7 +210,7 @@
 <!-- 09 · Journal -->
 <section class="sec paper-2" aria-labelledby="jr-h">
   <div class="wrap">
-    <div class="sec-head"><p class="kicker"><span class="ix">20:00</span> Journal</p><h2 class="d2 display" id="jr-h" data-split>Notes from <em>the ridge</em></h2><a class="lnk aside" href="journal.html"><span>All stories</span><span class="ar" aria-hidden="true">→</span></a></div>
+    <div class="sec-head"><p class="kicker"><span class="ix">20:00</span> Journal</p><h2 class="d2 display" id="jr-h" data-split>Written on the ridge</h2><a class="lnk aside" href="journal.html"><span>All stories</span><span class="ar" aria-hidden="true">→</span></a></div>
     <div class="jl" id="jl" data-stagger></div>
   </div>
 </section>
@@ -205,7 +218,7 @@
 <!-- 10 · Getting here -->
 <section class="sec tight" aria-labelledby="reach-h">
   <div class="wrap">
-    <div class="sec-head"><p class="kicker"><span class="ix">21:30</span> Getting here</p><h2 class="d2 display" id="reach-h">Closer than it <em>looks.</em></h2><a class="lnk aside" href="getting-there.html"><span>Routes and transfers</span><span class="ar" aria-hidden="true">→</span></a></div>
+    <div class="sec-head"><p class="kicker"><span class="ix">21:30</span> Getting here</p><h2 class="d2 display" id="reach-h">Overnight from Delhi, then two hours of hairpins.</h2><a class="lnk aside" href="getting-there.html"><span>Routes and transfers</span><span class="ar" aria-hidden="true">→</span></a></div>
     <div class="reach">
       <div><b>2 h 15 m</b><span>from Kathgodam station, the overnight train from Delhi</span></div>
       <div><b>3 h</b><span>from Pantnagar airport</span></div>
@@ -228,7 +241,8 @@
       <div><h2 class="ft-h">Plan</h2><ul><li><a class="ul" href="book.html">Book direct</a></li><li><a class="ul" href="my-booking.html">My booking</a></li><li><a class="ul" href="getting-there.html">Getting here</a></li><li><a class="ul" href="policies.html">Policies</a></li></ul></div>
       <div><h2 class="ft-h">Front desk</h2><ul><li><a class="ul" href="my-booking.html#write">Write to us</a></li><li><span class="muted">7 am – 11 pm IST</span></li><li><span class="muted">Dhura, Nainital district</span></li><li><a class="ul" href="staff.html">Staff login</a></li></ul></div>
     </div>
-    <div class="ft-word" aria-hidden="true">Tara<em>dhura</em></div>
+    <figure class="ft-night" aria-hidden="true"><img src="night.svg?v=32" alt="" width="1440" height="320" loading="lazy" decoding="async"></figure>
+    <p class="ft-name">Taradhura <span>29.47° N · 79.65° E · 2,140 m above the sea</span></p>
     <div class="ft-bot"><span>© <span data-year>2026</span> Taradhura. A portfolio project by <a href="../../index.html">Abhishek</a>.</span><a href="policies.html#credits">Credits</a></div>
   </div>
 </footer>

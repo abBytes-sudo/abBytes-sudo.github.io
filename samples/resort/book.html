@@ -17,15 +17,15 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="preload" href="fonts/alegreya-400-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/alegreya-sans-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="resort.min.css?v=28">
-<link rel="stylesheet" href="pages.min.css?v=28">
+<link rel="stylesheet" href="resort.min.css?v=32">
+<link rel="stylesheet" href="pages.min.css?v=32">
 <link rel="stylesheet" href="../assets/back.css?v=2">
-<script src="motion-boot.min.js?v=28" defer></script>
-<script src="data.min.js?v=28" defer></script>
-<script src="engine.min.js?v=28" defer></script>
-<script src="app.min.js?v=28" defer></script>
-<script src="book.min.js?v=28" defer></script>
-<script src="cg-boot.js?v=28" defer data-src="concierge.min.js?v=28" data-agent="resort" data-brand="td" data-skin="concierge.min.css?v=28" data-title="Taradhura" data-sub="The front desk, on the ridge" data-label="Ask the ridge" data-nudge="index,stay,cottage,experiences,celebrations,getting-there" data-v="23"></script>
+<script src="motion-boot.min.js?v=32" defer></script>
+<script src="data.min.js?v=32" defer></script>
+<script src="engine.min.js?v=32" defer></script>
+<script src="app.min.js?v=32" defer></script>
+<script src="book.min.js?v=32" defer></script>
+<script src="cg-boot.js?v=32" defer data-src="concierge.min.js?v=32" data-agent="resort" data-brand="td" data-skin="concierge.min.css?v=32" data-title="Taradhura" data-sub="The front desk, on the ridge" data-label="Ask the ridge" data-nudge="index,stay,cottage,experiences,celebrations,getting-there" data-v="23"></script>
 <script src="../assets/back.js?v=1" defer></script>
 </head>
 <body class="be-page">
@@ -57,7 +57,7 @@
 
       <!-- 1 · dates and guests -->
       <section class="be-pane on" data-p="0" aria-labelledby="p0-h">
-        <h2 id="p0-h">When are you <em>coming up?</em></h2>
+        <h2 id="p0-h">When are you coming up?</h2>
         <p id="p0-sub">Pick an arrival and a departure. Prices are the lowest nightly rate that evening, breakfast included.</p>
         <div class="cal-head">
           <p class="small" id="cal-sel" aria-live="polite">Select your arrival date</p>
@@ -75,7 +75,7 @@
 
       <!-- 2 · cottage -->
       <section class="be-pane" data-p="1" aria-labelledby="p1-h">
-        <h2 id="p1-h">Choose a <em>cottage</em></h2>
+        <h2 id="p1-h">Choose a cottage</h2>
         <p id="p1-sub">Rates for your dates, for the whole stay.</p>
         <div id="opts" role="radiogroup" aria-labelledby="p1-h"></div>
         <div id="rooms-row" class="guests" style="margin-top:24px" hidden><div><div><b>How many</b><span id="rooms-note">Book two side by side</span></div><div class="step" data-k="rooms"><button type="button" aria-label="Fewer cottages">−</button><output aria-live="polite">1</output><button type="button" aria-label="More cottages">+</button></div></div></div>
@@ -86,7 +86,7 @@
 
       <!-- 3 · add-ons -->
       <section class="be-pane" data-p="2" aria-labelledby="p2-h">
-        <h2 id="p2-h">Anything to <em>arrange?</em></h2>
+        <h2 id="p2-h">Anything to arrange?</h2>
         <p>All optional; you can add these later from My booking. Transfers are timed to your train or flight.</p>
         <div id="adds" class="addg"></div>
         <div class="be-nav"><button class="lnk" type="button" data-back="1"><span class="ar" aria-hidden="true">←</span><span>Cottage</span></button><button class="btn" type="button" id="to3"><span class="lbl">Your details</span> <span class="ar" aria-hidden="true">→</span></button></div>
@@ -94,7 +94,7 @@
 
       <!-- 4 · details -->
       <section class="be-pane" data-p="3" aria-labelledby="p3-h">
-        <h2 id="p3-h">Who is the booking <em>for?</em></h2>
+        <h2 id="p3-h">Who is the booking for?</h2>
         <p>We write once to confirm and once a week before with directions. Nothing else.</p>
         <form id="gform" class="form-grid" novalidate>
           <label class="field"><span>First name <b>*</b></span><input name="first" autocomplete="given-name" required><small class="msg" aria-live="polite"></small></label>
@@ -107,7 +107,7 @@
           <label class="check full"><input type="checkbox" name="gstOn" id="gst-on"> I need a GST invoice for my company</label>
           <div class="full form-grid" id="gst" hidden>
             <label class="field"><span>Company name</span><input name="company" autocomplete="organization"><small class="msg" aria-live="polite"></small></label>
-            <label class="field"><span>GSTIN</span><input name="gstin" maxlength="15" placeholder="15 characters, e.g. 05ABCDE1234F1Z9" style="text-transform:uppercase"><small class="msg" aria-live="polite"></small></label>
+            <label class="field"><span>GSTIN</span><input name="gstin" maxlength="15" placeholder="15 characters, starting with your state code" style="text-transform:uppercase"><small class="msg" aria-live="polite"></small></label>
           </div>
           <label class="check full"><input type="checkbox" name="agree" required> <span>I have read the <a class="ul" href="policies.html#cancellation" target="_blank" rel="noopener">cancellation policy</a> and the <a class="ul" href="policies.html#house" target="_blank" rel="noopener">house rules</a>.</span></label>
           <small class="msg full" id="agree-msg" style="color:var(--bad);font-size:13.5px" aria-live="polite"></small>
@@ -155,7 +155,8 @@
       <div><h2 class="ft-h">Plan</h2><ul><li><a class="ul" href="book.html">Book direct</a></li><li><a class="ul" href="my-booking.html">My booking</a></li><li><a class="ul" href="getting-there.html">Getting here</a></li><li><a class="ul" href="policies.html">Policies</a></li></ul></div>
       <div><h2 class="ft-h">Front desk</h2><ul><li><a class="ul" href="my-booking.html#write">Write to us</a></li><li><span class="muted">7 am – 11 pm IST</span></li><li><span class="muted">Dhura, Nainital district</span></li><li><a class="ul" href="staff.html">Staff login</a></li></ul></div>
     </div>
-    <div class="ft-word" aria-hidden="true">Tara<em>dhura</em></div>
+    <figure class="ft-night" aria-hidden="true"><img src="night.svg?v=32" alt="" width="1440" height="320" loading="lazy" decoding="async"></figure>
+    <p class="ft-name">Taradhura <span>29.47° N · 79.65° E · 2,140 m above the sea</span></p>
     <div class="ft-bot"><span>© <span data-year>2026</span> Taradhura. A portfolio project by <a href="../../index.html">Abhishek</a>.</span><a href="policies.html#credits">Credits</a></div>
   </div>
 </footer>

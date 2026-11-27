@@ -27,7 +27,7 @@
     var d = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
     return '<svg class="spark" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none" aria-hidden="true"><path class="a" d="' + d + ' L' + w + ' ' + h + ' L0 ' + h + ' Z"/><path d="' + d + '"/></svg>';
   }
-  function delta(a, b, unit) { if (b == null || a === b) return '<span>same as last week</span>'; var up = a > b; return '<span class="' + (up ? 'up' : 'dn') + '">' + (up ? '↑ ' : '↓ ') + (unit === '%' ? Math.abs(a - b) + ' pts' : Math.abs(a - b)) + '</span><span>vs last week</span>'; }
+  function delta(a, b, unit) { if (b == null || a === b) return '<span>same as last week</span>'; var up = a > b; return '<span class="' + (up ? 'up' : 'down') + '">' + (up ? '↑ ' : '↓ ') + (unit === '%' ? Math.abs(a - b) + ' pts' : Math.abs(a - b)) + '</span><span>vs last week</span>'; }
 
   // ---------- the concierge store (Orbit); read raw for counts, load the engine for the inbox ----------
   function rawConvos() { try { return (JSON.parse(localStorage.getItem('orbit-convos') || '[]') || []).filter(function (c) { return c.agent === 'resort'; }); } catch (e) { return []; } }
@@ -119,7 +119,6 @@
     var revOn = function (x) { return all.filter(function (b) { return b.checkin <= x && b.checkout > x; }).reduce(function (a, b) { return a + TD.nightly(b.type, x, 0); }, 0); };
     var d30 = all.filter(function (b) { return b.created && b.created.slice(0, 10) >= D.add(today, -30); }), dP = all.filter(function (b) { return b.created && b.created.slice(0, 10) >= D.add(today, -60) && b.created.slice(0, 10) < D.add(today, -30); });
     var share = function (l) { return Math.round(l.filter(function (b) { return b.source.indexOf('Direct') === 0; }).length / Math.max(1, l.length) * 100); };
-    var hour = new Date().getHours(), greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
     var att = [], todoArr = arr.filter(function (b) { return b.status !== 'in-house'; }), noEta = todoArr.filter(function (b) { return !b.guest.arrival; });
     if (todoArr.length) att.push(['↘', todoArr.length + ' arriving ' + (dayOff ? 'tomorrow' : 'today') + ' to check in', noEta.length ? noEta.length + ' without an ETA: ' + noEta.map(function (b) { return b.guest.first; }).join(', ') : 'First due ' + (todoArr[0].guest.arrival || 'after 2 pm'), '#arrivals', true]);
     if (wait.length) att.push(['◌', wait.length + ' chat' + (wait.length > 1 ? 's' : '') + ' waiting for a person', (wait[0].user && wait[0].user.name || 'A visitor') + ': ' + (wait[0].handoverReason || 'asked for a person') + ' · ' + ago(wait[0].handoverAt || wait[0].updatedAt), '#inbox', true]);
@@ -149,7 +148,20 @@
       ['Direct share', share(d30) + '%', delta(share(d30), share(dP), '%').replace('vs last week', 'vs prior 30 days'), spark(series(function (x) { return all.filter(function (b) { return b.created && b.created.slice(0, 10) === x && b.source.indexOf('Direct') === 0; }).length; })), 'bookings?f=direct'],
       ['To chase', TD.inr(dueNow.reduce(function (a, b) { return a + bal(b); }, 0)), '<span>' + dueNow.length + ' guests within 7 days</span>', spark(series(function (x) { return due.filter(function (b) { return b.checkin <= D.add(x, 7); }).length; })), 'payments']
     ];
-    var html = '<div class="greet"><h2>' + greet + ', ' + ME + '. <b>' + att.length + ' thing' + (att.length === 1 ? '' : 's') + '</b> need you ' + (dayOff ? 'tomorrow' : 'today') + '.</h2><p>' + D.long(d) + ' · ' + Math.round(occ * 13) + ' of 13 rooms sold · sunset 17:24</p></div>';
+    // the day's headline in the front desk's words, then tonight's thirteen windows: the one thing only this business has
+    var firstEta = todoArr.map(function (b) { return b.guest.arrival; }).filter(Boolean).sort()[0];
+    var lit = TD.allRooms.filter(function (rm) { return TD.roomTaken(rm.id, d); }).length;
+    var head = [D.fmt(d, { weekday: 'long', day: undefined, month: undefined }),
+      todoArr.length ? todoArr.length + ' arriving' + (firstEta ? ', first at ' + firstEta : '') : 'no arrivals left',
+      dueNow.length ? dueNow.length + ' balance' + (dueNow.length > 1 ? 's' : '') + ' to collect' : null,
+      wait.length ? wait.length + ' chat' + (wait.length > 1 ? 's' : '') + ' waiting' : null,
+      lit + ' of 13 rooms lit tonight'].filter(Boolean).join(' · ');
+    var html = '<div class="greet"><h2>' + esc(head) + '</h2><p>' + D.long(d) + ' · sunset ' + TD.sky.hm(TD.sky.sun(d).set) + ' · ' + att.length + ' thing' + (att.length === 1 ? '' : 's') + ' on the list below</p></div>';
+    html += '<div class="tonight" role="group" aria-label="' + (dayOff ? 'Tomorrow night' : 'Tonight') + ' on the ridge, room by room">' + TD.allRooms.map(function (rm) {
+      var ref = TD.roomTaken(rm.id, d), b = ref ? TD.findBooking(ref) : null, arrive = b && b.checkin === d && b.status !== 'in-house', left = b ? D.diff(d, b.checkout) : 0;
+      return b ? '<button type="button" class="tn-w lit' + (arrive ? ' arr' : '') + '" data-open="' + b.ref + '"><i aria-hidden="true"></i><b>' + rm.id + '</b><small>' + esc(b.guest.last) + ' · ' + (arrive ? (b.guest.arrival ? 'due ' + b.guest.arrival : 'arriving') : TD.nights(left) + ' left') + '</small></button>'
+        : '<a class="tn-w free" href="#tape"><i aria-hidden="true"></i><b>' + rm.id + '</b><small>Free</small></a>';
+    }).join('') + '</div>';
     html += '<div class="kpis">' + kp.map(function (k) { return '<button type="button" class="kpi" data-go="' + k[4] + '"><span>' + k[0] + '</span><b>' + k[1] + '</b><small>' + k[2] + '</small>' + k[3] + '</button>'; }).join('') + '</div>';
     html += '<div class="home"><div><div class="sect" style="margin-top:0"><div class="sect-h"><h3>Needs your attention</h3><span class="small muted">' + att.length + '</span></div><div class="list">' +
       (att.length ? att.map(function (a) { return '<a class="li" href="' + a[3] + '"><span class="ic' + (a[4] ? ' hot' : '') + '" aria-hidden="true">' + a[0] + '</span><span><b>' + esc(a[1]) + '</b><small>' + esc(a[2]) + '</small></span><span class="go" aria-hidden="true">›</span></a>'; }).join('') : '<div class="empty"><b>All clear.</b>Nothing is waiting on the desk. A good moment for tomorrow’s pre-arrival notes.</div>') + '</div></div>';

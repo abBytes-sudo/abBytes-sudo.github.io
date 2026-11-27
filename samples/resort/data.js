@@ -5,7 +5,7 @@
 
   TD.brand = {
     name: 'Taradhura', meaning: 'tara, a star · dhura, a ridge (Kumaoni)', altitude: '2,140 m',
-    place: 'Dhura village, above Mukteshwar, Nainital district, Uttarakhand', email: 'stay@taradhura.in', gstin: '05ABCDE1234F1Z9'
+    place: 'Dhura village, above Mukteshwar, Nainital district, Uttarakhand', email: 'stay@taradhura.in', gstin: '05AAKFT2140H1ZE'
   };
 
   // ---------- the four cottage types; 13 keys ----------
@@ -14,8 +14,8 @@
       size: 32, sleeps: '2 + 1 child', maxAdults: 2, maxKids: 1, maxGuests: 3, extraAdult: 0, view: 'Forest and garden', bed: 'King or twin',
       line: 'Six garden rooms under the old deodars, each with a wood stove and a sit-out that catches the morning.',
       body: 'The Deodar Rooms are the quietest place on the ridge: set back among cedars that were here before the road, with a cast-iron stove that is lit for you at turndown, a reading chair at the window and a stone sit-out for the first chai. Floors are reclaimed chir pine; walls are lime-washed; the bed is dressed in hand-loomed Almora wool.',
-      hero: 'deodar-bed', ext: 'deodar-ext', gallery: ['deodar-bed', 'deodar-stove', 'deodar-window', 'deodar-forest', 'deodar-ext', 'window-forest'],
-      captions: ['Morning light in D4', 'The stove is lit at turndown', 'Snow days, February', 'The view from the bath', 'D1–D6 sit under the deodars', 'Looking out from D2'],
+      hero: 'deodar-stove', ext: 'deodar-ext', gallery: ['deodar-stove', 'deodar-bed', 'deodar-window', 'deodar-forest', 'deodar-ext', 'window-forest'],
+      captions: ['The stove is lit at turndown', 'Morning light in D4', 'Snow days, February', 'The view from the bath', 'D1–D6 sit under the deodars', 'Looking out from D2'],
       features: ['Cast-iron wood stove', 'Garden sit-out', 'Rain shower with forest window', 'Hand-loomed Almora wool', 'Pets welcome (2 rooms)', 'A basket of books from the library'],
       pano: 'deodar', panoNote: 'Room D4, an afternoon in March' },
     { id: 'ridge', name: 'Ridge Cottage', plural: 'Ridge Cottages', short: 'Ridge', rooms: ['R1', 'R2', 'R3', 'R4'], base: 19600,
