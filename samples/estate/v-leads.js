@@ -8,7 +8,6 @@
   function endOfToday() { return CK.dayStart(CK.now()) + CK.DAY - 1; }
   function openTasks(who) { return S().tasks.filter(function (t) { return !t.done && (!who || t.who === who); }); }
   CK.openTasks = openTasks;
-  function greet() { var h = new Date(CK.now()).getHours(); return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'; }
 
   /* ============ TODAY ============ */
   CK.V.today = {
@@ -64,23 +63,30 @@
         return '<div class="tgrp"><div class="tgrp-h"><span>' + g + '</span><b>' + grp[g].length + '</b>' + (g === 'Overdue' && grp[g].length > 1 ? '<button type="button" class="link-btn" data-act="resched-all">Reschedule all to 5 pm</button>' : '') + '</div>' + list.map(taskRow).join('') + '</div>';
       }).join('') || CK.empty('All clear', 'No open tasks. New leads and trip feedback will land here.');
 
-      var live = out.length ? out.map(function (t) {
-        var done = t.stops.filter(function (x) { return x.st === 'done' || x.st === 'missed'; }).length, here = t.stops.filter(function (x) { return x.st === 'here'; })[0];
-        return '<a class="live" href="#/trips/' + t.id + '"><div class="live-map">' + CK.map(t.r, { stops: t.stops, label: 'Route for ' + t.id, aspect: 1.25, pad: 60, minW: 260 }) + '</div><div class="live-b"><div class="row-b">' + CK.av(CK.agent(t.agent)) + '<b>' + esc(CK.agent(t.agent).name) + '</b>' + CK.tripPill(t) + '</div><div class="prog"><span style="width:' + (done / t.stops.length * 100) + '%"></span></div><p class="muted sm">' + done + ' of ' + t.stops.length + ' stops' + (here ? ' · at ' + CK.prop(here.pid).code + ' now' : '') + (t.kind === 'verify' ? ' · verification run' : '') + '</p><p class="feed1">' + esc((t.feed[0] || {}).text || '') + ' <span class="muted">· ' + CK.ago((t.feed[0] || {}).at || now) + '</span></p></div></a>';
-      }).join('') : '<p class="muted pad">No one is out right now.</p>';
+      var outAgents = []; out.forEach(function (t) { if (outAgents.indexOf(t.agent) < 0) outAgents.push(t.agent); });
+      var DAYN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], wd = DAYN[dd.getDay()];
+      function n(x, one, many) { return x + ' ' + (x === 1 ? one : many); }
+      var headline = role === 'telecaller' ? [wd, overdue.length ? n(overdue.length, 'of your calls overdue', 'of your calls overdue') : 'no calls overdue', n(newLeads.length, 'new lead waiting', 'new leads waiting')]
+        : role === 'field' ? [wd, n(todayTrips.length, 'trip today', 'trips today'), (function () { var nx = null; todayTrips.forEach(function (t) { t.stops.forEach(function (st) { if (!nx && st.st === 'togo') nx = st; }); }); return nx ? 'next stop ' + CK.prop(nx.pid).code : 'all stops done'; })()]
+        : [wd, overdue.length ? n(overdue.length, 'call overdue', 'calls overdue') : 'no calls overdue', outAgents.length ? n(outAgents.length, 'agent out', 'agents out') : 'nobody out yet'];
+      var chipsOut = todayTrips.map(function (t) { var a = CK.agent(t.agent), done = t.stops.filter(function (x) { return x.st === 'done' || x.st === 'missed'; }).length, here = t.stops.filter(function (x) { return x.st === 'here'; })[0]; return '<a class="wchip s-' + t.status + '" href="#/trips/' + t.id + '">' + CK.av(a, 's') + '<b>' + esc(a.name.split(' ')[0]) + '</b><span>' + (t.status === 'out' ? (here ? 'at ' + CK.prop(here.pid).code : 'driving') + ' · ' + done + ' of ' + t.stops.length : t.status === 'done' ? 'done · ' + t.stops.length + ' stops' : 'leaves ' + CK.time(t.start)) + (t.kind === 'verify' ? ' · checks' : '') + '</span></a>'; }).join('') || '<span class="muted sm">No trips today.</span>';
       var acts = s.audit.slice(0, 8).map(function (a) { var w = CK.agent(a.who) || CK.partner(a.who); return '<li>' + (w ? CK.av(w, 's') : '') + '<span><b>' + esc(w ? w.name.split(' ')[0] : 'System') + '</b> ' + esc(a.action.toLowerCase()) + ' <span class="mono">' + esc(a.ref || '') + '</span></span><time>' + CK.ago(a.at) + '</time></li>'; }).join('');
 
+      try { if (role !== 'partner') localStorage.setItem('fieldwise-head-v1', JSON.stringify({ d: dd.toDateString(), r: role, t: headline.join(' · '), s: dd.getDate() + ' ' + CK.MON[dd.getMonth()] + ' · ' + me.name + ' · ' + me.title })); } catch (e) { /* private mode */ }
       return '<div class="today">' +
-        '<header class="greet"><div><h1>' + greet() + ', ' + esc(me.name.split(' ')[0]) + '</h1><p class="muted">' + CK.WD[dd.getDay()] + ' ' + dd.getDate() + ' ' + CK.MON[dd.getMonth()] + ' · ' + esc(me.title) + (out.length ? ' · ' + out.length + ' trip' + (out.length > 1 ? 's' : '') + ' out now' : '') + '</p></div>' +
-        '<div class="hello-a">' + (role === 'field' ? '<a class="btn primary" href="field.html">' + ic('phone', 16) + 'Open field app</a>' : role === 'telecaller' ? '<a class="btn primary" href="#/calling">' + ic('play', 16) + 'Start calling</a>' : '<a class="btn" href="#/trips/new">' + ic('route', 16) + 'Plan a trip</a><button type="button" class="btn primary" data-act="new-lead">' + ic('plus', 16) + 'New lead</button>') + '</div></header>' +
+        '<header class="greet"><div><h1>' + esc(headline.join(' · ')) + '</h1><p class="muted">' + dd.getDate() + ' ' + CK.MON[dd.getMonth()] + ' · ' + esc(me.name) + ' · ' + esc(me.title) + '</p></div>' +
+        '<div class="hello-a"><button type="button" class="btn ghost" data-act="tour">' + ic('sparkles', 16) + 'Take the tour</button>' + (role === 'field' ? '<a class="btn primary" href="field.html">' + ic('phone', 16) + 'Open field app</a>' : role === 'telecaller' ? '<a class="btn primary" href="#/calling">' + ic('play', 16) + 'Start calling</a>' : '<a class="btn" href="#/trips/new">' + ic('route', 16) + 'Plan a trip</a><button type="button" class="btn primary" data-act="new-lead">' + ic('plus', 16) + 'New lead</button>') + '</div></header>' +
+        '<section class="panel wallp" aria-labelledby="rw-h" data-tour="live"><div class="panel-h"><h2 id="rw-h">Route wall</h2><span class="muted sm">live · tap an agent for their phone, a pin for the lead</span><span class="grow"></span><button type="button" class="btn sm" data-act="wall">' + ic('layers', 15) + 'Open the wall</button></div><div class="wall-inline" id="wall-inline"></div><div class="wall-agents">' + chipsOut + '</div></section>' +
         '<section aria-label="Key numbers" class="ktiles">' + order.map(function (k) { return tiles[k]; }).join('') + '</section>' +
         '<section class="nn-wrap" aria-labelledby="nn-h"><h2 id="nn-h" class="sr">Now and next</h2>' + strip + '</section>' +
         '<div class="today-g"><div class="col"><section class="panel" aria-labelledby="nd-h"><div class="panel-h"><h2 id="nd-h">Needs you now</h2><span class="muted sm">' + needs.length + ' items · oldest first</span></div>' + needHtml + '</section>' +
         '<section class="panel" aria-labelledby="q-h"><div class="panel-h"><h2 id="q-h">' + (mine ? 'Your queue' : 'Team queue') + '</h2><span class="muted sm">' + tasks.length + ' open</span></div><div class="tasks">' + q + '</div></section></div>' +
-        '<div class="col"><section class="panel" aria-labelledby="lv-h" data-tour="live"><div class="panel-h"><h2 id="lv-h">Live from the field</h2><a class="link-btn" href="#/trips">All trips' + ic('right', 14) + '</a></div>' + live + '</section>' +
+        '<div class="col">' +
         '<section class="panel" aria-labelledby="ac-h"><div class="panel-h"><h2 id="ac-h">Activity</h2><a class="link-btn" href="#/audit">Full log' + ic('right', 14) + '</a></div><ol class="acts">' + acts + '</ol></section></div></div></div>';
     },
     mount: function (el) {
+      var host = el.querySelector('#wall-inline');
+      if (host && CK.Play) CK.V.today._wall = CK.Play.mount(host, { day: CK.Play.fromStore, variant: 'inline', live: true, label: 'Route wall: today in South Delhi', onLead: function (id) { CK.peek('lead', id); } });
       el.addEventListener('click', function (e) {
         var b = e.target.closest('[data-act="resched-all"]'); if (!b) return;
         var now = CK.now(), ids = openTasks(CK.role() === 'telecaller' || CK.role() === 'field' ? CK.me().id : null).filter(function (t) { return t.due < now; }).map(function (t) { return t.id; });
@@ -88,7 +94,8 @@
         CK.act.reschedule(ids, CK.dayStart(now) + 17 * 36e5);
         CK.toast(ids.length + ' tasks moved to today, 5 pm', { undo: function () { S().tasks.forEach(function (t) { if (old[t.id]) t.due = old[t.id]; }); CK.emit('task'); } });
       });
-    }
+    },
+    unmount: function () { if (CK.V.today._wall) { CK.V.today._wall.destroy(); CK.V.today._wall = null; } }
   };
   function taskRow(t) {
     var L = t.lead ? CK.lead(t.lead) : null, p = t.prop ? CK.prop(t.prop) : null, now = CK.now();

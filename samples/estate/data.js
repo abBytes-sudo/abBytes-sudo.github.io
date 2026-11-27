@@ -1,4 +1,4 @@
-/* Fieldwise — seed data for Amaltas Estates (fictional). Deterministic: same seed, same demo. */
+/* Fieldwise — seed data for Amaltas Estates (fictional). Deterministic: the same seed gives the same brokerage every time. */
 (function () {
   'use strict';
   var CK = window.CK = window.CK || {};
@@ -55,8 +55,9 @@
     { id: 'PT4', name: 'Ritika Bansal', firm: 'Bansal Leasing', area: 'S54', since: '2026-02', split: 30, hue: 230 }
   ];
 
-  var FIRST = ['Aarav', 'Ananya', 'Rahul', 'Priya', 'Vikram', 'Neha', 'Siddharth', 'Kavya', 'Aditya', 'Ishita', 'Karan', 'Riya', 'Rohan', 'Sneha', 'Varun', 'Megha', 'Nikhil', 'Tanya', 'Abhinav', 'Shreya', 'Manish', 'Aisha', 'Gaurav', 'Pallavi', 'Yash', 'Nandini', 'Harsh', 'Divya', 'Kunal', 'Sakshi', 'Arnav', 'Mira', 'Dev', 'Radhika', 'Sameer', 'Zoya', 'Pranav', 'Kriti', 'Vivek', 'Lakshmi', 'Farhan', 'Aditi', 'Jatin', 'Naina', 'Ravi', 'Simran', 'Akash', 'Bhavna', 'Tushar', 'Ira'];
-  var LAST = ['Sharma', 'Mehta', 'Iyer', 'Chopra', 'Khanna', 'Bhatia', 'Gupta', 'Reddy', 'Malik', 'Verma', 'Saxena', 'Pillai', 'Sood', 'Banerjee', 'Kohli', 'Rao', 'Ahuja', 'Grover', 'Das', 'Menon', 'Chawla', 'Bose', 'Kapur', 'Joshi', 'Tandon', 'Agarwal', 'Sinha', 'Dutta', 'Bajaj', 'Siddiqui', 'Mathur', 'Vohra'];
+  var FIRST = ['Aarav', 'Anoushka', 'Rahul', 'Priya', 'Vikram', 'Neha', 'Siddharth', 'Kavya', 'Aditya', 'Ishita', 'Karan', 'Riya', 'Rohan', 'Sneha', 'Varun', 'Megha', 'Tanya', 'Abhinav', 'Shreya', 'Manish', 'Aisha', 'Gaurav', 'Pallavi', 'Yash', 'Nandini', 'Harsh', 'Divya', 'Kunal', 'Sakshi', 'Arnav', 'Mira', 'Dev', 'Radhika', 'Sameer', 'Zoya', 'Pranav', 'Kriti', 'Vivek', 'Lakshmi', 'Farhan', 'Aditi', 'Jatin', 'Naina', 'Ravi', 'Akash', 'Bhavna', 'Tushar', 'Ira', 'Anirudh', 'Shalini', 'Mehul', 'Tara', 'Kartik', 'Nisha', 'Rehan', 'Gayatri', 'Omar', 'Sunaina', 'Devika', 'Jaspreet', 'Anjali', 'Raghav', 'Ishaan', 'Prerna', 'Hari', 'Malini', 'Sahil', 'Fatima', 'Rustom', 'Ayesha', 'Venkat', 'Bhumika', 'Dhruv', 'Leela', 'Parth', 'Rukmini', 'Naveen', 'Tenzin', 'Esha', 'Keshav', 'Lavanya', 'Mohit', 'Sharmila', 'Arpita', 'Joel', 'Natasha', 'Aman', 'Shivani', 'Zubin', 'Priyanka', 'Sourav', 'Chitra', 'Yusuf', 'Payal', 'Ritwik', 'Aparna', 'Nikita', 'Bilal', 'Mrinal', 'Sonal'];
+  var LAST = ['Sharma', 'Mehta', 'Iyer', 'Chopra', 'Khanna', 'Bhatia', 'Gupta', 'Reddy', 'Malik', 'Verma', 'Saxena', 'Pillai', 'Sood', 'Banerjee', 'Kohli', 'Rao', 'Ahuja', 'Grover', 'Das', 'Menon', 'Chawla', 'Bose', 'Kapur', 'Joshi', 'Tandon', 'Agarwal', 'Sinha', 'Dutta', 'Bajaj', 'Siddiqui', 'Mathur', 'Vohra', 'Nair', 'Kulkarni', 'Deshpande', 'Ghosh', 'Mukherjee', 'Chatterjee', 'Sen', 'Hegde', 'Shetty', 'Kamath', 'Naidu', 'Krishnan', 'Subramaniam', 'Varghese', 'Thomas', 'Fernandes', 'Lobo', 'Gill', 'Sandhu', 'Bedi', 'Ahluwalia', 'Arora', 'Talwar', 'Ansari', 'Hussain', 'Rizvi', 'Baig', 'Parekh', 'Shah', 'Desai', 'Patel', 'Kothari', 'Jain', 'Goyal', 'Mittal', 'Bhargava', 'Tiwari', 'Pandey', 'Negi'];
+  var OWNER_LAST = ['Bhalla', 'Wadhwa', 'Khurana', 'Trust', 'Anand', 'Chadha', 'Puri', 'Bakshi', 'Mehra', 'Kaul', 'Dhingra', 'Marwah', 'Sabharwal', 'Kalra', 'Chhabra', 'Dua', 'Bahl', 'Tuli', 'Sachdeva', 'Grewal', 'Mongia', 'Sawhney', 'Luthra', 'Ohri', 'Kakkar', 'Batra', 'Seth', 'Uppal', 'Nanda', 'Bawa'];
   var OWNER_FIRST = ['Col. Rajinder', 'Sushma', 'Ashok', 'Kamla', 'Dr. Naresh', 'Veena', 'Surinder', 'Anita', 'Prakash', 'Usha', 'Brig. Harish', 'Rekha', 'Satish', 'Madhu', 'Jagdish', 'Shobha', 'Ramesh', 'Neelam', 'Om Prakash', 'Sunita', 'Vinod', 'Asha', 'Rakesh', 'Kiran', 'Devendra', 'Poonam', 'Subhash', 'Lata', 'Mahesh', 'Nirmala'];
 
   /* ---------- PRNG ---------- */
@@ -120,14 +121,14 @@
     var today = dayStart(now || Date.now());
     function daysAgo(n, h, m) { return today - n * DAY + ((h || 11) * 60 + (m || 0)) * 6e4; }
     CK.TODAY = today;
-    var S = { v: 4, today: today, settings: { rentWindow: 30, saleWindow: 45, missedCallRetryH: 2, maxMisses: 3, visitMinutes: 20, quietFrom: 19, quietTo: 9 },
+    var S = { v: 5, today: today, settings: { rentWindow: 30, saleWindow: 45, missedCallRetryH: 2, maxMisses: 3, visitMinutes: 20, quietFrom: 19, quietTo: 9 },
       agents: CK.AGENTS.map(function (a) { var o = {}; for (var k in a) o[k] = a[k]; return o; }),
       owners: [], props: [], leads: [], trips: [], deals: [], tasks: [], audit: [], partners: [], queues: [], issues: [], notes: [], msgs: [], eod: [], seq: { L: 2140, P: 0, T: 141, D: 318, K: 900, O: 60 } };
 
     /* owners: 6 portfolio owners + singles */
     var ownerCount = 30;
     for (var i = 0; i < ownerCount; i++) {
-      var on = OWNER_FIRST[i] + ' ' + LAST[(i * 7 + 3) % LAST.length];
+      var on = OWNER_FIRST[i] + ' ' + OWNER_LAST[i];
       S.owners.push({ id: 'O' + (i + 1), name: on, phone: '98' + int(r, 100, 999) + ' XX' + int(r, 100, 999), portfolio: i < 6, lang: pick(r, ['Hindi', 'English', 'Punjabi', 'Hindi']), pref: pick(r, ['Calls after 11 am', 'WhatsApp first', 'Only weekends', 'Via son (Gaurav)', 'Calls any time']), since: 2019 + int(r, 0, 6), comms: [], requests: [] });
     }
     S.owners[0].name = 'Col. Rajinder Bhalla (retd.)'; S.owners[1].name = 'Sushma Wadhwa'; S.owners[2].name = 'Ashok Khurana'; S.owners[3].name = 'Kamla Devi Trust'; S.owners[4].name = 'Dr. Naresh Anand'; S.owners[5].name = 'Veena Chadha';
@@ -256,4 +257,46 @@
 
   function dist(a, b) { var R = CK.REGIONS[a.r || 'sd']; var dx = (a.lng - b.lng) / (R.lng[1] - R.lng[0]) * R.kmW, dy = (a.lat - b.lat) / (R.lat[1] - R.lat[0]) * R.kmH; return Math.sqrt(dx * dx + dy * dy); }
   CK.km = dist;
+
+  /* One Tuesday, minute by minute (minutes after midnight). Names, briefs and homes come from the seed;
+     trips are routed with the app's own matching and trip planner when the day is played. */
+  CK.TUESDAY = {
+    name: 'Tuesday', from: 540, to: 1140, show: 905,
+    trips: [
+      { id: 'TR-201', agent: 'A7', lead: 'L-2028', plan: 590, start: 660, pick: 3, outcomes: ['liked', 'short', 'rejected:Floor too high'] },
+      { id: 'TR-202', agent: 'A10', kind: 'verify', plan: 725, start: 740, codes: ['GP-168', 'SV-190', 'SK-272', 'G1-227'], outcomes: ['verified', 'verified', 'notavail', 'verified'] },
+      { id: 'TR-203', agent: 'A6', lead: 'L-2001', plan: 675, start: 870, pick: 3, outcomes: ['liked', 'rejected:Poor light', 'short'] }
+    ],
+    beats: [[602, 'Ananya messages on WhatsApp'], [631, 'Matched to 6 verified homes'], [675, 'A trip, planned on a map'], [870, 'Three visits, logged at the gate'], [1120, 'Token paid. Home blocked.']],
+    events: [
+      [552, 'lead', 'L-2003'], [559, 'call', 'L-2003', 'connected', 'Wants to see homes this weekend'],
+      [574, 'lead', 'L-2004'], [583, 'call', 'L-2004', 'noanswer'],
+      [602, 'lead', 'L-2001', 'Hi! Saw your Vasant Vihar listing. We need a 3 BHK by mid-December, two kids, school nearby. Budget around 1.1 lakh.'],
+      [603, 'assign', 'L-2001'], [609, 'call', 'L-2001', 'connected', 'Two kids, school in Vasant Vihar; light and a park view matter most'],
+      [624, 'brief', 'L-2001'], [631, 'match', 'L-2001', 6],
+      [641, 'lead', 'L-2006'], [649, 'call', 'L-2006', 'connected', 'Budget is firm; needs covered parking'],
+      [683, 'lead', 'L-2007'], [693, 'call', 'L-2007', 'callback', 'Asked for a call after 1 pm'],
+      [704, 'call', 'L-2004', 'connected', 'Works in Saket; wants a short commute'],
+      [718, 'lead', 'L-2008'], [728, 'call', 'L-2008', 'connected', 'Moving in January; two cars'],
+      [767, 'lead', 'L-2009'], [778, 'call', 'L-2009', 'noanswer'],
+      [790, 'call', 'L-2007', 'connected', 'Prefers a ground floor for her mother'],
+      [816, 'lead', 'L-2010'], [825, 'call', 'L-2010', 'connected', 'Relocating from Pune; office in Okhla'],
+      [858, 'lead', 'L-2011'], [866, 'call', 'L-2011', 'connected', 'Only Shanti Niketan or Anand Niketan'],
+      [898, 'call', 'L-2009', 'connected', 'Will visit on Saturday'],
+      [927, 'lead', 'L-2013'], [935, 'call', 'L-2013', 'connected', 'Looking at GK II this week'],
+      [1004, 'lead', 'L-2015'], [1012, 'call', 'L-2015', 'connected', 'Needs a lift; elderly parents'],
+      [1025, 'nego', 'L-2001', '{first} wants {home}; the owner asks {ask}'],
+      [1068, 'nego', 'L-2001', 'Owner agrees at {price}; police verification and the agreement next'],
+      [1072, 'lead', 'L-2017'], [1080, 'call', 'L-2017', 'connected', 'Company lease; HR pays the rent'],
+      [1120, 'token', 'L-2001', 55000]
+    ]
+  };
+
+  /* schools, used for "near a school" in a brief */
+  CK.POIS = [
+    { k: 'school', lat: 28.5585, lng: 77.1655 }, { k: 'school', lat: 28.5545, lng: 77.1560 }, { k: 'school', lat: 28.5772, lng: 77.1716 }, { k: 'school', lat: 28.5658, lng: 77.1982 },
+    { k: 'school', lat: 28.5507, lng: 77.2058 }, { k: 'school', lat: 28.5371, lng: 77.2121 }, { k: 'school', lat: 28.5452, lng: 77.2291 }, { k: 'school', lat: 28.5301, lng: 77.2404 },
+    { k: 'school', lat: 28.5251, lng: 77.2109 }, { k: 'school', lat: 28.5212, lng: 77.1622 }, { k: 'school', lat: 28.5705, lng: 77.2365 },
+    { k: 'school', lat: 28.4561, lng: 77.0981 }, { k: 'school', lat: 28.4382, lng: 77.1022 }, { k: 'school', lat: 28.4081, lng: 77.0752 }
+  ];
 })();

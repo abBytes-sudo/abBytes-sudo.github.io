@@ -58,18 +58,31 @@
     CK.keyHandler = null;
     var main = document.getElementById('main'), st = main.scrollTop, same = view.dataset.v === r.view + '/' + (r.id || '');
     var inner = document.createElement('div'); inner.className = 'vin v-' + r.view;
-    if (!V && !CK.restLoaded) inner.innerHTML = '<div class="boot" aria-hidden="true"><i></i><i></i><i></i><i></i></div>';
+    if (!V && !CK.restLoaded) inner.innerHTML = '<div class="boot" aria-hidden="true"><svg viewBox="0 0 220 60" width="220" height="60"><path class="boot-r" pathLength="100" d="M10 48C50 48 62 14 110 20s58 26 100-8"/><circle cx="10" cy="48" r="5"/><circle cx="210" cy="12" r="5"/></svg></div>';
     else if (!V) inner.innerHTML = CK.empty('Page not found', 'That address doesn’t lead anywhere.', '<a class="btn" href="#/today">Go to Today</a>');
     else if (allowed.indexOf(r.view) < 0) inner.innerHTML = CK.empty('Not part of the ' + CK.ROLE_NAME[CK.role()] + ' view', 'Each role sees only what it needs. Switch “View as” in the sidebar to open this.', '<a class="btn" href="#/' + allowed[0] + '">Go to ' + esc((NAV.filter(function (n) { return n.id === allowed[0]; })[0] || {}).label || 'start') + '</a>');
     else inner.innerHTML = V.render(r);
-    view.replaceChildren(inner); view.dataset.v = r.view + '/' + (r.id || '');
+    // First frame: index.html has already painted Today's headline. Keep that node where it is and build the rest of the view
+    // around it, so the page's largest paint is the first one and is not redone when the numbers arrive.
+    var keepT = document.getElementById('ssr'), newT = keepT && inner.firstElementChild;
+    if (keepT && newT && newT.classList.contains('today') && newT.querySelector('.greet h1')) {
+      var vin = keepT.parentNode, kg = keepT.firstElementChild, ng = newT.firstElementChild, kd = kg.firstElementChild, nd = ng.firstElementChild;
+      kd.children[0].textContent = nd.children[0].textContent; kd.children[0].removeAttribute('id');
+      if (kd.children[1] && nd.children[1]) { kd.children[1].textContent = nd.children[1].textContent; kd.children[1].removeAttribute('id'); }
+      while (nd.nextSibling) kg.appendChild(nd.nextSibling);
+      while (ng.nextSibling) keepT.appendChild(ng.nextSibling);
+      while (keepT.nextSibling) keepT.nextSibling.remove();
+      while (newT.nextSibling) vin.appendChild(newT.nextSibling);
+      keepT.removeAttribute('id'); vin.className = inner.className + ' first'; inner = vin;
+    } else { if (keepT) keepT.removeAttribute('id'); view.replaceChildren(inner); }
+    view.dataset.v = r.view + '/' + (r.id || '');
     if (V && allowed.indexOf(r.view) >= 0 && V.mount) V.mount(inner, r);
     curView = V;
     main.scrollTop = same ? st : 0;
     document.getElementById('nav').innerHTML = navHTML();
     document.getElementById('as').innerHTML = asHTML();
     var t = V ? V.title : 'Fieldwise'; document.getElementById('crumb').textContent = t; document.title = t + ' · Amaltas Estates · Fieldwise';
-    var bc = bellCount(), bb = document.getElementById('bell-n'); bb.textContent = bc > 9 ? '9+' : bc; bb.hidden = !bc;
+    var bc = bellCount(), bb = document.getElementById('bell-n'); bb.textContent = bc > 9 ? '9+' : bc; bb.hidden = !bc; bb.parentNode.setAttribute('aria-label', bc ? (bc > 9 ? '9+' : bc) + ' notifications' : 'Notifications');
     CK.renderDrawer();
     if (keep) { var el = document.getElementById(keep.id); if (el && el !== document.activeElement) { el.value = keep.v; el.focus(); try { el.setSelectionRange(keep.s, keep.s); } catch (e) { } } }
   };
@@ -138,6 +151,8 @@
   function boot() {
     CK.load();
     if (!CK.ui.role) { CK.ui.role = 'admin'; CK.ui.as = 'A1'; }
+    // embedded on the product page: the view only, as the admin, nothing saved to this browser's view settings
+    if (/[?&]embed\b/.test(location.search)) { document.documentElement.classList.add('embed'); CK.ui.role = 'admin'; CK.ui.as = 'A1'; CK.ui.theme = 'light'; CK.saveUI = function () { }; }
     applyTheme();
     var S = CK.S();
     document.getElementById('brand-sub').textContent = 'Fieldwise · ' + S.agents.length + ' people';
@@ -150,12 +165,10 @@
       if (e.target.closest('[data-close-drawer]') || e.target.matches('.drawer-bg')) { CK.closeDrawer(); return; }
       if (e.target.closest('[data-close-modal]')) { CK.closeModal(); return; }
       var a = e.target.closest('[data-act]');
-      if (a) { var act = a.dataset.act; if (act === 'new-lead') CK.newLeadForm(); if (act === 'new-prop') CK.newPropForm(); if (act === 'palette') CK.palette(); if (act === 'theme') CK.toggleTheme(); if (act === 'tour') CK.tour(0); if (act === 'menu') document.getElementById('side').classList.toggle('open'); if (act === 'bell') bellMenu(a); if (act === 'new') CK.menu(a, [{ label: 'New lead', icon: 'users', id: 'l' }, { label: 'New listing', icon: 'building', id: 'p' }, { label: 'Plan a trip', icon: 'route', id: 't' }], function (it) { if (it.id === 'l') CK.newLeadForm(); if (it.id === 'p') CK.newPropForm(); if (it.id === 't') { CK.resetPlanner && CK.resetPlanner(); location.hash = '#/trips/new'; } }); }
+      if (a) { var act = a.dataset.act; if (act === 'wall' && CK.Play) CK.Play.openWall(); if (act === 'new-lead') CK.newLeadForm(); if (act === 'new-prop') CK.newPropForm(); if (act === 'palette') CK.palette(); if (act === 'theme') CK.toggleTheme(); if (act === 'tour') CK.tour(0); if (act === 'menu') document.getElementById('side').classList.toggle('open'); if (act === 'bell') bellMenu(a); if (act === 'new') CK.menu(a, [{ label: 'New lead', icon: 'users', id: 'l' }, { label: 'New listing', icon: 'building', id: 'p' }, { label: 'Plan a trip', icon: 'route', id: 't' }], function (it) { if (it.id === 'l') CK.newLeadForm(); if (it.id === 'p') CK.newPropForm(); if (it.id === 't') { CK.resetPlanner && CK.resetPlanner(); location.hash = '#/trips/new'; } }); }
       if (e.target.closest('#asbtn')) CK.menu(e.target.closest('#asbtn'), [{ head: 'View as — what each role sees' }].concat(['admin', 'manager', 'telecaller', 'field', 'partner'].map(function (r) { var who = r === 'partner' ? 'Harpreet Singh' : CK.agent(CK.ROLES[r].as).name; return { label: CK.ROLE_NAME[r], hint: who, id: r, on: CK.role() === r, icon: { admin: 'settings', manager: 'chart', telecaller: 'phone', field: 'route', partner: 'partner' }[r] }; })), function (it) { CK.setRole(it.id); });
       var tg = e.target.closest('[data-tour-go]'); if (tg) CK.tour(+tg.dataset.tourGo);
       if (e.target.closest('[data-tour-x]')) CK.tour(-1);
-      if (e.target.closest('[data-welcome="go"]')) { document.getElementById('welcome').remove(); CK.tour(0); }
-      if (e.target.closest('[data-welcome="skip"]')) { document.getElementById('welcome').remove(); CK.ui.toured = 1; CK.saveUI(); }
     });
     var gKey = 0;
     document.addEventListener('keydown', function (e) {
@@ -178,11 +191,12 @@
     document.documentElement.classList.add('ready');
     // the rest of the views load after the first screen has painted
     if (CK.V.inventory) { CK.restLoaded = true; if (CK.ensure) { CK.ensure(); CK.syncBridges(); CK.render(); } }
-    else { var rs = document.createElement('script'); rs.src = 'app-rest.min.js?v=10'; rs.onload = function () { CK.restLoaded = true; if (CK.ensure) { CK.ensure(); CK.syncBridges(); } CK.render(); }; setTimeout(function () { document.head.appendChild(rs); }, 0); }
-    if (!CK.ui.toured) {
-      var w = document.createElement('div'); w.id = 'welcome'; w.className = 'welcome'; w.setAttribute('role', 'dialog'); w.setAttribute('aria-labelledby', 'wl-t');
-      w.innerHTML = '<p class="muted xs">Welcome to Fieldwise</p><h2 id="wl-t">See a lead become a deal in six steps.</h2><p class="sm">Lead → matched homes → trip → visit outcome → deal. About a minute.</p><div class="btnrow"><button type="button" class="btn primary sm" data-welcome="go">' + ic('sparkles', 14) + 'Take the tour</button><button type="button" class="btn ghost sm" data-welcome="skip">Skip</button></div>';
-      document.body.appendChild(w);
+    else {
+      // the route wall's styles come with the rest; render again once both have arrived
+      var need = 2, done = function () { if (--need) return; CK.restLoaded = true; if (CK.ensure) { CK.ensure(); CK.syncBridges(); } CK.render(); };
+      var css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'play.min.css?v=12'; css.onload = css.onerror = done;
+      var rs = document.createElement('script'); rs.src = 'app-rest.min.js?v=12'; rs.onload = done;
+      setTimeout(function () { document.head.appendChild(css); document.head.appendChild(rs); }, 0);
     }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();

@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var CK = window.CK;
-  var KEY = 'fieldwise-demo-v4', UIKEY = 'fieldwise-ui-v1';
+  var KEY = 'fieldwise-data-v5', UIKEY = 'fieldwise-ui-v1';
   var DAY = CK.DAY, S = null, subs = [];
 
   /* ---------- formatting ---------- */
@@ -31,7 +31,7 @@
   CK.initials = function (n) { return n.replace(/^(Col\.|Dr\.|Brig\.)\s*/, '').split(/\s+/).filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join('').toUpperCase(); };
   CK.cfg = function (p) { return p.type === 'Office' ? CK.grp(p.sqft) + ' sq ft office' : p.type === 'Studio' ? 'Studio' : p.bhk + ' BHK ' + p.type.toLowerCase(); };
 
-  /* demo clock: real time, kept inside office hours so the seeded day reads right */
+  /* the clock: real time, kept inside office hours so the seeded day reads right */
   CK.now = function () { var t = Date.now(), d = CK.dayStart(t); return Math.min(Math.max(t, d + 11 * 36e5 + 2 * 6e4), d + 18 * 36e5 + 25 * 6e4); };
 
   /* ---------- lookups ---------- */
@@ -103,6 +103,38 @@
     return out.sort(function (a, b) { return b.score - a.score; });
   };
 
+  /* ---------- a brief in plain words → a requirement ("3 BHK in Vasant Vihar, around 1.1 lakh, near a school, by mid-December") ---------- */
+  var ALIAS = { VV: ['vasant vihar'], AN: ['anand niketan'], SN: ['shanti niketan'], JB: ['jor bagh', 'jorbagh'], SE: ['safdarjung enclave', 'safdarjung encl', 'safdarjung'], GP: ['green park'], HK: ['hauz khas', 'hkv'], SV: ['sarvodaya enclave', 'sarvodaya'], PP: ['panchsheel park', 'panchsheel'], DC: ['defence colony', 'def col', 'def colony'], LN: ['lajpat nagar', 'lajpat'], G1: ['greater kailash 1', 'greater kailash i', 'greater kailash-1', 'gk 1', 'gk-1', 'gk i', 'gk1'], G2: ['greater kailash 2', 'greater kailash ii', 'greater kailash-2', 'gk 2', 'gk-2', 'gk ii', 'gk2'], CR: ['chittaranjan park', 'c r park', 'cr park'], MN: ['malviya nagar', 'malviya'], SK: ['saket'], VK: ['vasant kunj'] };
+  var MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+  function rx(a) { return new RegExp('(^|[^a-z0-9])' + a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![a-z0-9])'); }
+  CK.parseBrief = function (text) {
+    var t = ' ' + String(text || '').toLowerCase().replace(/(\d),(?=\d)/g, '$1').replace(/[;|]/g, ' ') + ' ', b = { sectors: [], bhk: null, intent: null, budget: null, moveIn: null, school: /school/.test(t), pets: /\b(pet|pets|dog|dogs|cat|cats|labrador)\b/.test(t), furn: null, type: null, family: null };
+    var m = t.match(/(\d)\s*-?\s*(?:bhk|bed(?:room)?s?|br)\b/); if (m) b.bhk = +m[1]; else if (/\bstudio\b/.test(t)) b.bhk = 1;
+    var hits = [];
+    Object.keys(ALIAS).forEach(function (id) { ALIAS[id].some(function (a) { var r = t.search(rx(a)); if (r >= 0) { hits.push([r, id]); return true; } return false; }); });
+    t.replace(/\bsec(?:tor)?[ -]?(\d{2})\b/g, function (x, n, i) { if (CK.area('S' + n)) hits.push([i, 'S' + n]); return x; });
+    hits.sort(function (x, y) { return x[0] - y[0]; }); hits.forEach(function (h) { if (b.sectors.indexOf(h[1]) < 0) b.sectors.push(h[1]); });
+    var mm = t.match(/(\d+(?:\.\d+)?)\s*(crores?|cr)\b/), amt = 0;
+    if (mm) amt = +mm[1] * 1e7; else if ((mm = t.match(/(\d+(?:\.\d+)?)\s*(lakhs?|lacs?|l)\b/))) amt = +mm[1] * 1e5; else if ((mm = t.match(/(\d+(?:\.\d+)?)\s*(k|thousand)\b/))) amt = +mm[1] * 1e3; else if ((mm = t.match(/(?:₹|rs\.?)\s*(\d{4,9})/) || t.match(/\b(\d{5,9})\b/))) amt = +mm[1];
+    if (amt) b.budget = Math.round(amt);
+    if (/\b(buy|buying|purchase|for sale|resale|to own)\b/.test(t)) b.intent = 'buy'; else if (/\b(rent|rental|lease|per month|a month|monthly|tenant)\b/.test(t)) b.intent = 'rent'; else b.intent = amt && amt >= 5e6 ? 'buy' : 'rent';
+    var mo = t.match(/\b(early|mid|middle of|end of|late)?[ -]?(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b/), now = new Date(CK.now());
+    if (mo) { var mi = MONTHS.indexOf(mo[2]), y = now.getFullYear() + (mi < now.getMonth() ? 1 : 0), dd = /mid|middle/.test(mo[1] || '') ? 15 : /end|late/.test(mo[1] || '') ? 28 : /early/.test(mo[1] || '') ? 5 : 1; b.moveIn = new Date(y, mi, dd, 12).getTime(); }
+    else if (/next month/.test(t)) b.moveIn = CK.now() + 30 * DAY; else if ((mo = t.match(/in (\d+) weeks?/))) b.moveIn = CK.now() + +mo[1] * 7 * DAY; else if (/\b(asap|immediately|this week|right away)\b/.test(t)) b.moveIn = CK.now() + 7 * DAY;
+    if (/fully[- ]furnished/.test(t)) b.furn = 'Fully furnished'; else if (/semi[- ]?furnished/.test(t)) b.furn = 'Semi-furnished'; else if (/unfurnished/.test(t)) b.furn = 'Unfurnished';
+    if (/builder floor/.test(t)) b.type = 'Builder floor'; else if (/\b(apartment|flat|society)\b/.test(t)) b.type = 'Apartment'; else if (/independent house|kothi|bungalow/.test(t)) b.type = 'Independent house';
+    if (/\b(company lease|corporate)\b/.test(t)) b.family = 'Corporate lease'; else if (/\bcouple\b/.test(t)) b.family = 'Couple'; else if (/\b(family|kids|children|parents)\b/.test(t)) b.family = 'Family';
+    b.r = b.sectors.length ? CK.area(b.sectors[0]).r : 'sd'; b.sectors = b.sectors.filter(function (id) { return CK.area(id).r === b.r; });
+    b.chips = [(b.bhk ? b.bhk + ' BHK' : 'Any size'), (b.intent === 'buy' ? 'To buy' : 'To rent'), (b.budget ? '≈ ' + CK.money(b.budget, true) + (b.intent === 'rent' ? '/mo' : '') : 'Any budget')].concat(b.sectors.map(function (id) { return CK.area(id).short; }), b.school ? ['near a school'] : [], b.pets ? ['pets'] : [], b.moveIn ? ['by ' + CK.date(b.moveIn)] : []);
+    return b;
+  };
+  CK.marketPrice = function (r, sectors, bhk, deal) { var ps = S.props.filter(function (p) { return p.r === r && p.deal === deal && (!bhk || p.bhk === bhk) && (!sectors.length || sectors.indexOf(p.area) >= 0) && p.type !== 'Office'; }).map(function (p) { return p.price; }).sort(function (a, b) { return a - b; }); return ps.length ? ps[Math.floor(ps.length / 2)] : (deal === 'rent' ? 90000 : 40000000); };
+  CK.briefLead = function (b) { // a lead-shaped requirement the matcher understands
+    var deal = b.intent === 'buy' ? 'sale' : 'rent';
+    return { id: 'brief', name: 'Brief', intent: b.intent, tags: b.pets ? ['Pets'] : [], req: { r: b.r, bhk: b.bhk ? [b.bhk] : [2, 3, 4], budget: b.budget || CK.marketPrice(b.r, b.sectors, b.bhk, deal), sectors: b.sectors, moveIn: b.moveIn || CK.now() + 30 * DAY, type: b.type || 'Any', furn: b.furn || 'Any', family: b.family || 'Family', note: '' } };
+  };
+  CK.poiDist = function (p, kind) { var best = 1e9; (CK.POIS || []).forEach(function (q) { if (q.k !== kind) return; var d = CK.km(p, q) * 1000; if (d < best) best = d; }); return best; };
+
   /* ---------- map maths & routes ---------- */
   CK.xy = function (o, r) { var R = CK.REGIONS[r || o.r || 'sd']; return [(o.lng - R.lng[0]) / (R.lng[1] - R.lng[0]) * R.w, (R.lat[1] - o.lat) / (R.lat[1] - R.lat[0]) * R.h]; };
   CK.legMin = function (a, b) { var k = CK.km(a, b); return Math.max(4, Math.round(k * 4.4 + 4)); }; // Delhi traffic ≈ 14 km/h + parking
@@ -126,6 +158,7 @@
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } }
   CK.save = save;
   CK.on = function (fn) { subs.push(fn); };
+  CK.off = function (fn) { var i = subs.indexOf(fn); if (i >= 0) subs.splice(i, 1); };
   function emit(what) { save(); subs.forEach(function (f) { try { f(what); } catch (e) { console.error(e); } }); }
   CK.emit = emit;
   CK.ui = (function () { var u = {}; try { u = JSON.parse(localStorage.getItem(UIKEY)) || {}; } catch (e) { } return u; })();
@@ -515,7 +548,7 @@
     var raw = null; try { raw = localStorage.getItem(KEY); } catch (e) { }
     if (raw && !force) { try { S = JSON.parse(raw); } catch (e) { S = null; } }
     var today = CK.dayStart(Date.now());
-    if (!S || S.v !== 4 || S.today !== today) { S = CK.seed(Date.now()); phase2(S); S.fresh = true; save(); }
+    if (!S || S.v !== 5 || S.today !== today) { S = CK.seed(Date.now()); phase2(S); S.fresh = true; save(); }
     CK.TODAY = S.today;
     return S;
   };

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; frame-src 'self'; base-uri 'none'; form-action 'none'">
 <title>Fieldwise Mobile — the brokerage field app</title>
 <meta name="description" content="The field agent's phone app for Fieldwise: today's trips, check-in at the gate, photos, visit outcomes, verification checklists, end-of-day report, and it keeps working offline.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -12,12 +12,12 @@
 <meta property="og:description" content="Today's stops, geo check-in, photos, visit outcomes, verification and end-of-day reports, on a phone.">
 <meta property="og:image" content="https://abbytes-sudo.github.io/samples/estate/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#F7F5F0">
+<meta name="theme-color" content="#F2EEE5">
 <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="field.min.css?v=10">
+<link rel="stylesheet" href="field.min.css?v=12">
 <link rel="stylesheet" href="../assets/back.css?v=2">
 <script src="../assets/back.js?v=1" defer></script>
-<script src="field.min.js?v=10" defer></script>
+<script src="field.min.js?v=12" defer></script>
 </head>
 <body class="field">
 <div class="demo" role="note">Portfolio project by Abhishek</div>
@@ -25,7 +25,7 @@
   <aside class="fside" aria-label="About this screen">
     <p class="fside-k">Fieldwise Mobile</p>
     <h2>The agent’s phone, wired to the office.</h2>
-    <p>Check in at the gate, shoot the photos, record what the family thought. The CRM updates in the other tab as you tap — try it side by side with <a href="index.html#/trips">Trips</a>.</p>
+    <p>Check in at the gate, shoot the photos, record what the family thought. Every tap reaches the office screen the same second; on a wide screen it is right there, beside the phone.</p>
     <ul>
       <li>Big buttons, one job per screen</li>
       <li>Works with no signal; updates queue and sync</li>
@@ -43,6 +43,7 @@
       <a href="#/report" data-tab="report"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.5h7L18.5 8v12.5h-11.5z"/><path d="M14 3.5V8h4.5M9.5 13h5M9.5 16.5h5"/></svg><span>Report</span><b class="fq" id="fq" hidden></b></a>
     </nav>
   </div>
+  <section class="office" aria-label="The office screen"><p><svg class="ic" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8 20h8M12 16.5V20"/></svg>The office, live: this trip in Fieldwise</p></section>
 </div>
 <div id="toasts" class="toasts" aria-live="polite"></div>
 </body>

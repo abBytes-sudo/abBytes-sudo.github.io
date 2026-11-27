@@ -173,22 +173,4 @@
   };
   function whoName(id) { var w = CK.agent(id) || CK.partner(id); return w ? w.name : ''; }
 
-  /* ============ SETTINGS ============ */
-  CK.V.settings = {
-    title: 'Settings',
-    render: function () {
-      var st = S().settings;
-      function num(k, label, hint, min, max) { return '<div class="set-row"><div><label for="st-' + k + '"><b>' + label + '</b></label><p class="muted sm">' + hint + '</p></div><input id="st-' + k + '" type="number" min="' + min + '" max="' + max + '" value="' + st[k] + '" data-st="' + k + '"></div>'; }
-      var perms = [['Leads', 'leads'], ['Calling', 'calling'], ['Inventory', 'inventory'], ['Verification', 'verify'], ['Trips', 'trips'], ['Deals', 'deals'], ['Owners', 'owners'], ['Partners', 'partners'], ['Print', 'print'], ['Reports', 'reports'], ['Settings', 'settings']];
-      var roles = ['admin', 'manager', 'telecaller', 'field', 'partner'];
-      return '<div class="ph"><div><h1>Settings</h1><p class="muted">Rules, not code — what the business changes without a developer.</p></div></div><div class="set-g"><section class="panel"><div class="panel-h"><h2>Freshness and verification</h2></div>' + num('rentWindow', 'Re-verify rentals after', 'days · drives the Verified badge, matching and the desk', 7, 90) + num('saleWindow', 'Re-verify resale after', 'days', 7, 120) + num('visitMinutes', 'Minutes per site visit', 'used for trip ETAs', 10, 60) + '</section>' +
-        '<section class="panel"><div class="panel-h"><h2>Calling</h2></div>' + num('missedCallRetryH', 'Retry a missed call after', 'hours', 1, 24) + num('maxMisses', 'Hand to a person after', 'missed calls', 1, 6) + '<div class="set-row"><div><b>Quiet hours</b><p class="muted sm">No calls or messages go out</p></div><span>7 pm – 9 am</span></div></section>' +
-        '<section class="panel span2"><div class="panel-h"><h2>Roles and what they see</h2><span class="muted sm">use “View as” in the sidebar to try each one</span></div><div class="tbl-wrap"><table class="tbl perm"><thead><tr><th>Area</th>' + roles.map(function (r) { return '<th>' + CK.ROLE_NAME[r] + '</th>'; }).join('') + '</tr></thead><tbody>' + perms.map(function (p) { return '<tr><td>' + p[0] + '</td>' + roles.map(function (r) { var v = CK.ROLES[r].nav.indexOf(p[1]) >= 0; return '<td>' + (v ? ic('check', 14, 'tx-ok') : '<span class="muted">—</span>') + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div></section>' +
-        '<section class="panel"><div class="panel-h"><h2>This browser</h2></div><p class="muted sm">Everything here lives in this browser (localStorage). The field app on the same browser shares it live.</p><div class="btnrow"><button type="button" class="btn" data-act="tour">' + ic('sparkles', 15) + 'Replay the tour</button><button type="button" class="btn danger-ghost" data-act="reset">Start fresh</button></div></section></div>';
-    },
-    mount: function (el) {
-      el.addEventListener('change', function (e) { var k = e.target.dataset.st; if (!k) return; var v = Math.max(+e.target.min, Math.min(+e.target.max, +e.target.value || 0)); var old = S().settings[k]; S().settings[k] = v; CK.audit('Changed setting', k, old + ' → ' + v); CK.emit('settings'); CK.toast('Saved — everything that uses it has updated', { undo: function () { S().settings[k] = old; CK.emit('settings'); } }); });
-      el.addEventListener('click', function (e) { var b = e.target.closest('[data-act]'); if (!b) return; if (b.dataset.act === 'tour') CK.tour(0); if (b.dataset.act === 'reset') CK.confirm('Start fresh?', 'Every change made in this browser goes back to the start of the day.', 'Start fresh', function () { CK.reset(); CK.toast('Started fresh'); }); });
-    }
-  };
 })();

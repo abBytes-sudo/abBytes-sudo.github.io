@@ -37,7 +37,7 @@
     arrow: '<path d="M5 12h14M13.5 6.5 19 12l-5.5 5.5"/>',
     file: '<path d="M7 3.5h7L18.5 8v12.5h-11.5z"/><path d="M14 3.5V8h4.5M9.5 13h5M9.5 16.5h5"/>',
     rupee: '<path d="M7 5h10M7 9h10M10 5c4 0 4 8 0 8H7l7 6"/>',
-    play: '<path d="M8 5.5v13l10.5-6.5z"/>', skip: '<path d="M6 6v12l8.5-6zM17.5 6v12"/>',
+    play: '<path d="M8 5.5v13l10.5-6.5z"/>', pause: '<path d="M8.5 5.5v13M15.5 5.5v13"/>', skip: '<path d="M6 6v12l8.5-6zM17.5 6v12"/>',
     undo: '<path d="M9 7 5 11l4 4"/><path d="M5 11h9a5 5 0 0 1 0 10h-2"/>',
     spark: '<path d="M12 3.5 13.8 10 20.5 12l-6.7 2L12 20.5 10.2 14 3.5 12l6.7-2z"/>',
     eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/>',
@@ -91,7 +91,7 @@
     opts = opts || {};
     return '<ol class="stepper' + (opts.compact ? ' compact' : '') + '" aria-label="' + esc(opts.label || 'Progress') + '">' + steps.map(function (s, i) { var st = i < cur ? 'done' : i === cur ? 'cur' : ''; return '<li class="' + st + '"' + (i === cur ? ' aria-current="step"' : '') + '><span class="dot">' + (i < cur ? ic('check', 12) : i + 1) + '</span><span class="lbl">' + esc(s.label) + '</span></li>'; }).join('') + '</ol>';
   };
-  CK.empty = function (title, body, action) { return '<div class="empty"><div class="empty-art" aria-hidden="true">' + ic('door', 28) + '</div><p class="empty-t">' + esc(title) + '</p><p class="muted">' + esc(body) + '</p>' + (action || '') + '</div>'; };
+  CK.empty = function (title, body, action) { return '<div class="empty"><svg class="empty-art" viewBox="0 0 120 64" width="120" height="64" aria-hidden="true"><path d="M10 52C32 52 34 22 60 26s32 22 46-6" fill="none" stroke="var(--route)" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 6"/><circle cx="10" cy="52" r="5" fill="var(--ink)"/><path d="M106 24c-4-5-7-8-7-12a7 7 0 1 1 14 0c0 4-3 7-7 12z" fill="var(--ink)"/><circle cx="106" cy="12" r="2.6" fill="var(--paper)"/></svg><p class="empty-t">' + esc(title) + '</p><p class="muted">' + esc(body) + '</p>' + (action || '') + '</div>'; };
   CK.kv = function (rows) { return '<dl class="kv">' + rows.filter(Boolean).map(function (r) { return '<div><dt>' + esc(r[0]) + '</dt><dd>' + r[1] + '</dd></div>'; }).join('') + '</dl>'; };
 
   /* ---------- toast with undo ---------- */
@@ -161,7 +161,7 @@
       { t: 'Add a lead', s: 'Command', ic: 'plus', fn: function () { CK.newLeadForm(); } }, { t: 'Add a listing', s: 'Command', ic: 'building', fn: function () { CK.newPropForm(); } },
       { t: 'Open the verification desk', s: 'Command', ic: 'shield', go: '#/verify' }, { t: 'Build a print issue', s: 'Command', ic: 'print', go: '#/print' },
       { t: 'Switch theme (light / dark)', s: 'Command', ic: 'moon', fn: function () { CK.toggleTheme(); } }, { t: 'Take the guided tour', s: 'Command', ic: 'sparkles', fn: function () { CK.tour(0); } },
-      { t: 'Open the field app', s: 'Command', ic: 'phone', href: 'field.html' }, { t: 'Open the map', s: 'Command', ic: 'pin', go: '#/map' }, { t: 'Import a listing sheet (PDF)', s: 'Command', ic: 'upload', go: '#/import' }, { t: 'Start owner check calls', s: 'Command', ic: 'target', go: '#/survey/focus' }, { t: 'Open conversations', s: 'Command', ic: 'chat', go: '#/inbox' }, { t: 'Invite a teammate', s: 'Command', ic: 'users', go: '#/team' }, { t: 'Search rankings', s: 'Command', ic: 'search', go: '#/seo' }, { t: 'Start fresh', s: 'Command', ic: 'undo', fn: function () { CK.confirm('Start fresh?', 'Every change made in this browser goes back to the start of the day.', 'Start fresh', function () { CK.reset(); CK.toast('Started fresh'); }); } }
+      { t: 'Open the field app', s: 'Command', ic: 'phone', href: 'field.html' }, { t: 'Open the map', s: 'Command', ic: 'pin', go: '#/map' }, { t: 'Import a listing sheet (PDF)', s: 'Command', ic: 'upload', go: '#/import' }, { t: 'Start owner check calls', s: 'Command', ic: 'target', go: '#/survey/focus' }, { t: 'Open conversations', s: 'Command', ic: 'chat', go: '#/inbox' }, { t: 'Invite a teammate', s: 'Command', ic: 'users', go: '#/team' }, { t: 'Search rankings', s: 'Command', ic: 'search', go: '#/seo' }, { t: 'Start fresh', s: 'Command', ic: 'undo', fn: function () { CK.confirm('Start fresh?', 'Every lead, trip and deal goes back to how the day started.', 'Start fresh', function () { CK.reset(); CK.toast('Started fresh'); }); } }
     ];
     ['admin', 'manager', 'telecaller', 'field', 'partner'].forEach(function (r) { cmds.push({ t: 'View as ' + CK.ROLE_NAME[r], s: 'Role', ic: 'eye', fn: function () { CK.setRole(r); } }); });
     function run() {

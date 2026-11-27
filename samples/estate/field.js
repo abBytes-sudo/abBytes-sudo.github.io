@@ -37,7 +37,7 @@
   /* ---------- screens ---------- */
   var R = {};
   function header(title, back, sub) {
-    return '<header class="fh">' + (back ? '<a class="fbtn-ic" href="' + back + '" aria-label="Back">' + ic('left', 22) + '</a>' : '<button type="button" class="fme" data-f="who" aria-label="Switch agent">' + CK.av(me(), 'l') + '</button>') + '<div class="fh-t"><h1>' + esc(title) + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div><button type="button" class="net' + (F.offline ? ' off' : '') + '" data-f="net" aria-pressed="' + F.offline + '" aria-label="' + (F.offline ? 'Offline — tap to reconnect' : 'Online — tap to work offline') + '">' + ic(F.offline ? 'offline' : 'check', 15) + '<span>' + (F.offline ? 'Offline' + (F.queue.length ? ' · ' + F.queue.length : '') : 'Synced') + '</span></button></header>';
+    return '<header class="fh">' + (back ? '<a class="fbtn-ic" href="' + back + '" aria-label="Back">' + ic('left', 22) + '</a>' : '<button type="button" class="fme" data-f="who" aria-label="' + esc(CK.initials(me().name)) + ', switch agent">' + CK.av(me(), 'l') + '</button>') + '<div class="fh-t"><h1>' + esc(title) + '</h1>' + (sub ? '<p>' + sub + '</p>' : '') + '</div><button type="button" class="net' + (F.offline ? ' off' : '') + '" data-f="net" aria-pressed="' + F.offline + '" aria-label="' + (F.offline ? 'Offline' + (F.queue.length ? ' · ' + F.queue.length : '') + ' — tap to reconnect' : 'Synced — tap to work offline') + '">' + ic(F.offline ? 'offline' : 'check', 15) + '<span>' + (F.offline ? 'Offline' + (F.queue.length ? ' · ' + F.queue.length : '') : 'Synced') + '</span></button></header>';
   }
   R.today = function () {
     var a = me(), d = new Date(CK.now()), ts = todayTrips(), nx = nextStop();
@@ -139,9 +139,20 @@
   }
   function thumb(file, cb) { var img = new Image(), url = URL.createObjectURL(file); img.onload = function () { var c = document.createElement('canvas'), s = 144, r = Math.max(s / img.width, s / img.height); c.width = s; c.height = s; var x = c.getContext('2d'); x.drawImage(img, (s - img.width * r) / 2, (s - img.height * r) / 2, img.width * r, img.height * r); URL.revokeObjectURL(url); cb(c.toDataURL('image/jpeg', .6)); }; img.onerror = function () { cb(null); }; img.src = url; }
 
+  /* wide screens: the office's view of this agent's trip, in Fieldwise itself, updating from the same store */
+  var officeTrip = null;
+  function office() {
+    var host = document.querySelector('.office'); if (!host || innerWidth < 1180) return;
+    var nx = nextStop(), tr = nx ? nx.t : todayTrips()[0], id = tr ? tr.id : '';
+    if (id === officeTrip && host.querySelector('iframe')) return; officeTrip = id;
+    var fr = host.querySelector('iframe');
+    if (!fr) { fr = document.createElement('iframe'); fr.title = 'Fieldwise in the office: this trip, live'; fr.loading = 'lazy'; host.appendChild(fr); }
+    fr.src = 'index.html?embed=1#/trips/' + id;
+  }
   function boot() {
     CK.load(); CK.ui.role = 'field';
     CK.on(function () { render(); });
+    office();
     addEventListener('hashchange', render);
     document.addEventListener('click', function (e) {
       if (e.target.closest('[data-close-modal]')) { CK.closeModal(); return; }
@@ -159,7 +170,7 @@
         if (f === 'approve') { var need = CK.CHECKLIST.filter(function (c) { return (c.id !== 'docs' || p.deal === 'sale') && !ck[c.id]; }); if (need.length) { document.getElementById('f-err').textContent = need.length + ' still open: ' + need.map(function (c) { return c.label.toLowerCase(); }).join(', ') + '.'; return; } }
         doAct('verify', { p: p.id, checks: ck, ok: f === 'approve', reason: f === 'notavail' ? 'Already let out / sold' : null, t: t.id, i: i }, f === 'approve' ? p.code + ' verified — badge on' : p.code + ' marked not available');
       }
-      if (f === 'who') CK.menu(b, [{ head: 'You are…' }].concat(S().agents.filter(function (a) { return a.role === 'field'; }).map(function (a) { return { label: a.name, hint: a.title.replace('Field agent · ', ''), id: a.id, on: a.id === F.agent }; })), function (it) { F.agent = it.id; saveF(); location.hash = '#/today'; render(); });
+      if (f === 'who') CK.menu(b, [{ head: 'You are…' }].concat(S().agents.filter(function (a) { return a.role === 'field'; }).map(function (a) { return { label: a.name, hint: a.title.replace('Field agent · ', ''), id: a.id, on: a.id === F.agent }; })), function (it) { F.agent = it.id; saveF(); location.hash = '#/today'; render(); office(); });
     });
     document.addEventListener('change', function (e) {
       var inp = e.target.closest('input[data-f="file"]'); if (!inp || !inp.files.length) return;

@@ -148,6 +148,8 @@
     },
     mount: function (el, r) {
       var g = deskQueue(), cur = r.id ? CK.prop(r.id) : g.pending.concat(g.overdue, g.due, g.rejected)[0]; if (!cur) return;
+      // on a phone the queue sits above the listing: opening a listing brings the listing into view (once per listing)
+      if (r.id && r.id !== VD.shown && innerWidth < 900) { VD.shown = r.id; setTimeout(function () { var vd = el.querySelector('.vd'); if (vd) vd.scrollIntoView({ block: 'start' }); }, 0); }
       el.addEventListener('click', function (e) {
         var t = e.target.closest('[data-ck],[data-vd]'); if (!t) return;
         var ch = VD.checks[cur.id] = VD.checks[cur.id] || {};
@@ -206,7 +208,7 @@
       el.onclick = function (e) {
         var b = e.target.closest('[data-ow]'); if (!b) return; var p = CK.prop(b.dataset.pid);
         if (b.dataset.ow === 'req') { CK.act.ownerRequest(p); CK.toast('Link sent — the owner can update price, availability and photos without calling'); }
-        if (b.dataset.ow === 'sim') { var m = CK.modal('<h2 id="modal-t">Owner’s update form (what they see)</h2><p class="muted sm">' + esc(CK.owner(p.ownerId).name) + ' · ' + p.code + ' · ' + esc(CK.cfg(p)) + '</p><div class="fld"><label for="ou-p">' + (p.deal === 'rent' ? 'Rent a month (₹)' : 'Price (₹)') + '</label><input id="ou-p" inputmode="numeric" value="' + p.price + '"></div><div class="fld"><label for="ou-d">Free from</label><input id="ou-d" type="date" value="' + new Date(p.availFrom).toISOString().slice(0, 10) + '"></div><div class="m-actions"><button type="button" class="btn" data-close-modal>Cancel</button><button type="button" class="btn primary" id="ou-ok">Submit as owner</button></div>'); m.querySelector('#ou-ok').onclick = function () { CK.act.ownerUpdate(p, +m.querySelector('#ou-p').value.replace(/\D/g, ''), new Date(m.querySelector('#ou-d').value).getTime()); CK.closeModal(); CK.toast('Owner updated ' + p.code + ' — freshness back up'); }; }
+        if (b.dataset.ow === 'sim') { var m = CK.modal('<h2 id="modal-t">Owner’s update form</h2><p class="muted sm">' + esc(CK.owner(p.ownerId).name) + ' · ' + p.code + ' · ' + esc(CK.cfg(p)) + '</p><div class="fld"><label for="ou-p">' + (p.deal === 'rent' ? 'Rent a month (₹)' : 'Price (₹)') + '</label><input id="ou-p" inputmode="numeric" value="' + p.price + '"></div><div class="fld"><label for="ou-d">Free from</label><input id="ou-d" type="date" value="' + new Date(p.availFrom).toISOString().slice(0, 10) + '"></div><div class="m-actions"><button type="button" class="btn" data-close-modal>Cancel</button><button type="button" class="btn primary" id="ou-ok">Submit as owner</button></div>'); m.querySelector('#ou-ok').onclick = function () { CK.act.ownerUpdate(p, +m.querySelector('#ou-p').value.replace(/\D/g, ''), new Date(m.querySelector('#ou-d').value).getTime()); CK.closeModal(); CK.toast('Owner updated ' + p.code + ' — freshness back up'); }; }
       };
     }
   };

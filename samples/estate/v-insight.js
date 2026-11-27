@@ -150,7 +150,7 @@
   };
   function handleFile(f) {
     if (!/\.pdf$/i.test(f.name)) { CK.toast('That isn’t a PDF — export the sheet as PDF first', { icon: 'flag' }); return; }
-    fetch('files/sheets.json').then(function (r) { return r.json(); }).then(function (j) { if (j[f.name]) startRead(f.name); else CK.modal('<h2 id="modal-t">' + ic('file', 18) + ' New layout</h2><p>The reader hasn’t learned the layout of “' + esc(f.name) + '” yet. The desk sets up a new sheet layout once (sections, columns, shorthand) and every later issue reads on its own.</p><p class="muted sm">Try one of the two sheets in the shared folder to see a full read.</p><div class="m-actions"><button type="button" class="btn" data-close-modal>OK</button></div>'); }).catch(function () { CK.toast('Couldn’t open the sheet library', { icon: 'flag' }); });
+    fetch('files/sheets.json').then(function (r) { return r.json(); }).then(function (j) { if (j[f.name]) startRead(f.name); else CK.modal('<h2 id="modal-t">' + ic('file', 18) + ' New layout</h2><p>The reader hasn’t learned the layout of “' + esc(f.name) + '” yet. The desk sets up a new sheet layout once (sections, columns, shorthand) and every later issue reads on its own.</p><p class="muted sm">Pick one of the two sheets in the shared folder instead.</p><div class="m-actions"><button type="button" class="btn" data-close-modal>OK</button></div>'); }).catch(function () { CK.toast('Couldn’t open the sheet library', { icon: 'flag' }); });
   }
   function startRead(name) {
     fetch('files/sheets.json').then(function (r) { return r.json(); }).then(function (j) {
@@ -375,9 +375,10 @@
         if (a === 'tpl') CK.menu(t, [{ head: 'Templates' }].concat(S().tpl.filter(function (x) { return x.ch === 'wa'; }).map(function (x) { return { label: x.name, id: x.id, hint: x.uses + ' sent' }; })), function (it) { var tp = S().tpl.filter(function (x) { return x.id === it.id; })[0], L = c.lead ? CK.lead(c.lead) : null; var txt = tp.body.replace(/\{\{first_name\}\}/g, c.name.split(' ')[0]).replace(/\{\{agent\}\}/g, me.name.split(' ')[0]).replace(/\{\{count\}\}/g, '3').replace(/\{\{day\}\}/g, 'Saturday').replace(/\{\{time\}\}/g, '11 am').replace(/\{\{field_agent\}\}/g, 'Kabir').replace(/\{\{list\}\}/g, L ? CK.matches(L).slice(0, 3).map(function (m) { return m.p.code; }).join(', ') : 'three homes').replace(/\{\{\w+\}\}/g, '…'); var ta = el.querySelector('#cv-t'); ta.value = txt; ta.focus(); });
         if (a === 'share') { var p = CK.prop(t.dataset.pid); post(CK.cfg(p) + ' in ' + CK.area(p.area).name + ' — ' + CK.priceLong(p) + (CK.ver(p) === 'fresh' ? ', verified ' + CK.verAge(p) + ' days ago' : '') + '. Want to see it this week?'); CK.toast('Shared ' + p.code); }
         if (a === 'lead') {
-          var txt = c.msgs.filter(function (m) { return m.from === 'them'; }).map(function (m) { return m.text; }).join(' '), ar = areaFromText(txt) || CK.area('HK'), bm = txt.match(/(\d)\s*bhk/i), mo = txt.match(/(\d[\d.]*)\s*(k|l|lakh|cr)\b/i);
-          var rent = !/sale|buy|cr\b|crore/i.test(txt), bud = mo ? moneyFrom(mo[1] + mo[2]) : (rent ? 80000 : 30000000);
-          var L2 = CK.act.newLead({ name: c.name, phone: c.phone, src: c.ch === 'wa' ? 'WhatsApp' : 'Website chat', found: c.page ? 'Website · ' + c.page : 'WhatsApp', intent: rent ? 'rent' : 'buy', req: { r: ar.r, bhk: [bm ? +bm[1] : 3], budget: bud, sectors: [ar.id], moveIn: CK.now() + 30 * CK.DAY, type: 'Any', furn: 'Any', family: 'Family', note: 'From chat: “' + txt.slice(0, 120) + '”' }, reqDone: true });
+          var txt = c.msgs.filter(function (m) { return m.from === 'them'; }).map(function (m) { return m.text; }).join(' '), b = CK.parseBrief(txt + ' ' + (c.page || '').replace(/[\/-]/g, ' '));
+          if (!b.sectors.length) { b.sectors = ['HK']; b.r = 'sd'; }
+          var bl = CK.briefLead(b); bl.req.note = 'From chat: “' + txt.slice(0, 120) + '”';
+          var L2 = CK.act.newLead({ name: c.name, phone: c.phone, src: c.ch === 'wa' ? 'WhatsApp' : 'Website chat', found: c.page ? 'Website · ' + c.page : 'WhatsApp', intent: b.intent, req: bl.req, reqDone: true });
           c.lead = L2.id; CK.tl(L2, 'wa', 'Chat transcript linked · ' + c.msgs.length + ' messages'); CK.emit('convo'); CK.toast('Enquiry ' + L2.id + ' created · ' + CK.matches(L2).length + ' homes match');
         }
       });
