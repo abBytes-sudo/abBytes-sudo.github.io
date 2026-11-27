@@ -159,3 +159,6 @@ html.cg-lock,html.cg-lock body{overflow:hidden!important}
 @media (max-width:560px){.cg--as .cg-lab{display:none}.cg--as .cg-launch{padding:0;width:var(--c-launch-h)}.cg--as .cg-mark{border-right:0}}
 @media (prefers-reduced-motion:reduce){.cg--as .cg-mark i,.cg--as .cg-mark::after{opacity:1;transform:none}}
 .cg--as .cg-web .ob-pr{flex-direction:column;align-items:flex-start;gap:3px}
+
+/* phones: tucked while scrolling down (body.cg-tuck, set by concierge.js) */
+@media (max-width:560px){body.cg-tuck .cg:not([data-state=open]) .cg-launch{opacity:0;transform:translateY(14px) scale(.9);pointer-events:none}body.cg-tuck .cg .cg-nudge{opacity:0;pointer-events:none}body.cg-tuck .to-home{opacity:0;pointer-events:none;transition:opacity .25s}}

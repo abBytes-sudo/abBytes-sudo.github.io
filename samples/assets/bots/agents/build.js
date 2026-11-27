@@ -1,4 +1,4 @@
-/* Agent: Ashlar & Co. Assistant (fictional stone, masonry and renovation contractor, Bengaluru). Price ranges, site visits, draft quotes, materials Q&A, gallery, FAQ.
+/* Agent: Plinth Stoneworks Assistant (fictional stone, masonry and renovation contractor, Bengaluru). Price ranges, site visits, draft quotes, materials Q&A, gallery, FAQ.
    Rate cards, durations and materials below are made-up demo data. Demo only: nothing leaves the browser. */
 (function () {
   'use strict';
@@ -14,7 +14,7 @@
     kitchen: { name: 'Kitchen remodel', lower: 'kitchen remodel', photo: 'project-2.jpg', unit: 'kitchen floor', min: 40, max: 400, typ: 100, sizes: [70, 100, 150], mat: .58, wk: [2, 3], pw: [1.2, 1.8], rate: { basic: [1800, 2600], standard: [2800, 4200], premium: [4600, 7200] },
       tn: { basic: 'laminate shutters and a tile worktop', standard: 'plywood shutters with a granite or slate worktop', premium: 'solid wood or lacquer shutters with a quartz or marble worktop' },
       inc: ['demolition and debris removal', 'worktop and backsplash', 'cabinets and shutters', 'plumbing and electrical point shifts', 'painting and final clean'], exc: ['appliances', 'hob and chimney', 'structural changes', 'loose furniture'] },
-    bathroom: { name: 'Bathroom remodel', lower: 'bathroom remodel', photo: 'stone-detail.jpg', unit: 'bathroom floor', min: 30, max: 200, typ: 45, sizes: [35, 45, 70], mat: .55, wk: [1, 2], pw: [2, 3], rate: { basic: [2400, 3400], standard: [3600, 5400], premium: [5800, 9000] },
+    bathroom: { name: 'Bathroom remodel', lower: 'bathroom remodel', photo: 'patio-shadow.jpg', unit: 'bathroom floor', min: 30, max: 200, typ: 45, sizes: [35, 45, 70], mat: .55, wk: [1, 2], pw: [2, 3], rate: { basic: [2400, 3400], standard: [3600, 5400], premium: [5800, 9000] },
       tn: { basic: 'ceramic tile and standard fittings', standard: 'vitrified or stone tile, mid-range fittings and a glass partition', premium: 'slate or marble, concealed plumbing and designer fittings' },
       inc: ['demolition and debris removal', 'waterproofing', 'wall and floor finish', 'sanitary fittings and plumbing', 'final clean'], exc: ['vanity furniture', 'accessories', 'structural changes'] },
     patio: { name: 'Patio and hardscape', lower: 'patio', photo: 'patio-shadow.jpg', unit: 'patio or paved area', min: 80, max: 3000, typ: 200, sizes: [120, 200, 400], mat: .62, wk: [1, 2], pw: [.4, .7], rate: { basic: [420, 650], standard: [700, 1100], premium: [1200, 2000] },
@@ -41,7 +41,7 @@
 
   /* ---------- materials: ratings 1 low to 3 high, f = price index inside a tier ---------- */
   var MT = {
-    granite: { name: 'Granite', tier: 'standard', f: 1, life: '25 to 50 years', heat: 3, stain: 2, scratch: 3, out: 3, img: 'stone-detail.jpg', top: ['kitchen', 'hearth', 'compound'], use: ['kitchen', 'bathroom', 'patio', 'compound', 'cladding', 'hearth', 'gabion'], good: 'a very hard surface that shrugs off heat and daily wear, in polished or flamed finishes', watch: 'seal it once a year indoors, and dark slabs show water marks' },
+    granite: { name: 'Granite', tier: 'standard', f: 1, life: '25 to 50 years', heat: 3, stain: 2, scratch: 3, out: 3, img: 'patio-shadow.jpg', top: ['kitchen', 'hearth', 'compound'], use: ['kitchen', 'bathroom', 'patio', 'compound', 'cladding', 'hearth', 'gabion'], good: 'a very hard surface that shrugs off heat and daily wear, in polished or flamed finishes', watch: 'seal it once a year indoors, and dark slabs show water marks' },
     quartz: { name: 'Engineered quartz', tier: 'premium', f: 1.1, life: '15 to 25 years', heat: 1, stain: 3, scratch: 3, out: 1, use: ['kitchen', 'bathroom'], good: 'a non-porous surface that never needs sealing, with an even colour', watch: 'direct sun fades it and hot pans can mark it, so keep it indoors' },
     marble: { name: 'Marble', tier: 'premium', f: 1.2, life: '20 to 40 years', heat: 2, stain: 1, scratch: 1, out: 1, use: ['bathroom', 'home', 'hearth'], good: 'a bright, classic look that ages beautifully', watch: 'it etches from lemon and cleaners and stains easily, so seal it yearly and avoid busy kitchen tops' },
     slate: { name: 'Slate', tier: 'standard', f: 1, life: '30 to 50 years', heat: 3, stain: 2, scratch: 2, out: 3, img: 'project-2.jpg', top: ['patio', 'bathroom'], use: ['patio', 'bathroom', 'cladding', 'compound', 'kitchen'], good: 'natural grip and good handling of sun, rain and heat, so it suits wet areas', watch: 'cheap grades can flake, so we use sorted slabs and seal them once' },
@@ -56,9 +56,8 @@
   /* ---------- gallery (photos are stock demo images, projects are fictional) ---------- */
   var GAL = [
     { id: 'hearth', t: 'Fieldstone fireplace and hearth', p: 'hearth', f: 'hearth.jpg', m: ['Fireplace and hearth', 'Stacked fieldstone with a stone hearth slab', 'Koramangala home, about 4 weeks'] },
-    { id: 'chimney', t: 'Rubble stone chimney breast', p: 'hearth', f: 'chimney.jpg', m: ['Fireplace and hearth', 'Full-height river stone chimney', 'Whitefield villa, about 5 weeks'] },
     { id: 'ledgestone', t: 'Ledgestone feature wall', p: 'cladding', f: 'ledgestone.jpg', m: ['Stone cladding', 'Hand-split ledgestone panels', 'Indiranagar townhouse, about 2 weeks'], mat: 'ledgestone' },
-    { id: 'stone-detail', t: 'Dry-stack stone wall, close up', p: 'cladding', f: 'stone-detail.jpg', m: ['Stone cladding', 'Mixed granite and sandstone, dry-stack finish', 'Hebbal, about 3 weeks'] },
+    { id: 'stone-detail', t: 'Dry-stack stone wall, close up', p: 'cladding', f: 'ledgestone.jpg', m: ['Stone cladding', 'Mixed granite and sandstone, dry-stack finish', 'Hebbal, about 3 weeks'] },
     { id: 'patio-shadow', t: 'Sandstone patio', p: 'patio', f: 'patio-shadow.jpg', m: ['Patio and hardscape', 'Honed sandstone with drainage falls', 'JP Nagar, about 2 weeks'], mat: 'sandstone' },
     { id: 'project-2', t: 'Slate courtyard', p: 'patio', f: 'project-2.jpg', m: ['Patio and hardscape', 'Sealed slate floor against brick walls', 'Jayanagar courtyard, about 3 weeks'], mat: 'slate' },
     { id: 'project-1', t: 'Terracotta frontage and steps', p: 'patio', f: 'project-1.jpg', m: ['Patio and hardscape', 'Terracotta paving and brick piers', 'Malleshwaram home, about 3 weeks'] },
@@ -220,7 +219,7 @@
     parse: function (t, bot, s) { return slotFrom(t, bot, s.day); }, validate: function (v, bot, s) { return s.day ? timeErr(bot, s.day, v) : undefined; }, hint: 'Pick one of the times, for example morning or 2 pm.' };
 
   O.registerAgent({
-    id: 'build', name: 'Ashlar & Co. Assistant', business: 'Ashlar & Co.', role: 'Construction quotes', industry: 'Construction', initials: 'AC', accent: '#F59E4B', phoneLabel: 'Ashlar & Co. quotes line',
+    id: 'build', name: 'Plinth Stoneworks Assistant', business: 'Plinth Stoneworks', role: 'Construction quotes', industry: 'Construction', initials: 'PS', accent: '#F59E4B', phoneLabel: 'Plinth Stoneworks quotes line',
     blurb: 'Prices kitchens, bathrooms, patios, stone cladding, hearths, retaining walls and full homes from a typed brief, books free site visits with a draft quote for the site team, compares stones and shows past work.',
     helloLine: 'I can price a stone or renovation job, book a free site visit, compare materials or show past work.',
     samples: ['I want to redo my kitchen, about 120 sq ft, granite', 'stone cladding for a 300 sqft wall, budget 2 lakh', 'granite vs quartz for a worktop', 'book a site visit for saturday morning'],
@@ -237,9 +236,9 @@
     menu: [B('Get a price range', 'intent:estimate'), B('Book a site visit', 'intent:site_visit'), B('Compare materials', 'intent:materials'), B('See past work', 'intent:gallery'), B('Talk to the team', 'handover')],
     greeting: function (bot) {
       var c = bot.ctx, p = c.project && PR[c.project], g = c.page === 'gallery' && GB[c.item];
-      if (g) { bot.say('Hi, I am the Ashlar & Co. assistant. I can see you are looking at the **' + g.t + '** in our gallery. Want a price for something like it, or to see more of our work?', { buttons: [B('Price a project like this', 'act:likeThis:' + g.id), B('See similar work', 'act:gallery:' + g.p), B('Book a site visit', 'intent:site_visit'), B('Something else', 'menu')] }); return; }
-      if (p) { bot.say('Hi, I am the Ashlar & Co. assistant. I can see you are looking at **' + p.name + '**. I can give you a price range in about a minute.'); bot.startFlow('estimate', {}); return; }
-      bot.say('Hi, I am the Ashlar & Co. assistant. We are a stone, masonry and renovation team in Bengaluru. I can give you a price range for a job, book a free site visit, compare stones or show you past work.', { buttons: bot.agent.menu });
+      if (g) { bot.say('Hi, I am the Plinth Stoneworks assistant. I can see you are looking at the **' + g.t + '** in our gallery. Want a price for something like it, or to see more of our work?', { buttons: [B('Price a project like this', 'act:likeThis:' + g.id), B('See similar work', 'act:gallery:' + g.p), B('Book a site visit', 'intent:site_visit'), B('Something else', 'menu')] }); return; }
+      if (p) { bot.say('Hi, I am the Plinth Stoneworks assistant. I can see you are looking at **' + p.name + '**. I can give you a price range in about a minute.'); bot.startFlow('estimate', {}); return; }
+      bot.say('Hi, I am the Plinth Stoneworks assistant. We are a stone, masonry and renovation team in Bengaluru. I can give you a price range for a job, book a free site visit, compare stones or show you past work.', { buttons: bot.agent.menu });
     },
     extract: function (text, bot) {
       var e = {}, nt = N.norm(text, bot.agent.synonyms), t = text.toLowerCase(), pj = projectsIn(nt), a = areaOf(text), m = N.money(text), ms = matsIn(nt), w = N.when(text), x, nm;

@@ -395,7 +395,7 @@
         var bks = bot.db('bookings'), b = bks.filter(function (x) { return x.ref === s.which; })[0]; if (!b) { bot.say('I could not find that booking any more.'); return; }
         var hrs = (parseIso(b.date).getTime() + (idxOf(b.time) * 30) * 6e4 - Date.now()) / 36e5; b.status = 'cancelled'; b.cancelledAt = Date.now(); bot.save('bookings', bks); bot.event('action', { action: 'table_cancel' });
         var hit = notifyWait(bot, b);
-        bot.say('Done. **' + rs(bot, b.ref) + '** is cancelled and the table is released for other guests.' + (hrs < 4 && b.party >= 6 ? ' As it is within four hours, a late cancellation fee may apply for a group of six or more, and the team will confirm it with you.' : ' There is no charge.') + (hit ? ' (Demo note: a guest on the waitlist for that time has just been messaged.)' : ''), { buttons: [B('Book another time', 'intent:table'), B('That is all', 'say:bye')] });
+        bot.say('Done. **' + rs(bot, b.ref) + '** is cancelled and the table is released for other guests.' + (hrs < 4 && b.party >= 6 ? ' As it is within four hours, a late cancellation fee may apply for a group of six or more, and the team will confirm it with you.' : ' There is no charge.') + (hit ? ' (A guest on the waitlist for that time has just been messaged.)' : ''), { buttons: [B('Book another time', 'intent:table'), B('That is all', 'say:bye')] });
       } }
     },
     actions: actions,

@@ -146,11 +146,11 @@
   function reminderCards(b) { // simulated: shows exactly what would be sent, nothing is sent
     var tx = TBY[b.tid], d = DBY[b.doc], at = apptDate(b), now = Date.now(), first = b.patient.split(' ')[0], free = new Date(at.getTime() - 4 * HOUR);
     function msg(lead) { return 'Calder Clinic: Hello ' + first + ', ' + lead + ' your ' + tx.name.toLowerCase() + ' with ' + d.name + ' on ' + O.fmtDay(at) + ' at ' + fT(b.time) + '. Ref ' + b.ref + '. Please arrive 10 minutes early with a photo ID. Reply 1 to confirm or 2 to reschedule. Free cancellation until ' + fDT(free) + '.'; }
-    function card(title, ms, hrs, lead) { var send = new Date(at.getTime() - hrs * HOUR); return { title: title, sub: msg(lead), badge: 'Preview', meta: [send.getTime() < now ? 'Would send right away, as the visit is less than ' + hrs + ' hours away' : 'Scheduled for ' + fDT(send), 'Channel: SMS and WhatsApp', 'Nothing is actually sent in this demo'] }; }
+    function card(title, ms, hrs, lead) { var send = new Date(at.getTime() - hrs * HOUR); return { title: title, sub: msg(lead), badge: 'Preview', meta: [send.getTime() < now ? 'Sends right away, as the visit is less than ' + hrs + ' hours away' : 'Scheduled for ' + fDT(send), 'Channel: SMS and WhatsApp', 'The patient can reply to move or cancel'] }; }
     return [card('Reminder 24 hours before', 0, 24, 'this is a reminder for'), card('Reminder 2 hours before', 0, 2, 'we look forward to seeing you in 2 hours for')];
   }
   function sayReminders(bot, b, intro) {
-    var cs = reminderCards(b), t = intro || 'Here is a **preview** of the two reminders we would send for **' + b.ref + '**. It is simulated, so no message actually goes out.';
+    var cs = reminderCards(b), t = intro || 'Here are the two reminders that go out for **' + b.ref + '**.';
     S(bot, t, { cards: cs, spoken: bot.channel === 'phone' ? sp(t.replace(/\*\*/g, '')) + ' The first, 24 hours before, would say: ' + sp(cs[0].sub) + ' The second, 2 hours before, would say: ' + sp(cs[1].sub) : undefined });
   }
   function docCard(d) {
@@ -198,8 +198,8 @@
       if (dl.indexOf(iso) < 0) { noSlots(bot, s, c, 'I can only book the next ' + HORIZON + ' days, up to ' + O.fmtDay(dateOf(dl[HORIZON - 1])) + '.'); return; }
       var all = slotsFor(bks, c, iso); if (!all.length) { noSlots(bot, s, c, 'There are no free slots ' + dayOn(iso) + (doc ? ' with ' + doc.name : '') + '.'); return; }
       var list = all, note = '', tm = s.time && s.time !== 'any' ? toM(s.time) : null;
-      if (s.part && s.part !== 'any') { var f = all.filter(partOK(s.part)); if (f.length) list = f; else note = 'Nothing is free in the ' + s.part + ' that day, so here are the other times. '; }
-      if (tm !== null) { note += all.some(function (x) { return x.m === tm; }) ? fT(tm) + ' is free. ' : 'Nothing is free at ' + fT(tm) + ', so these are the closest. '; list = list.slice().sort(function (a, b) { return Math.abs(a.m - tm) - Math.abs(b.m - tm) || a.m - b.m; }); }
+      if (s.part && s.part !== 'any') { var f = all.filter(partOK(s.part)); if (f.length) list = f; else note = 'Nothing is free in the ' + s.part + ' that day. '; }
+      if (tm !== null) { note += all.some(function (x) { return x.m === tm; }) ? fT(tm) + ' is free. ' : 'Nothing is free at ' + fT(tm) + '. '; list = list.slice().sort(function (a, b) { return Math.abs(a.m - tm) - Math.abs(b.m - tm) || a.m - b.m; }); }
       var lim = all.length > 5 && !s.part ? 4 : 6, btns = list.slice(0, lim).map(function (x) { return B(fT(x.m) + (doc ? '' : ' · ' + sho(x.doc)), 'slot:slot=' + x.doc.id + '|' + iso + '|' + tstr(x.m)); });
       if (all.length > 5 && !s.part) ['morning', 'afternoon', 'evening'].filter(function (p) { return all.some(partOK(p)); }).slice(0, 2).forEach(function (p) { btns.push(B('Only ' + p, 'slot:part=' + p)); });
       btns.push(B('Another day', 'act:otherday:'));
@@ -274,7 +274,7 @@
       { id: 'reminder', label: 'Reminder preview', kw: ['reminder', 'reminders', 'remind me', 'will you remind', 'sms reminder', 'whatsapp reminder', 'reminder preview'], priority: 2, run: function (bot, m) {
         var ref = m.ent.ref || bot.mem.lastRef, b = ref && byRef(BK(bot), ref);
         if (b && b.status === 'booked') { sayReminders(bot, b); return; }
-        R(bot, 'We send a reminder 24 hours and again 2 hours before every appointment, by SMS and WhatsApp. Give me a booking reference like CL-1042 and I will show you exactly what it would say, or book something and I will show it right away.', { buttons: [B('Preview with a sample booking', 'act:reminder:sample'), B('Book an appointment', 'flow:book')] });
+        R(bot, 'We send a reminder 24 hours and again 2 hours before every appointment, by SMS and WhatsApp. Give me a booking reference like CL-1042 and I will show you exactly what it would say, or book something and I will show it right away.', { buttons: [B('Show them for an example booking', 'act:reminder:sample'), B('Book an appointment', 'flow:book')] });
       } },
       { id: 'next_available', label: 'Earliest available', kw: ['next available', 'free slot', 'any slot', 'slots', 'availability', 'available today', 'is anyone free', 'when is dr', 'when can i see'], priority: 3, run: function (bot, m) {
         var e = m.ent; if (e.day || e.time || e.part) { bot.startFlow('book', bot._preset('book', e)); return; }
@@ -341,7 +341,7 @@
         S(bot, POLICY, { buttons: [B('Directions and parking', 'say:directions'), B('What to bring', 'say:what to bring'), B('Book another', 'flow:book'), B('That’s all', 'say:bye')] });
       } },
       resched: { intent: 'reschedule', slots: [
-        { name: 'lookup', ask: function (bot) { S(bot, 'Sure. What is your booking reference, like **CL-1042**, or the last 4 digits of the phone number on the booking?' + (bot.channel === 'web' ? ' (Demo tip: try CL-1042, or 4821.)' : '')); }, parse: lookupParse, hint: 'A reference looks like CL-1042. Or give me just the last 4 digits of your phone number.' },
+        { name: 'lookup', ask: function (bot) { S(bot, 'Sure. What is your booking reference, like **CL-1042**, or the last 4 digits of the phone number on the booking?' + (bot.channel === 'web' ? ' (Try CL-1042, or 4821.)' : '')); }, parse: lookupParse, hint: 'A reference looks like CL-1042. Or give me just the last 4 digits of your phone number.' },
         { name: 'bk', ask: function (bot, s) {
           var l = findBookings(bot, s.lookup), now = new Date(), up = l.filter(function (b) { return apptDate(b) > now; });
           if (!up.length) { S(bot, l.length ? 'That appointment time has already passed, so it cannot be moved.' : 'I could not find an upcoming booking for **' + s.lookup + '**. Check the reference or number and try again, or I can bring in a person.', { buttons: [B('Try again', 'flow:resched'), B('Talk to a person', 'handover'), B('Menu', 'menu')] }); bot.endFlow(); return; }
@@ -361,11 +361,11 @@
         if (!isFree(l, b.tid, p[0], p[1], p[2])) { S(bot, 'Sorry, that slot has just been taken. Let me show you what is still free.'); bot.startFlow('resched', { lookup: s.lookup, bk: s.bk }); return; }
         b.doc = p[0]; b.iso = p[1]; b.time = p[2]; b.rescheduled = (b.rescheduled || 0) + 1; bot.save('bookings', l); bot.mem.lastRef = b.ref; bot.event('booking', { kind: 'reschedule', ref: b.ref });
         S(bot, 'Done. **' + b.ref + '** is now ' + dayLabel(b.iso, true) + ' at ' + fT(b.time) + ', and ' + old + ' is free again for someone else.', { cards: [bcard(b, 'Rescheduled')] });
-        S(bot, 'Here is a **preview** of the updated reminders. It is simulated, so nothing is actually sent.', { cards: reminderCards(b) });
+        S(bot, 'And here are the updated reminders.', { cards: reminderCards(b) });
         S(bot, POLICY, { buttons: [B('Directions and parking', 'say:directions'), B('That’s all', 'say:bye')] });
       } },
       cancel: { intent: 'cancel_appt', slots: [
-        { name: 'lookup', ask: function (bot) { S(bot, 'Okay. What is your booking reference, like **CL-1042**, or the last 4 digits of the phone number on the booking?' + (bot.channel === 'web' ? ' (Demo tip: try CL-1043, or 4821.)' : '')); }, parse: lookupParse, hint: 'A reference looks like CL-1042. Or give me just the last 4 digits of your phone number.' },
+        { name: 'lookup', ask: function (bot) { S(bot, 'Okay. What is your booking reference, like **CL-1042**, or the last 4 digits of the phone number on the booking?' + (bot.channel === 'web' ? ' (Try CL-1043, or 4821.)' : '')); }, parse: lookupParse, hint: 'A reference looks like CL-1042. Or give me just the last 4 digits of your phone number.' },
         { name: 'bk', ask: function (bot, s) {
           var l = findBookings(bot, s.lookup), now = new Date(), up = l.filter(function (b) { return apptDate(b) > now; });
           if (!up.length) { S(bot, l.length ? 'That appointment time has already passed.' : 'I could not find an upcoming booking for **' + s.lookup + '**. Check the reference or number and try again, or I can bring in a person.', { buttons: [B('Try again', 'flow:cancel'), B('Talk to a person', 'handover'), B('Menu', 'menu')] }); bot.endFlow(); return; }
@@ -399,7 +399,7 @@
       otherday: function (bot) { delete bot.slots.day; delete bot.slots.part; delete bot.slots.time; delete bot.slots.slot; bot._advance(); },
       resch: function (bot, ref) { bot.startFlow('resched', { lookup: ref }); },
       cancel: function (bot, ref) { bot.startFlow('cancel', { lookup: ref }); },
-      reminder: function (bot, ref) { var b = ref === 'sample' ? byRef(BK(bot), 'CL-1042') || BK(bot).filter(function (x) { return x.status === 'booked'; })[0] : byRef(BK(bot), ref); if (!b) { S(bot, 'I do not have a booking to preview yet. Book one and I will show it.', { buttons: [B('Book an appointment', 'flow:book')] }); return; } sayReminders(bot, b, ref === 'sample' ? 'Here is a **preview** for a sample booking. It is simulated, so nothing is actually sent.' : null); }
+      reminder: function (bot, ref) { var b = ref === 'sample' ? byRef(BK(bot), 'CL-1042') || BK(bot).filter(function (x) { return x.status === 'booked'; })[0] : byRef(BK(bot), ref); if (!b) { S(bot, 'I do not have a booking to preview yet. Book one and I will show it.', { buttons: [B('Book an appointment', 'flow:book')] }); return; } sayReminders(bot, b, ref === 'sample' ? 'Here are the reminders for an example booking.' : null); }
     },
     kb: [
       { id: 'hours', q: 'What are your opening hours?', a: 'We are open Monday to Saturday, 8 am to 8 pm, and Sunday 9 am to 1 pm. Each doctor keeps their own days, so I always show real free slots when you book.', keys: ['opening hours', 'working hours', 'clinic hours', 'timings', 'what time do you open', 'what time do you close', 'closing time', 'open on sunday', 'sunday timings', 'when are you open', 'open today'], buttons: [B('Book an appointment', 'flow:book'), B('Menu', 'menu')] },

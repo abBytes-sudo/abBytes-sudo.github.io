@@ -1,4 +1,4 @@
-/* Ashlar & Co. (fictional) · stone, clay and charcoal. Condensed grotesk display, serif italic accents. */
+/* Ashlar & Co. · stone, clay and charcoal. Condensed grotesk display, serif italic accents. */
 :root{--bg:#E7E1D5;--paper:#F2EEE6;--ink:#171512;--char:#151311;--char2:#211E1A;--bone:#EDE7DB;--clay:#B04C27;--clay-l:#E27F50;--mute:#655E53;--line:rgba(23,21,18,.18);--line-d:rgba(237,231,219,.2);
   --disp:'Barlow Condensed','Arial Narrow',Impact,sans-serif;--serif:'Instrument Serif',Georgia,serif;--sans:'Inter',system-ui,sans-serif;
   --max:1440px;--gut:clamp(20px,4vw,56px);--bar:28px;--ease:cubic-bezier(.16,1,.3,1)}
@@ -15,7 +15,7 @@ img,video,canvas{display:block;max-width:100%}
 .c-a,.c-b{grid-column:1/-1}
 @media (min-width:900px){.c-a{grid-column:1/6}.c-b{grid-column:6/13}}
 
-/* demo bar + architectural grid lines */
+/* top bar + architectural grid lines */
 .demo{position:fixed;top:0;left:0;right:0;z-index:60;height:var(--bar);display:flex;align-items:center;justify-content:center;gap:4px;background:var(--char);color:var(--bone);font:500 12px/1 var(--sans);letter-spacing:.02em;white-space:nowrap;padding:0 var(--gut)}
 .demo a{text-decoration:underline;text-underline-offset:2px;margin-left:4px}
 .gl{position:fixed;inset:0;left:50%;width:min(100%,var(--max));transform:translateX(-50%);padding:0 var(--gut);display:flex;justify-content:space-between;pointer-events:none;z-index:6}
@@ -333,3 +333,84 @@ label.f input:focus,label.f select:focus,label.f textarea:focus{outline:0;border
 /* concierge hooks (open the scripted chat at a step) */
 .rb-kit{right:auto;left:18px;display:inline-flex;align-items:center;background:transparent;color:var(--bone);box-shadow:inset 0 0 0 1px rgba(237,231,219,.4)}.rb-kit:hover{background:var(--bone);color:var(--ink)}
 .q-chat{font-size:14px;color:var(--mute);margin-top:4px}.q-chat a{color:#8A3518;text-decoration:underline;text-underline-offset:3px;display:inline-block;padding:10px 0}
+
+/* ---------- 27 Nov: the place, the lab's bonds and counter, the form to the desk, the mason's mark ---------- */
+.lic{display:flex;align-items:center;gap:12px;margin-top:28px;font-size:15px;line-height:1.45;color:var(--mute)}
+.mk-s{width:24px;height:24px;flex:none;fill:none;stroke:var(--clay);stroke-width:4;stroke-linecap:square}
+.p-src{margin-top:14px;font:500 12px/1.4 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:rgba(237,231,219,.5)}
+.weeks{margin:24px 0 6px;border-top:1px solid var(--line)}
+.weeks li{display:grid;grid-template-columns:112px minmax(0,1fr);gap:14px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px;line-height:1.45}
+.weeks b{font:600 15px/1.45 var(--disp);letter-spacing:.08em;text-transform:uppercase;color:#8A3518}
+.bonds{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.bonds button{min-height:42px;padding:0 15px;box-shadow:inset 0 0 0 1px var(--line-d);font:600 15px/1 var(--disp);letter-spacing:.08em;text-transform:uppercase;color:rgba(237,231,219,.8);transition:background .3s,color .3s,box-shadow .3s}
+.bonds button:hover{box-shadow:inset 0 0 0 1px rgba(237,231,219,.6);color:var(--bone)}
+.bonds button[aria-pressed="true"]{background:var(--bone);color:var(--ink);box-shadow:none}
+.sizes{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;margin-top:26px}
+.rng span{display:flex;justify-content:space-between;align-items:baseline;font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:rgba(237,231,219,.62)}
+.rng b{font-weight:500}.rng output{font:600 22px/1 var(--disp);letter-spacing:.04em;color:var(--bone)}
+.rng input{width:100%;margin-top:10px;height:28px;accent-color:var(--clay-l)}
+.note{min-height:1.4em;margin-top:16px;font-size:14px;line-height:1.5;color:rgba(237,231,219,.72);max-width:48ch}
+.lab-v{align-self:start}
+.count{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 26px;margin-top:18px;font-size:14px;color:rgba(237,231,219,.7)}
+.count b{margin-right:4px;font:600 clamp(32px,3.2vw,50px)/1 var(--disp);color:var(--bone);font-variant-numeric:tabular-nums}
+.count .cost{margin-left:auto;font:600 clamp(32px,3.2vw,50px)/1 var(--disp);color:var(--clay-l)}
+.cfine{margin-top:10px;font-size:13px;line-height:1.5;color:rgba(237,231,219,.55)}
+.tg{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.45;color:var(--mute)}
+.tg input{width:18px;height:18px;margin-top:2px;flex:none;accent-color:var(--clay)}
+.q-err{font-size:15px;font-weight:500;color:#8A3518}.q-err:empty{display:none}
+@media (max-width:899px){.count .cost{margin-left:0;width:100%}.sizes{grid-template-columns:1fr}.weeks li{grid-template-columns:1fr;gap:2px}}
+@media (max-width:640px){}
+/* over the film the header carries a faint dark scrim, so the logo and links always read */
+.hd:not(.solid):not(.open){background-image:linear-gradient(180deg,rgba(21,19,17,.55),rgba(21,19,17,0))}
+/* the process steps still light up as you reach them, but an unlit step stays readable: muted ink, not 28% opacity */
+html.motion-on .tl li,.tl li{opacity:1}.tl li h3{transition:color .6s}.tl li:not(.on) h3{color:var(--mute)}
+/* drawings: ink on paper, clay for the brick */
+svg .ln{fill:none;stroke:#1E2124;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}svg .lt{fill:none;stroke:#1E2124;stroke-width:.8}svg .dsh{fill:none;stroke:#1E2124;stroke-width:1;stroke-dasharray:6 5}
+svg .lbl{font:600 14px var(--disp);letter-spacing:.06em;text-transform:uppercase;fill:#1E2124}svg .lbs{font:400 12px var(--sans);fill:#4B5157}
+.below{background:var(--paper)}
+.below-g{align-items:start;row-gap:28px}
+.below-f{margin:0}.below-f svg{display:block;width:100%;height:auto;box-shadow:inset 0 0 0 1px var(--line)}
+svg .ly{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease),transform .9s var(--ease)}svg .ly.on{opacity:1;transform:none}
+svg .cr{opacity:0;transition:opacity .3s;transition-delay:var(--d,0ms)}svg .ly.on .cr{opacity:1}
+.how{margin-top:22px}.how .dwg{display:block;width:100%;height:auto;background:#F5F3EE;box-shadow:inset 0 0 0 1px var(--line)}
+.how figcaption{margin-top:8px;font:500 12px/1.4 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+/* one warm grade across the photographs, so the six houses read as one body of work */
+.studio-fig img,.p .ph img,.case-m .frame img,.ba img{filter:sepia(.12) saturate(.92) contrast(1.02)}
+/* the gallery lets go soon after the last house */
+.p-end{padding-right:3vw}
+@media (prefers-reduced-motion:reduce){svg .ly,svg .cr{opacity:1;transform:none;transition:none}}
+/* under the wordmark: the yard and the licence, one line */
+.ft-line{padding-top:18px;padding-bottom:6px;font:500 12.5px/1.5 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:rgba(237,231,219,.72)}
+
+/* one stone, sixteen hours: a face of sandstone under a low raking light */
+.stone{position:relative;height:380vh;background:#0F0D0B;color:var(--bone)}
+.stone-in{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.stone-cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.stone.nogl .stone-in{background:#1a1714 url(photos/ledgestone.jpg) center/cover no-repeat}
+.stone-t{position:absolute;left:0;bottom:0;width:min(560px,100%);padding:0 var(--gut) clamp(28px,5vh,56px);background:linear-gradient(90deg,rgba(15,13,11,.82),rgba(15,13,11,.45) 70%,transparent);padding-top:40px}
+.stone-t .idx{color:rgba(237,231,219,.62)}
+.stone-t h2{margin:12px 0 18px;font:600 clamp(40px,5vw,78px)/.92 var(--disp);text-transform:uppercase}
+.stone .stops{border-top:1px solid var(--line-d)}
+.stone .stops button{display:grid;grid-template-columns:34px minmax(0,1fr) auto;column-gap:12px;align-items:baseline;width:100%;padding:9px 0;text-align:left;color:rgba(237,231,219,.55);border-bottom:1px solid rgba(237,231,219,.08);transition:color .3s}
+.stone .stops .n{font:600 14px/1 var(--disp);letter-spacing:.08em}
+.stone .stops b{font:600 21px/1.1 var(--disp);letter-spacing:.05em;text-transform:uppercase}
+.stone .stops .hrs{font:600 16px/1 var(--disp);letter-spacing:.06em}
+.stone .stops .tool{grid-column:2/4;font-size:13.5px;line-height:1.4;color:rgba(237,231,219,.7);max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
+.stone .stops button[aria-pressed="true"]{color:var(--bone)}.stone .stops button[aria-pressed="true"] .tool{max-height:3em;margin-top:4px}
+.stone .stops button[aria-pressed="true"] .hrs{color:var(--clay-l)}
+.stone .stops button:hover{color:var(--bone)}
+@media (max-width:899px){.stone{height:320vh}.stone-t{width:100%;background:linear-gradient(0deg,rgba(15,13,11,.9),rgba(15,13,11,.55) 75%,transparent)}.stone .stops button{padding:7px 0}.stone .stops b{font-size:18px}}
+@media (prefers-reduced-motion:reduce){.stone{height:auto}.stone-in{position:relative;height:100svh}.stone .stops .tool{transition:none}}
+
+/* finish pass (28 Nov), a light touch:
+   - the tall film beside the quote form takes the same warm grade as the hero film and the photographs
+     (it was the one vivid blue-and-red frame on the page);
+   - on a phone the three drawings were squeezed until their labels could not be read; they now keep a readable
+     scale and slide sideways inside their frame. */
+.tallv video{filter:sepia(.34) saturate(.6) contrast(1.03) brightness(.97)}
+@media (max-width:700px){
+  .below-f,.how{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;margin-inline:calc(var(--gut) * -1);padding-inline:var(--gut)}
+  .below-f svg{width:680px;max-width:none}
+  .how .dwg{width:560px;max-width:none}
+  .below-f::after,.how::after{content:'Slide to see the whole drawing →';position:sticky;left:0;display:block;margin-top:8px;font-size:12px;letter-spacing:.04em;color:var(--mute,#6b6457)}
+}
