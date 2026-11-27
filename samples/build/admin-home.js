@@ -139,12 +139,17 @@
   BO.view('home', {
     title: 'Home', skeleton: 'home',
     render: function () {
-      ITEMS = BO.attention(); var h = NOW.getHours(), f = ITEMS[0];
-      var hello = '<div class="hello"><p><b>Good ' + (h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening') + ', Farah.</b> <span>' + ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][NOW.getDay()] + ' ' + NOW.getDate() + ' November · ' + (ITEMS.length ? BO.plural(ITEMS.length, 'thing needs', 'things need') + ' you' : 'nothing needs you') + (BO.studio !== 'All' ? ' · ' + BO.studio + ' studio' : '') + '</span></p></div>';
+      ITEMS = BO.attention(); var f = ITEMS[0];
+      // the page title is the day's headline in site terms, led by the one thing only a builder has: a building going up
+      var R = rao(), Lv = D.LIVE, lw = BO.lastWeek(), day = Math.max(Lv.day, lw.by ? lw.day : 0), q = BO.surveyQueue().length, dm = BO.dueMilestones().length, live = R && BO.inStudio(R);
+      var wd = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][NOW.getDay()] + ' ' + NOW.getDate() + ' November';
+      var title = live ? 'Rao Residence, day ' + day + ' of ' + Lv.total + ': ' + lw.title.charAt(0).toLowerCase() + lw.title.slice(1) + '.' : q ? BO.plural(q, 'site survey') + ' to book today.' : 'Every site survey is booked.';
+      var sub = [q ? BO.plural(q, 'survey') + ' to book' : '', ITEMS.length ? BO.plural(ITEMS.length, 'thing needs', 'things need') + ' you' : 'nothing needs you', live && dm ? 'a stage payment is due on STH-2611' : ''].filter(Boolean).join(' · ');
+      var hello = '<header class="home-h"><p class="k">' + wd + ' · ' + (BO.studio !== 'All' ? esc(BO.studio) + ' studio' : 'all studios') + '</p><h1>' + esc(title) + '</h1><p>' + esc(sub.charAt(0).toUpperCase() + sub.slice(1)) + '.</p></header>';
       var focus = f ? '<div class="focus1"><p class="k">Do this first · 1 of ' + ITEMS.length + '</p><h2>' + esc(f.t) + '</h2><p>' + esc(f.why) + '</p><button type="button" class="b pri lg" data-act="att" data-i="0">' + esc(f.a) + ic('arrow-r') + '</button></div>' : '';
       return hello + focus + kpis() + nowNext() +
-        '<div class="home-g"><div><section class="cd" aria-labelledby="atH"><div class="cd-h"><h2 id="atH">Needs your attention</h2><span class="meta">' + ITEMS.length + '</span></div>' + attList(ITEMS) + '</section></div>' +
-        '<div class="home-r">' + liveSite() + queues() + feed() + '</div></div>';
+        '<div class="home-g"><div><section class="cd" aria-labelledby="atH"><div class="cd-h"><h2 id="atH">Needs your attention</h2><span class="meta">' + ITEMS.length + '</span></div>' + attList(ITEMS) + '</section>' + feed() + '</div>' +
+        '<div class="home-r">' + liveSite() + queues() + '</div></div>';
     },
     acts: {
       att: function (b) { var x = ITEMS[+b.getAttribute('data-i')]; if (x) x.run(); },

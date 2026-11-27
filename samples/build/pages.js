@@ -8,9 +8,9 @@
   function srcset(n) { return 'photos/' + n + '-s.jpg 720w, photos/' + n + '-m.jpg 1080w, photos/' + n + '.jpg 1800w'; }
   function baHTML(p, alt, first) {
     var ld = first ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
-    return '<div class="ba" data-ba style="aspect-ratio:16/10;--x:50%"><img src="photos/ba-' + p.id + '-b.jpg" srcset="photos/ba-' + p.id + '-b-s.jpg 800w, photos/ba-' + p.id + '-b.jpg 1600w" sizes="(max-width:900px) 100vw, 58vw" alt=""' + esc(p.name + ' at handover') + '" ' + ld + ' width="1600" height="1000">' +
-      '<div class="ba-a"><img src="photos/ba-' + p.id + '-a.jpg" srcset="photos/ba-' + p.id + '-a-s.jpg 800w, photos/ba-' + p.id + '-a.jpg 1600w" sizes="(max-width:900px) 100vw, 58vw" alt=""' + esc(p.name + ' during construction') + '" ' + ld + ' width="1600" height="1000"></div>' +
-      '<span class="ba-tag l">During</span><span class="ba-tag r">Handover</span><span class="ba-line"></span><span class="ba-knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#121417" stroke-width="1.8"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span>' +
+    return '<div class="ba" data-ba style="aspect-ratio:16/10;--x:50%"><img src="photos/ba-' + p.id + '-b.jpg" srcset="photos/ba-' + p.id + '-b-s.jpg 800w, photos/ba-' + p.id + '-b.jpg 1600w" sizes="(max-width:900px) 100vw, 58vw" alt=""' + esc('Model view of ' + p.name + ' at handover') + '" ' + ld + ' width="1600" height="1000">' +
+      '<div class="ba-a"><img src="photos/ba-' + p.id + '-a.jpg" srcset="photos/ba-' + p.id + '-a-s.jpg 800w, photos/ba-' + p.id + '-a.jpg 1600w" sizes="(max-width:900px) 100vw, 58vw" alt=""' + esc('Model view of ' + p.name + ' during construction') + '" ' + ld + ' width="1600" height="1000"></div>' +
+      '<span class="ba-tag l">Model view · during</span><span class="ba-tag r">Model view · handover</span><span class="ba-line"></span><span class="ba-knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#121417" stroke-width="1.8"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span>' +
       '<input type="range" min="0" max="100" value="50" aria-label="' + esc(alt || 'Compare ' + p.name + ' during construction with handover') + '"></div>';
   }
 
@@ -21,7 +21,7 @@
       '<div class="txt"><span class="idx">' + s.n + ' / 04</span><h2 id="h-' + s.id + '">' + esc(s.name) + '</h2><p>' + esc(s.body) + '</p>' +
       '<dl class="kv"><div><dt>From</dt><dd>' + esc(s.from) + '</dd></div><div><dt>Typical programme</dt><dd>' + esc(s.time) + '</dd></div></dl>' +
       '<ul class="ticks">' + s.items.map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>' +
-      '<p style="margin-top:28px;display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="contact.html?type=' + s.id + '">Start a ' + esc(s.name.toLowerCase()) + ' project <span class="ar" aria-hidden="true">→</span></a><a class="btn ghost" href="projects.html?f=' + s.id + '">See examples</a></p></div></article>';
+      '<p style="margin-top:28px;display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="contact.html?type=' + s.id + '">' + ({ interiors: 'Start an interiors fit-out' }[s.id] || 'Start a ' + esc(s.name.toLowerCase()) + ' project') + ' <span class="ar" aria-hidden="true">→</span></a><a class="btn ghost" href="projects.html?f=' + s.id + '">See examples</a></p></div></article>';
   }).join('');
 
   // ---------- projects list ----------
@@ -58,14 +58,28 @@
     $('#cs-h').innerHTML = esc(p.name);
     $('#cs-facts').innerHTML = p.facts.map(function (x) { return '<div><dt>' + esc(x[0]) + '</dt><dd>' + esc(x[1]) + '</dd></div>'; }).join('');
     $('#cs-sum').textContent = p.summary; $('#cs-ch').textContent = p.challenge; $('#cs-so').textContent = p.solution;
-    $('#cs-bb').src = 'photos/ba-' + p.id + '-b.jpg'; $('#cs-bb').srcset = 'photos/ba-' + p.id + '-b-s.jpg 800w, photos/ba-' + p.id + '-b.jpg 1600w'; $('#cs-bb').sizes = '100vw'; $('#cs-bb').alt = p.name + ' at handover, from the gate camera';
-    $('#cs-ba-a').src = 'photos/ba-' + p.id + '-a.jpg'; $('#cs-ba-a').srcset = 'photos/ba-' + p.id + '-a-s.jpg 800w, photos/ba-' + p.id + '-a.jpg 1600w'; $('#cs-ba-a').sizes = '100vw'; $('#cs-ba-a').alt = p.name + ' during construction, from the gate camera';
-    $('#cs-gal').innerHTML = p.gallery.map(function (g, i) { return '<figure class="fig" data-clip><img src="photos/' + g + '.jpg" srcset="' + srcset(g) + '" sizes="(max-width:760px) 100vw, 60vw" alt="" loading="lazy" decoding="async" width="1800" height="1200"></figure>'; }).join('');
+    $('#cs-bb').src = 'photos/ba-' + p.id + '-b.jpg'; $('#cs-bb').srcset = 'photos/ba-' + p.id + '-b-s.jpg 800w, photos/ba-' + p.id + '-b.jpg 1600w'; $('#cs-bb').sizes = '100vw'; $('#cs-bb').alt = 'Model view of ' + p.name + ' at handover, from the gate';
+    $('#cs-ba-a').src = 'photos/ba-' + p.id + '-a.jpg'; $('#cs-ba-a').srcset = 'photos/ba-' + p.id + '-a-s.jpg 800w, photos/ba-' + p.id + '-a.jpg 1600w'; $('#cs-ba-a').sizes = '100vw'; $('#cs-ba-a').alt = 'Model view of ' + p.name + ' during construction, from the gate';
+    // the four people who signed the set, each with a pen-stroke signature drawn from their name
+    var ROSTER = {
+      Bengaluru: [['Drawn', 'Meera Pillai', 'Architect'], ['Checked', 'Arun Shenoy', 'Structural engineer'], ['Built', 'Karthik Gowda', 'Site engineer'], ['Handed over', 'Farah Siddiqui', 'Project manager']],
+      Pune: [['Drawn', 'Ishaan Kulkarni', 'Architect'], ['Checked', 'Vrinda Joshi', 'Structural engineer'], ['Built', 'Sameer Patil', 'Site engineer'], ['Handed over', 'Neha Deshpande', 'Project manager']],
+      Hyderabad: [['Drawn', 'Rhea Varma', 'Architect'], ['Checked', 'Anil Reddy', 'Structural engineer'], ['Built', 'Srikanth Rao', 'Site engineer'], ['Handed over', 'Nikhil Menon', 'Project manager']],
+    };
+    var sign = function (name) {
+      var s = 0; for (var k = 0; k < name.length; k++) s = (s * 31 + name.charCodeAt(k)) % 9973;
+      var r = function () { s = (s * 9301 + 49297) % 233280; return s / 233280; }, x = 4, d = 'M4 ' + (22 + r() * 6).toFixed(1);
+      for (var j = 0; j < 9; j++) { var nx = x + 9 + r() * 7, up = 6 + r() * 14; d += ' C' + (x + 3).toFixed(1) + ' ' + (24 - up).toFixed(1) + ' ' + (nx - 4).toFixed(1) + ' ' + (10 + up).toFixed(1) + ' ' + nx.toFixed(1) + ' ' + (18 + r() * 10).toFixed(1); x = nx; }
+      return '<svg viewBox="0 0 ' + Math.ceil(x + 10) + ' 40" aria-hidden="true" focusable="false"><path d="' + d + ' l' + (8 + r() * 10).toFixed(1) + ' ' + (-3 - r() * 4).toFixed(1) + '"/></svg>';
+    };
+    $('#cs-sign').innerHTML = (ROSTER[p.city] || ROSTER.Bengaluru).map(function (m) {
+      return '<li><span class="k">' + esc(m[0]) + '</span><span class="sig">' + sign(m[1]) + '</span><b>' + esc(m[1]) + '</b><small>' + esc(m[2]) + ' · ' + p.year + '</small></li>';
+    }).join('');
     $('#cs-q').textContent = '“' + p.quote[0] + '”'; $('#cs-qb').textContent = p.quote[1];
     var n = P[(idx + 1) % P.length]; $('#cs-next').href = 'project-' + n.id + '.html'; $('#cs-nn').innerHTML = esc(n.name) + ' <span class="ser">→</span>';
   }
 
-  // drawing-set tabs (plan / elevation / photograph)
+  // drawing-set tabs (plan / elevation / model view)
   var dtabs = $$('.dset-tabs [role=tab]');
   if (dtabs.length) {
     var pick = function (t) {

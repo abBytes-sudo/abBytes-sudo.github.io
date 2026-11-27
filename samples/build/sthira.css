@@ -59,9 +59,8 @@ img{height:auto}
 .disp{font:650 var(--t-hero)/.94 var(--f-sans);font-stretch:125%;letter-spacing:-.03em}
 .h2{font:650 var(--t-h2)/.98 var(--f-sans);font-stretch:125%;letter-spacing:-.03em}
 .h3{font:650 var(--t-h3)/1.1 var(--f-sans);font-stretch:112%;letter-spacing:-.015em}
-/* the second clause of a headline: same face, condensed and quieter (no serif, no italic) */
-.ser{font-weight:450;font-stretch:88%;color:var(--mute);letter-spacing:-.02em}
-.dk .ser,.hero.night .ser,.cs-hero .ser{color:var(--mute-d)}
+/* one weight per heading; only the hero's headline keeps a quieter second clause (condensed, no serif, no italic) */
+.ser{font:inherit;color:inherit;letter-spacing:inherit}
 .lead{font-size:var(--t-lead);line-height:1.5;max-width:38ch;color:var(--mute)}
 .dk .lead{color:var(--mute-d)}
 .k,.mono{font:500 12px/1.4 var(--f-mono);letter-spacing:.06em;text-transform:uppercase}
@@ -176,6 +175,7 @@ main.flush{padding-top:0}
 @keyframes toast-in{from{opacity:0;transform:translateY(14px)}}
 dialog{border:0;padding:0;background:var(--card);color:var(--ink);border-radius:var(--r);max-width:min(640px,calc(100vw - 24px));width:100%;max-height:calc(100dvh - 48px);box-shadow:0 30px 80px rgba(0,0,0,.35)}
 dialog::backdrop{background:rgba(18,20,23,.55)}
+dialog{margin:auto}
 dialog[open]{animation:dlg .5s var(--ease)}
 @keyframes dlg{from{opacity:0;transform:translateY(20px)}}
 .dlg-h{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;border-bottom:1px solid var(--line)}
@@ -211,21 +211,21 @@ dialog[open]{animation:dlg .5s var(--ease)}
 .ba input[type=range]:focus-visible~.ba-knob{outline:3px solid var(--ink);outline-offset:3px}
 
 /* ---------- HOME: the build ---------- */
-.hero{position:relative;height:760vh;background:var(--paper)}
+.hero{position:relative;height:900vh;background:var(--paper)}
 .hero-stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 .hero-canvas-box{position:absolute;inset:0}
 .hero canvas,.hero-poster{position:absolute;inset:0;width:100%;height:100%}
 .hero-poster{object-fit:cover;opacity:0;transition:opacity .9s var(--ease)}
 .hero-poster.in{opacity:1}
 .hero-poster.gone{opacity:0}
-.hero canvas{opacity:0;transition:opacity .9s var(--ease)}
+.hero canvas{opacity:0}
 .hero canvas.on{opacity:1}
 .hero-ui{position:absolute;inset:calc(var(--bar) + var(--hdr)) 0 0 0;pointer-events:none;padding:var(--s6) var(--gut) var(--s5);display:grid;grid-template-rows:1fr auto}
 .hero-ui a,.hero-ui button{pointer-events:auto}
 .hero-intro{align-self:end;max-width:min(1040px,66vw);margin-left:calc(-1 * var(--gut));padding:28px 40px 0 var(--gut);background:linear-gradient(90deg,rgba(244,246,247,.95) 0,rgba(244,246,247,.93) 86%,rgba(244,246,247,0));transition:opacity .6s var(--ease),transform .8s var(--ease)}
 .hero-intro.away{opacity:0;transform:translateY(-40px);pointer-events:none}
 .hero-intro h1{margin-bottom:var(--s5)}
-.hero-intro h1 .ser{display:block}
+.hero-intro h1 .ser{display:block;font-weight:450;font-stretch:88%;color:var(--mute);letter-spacing:-.02em}
 .hero-intro .sub{display:flex;gap:var(--s6);align-items:flex-end;flex-wrap:wrap}
 .hero-intro p{max-width:34ch;font-size:var(--t-lead);line-height:1.45;color:var(--mute)}
 .hero-cta{display:flex;gap:10px;flex-wrap:wrap}
@@ -235,6 +235,7 @@ dialog[open]{animation:dlg .5s var(--ease)}
 /* stage caption: a drawing title block */
 .cap-stage{position:absolute;left:var(--gut);top:calc(var(--bar) + var(--hdr) + 7vh);width:min(430px,36vw);opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease),transform .8s var(--ease),color .6s}
 .cap-stage.on{opacity:1;transform:none}
+.cap-stage{pointer-events:none}
 .cap-stage .n{font:600 clamp(80px,9vw,150px)/.8 var(--f-sans);letter-spacing:-.06em;display:block;margin-bottom:var(--s4)}
 .cap-stage .n sup{font:500 12px/1 var(--f-mono);letter-spacing:.06em;vertical-align:top;margin-left:6px;color:var(--mute)}
 .cap-stage h2{font:600 clamp(32px,3.4vw,54px)/.95 var(--f-sans);letter-spacing:-.04em;margin-bottom:var(--s4)}
@@ -283,7 +284,7 @@ dialog[open]{animation:dlg .5s var(--ease)}
 .hero-end h2{font:600 clamp(40px,5.6vw,92px)/.9 var(--f-sans);letter-spacing:-.05em;margin-bottom:var(--s5)}
 .hero-end p{color:var(--mute-d);font-size:var(--t-lead);max-width:36ch;margin-bottom:var(--s5)}
 @media (max-width:900px){
-  .hero{height:820vh}
+  .hero{height:940vh}
   .hero-intro{max-width:100%}
   .cap-stage{left:var(--gut);right:var(--gut);top:auto;bottom:118px;width:auto}
   .cap-stage .n{font-size:54px;margin-bottom:6px;display:inline-block}
@@ -303,22 +304,16 @@ dialog[open]{animation:dlg .5s var(--ease)}
 }
 /* reduced motion: no pin; a still frame and the stages as a readable list */
 .motion-off .hero,.no-3d .hero{height:auto}
-.motion-off .hero-stage,.no-3d .hero-stage{position:relative;height:auto;min-height:0;overflow:visible}
-.motion-off .hero-canvas-box,.no-3d .hero-canvas-box{position:relative;height:min(86vh,820px)}
-.motion-off .hero-hint,.no-3d .hero-hint{display:none}
+.motion-off .hero-stage,.no-3d .hero-stage{position:relative;height:100vh;height:100svh;min-height:600px;overflow:hidden}
 .motion-off .hero-intro h1,.no-3d .hero-intro h1{font-size:clamp(48px,7.4vw,128px)}
-.motion-off .hero-ui,.no-3d .hero-ui{position:absolute;inset:calc(var(--bar) + var(--hdr)) 0 auto 0;height:calc(min(86vh,820px) - var(--bar) - var(--hdr))}
+
 .motion-off .cap-stage,.motion-off .ruler,.motion-off .today-card,.motion-off .hero-end,.no-3d .cap-stage,.no-3d .ruler,.no-3d .today-card,.no-3d .hero-end{display:none}
 .stage-list{display:none}
 .motion-off .stage-list,.no-3d .stage-list{display:block;padding:var(--s7) var(--gut) var(--s8)}
 /* the same static layout straight from the media query, before motion.js has loaded */
 @media (prefers-reduced-motion:reduce){
 .hero{height:auto}
-.hero-stage{position:relative;height:auto;min-height:0;overflow:visible}
-.hero-canvas-box{position:relative;height:min(86vh,820px)}
-.hero-hint{display:none}
-.hero-intro h1{font-size:clamp(48px,7.4vw,128px)}
-.hero-ui{position:absolute;inset:calc(var(--bar) + var(--hdr)) 0 auto 0;height:calc(min(86vh,820px) - var(--bar) - var(--hdr))}
+.hero-stage{position:relative;height:100vh;height:100svh;min-height:600px;overflow:hidden}
 .cap-stage,.ruler,.today-card,.hero-end{display:none}
 .stage-list{display:block;padding:var(--s7) var(--gut) var(--s8)}
 }
@@ -338,7 +333,7 @@ dialog[open]{animation:dlg .5s var(--ease)}
 
 /* statement */
 .stmt{font:500 clamp(28px,3.6vw,56px)/1.12 var(--f-sans);letter-spacing:-.035em;grid-column:3/12}
-.stmt .ser{color:var(--mute)}
+
 .stmt-meta{grid-column:3/12;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:var(--s8);border-top:1px solid var(--line);padding-top:var(--s5)}
 .stat .v{font:600 clamp(40px,4.6vw,72px)/1 var(--f-sans);letter-spacing:-.05em;display:block}
 .stat .l{font-size:14.5px;color:var(--mute);display:block;margin-top:8px;max-width:22ch}
@@ -602,7 +597,7 @@ dialog[open]{animation:dlg .5s var(--ease)}
 .wordmark text{font:600 280px/1 var(--f-sans);letter-spacing:-.06em;fill:currentColor}
 .credits{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font:500 12px/1.6 var(--f-mono);letter-spacing:.03em;color:var(--mute-d);border-top:1px solid var(--line-d);padding-top:var(--s4)}
 @media (max-width:900px){.ftr-g{grid-template-columns:1fr 1fr}.ftr-g>div:first-child{grid-column:1/-1}}
-@media (max-width:700px){body{--to-home-bottom:16px}.ftr{padding-bottom:84px}}
+@media (max-width:700px){body{--to-home-bottom:16px}.ftr{padding-bottom:112px}}
 
 /* reveal helpers (motion.js hides only under .motion-on) */
 .motion-on [data-fade]{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1.2s var(--ease)}
@@ -740,7 +735,7 @@ main.flush{padding-top:0}
 .notes li::before{content:counter(n) ".";color:var(--mute)}
 .notes .rev{color:var(--red);border-top:1px dashed var(--red);margin:0 12px;padding:7px 0 9px}
 .notes.away{opacity:0;transform:translateY(-16px);pointer-events:none}
-@media (max-width:1099px){.notes{display:none}}
+
 
 /* 12 · drawing sets on case studies */
 .dset-tabs{display:flex;gap:0;border:1px solid var(--ink);width:max-content;max-width:100%;margin-bottom:16px;overflow-x:auto}
@@ -782,7 +777,7 @@ main.flush{padding-top:0}
 .mini-est output{font-size:clamp(24px,2.2vw,32px);white-space:nowrap}
 .notes{width:min(250px,19vw);font-size:11.5px;background:rgba(255,255,255,.94);top:calc(var(--bar) + var(--hdr) + 28px);right:calc(var(--gut) + 30px)}
 .notes li{padding:2px 0}
-@media (min-width:1100px) and (max-width:1340px){.notes{display:none}}
+
 .tb{grid-template-columns:60px 122px 58px 44px}
 
 /* =====================================================================================================
@@ -836,3 +831,158 @@ main.flush{padding-top:0}
 @media (max-width:900px){.stage-list ol{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.stage-list ol{grid-template-columns:1fr}}
 @media (max-width:640px){.ba-tag.r{top:auto;bottom:14px}}
+
+/* =====================================================================================================
+   ROUND 3 (owner review): the sheet is never empty, scroll to build yours, the section, and nothing fixed on the text
+   ===================================================================================================== */
+/* the drawn plan: beside the intro on wide screens, above it on phones; the 3D's first frame lands exactly on it */
+.plan-box{position:absolute;left:max(50%,520px);right:40px;top:24px;bottom:112px;pointer-events:none}
+.plan-box svg{position:absolute;inset:0;width:100%;height:100%;transform-origin:0 0}
+.plan-box.fadein,.hero canvas.fadein{transition:opacity .8s var(--ease)}
+@media (min-width:901px) and (max-width:1199px){.plan-box{left:46%}}
+.notes{display:none}
+@media (min-width:1600px){.notes{display:block;width:270px;right:var(--gut);top:calc(var(--bar) + var(--hdr) + 28px)}.plan-box{right:calc(var(--gut) + 290px)}}
+.hero-intro{background:none}
+@media (min-width:901px){.hero-intro{max-width:min(880px,58vw)}}
+.hero-intro,.plot-panel{grid-row:1;grid-column:1;align-self:end}
+.hero.drawing .hero-intro{visibility:hidden}
+.hero-hint{flex-wrap:wrap;row-gap:6px}
+.hero-intro .hero-hint{font-size:15px;line-height:1.3;max-width:none;color:var(--mute)}
+.hint-btn{pointer-events:auto;min-height:32px;font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--blue);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.hint-btn:hover{text-decoration-thickness:2px}
+.hero.mine .ruler-today{display:none}
+
+/* "draw your own plot": a small sheet of its own, in the intro's place */
+.plot-panel{pointer-events:auto;width:min(540px,100%);background:var(--card);border:1px solid var(--ink);box-shadow:0 26px 60px -32px rgba(22,32,42,.5);padding:0 0 18px;margin-bottom:6px}
+.plot-panel[hidden]{display:none}
+.pp-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 10px 10px 14px;border-bottom:1px solid var(--line)}
+.pp-hd .sh{margin:0}
+.pp-x{min-height:40px;padding:0 14px;font:500 12px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-2);border-radius:var(--r)}
+.pp-x:hover{border-color:var(--ink)}
+.pp-f{border:0;margin:0;padding:14px 14px 0;min-width:0}
+.pp-f legend{padding:0;margin-bottom:8px}
+.pp-wd{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pp-wd input{width:84px;min-height:44px;padding:0 10px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--paper);font:500 17px/1 var(--f-mono);color:var(--ink)}
+.pp-wd input:focus{outline:0;border-color:var(--ink);box-shadow:0 0 0 3px rgba(31,79,216,.22)}
+.pp-out{margin:14px 14px 0;min-height:2.9em;font:500 13px/1.5 var(--f-mono);letter-spacing:.02em;color:var(--ink);border-left:2px solid var(--red);padding-left:10px}
+.pp-act{display:flex;align-items:center;gap:6px 18px;flex-wrap:wrap;padding:14px 14px 0}
+
+/* the ruler in "yours": the cost range, and the nine stage payments as red marks that turn blue once built */
+.ruler-cost{font:600 13px/1 var(--f-mono);letter-spacing:.03em;color:var(--blue);text-transform:none;margin-right:auto;margin-left:14px;align-self:center}
+.ruler-pays{position:absolute;left:0;right:0;top:0;height:0;pointer-events:none}
+.ruler-pays i{position:absolute;top:-6px;width:10px;height:9px;margin-left:-5px;background:var(--red);clip-path:polygon(50% 100%,0 0,100% 0)}
+.ruler-pays i.on{background:var(--blue)}
+.ruler-pays b{display:none}
+.hero.night .ruler-cost{color:var(--blue-l)}
+
+/* the section through the stair core */
+.sec-panel{position:absolute;left:var(--gut);bottom:calc(var(--s7) + 6px);max-width:min(440px,38vw);padding:18px 20px 20px;background:rgba(244,246,247,.95);border:1px solid var(--ink);box-shadow:0 26px 60px -32px rgba(22,32,42,.45)}
+.sec-panel h2{font:650 clamp(26px,2.4vw,36px)/1.02 var(--f-sans);font-stretch:122%;letter-spacing:-.025em;margin:10px 0 10px}
+.sec-panel p:not(.k){font-size:15.5px;line-height:1.5;color:var(--mute);margin-bottom:16px}
+.hero.sec-on .cap-stage,.hero.sec-on .ruler,.hero.sec-on .hero-end{opacity:0;pointer-events:none}
+.hero.sec-on .hero-end{visibility:hidden}
+.sec-ui{position:absolute;inset:0;pointer-events:none;z-index:2}
+.sec-ui[hidden]{display:none}
+.sec-line{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.sec-line line{stroke:var(--red);stroke-width:1.5;stroke-dasharray:12 4 2 4;transition:opacity .3s}
+.sec-handle{position:absolute;left:-22px;top:-22px;width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;pointer-events:auto;cursor:ew-resize;touch-action:none;font:650 15px/1 var(--f-sans);font-stretch:118%;box-shadow:0 0 0 4px rgba(244,246,247,.9),0 10px 24px -6px rgba(210,52,42,.55)}
+.sec-handle::before,.sec-handle::after{content:"";position:absolute;top:50%;margin-top:-6px;border:6px solid transparent}
+.sec-handle::before{right:calc(100% + 6px);border-right-color:var(--red)}
+.sec-handle::after{left:calc(100% + 6px);border-left-color:var(--red)}
+.sec-handle:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
+.sec-tags{position:absolute;inset:0}
+.hp{position:absolute;left:0;top:0;margin:-16px 0 0 -8px;display:flex;align-items:center;min-height:32px;padding:0;pointer-events:auto;background:none;border:0;color:var(--ink)}
+.hp i{flex:none;width:16px;height:16px;border-radius:50%;background:var(--blue);border:3px solid #fff;box-shadow:0 0 0 1px var(--blue),0 0 0 7px rgba(31,79,216,.16)}
+.hp span{position:relative;margin-left:16px;padding:7px 10px;background:var(--card);border:1px solid var(--ink);font:500 11.5px/1 var(--f-mono);letter-spacing:.05em;white-space:nowrap;box-shadow:0 10px 22px -12px rgba(22,32,42,.55);transition:background .2s,color .2s}
+.hp span::before{content:"";position:absolute;right:100%;top:50%;width:16px;height:1px;background:var(--ink)}
+.hp:hover span,.hp[aria-expanded=true] span{background:var(--ink);color:var(--paper)}
+.hp:focus-visible{outline:0}.hp:focus-visible span{outline:2px solid var(--blue);outline-offset:2px}
+.hp.flip span{position:absolute;right:calc(100% + 16px);margin:0}.hp.flip span::before{right:auto;left:100%}
+.hp-card{position:absolute;left:0;top:0;pointer-events:auto;background:var(--card);border:1px solid var(--ink);padding:16px 46px 18px 16px;box-shadow:0 26px 56px -26px rgba(22,32,42,.55)}
+.hp-card[hidden]{display:none}
+.hp-card h3{font:650 20px/1.15 var(--f-sans);font-stretch:118%;letter-spacing:-.01em;margin:8px 0 8px}
+.hp-card p:last-of-type{font-size:15px;line-height:1.5;color:var(--mute)}
+.hp-x{position:absolute;right:4px;top:4px;width:40px;height:40px;font-size:22px;line-height:1;color:var(--mute)}
+.hp-x:hover{color:var(--ink)}
+.hero-end .btn.ghost{color:inherit}
+.hero.night .hero-end .btn.ghost{border-color:rgba(244,246,247,.45)}
+.hero.night .hero-end .btn.ghost::before{background:var(--paper)}
+.hero.night .hero-end .btn.ghost:hover{color:var(--ink)}
+
+/* the drawing in the "send" dialog */
+.dd-sheet{display:grid;grid-template-columns:minmax(0,170px) minmax(0,1fr);gap:16px;align-items:center;margin-bottom:20px}
+.dd-plan svg{display:block;width:100%;height:auto;background:var(--paper);border:1px solid var(--line-2)}
+@media (max-width:520px){.dd-sheet{grid-template-columns:1fr}.dd-plan{max-width:220px}}
+
+/* phones: the plan above the intro, then (once the intro has gone) larger, above the stage caption */
+@media (max-width:900px){
+  .hero-ui{grid-template-rows:minmax(0,1fr) auto auto;padding-top:10px}
+  .plan-box{position:relative;left:auto;right:auto;top:auto;bottom:auto;grid-row:1;grid-column:1;margin:0 -6px 8px}
+  .hero-intro,.plot-panel{grid-row:2}
+  .ruler{grid-row:3}
+  .hero-intro{padding:6px var(--gut) 0;background:none}
+  .hero-intro h1{margin-bottom:16px}
+  .hero-intro .sh{margin-bottom:12px!important}
+  .hero-intro .sh-t{font-size:14px;white-space:nowrap}
+  .hero-intro .sub{gap:14px}
+  .hero-intro .sub p{font-size:15.5px;line-height:1.4;max-width:none}
+  .hero-intro .hero-cta{flex-wrap:nowrap;gap:8px}
+  .hero-intro .hero-cta .btn{white-space:nowrap;padding:0 13px;min-height:46px;font-size:11.5px;letter-spacing:.04em;line-height:1}
+  .hero-intro .hero-hint{display:block;margin-top:12px;padding-right:58px;font-size:12.5px;line-height:1.75}
+  .hero-hint i{display:none}
+  .hint-btn{display:inline-block;min-height:0;padding:5px 0}
+  .hero .ruler{margin-right:84px}
+  .plot-panel{width:auto;margin:0 calc(-1 * var(--gut) + 6px) 4px}
+  .pp-wd input{width:72px}
+  .sec-panel{left:12px;right:12px;bottom:12px;max-width:none;padding:12px 14px 14px}
+  .sec-panel h2{font-size:24px;margin:6px 0}
+  .sec-panel #sec-help{font-size:14px;margin-bottom:10px}
+  .ruler-cost{margin-left:auto;font-size:11.5px}
+  .ruler-day{white-space:nowrap}
+  /* phones: today is a red tick on the track, not a button wedged between the stage ticks */
+  .ruler-today{top:0;pointer-events:none}.ruler-today button{display:none}.ruler-today i{display:block;width:2px;height:16px;background:var(--red)}
+  .hero-end{bottom:132px}
+}
+@media (max-width:350px){.hero-intro .hero-cta{flex-wrap:wrap}}
+
+/* the title block: full at the top of the page, then a tab in the right-hand margin */
+.tb .tb-tab{display:none}
+.tb.tab{right:10px;grid-template-columns:28px;transition:opacity .3s}
+.tb.tab>span{display:none}
+.tb.tab .tb-tab{display:block;writing-mode:vertical-rl;transform:rotate(180deg);width:28px;padding:12px 0;text-align:center;font:500 10.5px/28px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.tb.tab .tb-tab::before{content:"Sheet ";color:var(--mute)}
+
+/* the portal teaser stacks on phones */
+.po-g{align-items:center;row-gap:40px}
+.po-txt{grid-column:1/6}
+.po-txt .lead{margin:24px 0 28px}
+.po-shot{grid-column:7/13;aspect-ratio:16/11;box-shadow:0 30px 80px rgba(18,20,23,.18)}
+@media (max-width:900px){.po-txt,.po-shot{grid-column:1/-1}.po-g{row-gap:28px}}
+
+/* the footer ends on its title block: the status cell carries the signed approval stamp */
+.ftb-stamp{display:flex;flex-direction:column;gap:10px}
+.stamp{display:inline-flex;flex-direction:column;align-items:flex-start;gap:3px;width:max-content;padding:8px 12px 8px;border:1.5px solid var(--blue-l);color:var(--blue-l);transform:rotate(-3deg);transform-origin:left center}
+.stamp-t{font:600 11.5px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase}
+.stamp svg{width:116px;height:30px;overflow:visible}
+.stamp svg path{fill:none;stroke:var(--paper);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.stamp-n{font:500 10.5px/1 var(--f-mono);letter-spacing:.05em;color:var(--mute-d)}
+
+/* case studies: the four signatures on the drawing set */
+.signers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--ink);background:var(--card)}
+.signers li{display:flex;flex-direction:column;gap:4px;padding:16px 18px 18px;border-right:1px solid var(--line-2);min-width:0}
+.signers li:last-child{border-right:0}
+.signers .sig{display:block;height:44px;margin:6px 0 2px;color:var(--blue)}
+.signers .sig svg{height:100%;width:auto;max-width:100%;overflow:visible}
+.signers .sig path{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.signers b{font:650 18px/1.2 var(--f-sans);font-stretch:112%;letter-spacing:-.01em}
+.signers small{font:500 12px/1.4 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
+@media (max-width:900px){.signers{grid-template-columns:repeat(2,minmax(0,1fr))}.signers li:nth-child(2){border-right:0}.signers li:nth-child(-n+2){border-bottom:1px solid var(--line-2)}}
+@media (max-width:420px){.signers{grid-template-columns:1fr}.signers li{border-right:0;border-bottom:1px solid var(--line-2)}.signers li:last-child{border-bottom:0}}
+.no-3d .stage-list button{cursor:default}
+/* the shared "back to the portfolio" button: icon-only in the left margin on wide screens; elsewhere it steps aside
+   with the site desk launcher while you scroll down through the text */
+@media (min-width:1280px){body .to-home{left:6px;width:44px;padding:0;justify-content:center;font-size:0;gap:0}body .to-home b{font-size:20px}}
+body.th-tuck .to-home.on{opacity:0;transform:translateY(12px);pointer-events:none}
+/* finish pass (28 Nov): on phones the top bar was one clipped line ("e projects by Abhishek  Portfolio project by Abhi");
+   the way back shortens to "← Back" so the one disclosure reads whole */
+@media (max-width:560px){.demo{font-size:11px;letter-spacing:.02em;gap:10px}.demo .back-top{font-size:0;margin-right:0}.demo .back-top::before{content:'← Back';font-size:11px}}

@@ -147,6 +147,8 @@ select.in{appearance:none;padding-right:28px;background:var(--card) url("data:im
 .vh-row h1{font-size:17px;font-weight:650;font-stretch:112%}
 .vh-row .meta{margin-top:1px}
 .hello{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
+/* the back office's home: the day's headline in site terms */
+.home-h{margin:2px 0 16px}.home-h h1{font-size:clamp(21px,2.1vw,29px);line-height:1.15;font-weight:650;font-stretch:115%;letter-spacing:-.015em;margin:6px 0 6px;max-width:40ch}.home-h p:last-child{font-size:14.5px;color:var(--mute)}
 .hello p{font-size:14.5px;color:var(--mute)}.hello p b{color:var(--ink);font-weight:650;font-stretch:112%}
 .focus1{display:none}
 

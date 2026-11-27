@@ -478,7 +478,7 @@
   }
   function announce(list) { var chat = list.filter(function (l) { return l.source === 'Chat'; }).length; BO.toast('<b>' + list.length + ' new</b> ' + (list.length === 1 ? 'lead' : 'leads') + (chat === list.length ? ' from chat' : ' from the website') + ': ' + esc(list.slice(0, 3).map(function (l) { return l.name; }).join(', ')), { icon: 'bolt', ms: 7000, action: ['Open', function () { BO.openLead(list[0].id); }] }); }
   function fresh() {
-    BO.confirm({ title: 'Start fresh?', sub: 'Clears every lead, note, application and portal change saved in this browser, and restores the starting data.', ok: 'Start fresh' }).then(function (ok) {
+    BO.confirm({ title: 'Start fresh?', sub: 'Clears every new lead, note, application and portal change, and puts the pipeline back to how it started.', ok: 'Start fresh' }).then(function (ok) {
       if (!ok) return; ['crm', 'inbox', 'apps', 'appsState', 'portal', 'portal-session', 'studio', 'bo-pipe', 'bo-skip', 'chatseed'].forEach(A.store.del);
       try { var cv = readRaw('orbit-convos', []).filter(function (c) { return c.agent !== 'builder'; }); localStorage.setItem('orbit-convos', JSON.stringify(cv)); var ol = readRaw('orbit-leads', []).filter(function (l) { return l.agent !== 'builder'; }); localStorage.setItem('orbit-leads', JSON.stringify(ol)); } catch (e) {}
       location.hash = '#/'; location.reload();

@@ -252,6 +252,11 @@ html.cg-lock,html.cg-lock body{overflow:hidden!important}
 .cg--st .cg-web .ob-in button:hover{background:var(--c-blue2)}
 /* WhatsApp keeps WhatsApp's own look; just square the frame to the sheet */
 .cg--st[data-ch=whatsapp] .cg-tb{display:none}
+/* out of the way of the text: compact in the right gutter on wide screens once the page scrolls (above the title-block tab);
+   on smaller screens it steps aside while you scroll down and comes back when you scroll up */
+@media (min-width:1280px){body.cg-compact .cg--st{--c-launch-h:46px;--c-edge:6px}body.cg-compact .cg--st.cg-tbk{--c-lb:152px}body.cg-compact .cg--st .cg-lab{display:none}}
+@media (max-width:760px){.cg--st.cg-hello .cg-lab{clip-path:inset(0 0 0 100%)}}
+body.cg-tuck .cg--st:not([data-state=open]) .cg-launch,body.cg-tuck .cg--st .cg-nudge{opacity:0;transform:translateY(24px) scale(.9);pointer-events:none}
 /* phones: the sheet fills the screen; the launcher steps aside while it is open */
 @media (max-width:560px){
   .cg--st .cg-panel{border:0;box-shadow:none}

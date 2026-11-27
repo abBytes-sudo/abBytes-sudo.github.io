@@ -141,15 +141,16 @@ window.STHIRA = (function () {
       must: ['B.E./B.Tech Civil, graduating in 2027', 'Willing to work on site, in any of our three cities'], nice: ['An internship on a live site'] },
   ];
 
+  // photos[0] is the week's model view from the gate camera (wk-<w>); photos[1] is a site photo, shown as typical of the stage
   var WEEKS = [
-    { w: 24, day: 167, date: '2026-11-20', photo: 'site-blockwork', crew: 34, weather: 'Dry, 27°', title: 'Second-floor blockwork at 70%', done: ['Blockwork on the second floor, grid lines A–B complete', 'Lintels cast over W7 to W12', 'Electrical conduits chased into ground-floor walls'], next: ['Finish second-floor blockwork', 'Start third floor on Thursday', 'Plumbing sleeves through the terrace slab'], note: 'Window W9 in the master bedroom was 40 mm narrow against the drawing. Corrected the same day; see snag S-118.' },
-    { w: 23, day: 160, date: '2026-11-13', photo: 'site-scaffold', crew: 31, weather: 'Showers Tue–Wed', title: 'First floor closed, scaffolding up', done: ['First-floor blockwork complete and checked for line and level', 'External scaffolding up to the third floor, tagged', 'Sunken slabs in both first-floor baths waterproofed'], next: ['Second-floor blockwork', 'Lintels over the balcony openings'], note: 'Two days of rain. Masons moved inside to the stair core, so we lost no time.' },
-    { w: 22, day: 153, date: '2026-11-06', photo: 'site-engineer', crew: 29, weather: 'Dry, 26°', title: 'Window schedule frozen', done: ['Ground-floor blockwork complete', 'Window schedule frozen with Meera (architect) and ordered', 'Roof slab props struck after 14 days'], next: ['First-floor blockwork', 'Waterproofing of sunken slabs'], note: 'Aluminium windows are a 9-week lead item. Ordered this week to arrive by day 225.' },
-    { w: 21, day: 146, date: '2026-10-30', photo: 'site-frame', crew: 27, weather: 'Dry, 28°', title: 'Blockwork begins', done: ['First AAC block delivery (2,400 blocks) checked: density and dimensions', 'Ground-floor blockwork started on grids 1–2', 'Column C2 base repaired (snag S-112 closed)'], next: ['Complete ground-floor blockwork', 'Freeze the window schedule'], note: 'The frame is complete. From here the building starts to look like a home.' },
-    { w: 20, day: 139, date: '2026-10-23', photo: 'site-pour', crew: 38, weather: 'Dry, 29°', title: 'Roof slab poured', done: ['Roof slab poured, 34 m³ in 6 hours', '6 cubes taken; 7-day result 21.8 N/mm²', 'Headroom and water-tank walls marked out'], next: ['Cure the roof slab for 14 days', 'Blockwork deliveries'], note: 'Last big pour. Thanks for coming to watch it, Vikram.' },
-    { w: 19, day: 132, date: '2026-10-16', photo: 'site-rebar', crew: 33, weather: 'Showers Fri', title: 'Roof slab reinforcement checked', done: ['Roof slab and beam steel tied and checked against the BBS', 'Cover blocks and chairs checked by the structural engineer', 'Conduits for terrace lights placed'], next: ['Pour the roof slab on Monday'], note: '' },
-    { w: 18, day: 125, date: '2026-10-09', photo: 'site-formwork', crew: 30, weather: 'Dry, 28°', title: 'Third-floor columns cast', done: ['Third-floor columns cast', 'Roof slab shuttering and props', 'Sunken areas marked for the terrace garden'], next: ['Roof slab reinforcement'], note: '' },
-    { w: 17, day: 118, date: '2026-10-02', photo: 'site-crane', crew: 28, weather: 'Dry, 30°', title: 'Third-floor slab cured', done: ['Third-floor slab: 28-day cubes 32.6 N/mm²', 'Column steel for the third floor'], next: ['Cast third-floor columns'], note: '' },
+    { w: 24, day: 167, date: '2026-11-20', photos: ['wk-24', 'site-blockwork'], crew: 34, weather: 'Dry, 27°', title: 'Second-floor blockwork at 70%', done: ['Blockwork on the second floor, grid lines A–B complete', 'Lintels cast over W7 to W12', 'Electrical conduits chased into ground-floor walls'], next: ['Finish second-floor blockwork', 'Start third floor on Thursday', 'Plumbing sleeves through the terrace slab'], note: 'Window W9 in the master bedroom was 40 mm narrow against the drawing. Corrected the same day; see snag S-118.' },
+    { w: 23, day: 160, date: '2026-11-13', photos: ['wk-23', 'site-scaffold'], crew: 31, weather: 'Showers Tue–Wed', title: 'First floor closed, scaffolding up', done: ['First-floor blockwork complete and checked for line and level', 'External scaffolding up to the third floor, tagged', 'Sunken slabs in both first-floor baths waterproofed'], next: ['Second-floor blockwork', 'Lintels over the balcony openings'], note: 'Two days of rain. Masons moved inside to the stair core, so we lost no time.' },
+    { w: 22, day: 153, date: '2026-11-06', photos: ['wk-22', 'site-engineer'], crew: 29, weather: 'Dry, 26°', title: 'Window schedule frozen', done: ['Ground-floor blockwork complete', 'Window schedule frozen with Meera (architect) and ordered', 'Roof slab props struck after 14 days'], next: ['First-floor blockwork', 'Waterproofing of sunken slabs'], note: 'Aluminium windows are a 9-week lead item. Ordered this week to arrive by day 225.' },
+    { w: 21, day: 146, date: '2026-10-30', photos: ['wk-21', 'site-frame'], crew: 27, weather: 'Dry, 28°', title: 'Blockwork begins', done: ['First AAC block delivery (2,400 blocks) checked: density and dimensions', 'Ground-floor blockwork started on grids 1–2', 'Column C2 base repaired (snag S-112 closed)'], next: ['Complete ground-floor blockwork', 'Freeze the window schedule'], note: 'The frame is complete. From here the building starts to look like a home.' },
+    { w: 20, day: 139, date: '2026-10-23', photos: ['wk-20', 'site-pour'], crew: 38, weather: 'Dry, 29°', title: 'Roof slab poured', done: ['Roof slab poured, 34 m³ in 6 hours', '6 cubes taken; 7-day result 21.8 N/mm²', 'Headroom and water-tank walls marked out'], next: ['Cure the roof slab for 14 days', 'Blockwork deliveries'], note: 'Last big pour. Thanks for coming to watch it, Vikram.' },
+    { w: 19, day: 132, date: '2026-10-16', photos: ['wk-19', 'site-rebar'], crew: 33, weather: 'Showers Fri', title: 'Roof slab reinforcement checked', done: ['Roof slab and beam steel tied and checked against the BBS', 'Cover blocks and chairs checked by the structural engineer', 'Conduits for terrace lights placed'], next: ['Pour the roof slab on Monday'], note: '' },
+    { w: 18, day: 125, date: '2026-10-09', photos: ['wk-18', 'site-formwork'], crew: 30, weather: 'Dry, 28°', title: 'Third-floor columns cast', done: ['Third-floor columns cast', 'Roof slab shuttering and props', 'Sunken areas marked for the terrace garden'], next: ['Roof slab reinforcement'], note: '' },
+    { w: 17, day: 118, date: '2026-10-02', photos: ['wk-17', 'site-crane'], crew: 28, weather: 'Dry, 30°', title: 'Third-floor slab cured', done: ['Third-floor slab: 28-day cubes 32.6 N/mm²', 'Column steel for the third floor'], next: ['Cast third-floor columns'], note: '' },
   ];
 
   var PAYMENTS = [
@@ -166,6 +167,16 @@ window.STHIRA = (function () {
     { n: 11, name: 'Flooring, tiling and painting', pct: 10, status: 'upcoming', date: '2027-03-08' },
     { n: 12, name: 'Handover and keys', pct: 9, status: 'upcoming', date: '2027-04-23' },
     { n: 13, name: 'Retention, after 12-month defects period', pct: 3, status: 'upcoming', date: '2028-04-23' },
+  ];
+
+  // six of the 112 quality hold points (the same six as the process page), tagged on the home page's section
+  var HOLDS = [
+    { id: 'HP 14', title: 'Rebar before every pour', text: 'Bar sizes, spacing, laps and 40 mm cover checked against the bar-bending schedule by the site engineer.', where: 'Plinth beam, cut' },
+    { id: 'HP 22', title: 'Concrete at the pump', text: 'Slump test on every truck; six cubes per pour, crushed at 7 and 28 days by an independent lab.', where: 'Floor slab, cut' },
+    { id: 'HP 41', title: 'Waterproofing ponding test', text: 'Every bathroom and terrace holds 50 mm of water for 48 hours before a tile goes down.', where: 'Roof terrace membrane' },
+    { id: 'HP 57', title: 'Plumbing pressure test', text: 'Supply lines held at 1.5 times working pressure for an hour before the walls are closed.', where: 'Plumbing riser, stair core' },
+    { id: 'HP 63', title: 'Electrical megger test', text: 'Insulation resistance on every circuit, earth-pit resistance under 2 ohms.', where: 'Electrical riser, stair core' },
+    { id: 'HP 88', title: 'Window hose test', text: 'Fifteen minutes of water on every opening from outside, checked from inside.', where: 'Front glazing' },
   ];
 
   var SNAGS = [
@@ -229,5 +240,5 @@ window.STHIRA = (function () {
     return (neg ? '−' : '') + s;
   }
 
-  return { STAGES: STAGES, dayAt: dayAt, pAt: pAt, LIVE: LIVE, SERVICES: SERVICES, PROJECTS: PROJECTS, CITIES: CITIES, TIERS: TIERS, TRADES: TRADES, JOBS: JOBS, WEEKS: WEEKS, PAYMENTS: PAYMENTS, SNAGS: SNAGS, CHANGES: CHANGES, DOCS: DOCS, MESSAGES: MESSAGES, LEADS: LEADS, TEAM: TEAM, inr: inr };
+  return { STAGES: STAGES, dayAt: dayAt, pAt: pAt, LIVE: LIVE, SERVICES: SERVICES, PROJECTS: PROJECTS, CITIES: CITIES, TIERS: TIERS, TRADES: TRADES, JOBS: JOBS, WEEKS: WEEKS, PAYMENTS: PAYMENTS, SNAGS: SNAGS, CHANGES: CHANGES, DOCS: DOCS, HOLDS: HOLDS, MESSAGES: MESSAGES, LEADS: LEADS, TEAM: TEAM, inr: inr };
 })();

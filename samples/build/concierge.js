@@ -191,7 +191,7 @@
       if (m) { ch.classList.add('cg-date'); sp.innerHTML = '<small>' + m[1] + '</small><b>' + m[2] + '</b><small>' + m[3] + '</small>'; var ic = ch.querySelector('.ob-i'); if (ic) ic.remove(); if (ch.parentNode) ch.parentNode.classList.add('cg-cal'); }
       else if (TIME_RE.test(tx)) { ch.classList.add('cg-time'); var ic2 = ch.querySelector('.ob-i'); if (ic2) ic2.remove(); if (ch.parentNode) ch.parentNode.classList.add('cg-cal'); }
     });
-    var enc = n.matches && n.matches('.ob-enc') ? n : n.querySelector && n.querySelector('.ob-enc'); if (enc) enc.textContent = 'Messages stay in this browser. Sthira’s site desk replies here.';
+    var enc = n.matches && n.matches('.ob-enc') ? n : n.querySelector && n.querySelector('.ob-enc'); if (enc) enc.textContent = 'Sthira’s site desk replies here, and an engineer takes over when it needs one.';
   }
   new MutationObserver(function (ms) {
     ms.forEach(function (m) {
@@ -217,7 +217,7 @@
   }, true);
   root.addEventListener('submit', buzz, true);
 
-  /* ---------- proactive nudge: 20 s on a key page, once per session, dismissible ---------- */
+  /* ---------- proactive nudge: 20 s on a key page, once per session, for eight seconds, dismissible ---------- */
   var nudgeKey = 'cg-nudge-' + AGENT, nudgeBtn = null;
   function keyPage() { if (!NUDGE) return false; var c = context(); return NUDGE.split(',').some(function (p) { p = p.trim(); return p === '*' || p === c.page || p === c.file || p === c.section; }); }
   function showNudge() {
@@ -226,6 +226,7 @@
       if (open || chat) return; var a = Orbit.agents[AGENT], n = a && a.nudge ? a.nudge(context()) : null; if (!n) return;
       nudgeBtn = n.button || null; $('.cg-nudge-t').textContent = n.text; $('.cg-nudge-cta').textContent = n.cta || 'Yes, show me';
       nudge.hidden = false; void nudge.offsetWidth; root.classList.add('cg-nudging'); ss(nudgeKey, '1');
+      setTimeout(function () { if (!open) hideNudge(); }, 8000); // shown once, for eight seconds
     });
   }
   function hideNudge(quick) { if (nudge.hidden) return; root.classList.remove('cg-nudging'); setTimeout(function () { nudge.hidden = true; }, quick || reduce ? 0 : 260); }

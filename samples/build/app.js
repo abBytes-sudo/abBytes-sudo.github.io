@@ -178,13 +178,18 @@
         return '<a href="#' + sec.id + '" data-t="' + esc(t) + '" aria-label="Section ' + h.dataset.sheet + ': ' + esc(t) + '">' + h.dataset.sheet + '</a>';
       }).join('');
     }
-    var links = gidx ? $$('a', gidx) : [], cur = -2, hookT = 0;
+    var links = gidx ? $$('a', gidx) : [], cur = -2, hookT = 0, baseT0 = baseT, tbRev = $('#tb-rev');
+    // a page can retitle its sheet (the home page does for a visitor's own plot and for the section); null puts it back
+    window.App.setSheet = function (t, rev) { baseT = t || baseT0; if (cur < 0 && tbT) tbT.textContent = baseT; if (tbRev) tbRev.textContent = rev || 'C'; };
+    // collapsed, the title block is a tab in the right-hand margin, so it never sits on the text
+    var tbTab = null; if (tb) { tbTab = document.createElement('b'); tbTab.className = 'tb-tab'; tbTab.textContent = base; tb.appendChild(tbTab); }
     var jib = $('.jib'), jb = jib && jib.querySelector('b'), ftr = $('.ftr'), hero = $('#build'), ticking = false;
     function setCur(i) {
       if (i === cur) return; cur = i;
       links.forEach(function (a, k) { a.setAttribute('aria-current', k === i ? 'true' : 'false'); });
       if (tbT) tbT.textContent = i < 0 ? baseT : heads[i].querySelector('.sh-t').textContent;
       if (tbS) tbS.textContent = i < 0 ? base : base + '.' + (i + 1);
+      if (tbTab) tbTab.textContent = tbS ? tbS.textContent : base;
       if (jb && !reduce) { jb.style.setProperty('--hook', '24px'); clearTimeout(hookT); hookT = setTimeout(function () { jb.style.setProperty('--hook', '10px'); }, 650); }
     }
     function onScroll() {
@@ -193,6 +198,8 @@
       heads.forEach(function (h, k) { if (h.getBoundingClientRect().top < mid) i = k; });
       setCur(i);
       if (tb && ftr) tb.classList.toggle('away', ftr.getBoundingClientRect().top < innerHeight - 40);
+      // full only at the top of the home page's hero, where nothing sits under it; a tab everywhere else
+      if (tb) tb.classList.toggle('tab', scrollY > 80 || !hero);
       if (hero) document.body.classList.toggle('hero-on', hero.getBoundingClientRect().bottom > innerHeight * 0.5);
       if (jb && jib.offsetWidth) {
         var max = document.documentElement.scrollHeight - innerHeight, p = max > 0 ? scrollY / max : 0;
@@ -232,7 +239,43 @@
     els.forEach(function (e) { io.observe(e); });
   }
 
+  // ---------- the site desk launcher: compact in the margin on wide screens once you scroll; on smaller ones it steps
+  // aside while you scroll down through content and comes back when you scroll up, reach the end or return to the top ----------
+  // and wherever it rests, it only shows when nothing readable or clickable is under it
+  function launcherTuck() {
+    var last = scrollY, wideQ = matchMedia('(min-width: 1280px)'), b = document.body, down = false, ticking = false;
+    var TEXT = /^(P|LI|H1|H2|H3|H4|H5|A|BUTTON|DD|DT|TD|TH|LABEL|BLOCKQUOTE|FIGCAPTION|OUTPUT|INPUT|SELECT|TEXTAREA|CAPTION)$/;
+    function covers(el) {
+      if (!el || !el.offsetWidth) return false;
+      var cs = getComputedStyle(el), x0 = parseFloat(cs.left), y0 = parseFloat(cs.top), w = el.offsetWidth, h = el.offsetHeight;
+      if (isNaN(x0) || isNaN(y0)) return false;
+      var pts = [[x0 + 8, y0 + 8], [x0 + w - 8, y0 + 8], [x0 + 8, y0 + h - 8], [x0 + w - 8, y0 + h - 8], [x0 + w / 2, y0 + h / 2]];
+      for (var i = 0; i < pts.length; i++) {
+        var st = document.elementsFromPoint(pts[i][0], pts[i][1]);
+        for (var j = 0; j < st.length; j++) { var e = st[j]; if (e === el || el.contains(e) || e.closest('.cg,.to-home,.tb,.gidx')) continue; if (TEXT.test(e.tagName) && (e.textContent.trim() || e.tagName === 'INPUT')) return true; }
+      }
+      return false;
+    }
+    function update() {
+      ticking = false;
+      var y = scrollY, atEnd = innerHeight + y > document.documentElement.scrollHeight - 60, compact = wideQ.matches && y > 240;
+      var moving = down && y > 240 && !atEnd;
+      b.classList.toggle('cg-compact', compact);
+      b.classList.toggle('cg-tuck', !compact && (moving || covers(document.querySelector('.cg-launch'))));
+      b.classList.toggle('th-tuck', !wideQ.matches && (moving || covers(document.querySelector('.to-home'))));
+    }
+    function onS() {
+      var y = scrollY, d = y - last; if (Math.abs(d) >= 6) { down = d > 0; last = y; }
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }
+    addEventListener('scroll', onS, { passive: true }); addEventListener('resize', onS);
+    // the launcher arrives a moment after load: check its corner as soon as it is added, and again once it has settled
+    var mo = new MutationObserver(function () { if (document.querySelector('.cg-launch')) { mo.disconnect(); onS(); setTimeout(onS, 400); setTimeout(onS, 1500); } });
+    mo.observe(document.body, { childList: true }); onS(); setTimeout(onS, 6000);
+  }
+
   function boot() {
+    launcherTuck();
     $$('[data-ba]').forEach(initBA);
     initFade(); svcPeek(); sheet();
   }
