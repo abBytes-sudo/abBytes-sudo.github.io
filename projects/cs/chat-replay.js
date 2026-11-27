@@ -1,4 +1,4 @@
-/* Real Estate Platform website, "A chat, replayed": one scripted conversation with Roofie, the site's assistant,
+/* Real Estate Platform website, "A chat, replayed": one scripted conversation with Mitra, the site's assistant,
    plays message by message in the phone frame the first time it comes into view, while the CRM inbox beside it
    fills in the lead as each fact arrives. "Replay the chat" plays it again.
    The whole conversation and the finished lead card are in the HTML, so they read without JavaScript, and with

@@ -140,7 +140,7 @@ html.nav-open,html.nav-open body{overflow:hidden}
 /* ── mobile pass: phones, landscape phones and tablets. Wide screens (1200px+) keep their look. Text never drops
    under 13px (captions 15px), tap targets reach 44px, and nothing covers anything else. ── */
 /* the hero figure overlaps the hero band by 96px, but below 1200px the band's bottom padding was smaller than that,
-   so the figure covered the last fact (Built with, Note, Roofie...). The facts now always clear it. */
+   so the figure covered the last fact (Built with, Note, Mitra...). The facts now always clear it. */
 @media (max-width:1199px){.p-hero{padding-bottom:124px!important}}
 /* "How it was built": a step's detail landed in the 40px number column and broke every few letters */
 @media (max-width:1023px){.flow li span{grid-column:2}}

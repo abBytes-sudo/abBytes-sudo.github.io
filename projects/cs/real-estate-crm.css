@@ -66,3 +66,56 @@ body.cs-crm{--c-bg:#0f1830;--c-ink:#f4f1ea;--c-dim:#aeb7cf;--c-acc:#f5a524;--c-a
 .lab iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#0b1226}
 .lab-cap{margin-top:8px;font-size:13.5px;color:var(--mut)}
 @media (prefers-reduced-motion:reduce){.wk-plot i,.pf-out i{transform:none}.wk-plot b{opacity:1}}
+
+/* ---- the map and routing section: a drawn day's trip beside what it does. The drawing is the page's own (no screenshot, no real
+   street), in the hero's navy and amber. Where the browser supports scroll-driven animation the route draws itself as the
+   figure comes into view; elsewhere, and with reduced motion, it is simply there. ---- */
+.mp{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:clamp(26px,4vw,60px);align-items:start}
+.mp-fig{min-width:0}
+.mp-svg{display:block;width:100%;height:auto;border-radius:18px;box-shadow:0 30px 60px -36px rgba(14,12,18,.5)}
+.mp-bg{fill:#0b1226}
+.mp-park{fill:#16304a}
+.mp-st path{fill:none;stroke:#22305a;stroke-width:9;stroke-linecap:round}
+.mp-route{fill:none;stroke:#f5a524;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+.mp-walk{fill:none;stroke:#ffd27f;stroke-width:4;stroke-linecap:round;stroke-dasharray:1 9}
+.mp-stop circle{fill:#0b1226;stroke:#aeb7cf;stroke-width:2}
+.mp-stop text{fill:#aeb7cf;font:600 11px/1 var(--mono);text-anchor:middle}
+.mp-stop.n circle{fill:#f5a524;stroke:#0b1226;stroke-width:3}
+.mp-stop.n text{fill:#1b1205;font:700 14px/1 var(--dis)}
+.mp-stop.last circle{fill:#ffd27f}
+.mp-tag rect{fill:#16223f;stroke:rgba(255,255,255,.2)}
+.mp-tag text{fill:#f4f1ea;font:500 11.5px/1 var(--mono);text-anchor:middle}
+.mp-leg{fill:#8f98b4;font:500 11px/1 var(--mono)}
+.mp-phone .b{fill:#05080f;stroke:#33416b;stroke-width:2}
+.mp-phone .s{fill:#101a33}
+.mp-phone .t{fill:none;stroke:#f5a524;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+.mp-phone .h{fill:#f4f1ea;font:700 15px/1 var(--dis);text-anchor:middle}
+.mp-phone .m{fill:#aeb7cf;font:500 11.5px/1 var(--mono);text-anchor:middle}
+.mp-phone .go{fill:#f5a524}
+.mp-phone .g{fill:#1b1205;font:700 12.5px/1 var(--txt);text-anchor:middle}
+.mp-cap{fill:#aeb7cf;font:500 11.5px/1 var(--mono)}
+.mp-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:16px;counter-reset:mf;border-top:1.5px solid var(--k)}
+.mp-flow li{position:relative;padding:14px 14px 0 0;counter-increment:mf}
+.mp-flow li::before{content:counter(mf,decimal-leading-zero);display:block;margin-bottom:6px;font:500 12px/1 var(--mono);color:var(--mut)}
+.mp-flow li+li{padding-left:14px;border-left:1px solid var(--hair)}
+.mp-flow b{display:block;font:650 16px/1.25 var(--dis);color:var(--k)}
+.mp-flow span{display:block;margin-top:3px;font-size:13.5px;line-height:1.4;color:var(--mut)}
+.mp-fig figcaption{margin-top:12px;font:500 12px/1.4 var(--mono);color:var(--mut)}
+.mp-tx{min-width:0}
+.mp-nums .cs-num{padding:16px 16px 14px}
+.mp-nums .cs-num b{font-size:clamp(28px,2.8vw,40px)}
+.mp-nums .cs-num span{font-size:14px}
+.mp-does{margin-top:22px;display:grid;gap:0}
+.mp-does li{padding:14px 0;border-top:1px solid var(--hair);font-size:16px;line-height:1.5;color:var(--txt-c)}
+.mp-does li:first-child{border-top:1.5px solid var(--k)}
+.mp-does b{color:var(--k);font-weight:650}
+.mp-not{position:static;margin-top:22px}
+.mp-not h3{font-size:18px}
+@media (min-width:981px){.mp-fig{position:sticky;top:88px}}
+@media (max-width:980px){.mp{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.mp-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.mp-flow li:nth-child(3){padding-left:0;border-left:0}.mp-flow li:nth-child(n+3){margin-top:14px;border-top:1px solid var(--hair)}.mp-nums{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:no-preference){
+  .mp-svg .mp-route{animation:mp-draw 2.6s cubic-bezier(.4,.1,.2,1) both;animation-timeline:view();animation-range:entry 30% cover 45%}
+}
+@keyframes mp-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+
