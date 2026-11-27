@@ -21,7 +21,7 @@
   /* ---------------- project ---------------- */
   A.PROJECT = {
     name: 'Aaranya Residences', developer: 'Saptaparni Developers', sector: 'Sector 109, Dwarka Expressway, Gurugram',
-    rera: 'HRERA-GGM-XX-0109-2025', reraSite: 'haryanarera.gov.in', acres: 4.6, openPct: 79, homes: 612, story: { tower: 'A', floor: 40 },
+    rera: 'RERA registration shown at launch', reraSite: 'haryanarera.gov.in', acres: 4.6, openPct: 79, homes: 612, story: { tower: 'A', floor: 40 },
     launch: 'September 2025', possession: 'December 2029', possessionTarget: 'June 2029',
     floorH: 3.25, lobbyH: 5.2
   };
@@ -207,7 +207,11 @@
   var NAMES = [['Aditi', 'Khurana', 'Gurugram'], ['Rohit', 'Bansal', 'New Delhi'], ['Meenakshi', 'Iyer', 'Dubai'], ['Varun', 'Sethi', 'Gurugram'], ['Harleen', 'Gill', 'Chandigarh'],
     ['Arnav', 'Kapoor', 'Noida'], ['Shalini', 'Rao', 'Singapore'], ['Karthik', 'Subramanian', 'Bengaluru'], ['Nidhi', 'Agarwal', 'Gurugram'], ['Imran', 'Sheikh', 'London'],
     ['Pallavi', 'Joshi', 'New Delhi'], ['Gaurav', 'Taneja', 'Gurugram'], ['Ruchi', 'Malhotra', 'Toronto'], ['Siddharth', 'Jain', 'Gurugram'], ['Tanvi', 'Arora', 'New Delhi'],
-    ['Manpreet', 'Singh', 'Dubai'], ['Abhay', 'Chauhan', 'Faridabad'], ['Sneha', 'Pillai', 'Gurugram'], ['Yash', 'Grover', 'New Delhi'], ['Lakshmi', 'Narayanan', 'San Jose']];
+    ['Manpreet', 'Singh', 'Dubai'], ['Abhay', 'Chauhan', 'Faridabad'], ['Sneha', 'Pillai', 'Gurugram'], ['Yash', 'Grover', 'New Delhi'], ['Lakshmi', 'Narayanan', 'San Jose'],
+    ['Kunal', 'Batra', 'Gurugram'], ['Anjali', 'Mehra', 'New Delhi'], ['Vikram', 'Rathore', 'Jaipur'], ['Fatima', 'Siddiqui', 'Riyadh'], ['Rahul', 'Khanna', 'Gurugram'],
+    ['Priya', 'Venkatesh', 'Bengaluru'], ['Aman', 'Dhillon', 'Melbourne'], ['Neeraj', 'Saxena', 'Noida'], ['Ishita', 'Bose', 'Kolkata'], ['Rohan', 'Chawla', 'Gurugram'],
+    ['Deepa', 'Menon', 'Dubai'], ['Arjit', 'Sharma', 'Gurugram'], ['Megha', 'Kulkarni', 'Pune'], ['Saurabh', 'Goel', 'New Delhi'], ['Nikhil', 'Bhatia', 'Gurugram'],
+    ['Zoya', 'Haider', 'London'], ['Tarun', 'Ahuja', 'Faridabad'], ['Kavya', 'Reddy', 'Hyderabad'], ['Prateek', 'Mittal', 'Gurugram'], ['Simran', 'Kohli', 'Singapore']];
   var SOURCES = ['Brochure download', 'Site-visit booking', 'Unit picker', 'NRI desk', 'Channel partner', 'Walk-in', 'Cost-sheet request'];
   var REMARKS = [
     'Wants an east-facing 3 BHK above the 15th; asked twice about winter sun in the living room.',
@@ -228,16 +232,16 @@
     var r = rng(20251109), now = Date.now(), today = A.dayStart(now);
     var avail = units.filter(function (u) { return seeded[u.id] !== 'sold'; });
     var leads = NAMES.map(function (n, i) {
-      var src = SOURCES[i % SOURCES.length]; if (/Dubai|Singapore|London|Toronto|San Jose/.test(n[2])) src = i % 2 ? 'NRI desk' : 'Brochure download';
+      var src = SOURCES[i % SOURCES.length]; if (/Dubai|Singapore|London|Toronto|San Jose|Riyadh|Melbourne/.test(n[2])) src = i % 2 ? 'NRI desk' : 'Brochure download';
       var t = A.TYPES[['B', 'A', 'D', 'C', 'B', 'A', 'C', 'B', 'D', 'C'][i % 10]];
       var u = avail[Math.floor(r() * avail.length)];
-      var stage = ['new', 'new', 'contacted', 'visit', 'contacted', 'negotiation', 'new', 'visit', 'contacted', 'lost', 'booked', 'contacted', 'new', 'visit', 'negotiation', 'contacted', 'new', 'visit', 'contacted', 'new'][i];
-      var created = now - Math.round((i * 0.6 + r() * 1.5) * DAY) - Math.round(r() * 8) * 36e5;
+      var stage = ['new', 'new', 'contacted', 'visit', 'contacted', 'negotiation', 'new', 'visit', 'contacted', 'lost', 'booked', 'contacted', 'new', 'visit', 'negotiation', 'contacted', 'new', 'visit', 'contacted', 'new'][i < 20 ? i : (i * 7) % 20];
+      var created = now - Math.round((i * 0.45 + r() * 1.5) * DAY) - Math.round(r() * 8) * 36e5;
       var lead = {
         id: 'L' + (2401 + i), name: n[0] + ' ' + n[1], city: n[2], email: (n[0] + '.' + n[1]).toLowerCase() + '@example.com',
-        phone: (/Dubai/.test(n[2]) ? '+971 5x xxx ' : /Singapore/.test(n[2]) ? '+65 8xxx ' : /London/.test(n[2]) ? '+44 7xxx xx' : /Toronto|San Jose/.test(n[2]) ? '+1 4xx xxx ' : '+91 98xxx ') + String(1000 + Math.floor(r() * 8999)),
+        phone: (/Dubai/.test(n[2]) ? '+971 5x xxx ' : /Riyadh/.test(n[2]) ? '+966 5x xxx ' : /Singapore/.test(n[2]) ? '+65 8xxx ' : /London/.test(n[2]) ? '+44 7xxx xx' : /Melbourne/.test(n[2]) ? '+61 4xx xxx ' : /Toronto|San Jose/.test(n[2]) ? '+1 4xx xxx ' : '+91 98xxx ') + String(1000 + Math.floor(r() * 8999)),
         source: src, interest: t.short, budget: [null, '₹2–2.5 Cr', '₹3–3.5 Cr', '₹5 Cr +', '₹3.5–4 Cr'][i % 5], unit: i % 3 === 1 ? null : u.id,
-        stage: stage, owner: ['KA', 'SQ', 'DM', 'FS', 'KA'][i % 5], created: created, nri: /Dubai|Singapore|London|Toronto|San Jose/.test(n[2]),
+        stage: stage, owner: ['KA', 'SQ', 'DM', 'FS', 'KA'][i % 5], created: created, nri: /Dubai|Singapore|London|Toronto|San Jose|Riyadh|Melbourne/.test(n[2]),
         remark: REMARKS[i % REMARKS.length], next: stage === 'lost' || stage === 'booked' ? null : today + Math.round((r() * 4 - 1)) * DAY + (10 + Math.floor(r() * 8)) * 36e5,
         log: [{ t: created, k: 'created', s: 'Came in via ' + src.toLowerCase() }]
       };
@@ -254,6 +258,11 @@
       visits.push({ id: 'V' + (731 + vi++), lead: l.id, name: l.name, unit: l.unit, slot: slot, mode: l.nri ? 'video' : (i % 3 ? 'lounge' : 'pickup'), party: 1 + Math.floor(r() * 4),
         rm: l.owner, outcome: dOff < 0 ? ['interested', 'thinking', 'interested', 'noshow'][i % 4] : null, source: l.source, created: l.created + 2 * 36e5 });
     });
+    // today at the sales lounge: a full board, the morning ones already done
+    [['10:00', 'interested'], ['11:30', 'thinking'], ['13:00', 'interested'], ['15:00', null], ['16:30', null], ['18:00', null]].forEach(function (s, k) {
+      var l = leads[(k * 7 + 3) % leads.length], key = A.slotKey(today, s[0]), past = A.slotTime(key) < now;
+      visits.push({ id: 'V' + (731 + vi++), lead: l.id, name: l.name, unit: l.unit, slot: key, mode: l.nri ? 'video' : (k % 3 ? 'lounge' : 'pickup'), party: 1 + (k % 4), rm: ['KA', 'SQ', 'DM'][k % 3], outcome: past ? (s[1] || 'interested') : null, source: l.source, created: now - (k + 2) * DAY });
+    });
     // fill a few slots so the calendar shows "1 left" and "full"
     for (var k = 0; k < 9; k++) {
       var d = today + (1 + (k % 5)) * DAY, s = A.SLOTS[(k * 2 + 1) % A.SLOTS.length];
@@ -265,14 +274,18 @@
     // a couple of live holds so the back office has something to act on
     var inv = {};
     inv['B-3403'] = { s: 'hold', at: now - 20 * 36e5, until: now + 28 * 36e5, by: 'Sana Qureshi', note: 'Varun Sethi · cost sheet sent, cheque on Friday' };
-    inv['C-701'] = { s: 'hold', at: now - 40 * 36e5, until: now + 8 * 36e5, by: 'Channel partner · Arora Homes Desk', note: 'Two Tower C 2 BHKs for a family' };
-    inv['C-706'] = { s: 'hold', at: now - 40 * 36e5, until: now + 8 * 36e5, by: 'Channel partner · Arora Homes Desk', note: 'Two Tower C 2 BHKs for a family' };
+    inv['C-701'] = { s: 'hold', at: now - 40 * 36e5, until: now + 8 * 36e5, by: 'Channel partner · Arora Homes Desk', partner: 'AHD', client: 'The Batra family', pending: true, note: 'Two Tower C 2 BHKs for a family' };
+    inv['C-706'] = { s: 'hold', at: now - 40 * 36e5, until: now + 8 * 36e5, by: 'Channel partner · Arora Homes Desk', partner: 'AHD', client: 'The Batra family', pending: true, note: 'Two Tower C 2 BHKs for a family' };
     inv['A-2204'] = { s: 'sold', at: now - 3 * DAY, by: 'Ritika Menon', note: 'Booked · Pallavi Joshi, cheque cleared' };
-    return { leads: leads, visits: visits, inv: inv };
+    var pool = units.filter(function (u) { return seeded[u.id] === 'sold' && u.tower !== 'A' && u.floor > 6; }), pdeals = [];
+    [['Kunal Batra', 41], ['Harleen Gill', 33], ['The Khanna family', 22], ['Abhay Chauhan', 9]].forEach(function (c, k) {
+      var u = pool[(k * 37 + 11) % pool.length]; pdeals.push({ id: 'PB-' + (301 + k), unit: u.id, client: c[0], bookedAt: now - c[1] * 7 * DAY, basic: A.price(u).basic, share: A.PARTNER.share, paidAll: k > 1 });
+    });
+    return { leads: leads, visits: visits, inv: inv, pdeals: pdeals };
   }
 
   A.init = function (force) {
-    if (!force && A.get('v', 0) === 4) return;
+    if (!force && A.get('v', 0) === 5) return;
     try { Object.keys(localStorage).forEach(function (k) { if (k.indexOf(P) === 0 && k !== P + 'hour') localStorage.removeItem(k); }); } catch (e) { }
     // the concierge keeps its chats, leads and events under "orbit-*" (shared with other sites): drop only this site's old ones
     try {
@@ -280,7 +293,7 @@
       Object.keys(localStorage).forEach(function (k) { if (k === 'orbit-kb-launch' || k.indexOf('orbit-data-launch-') === 0) localStorage.removeItem(k); });
     } catch (e) { }
     var s = seed();
-    set('leads', s.leads); set('visits', s.visits); set('inv', s.inv); set('log', []); set('v', 4);
+    set('leads', s.leads); set('visits', s.visits); set('inv', s.inv); set('pdeals', s.pdeals); set('log', []); set('v', 5);
     try { localStorage.removeItem('demo-bridge:site-visits'); } catch (e) { }
     s.visits.filter(function (v) { return v.lead && A.slotTime(v.slot) > Date.now(); }).slice(0, 4).forEach(bridge);
   };
@@ -393,6 +406,108 @@
     var na = -T.rot * 180 / Math.PI;
     s += '<g class="fp-n" transform="translate(' + (W - 2.6) + ' 2.6) rotate(' + na + ')"><circle r="1.6"/><path d="M0 -1.2 L.6 .8 L0 .4 L-.6 .8Z"/></g>';
     return s + '</svg>';
+  };
+
+  /* ---------------- sun and view: shared by the 3D model, the view report and the sun-on-plan drawings ---------------- */
+  // world axes as in the 3D model: x east, y up, z south. Gurugram 28.45° N; solar time runs ~22 min behind IST.
+  var LAT = 28.45 * Math.PI / 180;
+  A.DECL = { dec: -23.44, mar: 0, jun: 23.44 };
+  A.sunAt = function (hours, declDeg) {
+    var H = (hours - 22 / 60 - 12) * 15 * Math.PI / 180, d = declDeg * Math.PI / 180;
+    var E = -Math.cos(d) * Math.sin(H), N = Math.cos(LAT) * Math.sin(d) - Math.sin(LAT) * Math.cos(d) * Math.cos(H), U = Math.sin(LAT) * Math.sin(d) + Math.cos(LAT) * Math.cos(d) * Math.cos(H);
+    var L = Math.sqrt(E * E + U * U + N * N) || 1; return { x: E / L, y: U / L, z: -N / L };
+  };
+  A.monthDecl = function (m) { return 23.44 * Math.sin(2 * Math.PI * (284 + [15, 46, 74, 105, 135, 166, 196, 227, 258, 288, 319, 349][m]) / 365); };
+  A.MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  // the balcony of a home: where you stand (eye height) and which way you look
+  A.balcony = function (u) {
+    if (typeof u === 'string') u = byId[u];
+    var T = A.tower(u.tower), r = u.rect, cx = (r[0] + r[2]) / 2, out = u.face === 'n' ? -1 : 1, fz = u.face === 'n' ? r[1] : r[3];
+    var p = rot(cx, fz + out * 1.2, T.rot), n = rot(0, out, T.rot), off = rot(cx, 0, T.rot);
+    var fx = n[0] * 1.2 + off[0] / (T.w / 2), fzz = n[1] * 1.2 + off[1] / (T.w / 2), L = Math.hypot(fx, fzz) || 1;
+    return { x: T.x + p[0], y: A.PROJECT.lobbyH + (u.floor - 1) * A.PROJECT.floorH + 1.55, z: T.z + p[1], nx: n[0], nz: n[1], dx: fx / L, dz: fzz / L, tower: u.tower };
+  };
+  A.towerTop = function (T) { if (typeof T === 'string') T = A.tower(T); return A.PROJECT.lobbyH + T.floors * A.PROJECT.floorH + 7; };
+  // a ray from o along the unit vector d: where it enters tower T, and whether it passes over the roof there
+  function rayTower(o, d, T) {
+    var lo = rot(o.x - T.x, o.z - T.z, -T.rot), ld = rot(d.x, d.z, -T.rot), ext = [T.w / 2 + 1, T.d / 2 + 1], t0 = -Infinity, t1 = Infinity;
+    for (var a = 0; a < 2; a++) {
+      if (Math.abs(ld[a]) < 1e-9) { if (Math.abs(lo[a]) > ext[a]) return null; continue; }
+      var ta = (-ext[a] - lo[a]) / ld[a], tb = (ext[a] - lo[a]) / ld[a]; if (ta > tb) { var s = ta; ta = tb; tb = s; }
+      t0 = Math.max(t0, ta); t1 = Math.min(t1, tb);
+    }
+    if (t0 > t1 || t1 < 0) return null;
+    var te = Math.max(t0, 0); return { t: te, over: o.y + te * d.y > A.towerTop(T) };
+  }
+  function blocked(o, d, skip) { for (var i = 0; i < A.TOWERS.length; i++) { var T = A.TOWERS[i]; if (T.id === skip) continue; var h = rayTower(o, d, T); if (h && !h.over) return T; } return null; }
+  function sunHours(b, decl) {
+    var n = 0;
+    for (var h = 5; h <= 19.5; h += 1 / 6) {
+      var s = A.sunAt(h, decl); if (s.y < 0.035) continue;
+      var hl = Math.hypot(s.x, s.z) || 1; if ((s.x * b.nx + s.z * b.nz) / hl < 0.34) continue;    // behind the facade, or too oblique to reach the room
+      if (!blocked(b, s, b.tower)) n++;
+    }
+    return Math.round(n / 6 * 2) / 2;
+  }
+  function sunEvents(b) {
+    var rise = [], set = [], c65 = Math.cos(65 * Math.PI / 180);
+    for (var m = 0; m < 12; m++) {
+      var d = A.monthDecl(m), r0 = null, s0 = null;
+      for (var h = 4; h <= 21; h += 1 / 20) { if (A.sunAt(h, d).y > 0.02) { if (r0 === null) r0 = h; s0 = h; } }
+      var sees = function (h) { var s = A.sunAt(h, d), hl = Math.hypot(s.x, s.z) || 1; return (s.x * b.dx + s.z * b.dz) / hl > c65 && !blocked(b, s, b.tower); };
+      rise.push(r0 !== null && sees(r0 + 0.15)); set.push(s0 !== null && sees(s0 - 0.15));
+    }
+    return { rise: rise, set: set };
+  }
+  A.monthsPhrase = function (arr) {
+    var n = arr.filter(Boolean).length; if (!n) return ''; if (n === 12) return 'all year';
+    var runs = [];
+    for (var i = 0; i < 12; i++) {
+      if (!arr[i] || arr[(i + 11) % 12]) continue;          // a run starts where the month before is off
+      var j = i; while (arr[(j + 1) % 12]) j = (j + 1) % 12; runs.push([i, j]);
+    }
+    return runs.map(function (r) { return r[0] === r[1] ? A.MONTHS[r[0]] : A.MONTHS[r[0]] + ' to ' + A.MONTHS[r[1]]; }).join(' and ');
+  };
+  function compassOf(dx, dz) { var a = Math.atan2(dx, -dz) * 180 / Math.PI; return (a + 360) % 360; }
+  A.viewReport = function (u) {
+    if (typeof u === 'string') u = byId[u];
+    var b = A.balcony(u), az = compassOf(b.dx, b.dz), near = null, over = [];
+    [-0.35, -0.17, 0, 0.17, 0.35].forEach(function (a) {
+      var c = Math.cos(a), s = Math.sin(a), d = { x: b.dx * c - b.dz * s, y: 0, z: b.dx * s + b.dz * c };
+      A.TOWERS.forEach(function (T) { if (T.id === u.tower) return; var h = rayTower(b, d, T); if (!h || h.t > 700) return; if (h.over) { if (over.indexOf(T.name) < 0) over.push(T.name); } else if (!near || h.t < near.t) near = { t: h.t, name: T.name }; });
+    });
+    var bits = [];
+    if (near) bits.push('looks across to ' + near.name + ', ' + Math.round(near.t / 5) * 5 + ' m away');
+    else if (over.length) bits.push('clears the roof of ' + over.join(' and ') + ' and looks out over the city');
+    else bits.push('open to the skyline');
+    var dw = Math.abs(((az - 270 + 540) % 360) - 180), dse = Math.abs(((az - 140 + 540) % 360) - 180);
+    if (dw < 60 && b.y > 30) bits.push('the Expressway to the west');
+    if (dse < 60 && b.y > 70) bits.push('the Aravalli ridge on clear winter days');
+    if (u.garden) bits.push('the podium garden below');
+    var ev = sunEvents(b), rise = A.monthsPhrase(ev.rise), set = A.monthsPhrase(ev.set), dec = sunHours(b, A.DECL.dec), jun = sunHours(b, A.DECL.jun);
+    var hrs = function (h) { return h === 0 ? 'no direct sun' : 'about ' + (h % 1 ? h.toFixed(1) : h) + (h === 1 ? ' hour' : ' hours') + ' of direct sun'; };
+    var when = function (p) { return p === 'all year' ? 'all year' : (/ to | and /.test(p) ? '' : 'in ') + p; };
+    var sunLine = rise ? 'sunrise from the living room ' + when(rise) : set ? 'sunset from the living room ' + when(set) : '';
+    var line = [u.id, 'faces ' + u.facing.toLowerCase()].concat(sunLine ? [sunLine] : []).concat([hrs(dec) + ' on 21 December']).join(' · ');
+    return { b: b, az: az, height: Math.round(b.y), view: bits, rise: rise, set: set, dec: dec, jun: jun, line: line };
+  };
+
+  /* ---------------- channel partners: holds placed for clients, brokerage by slab ---------------- */
+  A.PARTNER = { id: 'AHD', name: 'Arora Homes Desk', person: 'Neha Arora', office: 'Sector 57, Gurugram', since: 'March 2025', share: 2 };
+  A.partnerHold = function (id, client, note) {
+    return A.setStatus(id, 'hold', { by: 'Channel partner · ' + A.PARTNER.name, partner: A.PARTNER.id, client: client, pending: true, until: Date.now() + 48 * 36e5, note: note || ('For ' + client), keep: true });
+  };
+  A.approveHold = function (id, by) {
+    var inv = A.inv(), m = inv[id]; if (!m) return;
+    m.pending = false; m.approvedAt = Date.now(); m.approvedBy = by || 'Ritika Menon'; A.set('inv', inv);
+    A.log({ kind: 'inv', unit: id, from: 'hold', to: 'hold', by: m.approvedBy, note: 'Partner hold approved' }); A.emit('inv', { id: id, s: 'hold' });
+  };
+  A.partnerDeals = function () { return A.get('pdeals', []); };
+  A.brokerage = function (deal) {
+    var u = byId[deal.unit], T = A.tower(u.tower), done = A.PROGRESS[u.tower], total = Math.round(deal.basic * deal.share / 100);
+    var steps = [['On the agreement for sale', 0.4, 0], ['On the ' + A.ord(Math.round(T.floors / 2)) + ' slab of ' + T.name, 0.3, Math.round(T.floors / 2)], ['On the top slab of ' + T.name, 0.3, T.floors]];
+    return { total: total, rows: steps.map(function (s) { var due = s[2] <= done; return { label: s[0], amount: Math.round(total * s[1]), slab: s[2], done: due, paid: due && (s[2] === 0 || deal.paidAll || s[2] < done - 2) }; }) };
   };
 
   /* ---------------- construction progress (slabs cast) ---------------- */

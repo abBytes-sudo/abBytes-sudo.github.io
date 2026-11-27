@@ -32,11 +32,11 @@
 
   function map() {
     var s = '<svg class="map" viewBox="0 0 1000 720" role="img" aria-label="Schematic map of Sector 109 and the Dwarka Expressway with the selected route highlighted">';
-    s += '<rect width="1000" height="720" fill="#E9E3D7"/>';
+    s += '<rect width="1000" height="720" fill="#12211A"/>';
     var r = A.rng(3);
     for (var gx = 0; gx < 1000; gx += 62) for (var gy = 0; gy < 720; gy += 54) { if (r() < 0.18) continue; s += '<rect class="sec-b" x="' + (gx + 4) + '" y="' + (gy + 4) + '" width="' + (52 + r() * 6).toFixed(0) + '" height="' + (44 + r() * 4).toFixed(0) + '" rx="3"/>'; }
     s += '<path class="green" d="M610 250 q60 -30 120 10 q30 60 -30 90 q-80 10 -90 -40z"/><path class="green" d="M140 560 q70 -40 140 0 q20 70 -60 90 q-90 0 -80 -90z"/>';
-    s += '<path class="air" d="M600 20 h240 v120 h-240z"/><path d="M620 60 h200 M640 100 h180" stroke="#fff" stroke-width="5"/><text class="rlab" x="610" y="44">IGI Airport</text>';
+    s += '<path class="air" d="M600 20 h240 v120 h-240z"/><path d="M620 60 h200 M640 100 h180" stroke="#4A5A50" stroke-width="5"/><text class="rlab" x="610" y="44">IGI Airport</text>';
     [EXP, NH].forEach(function (rd) { s += '<polyline class="rd rd-case" points="' + pts(rd) + '"/>'; });
     s += '<polyline class="rd rd-x" points="' + pts(EXP) + '"/><polyline class="rd rd-x" points="' + pts(NH) + '"/>';
     s += '<polyline class="rd rd-m" points="' + pts(NPR) + '"/><polyline class="rd rd-m" points="' + pts(SPR) + '"/>';
@@ -44,10 +44,10 @@
     s += '<polyline class="metro" points="' + pts(METRO) + '" style="stroke-dasharray:6 4"/>';
     METRO.forEach(function (p, i) { s += '<circle class="metro-st" cx="' + p[0] + '" cy="' + p[1] + '" r="' + (i === 2 ? 5 : 3.5) + '"/>'; });
     s += '<text class="rlab" transform="translate(372 250) rotate(76)">Dwarka Expressway</text><text class="rlab" transform="translate(860 210) rotate(-58)">NH-48</text><text class="rlab" x="560" y="372">Northern Peripheral Rd</text>';
-    s += '<text class="rlab" x="452" y="352" style="fill:#7a5aa0">Sector 109 metro (proposed)</text>';
+    s += '<text class="rlab mlab" x="452" y="346">Sector 109 metro (proposed)</text>';
     D.forEach(function (d, i) { s += '<g class="route-g" data-i="' + i + '"><path class="route" d="' + path([HOME].concat(d[6])) + '"/></g>'; });
     D.forEach(function (d, i) { s += '<g class="poi" data-i="' + i + '"><circle cx="' + d[2] + '" cy="' + d[3] + '" r="4.5"/></g>'; });
-    s += '<g class="home"><circle class="pulse" cx="' + HOME[0] + '" cy="' + HOME[1] + '" r="10"/><circle cx="' + HOME[0] + '" cy="' + HOME[1] + '" r="9"/><text class="plab" x="' + (HOME[0] - 14) + '" y="' + (HOME[1] + 4) + '" text-anchor="end" style="font:400 34px var(--serif)">Aaranya</text></g>';
+    s += '<g class="home"><circle class="pulse" cx="' + HOME[0] + '" cy="' + HOME[1] + '" r="10"/><circle cx="' + HOME[0] + '" cy="' + HOME[1] + '" r="9"/><text class="plab homel" x="' + (HOME[0] - 16) + '" y="' + (HOME[1] + 6) + '" text-anchor="end">Aaranya · Sector 109</text></g>';
     s += '<text class="plab" id="poi-l" x="0" y="0"></text>';
     return s + '</svg>';
   }

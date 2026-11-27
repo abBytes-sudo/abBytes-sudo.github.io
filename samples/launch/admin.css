@@ -341,3 +341,22 @@ body.so .toast { background: var(--so-ink); color: #0E1A14; font-size: 13px; }
 /* sidebar: the shortcut badge and the caret keep their own size, the labels never wrap */
 .so-search span:first-of-type, .so-ws span:first-of-type { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
 .so-search .so-kbd, .so-ws span:last-child { flex: none; }
+
+/* ===== v3: the towers tonight (Today) ===== */
+.so-towers .so-tw-wrap { display: flex; gap: 26px; align-items: flex-end; padding: 16px 18px 18px; overflow-x: auto; }
+.so-tw { display: grid; gap: 10px; justify-items: start; flex: none; }
+.so-tw-s { display: grid; gap: 2px; justify-items: center; }
+.so-tw-s .crown { width: 70%; height: 6px; border-radius: 2px 2px 0 0; background: rgba(232, 182, 90, .35); margin-bottom: 2px; }
+.so-tw-r { display: grid; grid-template-columns: repeat(var(--n), 10px); gap: 2px; }
+.so-tw-r i { height: 4px; border-radius: 1px; background: #2B3A30; cursor: pointer; }
+.so-tw-r i.avail { background: var(--so-green); opacity: .78; }
+.so-tw-r i.hold { background: var(--so-gold); }
+.so-tw-r i.sold { background: #3A4A3F; }
+.so-tw-r i.pend { background: #0E1A14; box-shadow: 0 0 0 1.5px var(--so-gold), 0 0 8px rgba(232, 182, 90, .75); }
+.so-tw-r i:hover { outline: 1px solid var(--so-ink); }
+.so-tw p { display: grid; gap: 2px; } .so-tw p b { font-size: 13.5px; font-weight: 600; color: var(--so-ink); } .so-tw p span { font-size: 12px; color: var(--so-mute); }
+.so-tw-side { margin-left: 28px; display: grid; gap: 10px; align-content: end; max-width: 260px; }
+.so-tw-big b { display: block; font: 300 40px/1 var(--so-sans, inherit); color: var(--so-ink); font-variant-numeric: tabular-nums; } .so-tw-big span { font-size: 12.5px; color: var(--so-mute); }
+.so-tw-note { font-size: 12.5px; color: var(--so-mute); line-height: 1.5; } .so-tw-note .so-tag { cursor: pointer; border: 0; }
+.so-legend .pend-key { background: #0E1A14 !important; box-shadow: 0 0 0 1.5px var(--so-gold); }
+@media (max-width: 760px) { .so-towers .so-tw-wrap { gap: 14px; } .so-tw { max-width: 92px; } .so-tw p span { font-size: 11px; } .so-tw-r { grid-template-columns: repeat(var(--n), 8px); } .so-tw-side { display: none; } .so-towers .so-legend { flex-wrap: wrap; gap: 4px 10px; } }

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Partner desk · Aaranya Residences</title>
+<meta name="description" content="The Aaranya partner desk for channel partners: live inventory across three towers, 48-hour holds for clients, a co-branded cost sheet and brokerage by construction slab.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Aaranya Residences">
+<meta property="og:title" content="Partner desk · Aaranya Residences">
+<meta property="og:description" content="The Aaranya partner desk for channel partners: live inventory across three towers, 48-hour holds for clients, a co-branded cost sheet and brokerage by construction slab.">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/launch/partner.html">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/launch/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Aaranya's three towers on Dwarka Expressway at golden hour, with one floor pulled out like a drawer">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Partner desk · Aaranya Residences"><meta name="twitter:description" content="The Aaranya partner desk for channel partners: live inventory across three towers, 48-hour holds for clients, a co-branded cost sheet and brokerage by construction slab."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/launch/og.jpg">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0E1A14">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preload" href="fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/onest.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="launch.min.css?v=26">
+<link rel="stylesheet" href="partner.css?v=26">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<link rel="stylesheet" href="../assets/vendor/lenis.css">
+<script src="data.js?v=26" defer></script>
+<script src="app.js?v=26" defer></script>
+<script src="plan.js?v=26" defer></script>
+<script src="partner.js?v=26" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body class="pdbody" data-page="partner">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><pattern id="hatch" width="1.2" height="1.2" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="1.2" height="1.2" fill="#DDD8CF"/><rect width=".45" height="1.2" fill="#B5AFA4"/></pattern></defs></svg>
+<a class="skip" href="#main">Skip to content</a>
+<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
+<main id="main" class="pdpage">
+<section class="pd-in" id="pd-in" aria-labelledby="pd-in-h">
+  <div class="pd-card">
+    <a class="pd-brand" href="index.html"><i>A</i>Aaranya Residences</a>
+    <p class="k">For channel partners</p>
+    <h1 id="pd-in-h">Partner desk</h1>
+    <p>Live inventory, 48-hour holds for your clients, a brochure and cost sheet with your firm's name on them, and your brokerage, slab by slab.</p>
+    <form id="pd-form" class="form" novalidate>
+      <div class="field"><label for="pd-firm">Firm</label><input class="inp" id="pd-firm" name="firm" value="Arora Homes Desk" readonly></div>
+      <div class="field"><label for="pd-user">Signing in as</label><input class="inp" id="pd-user" name="user" value="Neha Arora" readonly></div>
+      <button class="btn" type="submit">Open the partner desk <span class="ar" aria-hidden="true">→</span></button>
+    </form>
+    <p class="muted">Partner access is issued by the Aaranya sales office in Sector 109.</p>
+  </div>
+</section>
+<div class="pd-app" id="pd-app" hidden>
+  <header class="pd-bar">
+    <a class="pd-brand" href="index.html"><i>A</i>Aaranya<small>Partner desk</small></a>
+    <nav class="pd-tabs" aria-label="Partner desk"><a href="#inventory">Inventory</a><a href="#holds">Client holds <span class="n" id="pd-n-holds"></span></a><a href="#brokerage">Brokerage</a><a href="#print">Brochure &amp; cost sheet</a></nav>
+    <div class="pd-who"><span><b>Neha Arora</b> · Arora Homes Desk</span><span class="av" aria-hidden="true">NA</span><button type="button" class="tbtn" id="pd-out">Sign out</button></div>
+  </header>
+  <div class="pd-main" id="pd-body"></div>
+</div>
+<dialog class="pd-dlg" id="pd-dlg" aria-labelledby="pd-dlg-h">
+  <form id="pd-hold" novalidate>
+    <h2 id="pd-dlg-h">Hold for a client</h2>
+    <p class="unitline" id="pd-hold-unit"></p>
+    <input type="hidden" name="unit">
+    <div class="field"><label for="pd-client">Client's name</label><input class="inp" id="pd-client" name="client" autocomplete="off" required></div>
+    <div class="field"><label for="pd-note">Note for the sales office <span class="muted">(optional)</span></label><input class="inp" id="pd-note" name="note" autocomplete="off" placeholder="For example: visiting on Sunday with her parents"></div>
+    <p class="msg" role="alert"></p>
+    <p class="muted" style="font-size:12.5px">The home shows as on hold to everyone for 48 hours. The sales office approves it, usually within the hour.</p>
+    <div class="row"><button type="button" class="btn ghost" data-close>Cancel</button><button type="submit" class="btn">Hold it for 48 hours</button></div>
+  </form>
+</dialog>
+</main>
+</body>
+</html>

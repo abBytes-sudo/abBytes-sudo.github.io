@@ -67,7 +67,7 @@
     S.tower = t; var T = A.tower(t);
     if (!keepFloor) { S.floor = (anyFilter() && bestFloor(t)) || Math.min(T.floors, Math.round(T.floors * 0.55)); S.unit = null; }
     $$('.pk-towers button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.t === t)); });
-    if (api) api.selectFloor(t, S.floor);
+    if (V.on && !keepFloor) leaveView(); else if (api && !V.on) api.selectFloor(t, S.floor);
     render();
   }
 
@@ -97,7 +97,7 @@
     renderUnit();
     syncURL();
   }
-  stack.addEventListener('click', function (e) { var b = e.target.closest('.fl-row'); if (!b) return; S.floor = +b.dataset.f; S.unit = null; if (api) api.selectFloor(S.tower, S.floor); render(); });
+  stack.addEventListener('click', function (e) { var b = e.target.closest('.fl-row'); if (!b) return; S.floor = +b.dataset.f; S.unit = null; if (V.on) leaveView(); else if (api) api.selectFloor(S.tower, S.floor); render(); });
   floorbox.addEventListener('click', function (e) { var g = e.target.closest('[data-unit]'); if (g) selectUnit(g.dataset.unit, true); });
   floorbox.addEventListener('keydown', function (e) { var g = e.target.closest('[data-unit]'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); selectUnit(g.dataset.unit, true); } });
 
@@ -106,11 +106,16 @@
     var towerChanged = u.tower !== S.tower;
     S.unit = id; S.floor = u.floor;
     if (towerChanged) setTower(u.tower, true); else render();
-    if (api) { api.selectFloor(u.tower, u.floor, { keepAngle: true }); api.selectUnit(id); }
+    if (api && wide()) enterView(id);
+    else if (api) { if (V.on) leaveView(); api.selectFloor(u.tower, u.floor, { keepAngle: true }); api.selectUnit(id); }
     if (scroll && innerWidth < 1000) unitbox.scrollIntoView({ behavior: A.reduce ? 'auto' : 'smooth', block: 'start' });
   }
 
-  var short = A.get('short', []);
+  var short = A.get('short', []), ucPlan = null, sunW = null;
+  function pushSun(st) {   // the card's sun controls drive the model's sun as well
+    var r = $('#sun input[type=range]'); if (r) { r.value = st.hour; r.dispatchEvent(new Event('input')); }
+    var b = $('#sun .seg button[data-s="' + st.season + '"]'); if (b && b.getAttribute('aria-pressed') !== 'true') b.click();
+  }
   function renderUnit() {
     if (!S.unit) { unitbox.innerHTML = '<div class="empty"><b>Choose a home on the plan</b><span>Its carpet area, facing, view and the all-inclusive price will show here.</span></div>'; return; }
     var u = A.unit(S.unit), t = A.TYPES[u.type], st = A.status(u.id), pr = A.price(u), meta = A.statusMeta(u.id);
@@ -125,6 +130,9 @@
       (st !== 'sold' ? '<div class="price"><b>' + A.inr(pr.total) + '</b><span>all-inclusive · ' + A.inrFull(pr.rate) + ' per sq ft carpet</span></div>' : '<div class="price"><b>Sold</b><span>Similar homes: <a class="link" href="#" data-similar>show the nearest available ' + t.short + '</a></span></div>') +
       '<dl class="kv"><div><dt>Carpet (RERA)</dt><dd>' + A.sqft(t.carpet) + '</dd></div><div><dt>Balconies</dt><dd>' + A.sqft(t.bal) + '</dd></div><div><dt>Facing</dt><dd>' + u.facing + '</dd></div><div><dt>View</dt><dd>' + u.view + '</dd></div><div><dt>Parking</dt><dd>' + t.parking + ' covered</dd></div><div><dt>Floor</dt><dd>' + A.ord(u.floor) + ' of ' + A.tower(u.tower).floors + '</dd></div></dl>' +
       holdNote +
+      '<section class="uc-view" aria-label="The view and the sun from this home"><h3>From this balcony</h3><ul class="vr-l">' + A.viewLines(u).lines.map(function (l) { return '<li>' + A.esc(l) + '</li>'; }).join('') + '</ul>' +
+      (V.on && V.unit === u.id ? '' : '<button type="button" class="btn ghost sm" data-ride="' + u.id + '">Stand on this balcony <span class="ar" aria-hidden="true">↑</span></button>') +
+      '<div class="uc-sun" id="uc-sun"></div></section>' +
       (st !== 'sold' ? '<details class="breakdown"><summary>How the price adds up</summary><table><tr><td>Basic price (' + A.sqft(t.carpet) + ' × ' + A.inrFull(pr.base) + ')</td><td>' + A.inrFull(t.carpet * pr.base) + '</td></tr>' +
         (pr.floorPLC ? '<tr><td>Floor rise (' + A.inrFull(pr.floorPLC) + '/sq ft)</td><td>' + A.inrFull(pr.floorPLC * t.carpet) + '</td></tr>' : '') +
         (pr.plc ? '<tr><td>Location premium (' + (u.garden ? 'garden view' : '') + (u.garden && u.corner ? ', ' : '') + (u.corner ? 'corner' : '') + ')</td><td>' + A.inrFull(pr.plc * t.carpet) + '</td></tr>' : '') +
@@ -135,6 +143,7 @@
       '<button type="button" class="btn ghost" id="short-btn" aria-pressed="' + inShort + '">' + (inShort ? '♥ Shortlisted' : '♡ Shortlist') + '</button>' +
       '<a class="tbtn" href="residences.html#type-' + u.type.toLowerCase() + '">See the ' + t.short + ' plan →</a></div></article>';
     var hb = $('#hold-btn'); if (hb) hb.addEventListener('click', openHold);
+    var sb = $('#uc-sun'); if (sb && A.sunPlan) ucPlan = A.sunPlan(sb, { unit: u.id, hour: sunW ? sunW.state.t : 15.67, season: sunW ? sunW.state.s : 'dec', presets: false, onChange: pushSun });
     $('#short-btn').addEventListener('click', function () {
       var i = short.indexOf(u.id); if (i >= 0) short.splice(i, 1); else short.push(u.id); A.set('short', short);
       A.toast(i >= 0 ? u.id + ' removed from your shortlist' : u.id + ' added to your shortlist · ' + short.length + ' saved'); renderUnit();
@@ -146,6 +155,55 @@
       if (near) selectUnit(near.id, true); else A.toast('No ' + t.short + ' is available right now.');
     });
   }
+
+  /* ---------- ride the lift: stand on the balcony of the chosen home, ride it up and down the tower ---------- */
+  var pkview = $('#pkview'), liftr = $('#liftr'), liftn = $('#liftn'), vrep = $('#vrep');
+  var V = { on: false, unit: null };
+  var wide = function () { return innerWidth >= 1000 && !A.coarse; };
+  function when(p) { return p === 'all year' ? 'all year' : (/ to | and /.test(p) ? '' : 'in ') + p; }
+  function hrs(h) { return h === 0 ? 'none' : 'about ' + (h % 1 ? h.toFixed(1) : h) + ' h'; }
+  A.viewLines = function (u) {
+    var rp = A.viewReport(u);
+    return { rp: rp, lines: [
+      'Faces ' + u.facing.toLowerCase() + ', ' + rp.view[0] + (rp.view.length > 1 ? '; ' + rp.view.slice(1).join(', ') : ''),
+      rp.rise ? 'Sunrise from the living room ' + when(rp.rise) : rp.set ? 'Sunset from the living room ' + when(rp.set) : 'No sunrise or sunset from the living room',
+      'Direct sun into the room: ' + hrs(rp.dec) + ' on 21 Dec, ' + hrs(rp.jun) + ' on 21 Jun'
+    ] };
+  };
+  function paintView() {
+    if (!V.on) return;
+    var u = A.unit(V.unit), st = A.status(u.id), pr = A.price(u), v = A.viewLines(u);
+    liftn.innerHTML = '<b>' + u.floor + '</b><span>' + A.tower(u.tower).name + '</span>';
+    liftr.value = u.floor; liftr.setAttribute('aria-valuetext', A.ord(u.floor) + ' floor, ' + u.id + ', ' + (st === 'sold' ? 'sold' : A.inr(pr.total)));
+    vrep.innerHTML = '<p class="vr-h"><b>' + u.id + '</b><span>' + A.ord(u.floor) + ' floor · ' + v.rp.height + ' m up · ' + A.TYPES[u.type].short + '</span></p>' +
+      '<p class="vr-p"><b>' + (st === 'sold' ? 'Sold' : A.inr(pr.total)) + '</b><span class="status st-' + st + '">' + A.STATUS[st].label + '</span></p>' +
+      '<ul class="vr-l">' + v.lines.map(function (l) { return '<li>' + A.esc(l) + '</li>'; }).join('') + '</ul>';
+  }
+  function enterView(id) {
+    var u = A.unit(id); if (!u || !api) return;
+    var first = !V.on; V.on = true; V.unit = id;
+    stage.classList.add('viewing'); pkview.hidden = false; if (tipEl) tipEl.hidden = true;
+    liftr.min = 1; liftr.max = A.tower(u.tower).floors;
+    if (first && !A.reduce) { stage.classList.add('fade'); setTimeout(function () { api.clearFloor(); api.setMatch(null); api.balcony(id, { instant: true }); setTimeout(function () { stage.classList.remove('fade'); }, 60); }, 260); }
+    else { if (first) { api.clearFloor(); api.setMatch(null); } api.balcony(id, { instant: first }); }
+    paintView();
+  }
+  function leaveView() {
+    if (!V.on) return; V.on = false; pkview.hidden = true; stage.classList.remove('viewing');
+    var back = function () { api.freeCam(null); api.selectFloor(S.tower, S.floor); if (anyFilter()) api.setMatch(match); if (S.unit) api.selectUnit(S.unit); };
+    if (A.reduce) back(); else { stage.classList.add('fade'); setTimeout(function () { back(); setTimeout(function () { stage.classList.remove('fade'); }, 60); }, 260); }
+  }
+  function rideTo(f) {
+    var u = A.unit(V.unit); if (!u) return;
+    f = Math.max(1, Math.min(A.tower(u.tower).floors, f)); if (f === u.floor) return;
+    var nid = u.tower + '-' + f + u.pos; V.unit = nid; S.unit = nid; S.floor = f;
+    api.balcony(nid); paintView(); render();
+  }
+  liftr.addEventListener('input', function () { rideTo(+liftr.value); });
+  $$('.lift-b').forEach(function (b) { b.addEventListener('click', function () { var u = A.unit(V.unit); if (u) rideTo(u.floor + (+b.dataset.d) * (A.reduce ? 10 : 1)); }); });
+  $('#pkback').addEventListener('click', leaveView);
+  stage.addEventListener('keydown', function (e) { if (e.key === 'Escape' && V.on) { leaveView(); } });
+  unitbox.addEventListener('click', function (e) { var b = e.target.closest('[data-ride]'); if (!b) return; enterView(b.dataset.ride); stage.scrollIntoView({ behavior: A.reduce ? 'auto' : 'smooth', block: 'start' }); });
 
   /* ---------- hold flow ---------- */
   var dlg = $('#holddlg'), hform = $('#holdform');
@@ -166,15 +224,15 @@
   });
 
   /* ---------- live updates (back office in another tab) ---------- */
-  A.on('inv', function (d) { render(); if (d && d.remote) A.toast('Availability just changed in the sales office.'); });
+  A.on('inv', function (d) { render(); paintView(); if (d && d.remote) A.toast('Availability just changed in the sales office.'); });
 
   /* ---------- 3D ---------- */
   var hint = $('.pk-hint');
-  var sunW = A.sunWidget($('#sun'), function () { return api; }, { hour: Math.max(6.5, Math.min(18.5, A.get('hour', 10.5))) });
+  sunW = A.sunWidget($('#sun'), function () { return api; }, { hour: Math.max(6.5, Math.min(18.5, A.get('hour', 10.5))), onChange: function (s) { if (ucPlan) ucPlan.set({ hour: s.t, season: s.s }); } });
   $$('.pk-ctl button').forEach(function (b) {
     b.addEventListener('click', function () { if (!api) return; var z = b.dataset.z; if (z === 'in') api.zoom(0.8); else if (z === 'out') api.zoom(1.25); else { api.clearFloor(); api.overview(); } });
   });
-  A.V3D = 11;
+  A.V3D = 13;
   A.load3D(function () {
     if (!window.Aaranya3D) return;
     try {
@@ -198,6 +256,7 @@
         if (anyFilter()) api.setMatch(match);
         api.selectFloor(S.tower, S.floor);
         if (S.unit) api.selectUnit(S.unit);
+        if (S.unit && (q.get('view') || wide())) enterView(S.unit);
       });
     } catch (e) { /* no WebGL: the floor list and plans still do everything */ }
   }, { delay: A.coarse ? 4000 : 2600 });

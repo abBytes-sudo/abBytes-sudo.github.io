@@ -16,27 +16,31 @@
   };
   var saved = A.get('hour', 17.2);
 
-  /* ---------- floor ribbon: each section of the page is a floor ---------- */
+  /* ---------- the lift: each section of a page is a level, and the right edge is the lift panel ---------- */
   function ribbon() {
     if (document.body.classList.contains('bo')) return;
     var secs = $$('main > section').filter(function (s) { return s.offsetHeight > 200 && !s.classList.contains('hero-static'); });
     if (secs.length < 3) return;
-    var names = secs.map(function (s, i) {
+    var n = secs.length, names = secs.map(function (s, i) {
       var k = s.querySelector('.sec-head .k, .phero > .k, .phero .k'), h = s.querySelector('h1, h2');
-      var t = s.dataset.floor || (k ? k.textContent.split('·')[0] : '') || (h ? h.textContent : 'Floor ' + (i + 1));
+      var t = s.dataset.floor || (k ? k.textContent.split('·')[0] : '') || (h ? h.textContent : 'Level ' + (i + 1));
       if (!s.id) s.id = 'fl-' + (i + 1);
       return t.replace(/\s+/g, ' ').trim().replace(/[.,:]+$/, '').slice(0, 28);
     });
-    var r = document.createElement('nav'); r.className = 'ribbon'; r.setAttribute('aria-label', 'Floors of this page');
-    r.innerHTML = '<button type="button" class="lbl"><b>01</b><span></span></button><ol>' + secs.map(function (s, i) { return '<li><a href="#' + s.id + '" aria-label="Floor ' + (i + 1) + ': ' + A.esc(names[i]) + '"></a></li>'; }).join('') + '</ol>';
-    var ol = r.querySelector('ol'); [].slice.call(ol.children).reverse().forEach(function (li) { ol.appendChild(li); });
+    // pages without their own levels ride from the ground floor up the tower
+    var levels = secs.map(function (s, i) { return s.dataset.level || (i === 0 ? 'G' : String(Math.round(4 + 42 * i / Math.max(1, n - 1)))); });
+    secs.forEach(function (s, i) { var sh = s.querySelector('.sec-head'); if (sh) sh.setAttribute('data-l', levels[i]); });
+    var rank = function (l) { return l === 'SC' ? 999 : l === 'P' ? 0.5 : l === 'G' ? 0 : l === 'L' ? -1 : +l; };
+    var uniq = levels.filter(function (l, i) { return levels.indexOf(l) === i; }).sort(function (a, b) { return rank(b) - rank(a); });
+    var r = document.createElement('nav'); r.className = 'ribbon'; r.setAttribute('aria-label', 'Lift: the levels of this page');
+    r.innerHTML = '<button type="button" class="lbl"><b>G</b><span></span></button><ol>' + uniq.map(function (l) { var i = levels.indexOf(l); return '<li><a href="#' + secs[i].id + '" data-l="' + l + '" aria-label="Level ' + l + ': ' + A.esc(names[i]) + '">' + l + '</a></li>'; }).join('') + '</ol>';
     document.body.appendChild(r);
     var lbl = r.querySelector('.lbl'), links = $$('a', r), cur = -1, t = 0;
     function set(i) {
       if (i === cur) return; cur = i;
-      lbl.querySelector('b').textContent = String(i + 1).padStart(2, '0'); lbl.querySelector('span').textContent = names[i];
-      lbl.setAttribute('aria-label', 'Floor ' + (i + 1) + ' of ' + secs.length + ': ' + names[i] + '. Go to the next floor');
-      links.forEach(function (a) { a.setAttribute('aria-current', String(a.getAttribute('href') === '#' + secs[i].id)); });
+      lbl.querySelector('b').textContent = levels[i]; lbl.querySelector('span').textContent = names[i];
+      lbl.setAttribute('aria-label', 'Level ' + levels[i] + ', ' + names[i] + '. Go to the next section');
+      links.forEach(function (a) { a.setAttribute('aria-current', String(a.dataset.l === levels[i])); });
       r.classList.add('moving'); clearTimeout(t); t = setTimeout(function () { r.classList.remove('moving'); }, 1400);
     }
     function check() {
@@ -47,8 +51,14 @@
       r.classList.toggle('on', past);
     }
     addEventListener('scroll', function () { requestAnimationFrame(check); }, { passive: true }); check();
-    lbl.addEventListener('click', function () { var n = secs[(cur + 1) % secs.length]; n.scrollIntoView({ behavior: A.reduce ? 'auto' : 'smooth' }); });
+    lbl.addEventListener('click', function () { var nx = secs[(cur + 1) % secs.length]; nx.scrollIntoView({ behavior: A.reduce ? 'auto' : 'smooth' }); });
   }
+
+  /* ---------- phones: the launcher and the back link tuck away while you scroll, and come back when you stop ---------- */
+  (function () {
+    var t = 0, mq = matchMedia('(max-width: 760px)');
+    addEventListener('scroll', function () { if (!mq.matches) return; root.classList.add('scrolling'); clearTimeout(t); t = setTimeout(function () { root.classList.remove('scrolling'); }, 900); }, { passive: true });
+  })();
 
   /* ---------- window light: sun through tall glass, cast on the wall, drifting slowly over a few chapters ---------- */
   function panes(seed) {

@@ -22,7 +22,7 @@
 
   /* ---------- sun widget ---------- */
   var sunEl = $('#sun');
-  var sunW = A.sunWidget(sunEl, function () { return api; }, { hour: 16.9 });
+  var sunW = A.sunWidget(sunEl, function () { return api; }, { hour: 7 });
 
   /* ---------- scroll -> progress ---------- */
   function heroP() { var r = hero.getBoundingClientRect(); var span = r.height - innerHeight; return span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0; }
@@ -31,12 +31,13 @@
     var m = mob(), a = 1 - Math.min(1, Math.max(0, (p - 0.08) / 0.16)), b = Math.min(1, Math.max(0, (p - 0.78) / 0.12));
     return m ? [0, 0.31 * a - 0.14 * b] : [0.26 * a - 0.17 * b, 0.03 * a];
   }
-  // golden hour at the top; chapter two sweeps the sun through dusk, a lit-up night and dawn, to a clear morning for the drawer
+  // first light at the top (the low sun reaches the faces the camera sees); chapter two runs the whole day so the towers'
+  // shadows swing across the sector, then dusk, a lit-up night and dawn, to a clear morning for the drawer
   function sunFor(p) {
-    if (p < 0.3) return 16.9;
+    if (p < 0.3) return 7;
     if (p >= 0.6) return 10.5;
     var q = (p - 0.3) / 0.3, t;                       // 0..1 across chapter two
-    if (q < 0.42) t = 16.9 + q / 0.42 * 2.5;          // golden hour into dusk (16:54 to 19:24)
+    if (q < 0.42) t = 7 + q / 0.42 * 12.4;            // the day, sunrise to dusk (07:00 to 19:24)
     else if (q < 0.6) t = 19.4 + (q - 0.42) / 0.18 * 10.1;   // the lit-up night passes quickly (19:24 to 05:30)
     else t = 29.5 + (q - 0.6) / 0.4 * 5;              // dawn to a clear morning (05:30 to 10:30)
     return t >= 24 ? t - 24 : t;
@@ -54,7 +55,7 @@
       if (on) idx = i;
       if (c.classList.contains('on') !== on) { c.classList.toggle('on', on); c.setAttribute('aria-hidden', String(!on)); }
     });
-    bars.forEach(function (b, i) { var a = [0, 0.15, 0.38, 0.6, 0.86][i], z = [0.15, 0.38, 0.6, 0.86, 1][i]; b.style.transform = 'scaleY(' + Math.min(1, Math.max(0, (p - a) / (z - a))).toFixed(3) + ')'; });
+    bars.forEach(function (b, i) { var a = [0, 0.135, 0.37, 0.59, 0.85][i], z = [0.135, 0.37, 0.59, 0.85, 1][i]; b.style.transform = 'scaleY(' + Math.min(1, Math.max(0, (p - a) / (z - a))).toFixed(3) + ')'; });
     if (idx !== lastChap) { lastChap = idx; sunEl.classList.toggle('pulse', idx === 2); stage.classList.toggle('labels-off', p > 0.4); }
     stage.classList.toggle('past0', p > 0.1);
     labelsOn(p < 0.12 && !mob());
@@ -72,7 +73,7 @@
   labs.forEach(function (l) { l.style.opacity = '0'; });
 
   /* ---------- 3D ---------- */
-  A.V3D = 11;
+  A.V3D = 13;
   A.load3D(function () {
     if (!window.Aaranya3D || !canvas) return;
     try {
@@ -99,6 +100,10 @@
     } catch (e) { /* no WebGL: the poster stays and the story is still readable */ }
   });
 
+  /* ---------- sun on the plan: A-4004, a south-west corner on the 40th floor ---------- */
+  var sb = $('#sunbig');
+  if (sb && A.sunPlan) A.sunPlan(sb, { unit: 'A-4004', hour: 15.67, season: 'dec', onChange: function (s) { if (A.applyHour) A.applyHour(s.hour); } });
+
   /* ---------- residences rows ---------- */
   var types = $('#types');
   if (types && A.unitPlanSVG) {
@@ -121,6 +126,26 @@
       var done = A.PROGRESS[T.id], pc = done / T.floors;
       return '<div class="bar-row"><span><b style="font-family:var(--serif);font-size:22px;font-weight:400">' + T.name + '</b></span><span class="bar" role="img" aria-label="' + T.name + ': ' + done + ' of ' + T.floors + ' slabs cast"><i style="width:' + Math.round(pc * 100) + '%"></i></span><span class="mono">' + done + ' / ' + T.floors + '</span></div>';
     }).join('') + '<div class="bar-row"><span><b style="font-family:var(--serif);font-size:22px;font-weight:400">Club</b></span><span class="bar" role="img" aria-label="Podium Club: podium slab cast"><i style="width:100%"></i></span><span class="mono">Façade</span></div>';
+  }
+
+  /* ---------- built so far: the three towers in elevation, solid to the last slab cast and in outline above it ---------- */
+  var rise = $('#rise');
+  if (rise) {
+    var W = 470, H = 520, G = 472, FH = 8.4, TW = 86, gap = 30, x0 = 96, out = '';
+    out += '<line class="rz-g" x1="8" y1="' + G + '" x2="' + (W - 8) + '" y2="' + G + '"/>';
+    [10, 20, 30, 40].forEach(function (f) { var y = G - f * FH; out += '<line class="rz-t" x1="' + (W - 30) + '" y1="' + y + '" x2="' + (W - 22) + '" y2="' + y + '"/><text class="rz-n" x="' + (W - 18) + '" y="' + (y + 3.5) + '">' + f + '</text>'; });
+    A.TOWERS.forEach(function (T, k) {
+      var x = x0 + k * (TW + gap), done = A.PROGRESS[T.id], top = G - done * FH, i;
+      out += '<g class="rz-tw" style="--k:' + k + '">';
+      for (i = 1; i <= T.floors; i++) out += '<rect class="' + (i <= done ? (i === done ? 'rz-f rz-last' : 'rz-f') : 'rz-o') + '" style="--i:' + i + '" x="' + x + '" y="' + (G - i * FH + 1.3) + '" width="' + TW + '" height="' + (FH - 2.6) + '"/>';
+      out += '<rect class="rz-o" x="' + (x + 9) + '" y="' + (G - T.floors * FH - 10) + '" width="' + (TW - 18) + '" height="9"/>';   // the sky level, still to come
+      out += '<path class="rz-c" d="M' + (x + TW - 12) + ' ' + top + 'v-30m-34 4h46m-12 0v9"/>';                                    // the crane on the working slab
+      out += '<text class="rz-l" x="' + (x + TW / 2) + '" y="' + (G + 22) + '">' + T.name + '</text><text class="rz-s" x="' + (x + TW / 2) + '" y="' + (G + 38) + '">' + done + ' of ' + T.floors + '</text></g>';
+    });
+    var yA = G - A.PROGRESS.A * FH;
+    out += '<line class="rz-m" x1="8" y1="' + yA + '" x2="' + (x0 - 6) + '" y2="' + yA + '"/><text class="rz-mt" x="8" y="' + (yA - 22) + '">Slab ' + A.PROGRESS.A + '</text><text class="rz-ms" x="8" y="' + (yA - 8) + '">' + A.PROGRESS.asOf + '</text>';
+    rise.insertAdjacentHTML('afterbegin', '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Tower A has ' + A.PROGRESS.A + ' of 46 slabs cast, Tower B ' + A.PROGRESS.B + ' of 44, Tower C ' + A.PROGRESS.C + ' of 42.">' + out + '</svg>');
+    if ('IntersectionObserver' in window && !reduce) new IntersectionObserver(function (en, io) { if (en[0].isIntersecting) { rise.classList.add('in'); io.disconnect(); } }, { threshold: 0.3 }).observe(rise); else rise.classList.add('in');
   }
 
   update();

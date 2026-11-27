@@ -44,9 +44,9 @@
     log.innerHTML = LOG.filter(function (e) { return !filt || e.t.indexOf(filt) >= 0; }).map(function (e) {
       var tw = e.t.map(function (k) { return '<span class="tag">' + A.tower(k).name + '</span>'; }).join(' ');
       var w = e.tall ? 1100 : 1600, h = e.tall ? 1650 : 1067;
-      return '<article class="log-item"><time>' + e.m.split(' ')[0] + '<small>' + e.m.split(' ')[1] + ' · photographed ' + e.d + '</small></time>' +
+      return '<article class="log-item"><time>' + e.m.split(' ')[0] + '<small>' + e.m.split(' ')[1] + ' · note of ' + e.d + '</small></time>' +
         '<button type="button" class="ph' + (e.tall ? ' tall' : '') + '" data-img="' + e.img + '" data-alt="' + A.esc(e.alt) + '" style="padding:0;border:0" aria-label="Open the photo: ' + A.esc(e.alt) + '"><img src="photos/' + e.img + '-s.webp" alt="' + A.esc(e.alt) + '" width="800" height="' + Math.round(800 * h / w) + '" loading="lazy" decoding="async"></button>' +
-        '<div><h3>' + e.h + '</h3><p style="display:flex;gap:6px;flex-wrap:wrap">' + tw + '</p><ul>' + e.n.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul><p class="muted" style="font-size:12.5px;margin-top:12px">Site engineer\'s note, unedited · Saptaparni Developers</p></div></article>';
+        '<div><p class="refnote">Reference photograph of this stage of work, not of the site</p><h3>' + e.h + '</h3><p style="display:flex;gap:6px;flex-wrap:wrap">' + tw + '</p><ul>' + e.n.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul><p class="muted" style="font-size:12.5px;margin-top:12px">Site engineer\'s note, unedited · Saptaparni Developers</p></div></article>';
     }).join('') || '<div class="empty"><b>Nothing for this tower yet</b></div>';
   }
   render();

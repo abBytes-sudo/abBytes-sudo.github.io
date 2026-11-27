@@ -157,10 +157,12 @@
   function keyPage() { if (!NUDGE) return false; var c = context(); return NUDGE.split(',').some(function (p) { p = p.trim(); return p === '*' || p === c.page || p === c.file || p === c.section; }); }
   function showNudge() {
     if (open || chat || ss(nudgeKey) || !keyPage()) return;
+    try { if (localStorage.getItem('aaranya:nudged')) return; } catch (e) { }
     load(function () {
       if (open || chat) return; var a = Orbit.agents[AGENT], n = a && a.nudge ? a.nudge(context()) : null; if (!n) return;
       nudgeBtn = n.button || null; $('.cg-nudge-t').textContent = n.text; $('.cg-nudge-cta').textContent = n.cta || 'Yes, show me';
-      nudge.hidden = false; void nudge.offsetWidth; root.classList.add('cg-nudging'); ss(nudgeKey, '1');
+      nudge.hidden = false; void nudge.offsetWidth; root.classList.add('cg-nudging'); ss(nudgeKey, '1'); try { localStorage.setItem('aaranya:nudged', String(Date.now())); } catch (e) { }
+      setTimeout(function () { hideNudge(); }, 8000);
     });
   }
   function hideNudge(quick) { if (nudge.hidden) return; root.classList.remove('cg-nudging'); setTimeout(function () { nudge.hidden = true; }, quick || reduce ? 0 : 260); }
