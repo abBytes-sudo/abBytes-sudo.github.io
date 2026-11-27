@@ -74,7 +74,7 @@
     ft.innerHTML = '<div class="ft-g"><div><p class="ft-t">Colophon.</p><p class="ft-n">Clothing and accessories in honest materials, cut in small runs at our Jaipur studio. Set in Bodoni Moda and Hanken Grotesk.</p></div>' +
       '<div><h2 class="ft-h">Shop</h2><ul><li><a href="' + R + 'shop.html">All pieces</a></li><li><a href="' + R + 'shop.html?cat=Clothing">Clothing</a></li><li><a href="' + R + 'shop.html?cat=Shoes">Shoes</a></li><li><a href="' + R + 'shop.html?cat=Bags">Bags</a></li><li><a href="' + R + 'shop.html?cat=Accessories">Accessories</a></li></ul></div>' +
       '<div><h2 class="ft-h">Help</h2><ul><li><a href="' + R + '../orders/track.html">Track an order</a></li><li><a href="' + R + 'account.html">Your account</a></li><li><a href="' + R + 'account.html#returns">Start a return</a></li><li><a href="' + R + 'shop.html?wish=1">Saved pieces</a></li><li><button type="button" class="ft-s" data-open-search>Search</button></li></ul></div>' +
-      '<div><h2 class="ft-h">The studio</h2><ul><li><a href="' + R + '../orders/admin.html">Back office</a></li><li><a href="' + R + 'checkout.html">Checkout</a></li><li><a href="' + R + '../../index.html#examples">Back to portfolio</a></li></ul></div></div>' +
+      '<div><h2 class="ft-h">The studio</h2><ul><li><a href="' + R + '../orders/admin.html">Back office</a></li><li><a href="' + R + 'checkout.html">Checkout</a></li><li><a href="' + R + '../../index.html#projects">Back to portfolio</a></li></ul></div></div>' +
       '<div class="ft-wm" aria-hidden="true">Northlane</div>' +
       '<div class="ft-b"><span>© Northlane · Jaipur. A portfolio project by <a href="' + R + '../../index.html">Abhishek</a>.</span><span>Photos: Unsplash. Video: Pexels.</span></div>';
     document.body.appendChild(ft);
