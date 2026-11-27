@@ -268,6 +268,13 @@
       hero.addEventListener('pointerup', function (e) { if (e.pointerType !== 'mouse') release(); });
       hero.addEventListener('pointercancel', release);
       hero.addEventListener('pointerleave', release);
+      /* added for the new homepage: never leave the hole behind. Let go when the page scrolls the pointer off the hero, when the pointer is over
+         anything else, when the window loses focus or the tab hides. */
+      var lastP = [0, 0];
+      hero.addEventListener('pointermove', function (e) { lastP = [e.clientX, e.clientY]; });
+      addEventListener('scroll', function () { if (!bh.on) return; var b = hero.getBoundingClientRect(); if (lastP[1] < b.top || lastP[1] > b.bottom || lastP[0] < b.left || lastP[0] > b.right) release(); }, { passive: true });
+      document.addEventListener('pointermove', function (e) { if (bh.on && e.pointerType !== 'touch' && !hero.contains(e.target)) release(); }, { passive: true });
+      addEventListener('blur', release); document.addEventListener('visibilitychange', function () { if (document.hidden) release(); });
     }
     if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; hero.classList.toggle('off', !visible); visible ? start() : stop(); }).observe(hero);
     document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });

@@ -164,15 +164,28 @@
     hole.style.transform = 'translate3d(' + hx.toFixed(1) + 'px,' + hy.toFixed(1) + 'px,0) translate(-50%,-50%) scale(' + (.35 + .65 * pw).toFixed(3) + ')';
     var settled = Math.abs(tx - hx) < .3 && Math.abs(ty - hy) < .3 && Math.abs(tp - pw) < .004;
     if ((!settled || !still || now < tap || (tp === 0 && (pw > .004 || act.length))) && (vis.a || vis.b)) requestAnimationFrame(frame);
-    else running = false;
+    else { running = false; if (!(vis.a || vis.b)) drop(true); }
   }
   function wake() { if (running || !(vis.a || vis.b) || !L.length) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+  /* the hole belongs to this section only. It lets go the moment the pointer is no longer over it: on leave, when the page scrolls the
+     pointer off the section, on touch scroll or cancel, when the window loses focus or the tab hides. Off screen it is switched off outright. */
+  function over() { for (var i = 0; i < ROOTS.length; i++) { var b = ROOTS[i].getBoundingClientRect(); if (cx >= b.left && cx <= b.right && cy >= b.top && cy <= b.bottom) return true; } return false; }
+  function drop(hard) {
+    inside = false; tap = 0;
+    if (hard || !(vis.a || vis.b)) {
+      pw = 0; hole.style.opacity = '0';
+      act.forEach(function (l) { l.x = l.y = l.r = l.s = l.vx = l.vy = l.vr = l.vs = 0; l.el.style.transform = ''; if (l.p) { l.p = 0; l.el.classList.remove('ft-hot'); l.el.style.removeProperty('--p'); } l.on = false; }); act = [];
+    } else wake();
+  }
   function mv(e) { if (e.pointerType === 'touch') return; cx = e.clientX; cy = e.clientY; if (!inside) { inside = true; dirty = true; } wake(); }
   function dn(e) { if (e.pointerType !== 'touch') return; cx = e.clientX; cy = e.clientY; tap = performance.now() + 520; dirty = true; wake(); }
-  ROOTS.forEach(function (r) { r.addEventListener('pointermove', mv); r.addEventListener('pointerleave', function () { inside = false; wake(); }); r.addEventListener('pointerdown', dn); });
-  addEventListener('scroll', function () { if (inside || pw > .004) wake(); }, { passive: true });
+  ROOTS.forEach(function (r) { r.addEventListener('pointermove', mv); r.addEventListener('pointerleave', function (e) { if (e.pointerType === 'touch') { inside = false; wake(); } else drop(); }); r.addEventListener('pointercancel', function () { drop(); }); r.addEventListener('pointerdown', dn); });
+  addEventListener('scroll', function () { if (tap || (inside && !over())) drop(); else if (inside || pw > .004) wake(); }, { passive: true });
+  d.addEventListener('pointermove', function (e) { if (inside && e.pointerType !== 'touch' && !ROOTS.some(function (r) { return r.contains(e.target); })) drop(); }, { passive: true });
+  addEventListener('blur', function () { drop(true); }); d.addEventListener('visibilitychange', function () { if (d.hidden) drop(true); });
+  addEventListener('pagehide', function () { drop(true); });
   if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { dirty = true; });
   addEventListener('resize', function () { dirty = true; });
-  seen(sec, function (v) { vis.a = v; wake(); });
-  seen(foot, function (v) { vis.b = v; wake(); });
+  seen(sec, function (v) { vis.a = v; if (vis.a || vis.b) wake(); else drop(true); });
+  seen(foot, function (v) { vis.b = v; if (vis.a || vis.b) wake(); else drop(true); });
 })();

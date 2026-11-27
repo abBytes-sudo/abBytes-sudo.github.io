@@ -13,6 +13,8 @@
   var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('abhimasih0505@gmail.com').then(done, done); else done(); });
 
   var cv = $('#gl'), gl = null; try { gl = cv.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' }); } catch (e) { /* no WebGL */ }
+  /* once the page has moved, the menu gets a solid bar, so nothing (the hero's game hint, its counter, any text) shows through it */
+  function bar() { root.classList.toggle('scrd', window.scrollY > 8); } addEventListener('scroll', bar, { passive: true }); bar();
   $('#fall').style.setProperty('--len', END); var pjEl = $('#projects');
   if (reduce || !gl) {
     root.classList.add('no3d', 'inv');

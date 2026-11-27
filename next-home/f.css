@@ -618,3 +618,6 @@ html.using .top,html.using .cap,html.using .gauge{opacity:0;visibility:hidden;po
 .fall #projects.landed{background:#fff}
 .fall #projects.landed>*{opacity:1}
 .fall #build>.intro,.fall #build>.st,.fall #build>.mine{opacity:1;transform:none}
+
+/* a solid menu bar once the page has scrolled, so hero text never shows through it */
+.scrd:not(.inv):not(.using) .top{background:#0b0910;box-shadow:0 1px 0 rgba(255,255,255,.14)}
