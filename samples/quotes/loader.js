@@ -4,7 +4,7 @@
 (function () {
   'use strict';
   var CORE = ['core', 'seed', 'seed-crm', 'v-home', 'app'], REST = ['v-sales', 'v-portal', 'v-delivery', 'v-site', 'v-finance', 'v-work', 'v-crm', 'v-design', 'v-ops'];
-  var V = '20261124w', dev = /[?&]dev=1\b/.test(location.search);
+  var V = '20261128b', dev = /[?&]dev=1\b/.test(location.search);
   var NAMES = { owner: ['Ira', 'Owner'], pm: ['Kabir', 'Project manager'], accounts: ['Rakesh', 'Accounts'], site: ['Imran', 'Site engineer'], design: ['Tanvi', 'Designer'], client: ['Rohan', 'Client'] };
   var DAY = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var role = 'owner';
@@ -19,7 +19,7 @@
     if (home) {
       var d = new Date(), h = d.getHours(), n = NAMES[role];
       var g = role === 'site' ? (h < 12 ? 'Morning' : h < 17 ? 'Afternoon' : 'Evening') : (h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening');
-      document.getElementById('hello').textContent = g + ', ' + n[0];
+      document.getElementById('hello').textContent = (role === 'owner' || role === 'accounts') ? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][d.getDay()] + ' · what needs you today' : g + ', ' + n[0];
       document.getElementById('shEye').textContent = DAY[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()] + ' · ' + n[1] + ' · checking what needs you';
       if (role === 'site' || role === 'accounts') shell.classList.add('sh-' + role);
     } else {

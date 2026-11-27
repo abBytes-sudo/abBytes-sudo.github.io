@@ -1313,3 +1313,9 @@ a:not(.btn):not(.chip){text-decoration:none}
   .wf-bar{margin:-4px 0 0}
   body.has-tabs #topNew{display:none}
 }
+
+/* home: six cards */
+.wrest[hidden]{display:none}
+.wrest{display:flex;flex-direction:column;gap:12px}
+.wrest-btn{align-self:center;margin-top:4px}
+@media (max-width:640px){.greet h1#hello{white-space:normal;overflow:visible;text-overflow:clip}}

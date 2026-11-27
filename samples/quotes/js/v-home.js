@@ -136,6 +136,14 @@
 
   function greet() { var h = new Date().getHours(); return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'; }
   MR.greet = greet;
+  var WEEKDAY = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  // the day's headline for the home title: weekday from the app's own date, counts and money from the same data home uses
+  function headline(r, first) {
+    var wd = WEEKDAY[u.pd(u.today()).getDay()];
+    if (r === 'owner') { var n = MR.approvalItems().pend.length; return wd + ' · ' + (n ? n + ' approval' + (n > 1 ? 's' : '') : 'no approvals waiting') + ', ' + u.lakh(MR.metrics().overdue) + ' to collect'; }
+    if (r === 'accounts') { var b = MR.readyToBill().length; return wd + ' · ' + (b ? b + ' invoice' + (b > 1 ? 's' : '') + ' ready to bill' : 'nothing to bill yet') + ', ' + u.lakh(MR.metrics().overdue) + ' overdue'; }
+    return greet() + ', ' + first;
+  }
   function kpi(label, val, sub, href, icon) { return '<a class="kpi" href="' + href + '"><span class="lb">' + (icon ? ic(icon) : '') + esc(label) + '</span><div class="v" data-count="' + val.n + '" data-fmt="' + (val.f || 'lakh') + '">' + (val.f === 'pct' ? u.pct(val.n * 100) : u.lakh(val.n)) + '</div><div class="d">' + sub + '</div></a>'; }
   function inboxHtml(items, empty) {
     if (!items.length) return MR.empty('check', 'Inbox zero', empty || 'Nothing is waiting on you. New approvals, comments and overdue items land here.');
@@ -365,18 +373,24 @@
     var shown = f ? cards.filter(function (c) { return c.g === f; }) : cards;
     var first = me.name.split(' ')[0], h = '<div class="page">';
     var sub = cards.length ? cards.length + ' thing' + (cards.length > 1 ? 's need' : ' needs') + ' you today.' : 'Nothing is waiting on you.';
-    h += '<div class="greet"><h1 id="hello" data-keep="hello">' + greet() + ', ' + esc(first) + '</h1><p>' + u.fday(u.today()) + ' · ' + esc(MR.ROLES[r].label) + ' · ' + esc(sub) + '</p></div>';
+    h += '<div class="greet"><h1 id="hello" data-keep="hello">' + esc(headline(r, first)) + '</h1><p>' + u.fday(u.today()) + ' · ' + esc(MR.ROLES[r].label) + ' · ' + esc(sub) + '</p></div>';
     h += '<div class="tiles" role="group" aria-label="Filter what needs you">' + tiles.map(function (t) { var inner = '<span class="tl">' + esc(t.l) + '</span><span class="tdl"><span class="tv' + (t.bad ? ' bad' : '') + '">' + esc(String(t.v)) + '</span>' + (t.sp ? spark(t.sp) : '') + '</span>' + (t.dl || '') + '<span class="td">' + esc(t.d) + '</span>'; return t.k ? '<button type="button" class="tile" data-act="home-f" data-v="' + t.k + '" aria-pressed="' + (f === t.k) + '">' + inner + '</button>' : '<a class="tile" href="' + t.href + '">' + inner + '</a>'; }).join('') + '</div>' + nowNext();
     h += '<div class="cols"><div class="stack"><div class="panel-hd" style="padding:0;border:0;min-height:0"><h2>' + (f ? esc((tiles.filter(function (t) { return t.k === f; })[0] || {}).l || 'Filtered') : 'What needs you') + ' <span class="muted" style="font-weight:400">' + shown.length + '</span></h2>' + (f ? MR.btn('home-f', 'Show everything', { cls: 'ghost sm', attrs: ' data-v=""' }) : '') + '</div>';
     var GL = { approve: 'Approvals', money: 'Money', bill: 'Ready to bill', leads: 'Enquiries and follow-ups', client: 'Clients, quotes and design', ops: 'Procurement', site: 'Site and handover' };
-    var grouped = f ? shown.map(wcard).join('') : ['approve', 'money', 'bill', 'leads', 'client', 'ops', 'site'].map(function (g) { var cs = shown.filter(function (c) { return c.g === g; }); return cs.length ? '<h3 class="wgrp">' + GL[g] + ' <span>' + cs.length + '</span></h3>' + cs.map(wcard).join('') : ''; }).join('');
+    // urgency order = the order the page already shows: group order (approvals, money, bill, enquiries, clients, procurement, site), then the order each group builds its cards in (collections: most overdue first)
+    var ORDER = ['approve', 'money', 'bill', 'leads', 'client', 'ops', 'site'];
+    var ranked = f ? shown : ORDER.reduce(function (a, g) { return a.concat(shown.filter(function (c) { return c.g === g; })); }, []);
+    var listHtml = function (list) { return f ? list.map(wcard).join('') : ORDER.map(function (g) { var cs = list.filter(function (c) { return c.g === g; }); return cs.length ? '<h3 class="wgrp">' + GL[g] + ' <span>' + cs.length + '</span></h3>' + cs.map(wcard).join('') : ''; }).join(''); };
+    var TOP = 6, top = ranked.slice(0, TOP), rest = ranked.slice(TOP), open = !!MR._wrest;
+    var grouped = listHtml(top);
+    var restHtml = rest.length ? '<div class="wrest" id="wrest"' + (open ? '' : ' hidden') + '>' + listHtml(rest) + '</div><button type="button" class="btn wrest-btn" data-act="wc-rest" aria-expanded="' + open + '" aria-controls="wrest" data-n="' + rest.length + '">' + (open ? 'Show less' : 'Everything else (' + rest.length + ')') + '</button>' : '';
     var narrow = window.matchMedia && matchMedia('(max-width:640px)').matches;
     if (narrow && shown.length) {
       var fi = Math.min(MR._wf || 0, shown.length - 1), fc = shown[fi];
       grouped = '<div class="wf-bar"><span><b>' + (fi + 1) + '</b> of ' + shown.length + '</span>' + MR.iconBtn('wc-focus', 'chevl', 'Previous card', { attrs: ' data-i="' + (fi - 1) + '"' + (fi ? '' : ' disabled') }) + MR.iconBtn('wc-focus', 'chevr', 'Next card', { attrs: ' data-i="' + (fi + 1) + '"' + (fi < shown.length - 1 ? '' : ' disabled') }) + '</div>' + wcard(fc) +
         '<h3 class="wgrp">Up next <span>' + (shown.length - 1) + '</span></h3><ul class="wmini">' + shown.map(function (c, i) { return i === fi ? '' : '<li><button type="button" data-act="wc-focus" data-i="' + i + '"><span class="wc-ic ' + (c.tone || '') + '" aria-hidden="true">' + ic(c.icon) + '</span><span class="wm-t"><small>' + esc(c.k) + '</small>' + esc(c.title) + '</span>' + ic('chevr') + '</button></li>'; }).join('') + '</ul>';
     }
-    h += shown.length ? '<div class="wlist' + (narrow ? ' is-focus' : '') + '" id="wlist">' + grouped + '</div>' : '<section class="panel">' + MR.empty('check', 'All clear here', f ? 'Nothing in this group. Pick another tile or show everything.' : 'Nothing is waiting on you. New approvals, overdue money and client comments land here.') + '</section>';
+    h += shown.length ? '<div class="wlist' + (narrow ? ' is-focus' : '') + '" id="wlist">' + grouped + (narrow ? '' : restHtml) + '</div>' : '<section class="panel">' + MR.empty('check', 'All clear here', f ? 'Nothing in this group. Pick another tile or show everything.' : 'Nothing is waiting on you. New approvals, overdue money and client comments land here.') + '</section>';
     if (r !== 'accounts' && !narrow) { var ms = MR.monthSeries(6); h += '<section class="panel"><div class="panel-hd"><h2>Quoted vs won</h2><div class="legend"><span><i style="background:#C9D0C8"></i>Quoted (v1 sent)</span><span><i style="background:var(--brand)"></i>Won</span></div></div><div class="panel-bd chart-box">' + MR.barsChart(ms, { w: (function () { var mw = (document.getElementById('main') || {}).clientWidth || 1000; return Math.max(320, Math.min(1000, mw > 1180 ? mw - 470 : mw > 640 ? mw - 110 : mw - 66)); })(), h: 220, label: 'Quoted versus won by month', fmt: function (v) { return v ? u.lakh(v).replace('₹', '') : '0'; } }) + '</div></section>'; }
     else h += MR.ageingPanel ? MR.ageingPanel() : '';
     h += '</div><aside class="stack">';
@@ -393,6 +407,12 @@
     root.querySelectorAll('[data-count]').forEach(function (el) { var n = +el.dataset.count, f = el.dataset.fmt; MR.countTo(el, n, f === 'pct' ? function (v) { return u.pct(v * 100); } : u.lakh); });
   }
   MR.countUp = countUp;
+  MR.act['wc-rest'] = function (el) {
+    var box = document.getElementById('wrest'); if (!box) return;
+    var open = box.hasAttribute('hidden'); MR._wrest = open;
+    if (open) box.removeAttribute('hidden'); else box.setAttribute('hidden', '');
+    el.setAttribute('aria-expanded', open); el.textContent = open ? 'Show less' : 'Everything else (' + el.dataset.n + ')';
+  };
   MR.act['home-f'] = function (el) { var cur = MR.route().qs.f || ''; MR.setQS('f', cur === el.dataset.v ? '' : el.dataset.v); };
 
   /* in-place actions on work cards */
