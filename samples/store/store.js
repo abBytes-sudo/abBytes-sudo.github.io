@@ -41,6 +41,16 @@
       '<button class="pc-w' + (w ? ' on' : '') + '" type="button" data-wish="' + p.id + '" aria-pressed="' + w + '" aria-label="Save ' + esc(p.name) + '">' + HEART + '</button></li>';
   }
 
+  /* the back cover's barcode: a real EAN-13 pattern for a number that belongs to nobody (977 + zeros + issue 14) */
+  function barcode(d) {
+    var L = ['0001101', '0011001', '0010011', '0111101', '0100011', '0110001', '0101111', '0111011', '0110111', '0001011'], Gc = ['0100111', '0110011', '0011011', '0100001', '0011101', '0111001', '0000101', '0010001', '0001001', '0010111'];
+    var P = ['LLLLLL', 'LLGLGG', 'LLGGLG', 'LLGGGL', 'LGLLGG', 'LGGLLG', 'LGGGLL', 'LGLGLG', 'LGLGGL', 'LGGLGL'][+d[0]], s = '101', i, r = '', x = 0, w;
+    for (i = 1; i < 7; i++) s += (P[i - 1] === 'L' ? L : Gc)[+d[i]];
+    s += '01010'; for (i = 7; i < 13; i++) s += L[+d[i]].replace(/[01]/g, function (c) { return c === '0' ? '1' : '0'; }); s += '101';
+    while (x < s.length) { if (s[x] === '1') { w = 1; while (s[x + w] === '1') w++; r += '<rect x="' + x + '" width="' + w + '" height="30"/>'; x += w; } else x++; }
+    return '<svg viewBox="0 0 95 30" preserveAspectRatio="none" focusable="false">' + r + '</svg>';
+  }
+
   /* ── shared chrome: header, menu, bag drawer, footer ── */
   var drawerOpener = null, onChange = [];
   function acctLabel() { var s = NL.session(); return s ? (s.name ? s.name.split(' ')[0] : 'Account') : 'Sign in'; }
@@ -74,9 +84,9 @@
     ft.innerHTML = '<div class="ft-g"><div><p class="ft-t">Colophon.</p><p class="ft-n">Clothing and accessories in honest materials, cut in small runs at our Jaipur studio. Set in Bodoni Moda and Hanken Grotesk.</p></div>' +
       '<div><h2 class="ft-h">Shop</h2><ul><li><a href="' + R + 'shop.html">All pieces</a></li><li><a href="' + R + 'shop.html?cat=Clothing">Clothing</a></li><li><a href="' + R + 'shop.html?cat=Shoes">Shoes</a></li><li><a href="' + R + 'shop.html?cat=Bags">Bags</a></li><li><a href="' + R + 'shop.html?cat=Accessories">Accessories</a></li></ul></div>' +
       '<div><h2 class="ft-h">Help</h2><ul><li><a href="' + R + '../orders/track.html">Track an order</a></li><li><a href="' + R + 'account.html">Your account</a></li><li><a href="' + R + 'account.html#returns">Start a return</a></li><li><a href="' + R + 'shop.html?wish=1">Saved pieces</a></li><li><button type="button" class="ft-s" data-open-search>Search</button></li></ul></div>' +
-      '<div><h2 class="ft-h">The studio</h2><ul><li><a href="' + R + '../orders/admin.html">Back office</a></li><li><a href="' + R + 'checkout.html">Checkout</a></li><li><a href="' + R + '../../index.html#projects">Back to portfolio</a></li></ul></div></div>' +
-      '<div class="ft-wm" aria-hidden="true">Northlane</div>' +
-      '<div class="ft-b"><span>© Northlane · Jaipur. A portfolio project by <a href="' + R + '../../index.html">Abhishek</a>.</span><span>Photos: Unsplash. Video: Pexels.</span></div>';
+      '<div class="ft-iss"><h2 class="ft-h">This issue</h2><p class="ft-no">N°14</p><p class="ft-is">Autumn / Winter 2026<br>Twelve pieces, made in small runs</p><div class="ft-bc" aria-hidden="true">' + barcode('9770000000140') + '<span>9 770000 000140</span></div><p class="ft-nx"><b>Next</b>N°15, Spring / Summer 2027. Linen, out in February.</p></div></div>' +
+      '<div class="ft-b"><span>© Northlane · Jaipur. A portfolio project by <a href="' + R + '../../index.html">Abhishek</a>.</span><span>Photos: Unsplash. Video: Pexels.</span><a class="ft-st" href="' + R + '../orders/admin.html">Staff: back office</a></div>' +
+      '<p class="ft-sp" aria-hidden="true"><b>Northlane</b><span class="w">Issue </span>N°14<span class="w"> · Autumn / Winter 2026</span><span class="n"> · AW26</span><span class="w"> · Jaipur</span></p>';
     document.body.appendChild(ft);
     $('[data-open-search]', ft).addEventListener('click', function () { if (window.NLSearch) NLSearch.open(); });
 
@@ -102,14 +112,6 @@
     });
     var last = 0;
     addEventListener('scroll', function () { var y = scrollY, down = y > last && y > 220; if (menu.classList.contains('open')) return; hd.classList.toggle('hide', down); document.body.classList.toggle('hd-hidden', down); last = y; }, { passive: true });
-    // footer wordmark: size it to the footer's width once the serif has loaded, so the last letter never clips
-    var wm = $('.ft-wm');
-    if (wm) {
-      var fit = function () { wm.style.fontSize = ''; var a = wm.clientWidth, s = wm.scrollWidth; if (a && s) wm.style.fontSize = (parseFloat(getComputedStyle(wm).fontSize) * a / s * 0.99).toFixed(2) + 'px'; };
-      fit(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-      var ft = 0; addEventListener('resize', function () { clearTimeout(ft); ft = setTimeout(fit, 150); });
-    }
-    if (fx) G.from($('.ft-wm'), { yPercent: 35, autoAlpha: 0, duration: 1.8, ease: 'expo.out', scrollTrigger: { trigger: $('.ft-wm'), start: 'top 100%' } });
     counts();
     if (fx) G.from($$('.nl-nav > nav, .nl-logo, .nl-act'), { autoAlpha: 0, y: -14, duration: 1.1, ease: 'power3.out', stagger: .1, delay: .1 });
   }
@@ -226,7 +228,7 @@
         '<li class="none">' + (st.wish && !wish.length ? 'Nothing saved yet.<span>Tap the heart on any piece to keep it here.</span><button type="button" data-go="all">Browse all pieces</button>' : st.q && !r.L.length && !NL.products().some(function () { return true; }) ? '' : 'Nothing matches ' + (st.q ? '“' + esc(st.q) + '”' + (r.fixed ? '. Did you mean <button type="button" class="inl" data-fix="' + esc(r.fixed) + '">' + esc(r.fixed) + '</button>?' : '') : 'those filters') + '<span>Try fewer filters or a broader word.</span><button type="button" data-clear>Clear everything</button>') + '</li>';
       $('#count').textContent = NL.plural(L.length, 'piece'); $('#shopN').textContent = '(' + (L.length < 10 ? '0' : '') + L.length + ')';
       $('#shopH').textContent = st.q ? 'Search' : st.wish ? 'Saved' : st.cat || 'All pieces';
-      $('#shopSub').innerHTML = st.q ? (r.fixed && L.length ? 'Showing results for <b>' + esc(r.fixed) + '</b> · you searched “' + esc(st.q) + '”' : 'Results for “' + esc(st.q) + '”') : st.wish ? 'Pieces you’ve saved in this browser' : 'Autumn / Winter 2026';
+      $('#shopSub').innerHTML = st.q ? (r.fixed && L.length ? 'Showing results for <b>' + esc(r.fixed) + '</b> · you searched “' + esc(st.q) + '”' : 'Results for “' + esc(st.q) + '”') : st.wish ? 'The pieces you’ve kept an eye on' : 'Autumn / Winter 2026';
       var nf = st.size.length + st.color.length + (st.max < MAXP ? 1 : 0) + (st.stock ? 1 : 0); $('#fBtn span').textContent = 'Filters' + (nf ? ' (' + nf + ')' : '');
       $('.fp-clear').hidden = !nf; chips(); toURL();
       if (animate) swapIn($$('#shopGrid .pc')); else reveal($$('#shopGrid .pc'));

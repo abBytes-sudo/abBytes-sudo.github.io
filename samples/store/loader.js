@@ -8,7 +8,7 @@
   var me = document.currentScript, list = ((me && me.getAttribute('data-s')) || '').split(',').filter(Boolean), sel = (me && me.getAttribute('data-hero')) || 'img[fetchpriority=high]';
   function go() { list.forEach(function (src) { var s = document.createElement('script'); s.src = src.trim(); s.async = false; document.head.appendChild(s); }); }
   var done = false; function once() { if (!done) { done = true; go(); } }
-  function afterPaint() { if (window.requestAnimationFrame) requestAnimationFrame(function () { setTimeout(once, 0); }); setTimeout(once, 250); }
+  function afterPaint() { if (window.requestAnimationFrame) requestAnimationFrame(function () { requestAnimationFrame(function () { setTimeout(once, 50); }); }); setTimeout(once, 400); }
   function watch(img) { if (img.complete) afterPaint(); else { img.addEventListener('load', afterPaint, { once: true }); img.addEventListener('error', afterPaint, { once: true }); } }
   setTimeout(once, 2500);
   var hero = document.querySelector(sel);
