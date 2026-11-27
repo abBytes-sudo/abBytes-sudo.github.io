@@ -35,7 +35,15 @@
 
   var bar = document.querySelector('.demo, .nl-bar'), top = bar && bar.querySelector('.back-top');
   if (bar && !top) { top = document.createElement('a'); top.className = 'back-top'; bar.insertBefore(top, bar.firstChild); }
-  if (top) { top.href = href; top.textContent = text; }
+  if (top) {
+    top.href = href;
+    /* phones: a short label, so the one disclosure line ("Portfolio project by Abhishek") always reads whole */
+    var mq = matchMedia('(max-width: 560px)'), shortText = from === 'lab' ? '← 3D Lab' : '← More work';
+    var setLabel = function () { top.textContent = mq.matches ? shortText : text; };
+    setLabel(); if (mq.addEventListener) mq.addEventListener('change', setLabel);
+    top.style.marginRight = '10px'; top.style.whiteSpace = 'nowrap';
+    if (!top.nextSibling || top.nextSibling.nodeType !== 3) bar.insertBefore(document.createTextNode(' '), top.nextSibling);
+  }
 
   var a = document.createElement('a'); a.className = 'to-home'; a.href = href;
   a.innerHTML = '<b aria-hidden="true">←</b> ' + short; a.setAttribute('aria-label', text.replace('← ', ''));
