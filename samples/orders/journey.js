@@ -44,7 +44,7 @@
     var di = -1; E.forEach(function (e, i2) { if (e.done) di = i2; });
     var wi = 0; W.forEach(function (w, k2) { if (di >= 0 && w.ev.indexOf(di) >= 0) wi = k2; });
     var upto = at[wi], tot = cum[cum.length - 1] || 1;
-    return { E: E, W: W, pts: pts, done: pts.slice(0, upto + 1), p: cum[upto] / tot, wi: wi, di: di, dist: dist };
+    return { E: E, W: W, pts: pts, done: pts.slice(0, upto + 1), p: cum[upto] / tot, wi: wi, di: di, dist: dist, at: at, cum: cum, tot: tot };
   }
   function labelSet(o, R, big) {
     var out = [], boxes = [], fs = big ? 24 : 40;
@@ -124,6 +124,127 @@
     var sh = o.ships.filter(function (s) { return s.awb && s.stage !== 'delivered'; })[0] || o.ships[o.ships.length - 1]; if (!sh || !sh.awb) return '';
     var E = NL.scans(o, sh), di = -1; E.forEach(function (e, i) { if (e.done) di = i; }); var e = E[Math.max(0, di)];
     return '<a class="livecard" href="#/journey/' + o.id + '"><div class="lc-t"><span class="st c-acc"><i class="lv" aria-hidden="true"></i>' + (NL.stage(o) === 'out' ? 'Out for delivery' : 'In transit') + ' · ' + o.id + '</span><b>' + esc(e.place) + '</b><span class="lc-s">' + esc(o.name) + ' · ' + esc(o.addr.city) + '<br>' + esc(NL.etaText(o)) + '</span><span class="lc-go">Watch the journey ' + ic('arrow-r') + '</span></div><div class="lc-m">' + A.indiaMap(o, sh, false) + '</div></a>';
+  };
+  /* ═══════════ every parcel at once ═══════════
+     Every shipment of the last seven days on the same vector map. Each carrier scan is a keyframe along the shipment's arc,
+     and a requestAnimationFrame loop puts every parcel where it was at the slider's time: live by default, or the whole week
+     replayed in twenty seconds. Cities are sized by orders; each light draws a short rust trail behind it. */
+  var WEEK = 7 * NL.DAY, RUN = 20000;
+  function track(o, sh) {
+    var R = route(o, sh), K = R.E.map(function (e, i) { var k = 0; R.W.forEach(function (w, j) { if (w.ev.indexOf(i) >= 0) k = j; }); return { t: e.t, i: R.at[k], k: e.k }; });
+    if (!isFinite(K[0].t)) K[0].t = K[1].t - 3 * NL.H;
+    for (var i = 1; i < K.length; i++) if (!(K[i].t >= K[i - 1].t)) K[i].t = K[i - 1].t;
+    return { o: o, sh: sh, R: R, K: K, del: sh.stage === 'delivered' ? (sh.ev.delivered || K[K.length - 1].t) : 0 };
+  }
+  function posAt(tr, T) {
+    var K = tr.K, R = tr.R, pts = R.pts, n = K.length, end = pts[pts.length - 1];
+    if (T < K[0].t) return null;
+    if (T < K[1].t) return { x: pts[0][0], y: pts[0][1], s: 'packed', f: 0 };
+    if (tr.del && T >= tr.del) return { x: end[0], y: end[1], s: 'done', f: 1 };
+    var j = 1; while (j < n - 1 && T >= K[j + 1].t) j++;
+    if (j >= n - 1) return { x: end[0], y: end[1], s: 'out', f: 1 };
+    var a = K[j], b = K[j + 1], u = Math.max(0, Math.min(1, (T - a.t) / Math.max(1, b.t - a.t))), fi = a.i + (b.i - a.i) * u, i0 = Math.floor(fi), i1 = Math.min(pts.length - 1, i0 + 1), v = fi - i0;
+    return { x: pts[i0][0] + (pts[i1][0] - pts[i0][0]) * v, y: pts[i0][1] + (pts[i1][1] - pts[i0][1]) * v, s: a.k === 'out' ? 'out' : 'move', f: (R.cum[i0] + (R.cum[i1] - R.cum[i0]) * v) / R.tot };
+  }
+  A.parcels = function (now) {
+    var from = now - WEEK, out = [];
+    NL.db().orders.forEach(function (o) {
+      if (o.cancelled || o.m === 'pickup') return;
+      o.ships.forEach(function (sh) { if (!sh.awb || !sh.ev || NL.STG.indexOf(sh.stage) < 2) return; var up = sh.ev.shipped || sh.ev.packed || o.t; if (up > now) return; if (sh.stage === 'delivered' && (sh.ev.delivered || 0) < from) return; try { out.push(track(o, sh)); } catch (e) {} });
+    });
+    return out;
+  };
+  function when(t, now) { var d = new Date(t), h = d.getHours(), m = d.getMinutes(), hm = (h % 12 || 12) + (m ? ':' + (m < 10 ? '0' : '') + m : '') + ' ' + (h < 12 ? 'am' : 'pm');
+    return (NL.dayStart(t) === NL.dayStart(now) ? 'Today' : d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })) + ', ' + hm; }
+  var STL = { move: 'In transit', out: 'Out for delivery', done: 'Delivered', packed: 'Packed at the studio' };
+  /* A.parcelMap(host) renders the whole card body and returns { play, pause, focus(id), has(id), destroy } */
+  A.parcelMap = function (host) {
+    var now = Date.now(), from = now - WEEK, T = now, list = A.parcels(now), D = NL.db(), playing = false, raf = 0, lastF = 0, sel = -1, tick = 0, ghostRaf = 0, listKey = '';
+    var waiting = 0; D.orders.forEach(function (o) { if (!o.cancelled) o.ships.forEach(function (s) { if (s.stage === 'packed') waiting++; }); });
+    var cnt = {}; D.orders.forEach(function (o) { if (!o.cancelled && o.t > now - 30 * NL.DAY && NL.CITY[o.addr.city]) cnt[o.addr.city] = (cnt[o.addr.city] || 0) + 1; });
+    var cs = Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a]; }), rad = function (c) { return 6 + Math.sqrt(cnt[c]) * 4.4; };
+    var o0 = P(NL.ORIGIN.lat, NL.ORIGIN.lon), boxes = [{ x0: o0[0] - 14, x1: o0[0] + 190, y0: o0[1] - 34, y1: o0[1] + 30 }], labs = '';
+    cs.slice(0, 10).forEach(function (c) { if (c === 'Jaipur') return; var C = NL.CITY[c], p = P(C[3], C[4]), fs = 25, w = c.length * fs * .55, r = rad(c), x = p[0] + r + 7, y = p[1] + fs * .36;
+      if (x + w > 995) x = p[0] - r - 7 - w; var bx = { x0: x - 4, x1: x + w + 4, y0: y - fs, y1: y + 6 };
+      if (boxes.some(function (b) { return !(bx.x1 < b.x0 || bx.x0 > b.x1 || bx.y1 < b.y0 || bx.y0 > b.y1); })) return; boxes.push(bx); labs += '<text x="' + x.toFixed(0) + '" y="' + y.toFixed(0) + '">' + esc(c) + '</text>'; });
+    var cty = cs.map(function (c) { var C = NL.CITY[c], p = P(C[3], C[4]); return '<circle cx="' + p[0].toFixed(0) + '" cy="' + p[1].toFixed(0) + '" r="' + rad(c).toFixed(1) + '"><title>' + esc(c) + ': ' + NL.plural(cnt[c], 'order') + ' in 30 days</title></circle>'; }).join('');
+    var rts = '', trs = '', dots = '';
+    list.forEach(function (tr, k) { var d = pathStr(tr.R.pts); rts += '<path class="pm-rt" data-k="' + k + '" d="' + d + '" style="display:none"/>'; trs += '<path class="pm-tr" data-k="' + k + '" pathLength="1" d="' + d + '" style="display:none"/>';
+      dots += '<g class="pm-p" data-k="' + k + '" style="display:none"><circle class="pm-h" r="30"/><circle class="pm-r" r="15"/><circle class="pm-c" r="8.5"/><circle class="pm-x" r="26"/></g>'; });
+    var days = ''; for (var i = 0; i <= 7; i++) { var d0 = NL.dayStart(from) + i * NL.DAY; if (d0 <= from || d0 > now) continue; days += '<span style="left:' + ((d0 - from) / WEEK * 100).toFixed(2) + '%">' + (NL.dayStart(now) === d0 ? 'Today' : new Date(d0).toLocaleDateString('en-IN', { weekday: 'short' })) + '</span>'; }
+    host.innerHTML = '<div class="pm-in"><div class="pm-mapw"><div class="pm-cv"><svg class="imap pm-svg" viewBox="0 0 1000 1110" role="img" aria-label="Map of India with every Northlane parcel of the last seven days, sent from the Jaipur studio">' +
+      '<defs><radialGradient id="pmGlow"><stop offset="0" style="stop-color:var(--acc);stop-opacity:.42"/><stop offset="1" style="stop-color:var(--acc);stop-opacity:0"/></radialGradient>' +
+      '<pattern id="pmDots" width="13" height="13" patternUnits="userSpaceOnUse"><circle class="pm-dot" cx="3.2" cy="3.2" r="1.9"/><circle class="pm-dot" cx="9.7" cy="9.7" r="1.9"/></pattern></defs>' +
+      '<path class="im-grat" d="' + GRAT + '"/><path class="pm-shadow" d="' + LAND + '" transform="translate(7 10)"/><path class="im-land" d="' + LAND + '"/><path class="pm-stip" d="' + LAND + '"/><g class="pm-cty">' + cty + '</g><g class="pm-rts">' + rts + '</g><g class="pm-trs">' + trs + '</g><g class="pm-lab">' + labs + '</g>' +
+      '<g class="pm-st" transform="translate(' + o0[0].toFixed(1) + ' ' + o0[1].toFixed(1) + ')"><rect x="-12" y="-12" width="24" height="24" rx="3"/><text x="20" y="-4">Jaipur studio</text><text class="pm-stn" x="20" y="24"></text></g>' +
+      '<g class="pm-ps">' + dots + '</g><g class="pm-gh" style="display:none"><circle class="pm-h" r="30"/><circle class="pm-c" r="8.5"/></g></svg><div class="pm-tip" hidden></div></div><ul class="pm-key" aria-label="Map key"><li><i class="k-move"></i>On the move</li><li><i class="k-out"></i>Out for delivery</li><li><i class="k-done"></i>Delivered</li><li><i class="k-city"></i>City, sized by orders in 30 days</li></ul></div>' +
+      '<div class="pm-info"><div class="pm-hd"><h2>Every parcel, this week</h2><p class="pm-clock" aria-live="off"></p></div>' +
+      '<div class="pm-ns"><div><b class="num" data-n="move">0</b><span>on the move</span></div><div><b class="num" data-n="out">0</b><span>out for delivery</span></div><div><b class="num" data-n="done">0</b><span>delivered this week</span></div><div><b class="num" data-n="studio">0</b><span>packed, waiting</span></div></div>' +
+      '</div><div class="pm-lst"><div class="pm-lh"><b>On the road</b><a class="lnk" href="#/journey">Every journey</a></div><div class="pm-list"></div></div>' +
+      '<div class="pm-time"><button class="b sm pm-play" type="button" aria-pressed="false">' + ic('play') + '<span>Replay the week</span></button><div class="pm-trk"><input class="pm-range" type="range" min="0" max="1000" value="1000" aria-label="Time in the last seven days"><div class="pm-days" aria-hidden="true">' + days + '</div></div></div></div>';
+    var svg = $('.pm-svg', host), tip = $('.pm-tip', host), rng = $('.pm-range', host), playB = $('.pm-play', host), clock = $('.pm-clock', host), stn = $('.pm-stn', host), listEl = $('.pm-list', host), N = {};
+    [].forEach.call(host.querySelectorAll('[data-n]'), function (b) { N[b.getAttribute('data-n')] = b; });
+    var G = list.map(function (tr, k) { return { tr: tr, g: $('.pm-p[data-k="' + k + '"]', host), rt: $('.pm-rt[data-k="' + k + '"]', host), trl: $('.pm-tr[data-k="' + k + '"]', host), vis: false, lv: false, s: '' }; });
+    function set(el, v) { v = String(v); if (el.textContent !== v) el.textContent = v; }
+    function draw() {
+      var c = { move: 0, out: 0, done: 0, packed: 0 }, act = [], live = Math.abs(Date.now() - T) < 90000;
+      G.forEach(function (x, k) {
+        var p = posAt(x.tr, T), s = p ? p.s : 'none', show = s === 'move' || s === 'out' || s === 'done', moving = s === 'move' || s === 'out';
+        if (s === 'packed') c.packed++;
+        if (show !== x.vis) { x.g.style.display = show ? '' : 'none'; x.vis = show; }
+        if (moving !== x.lv) { x.rt.style.display = x.trl.style.display = moving ? '' : 'none'; x.lv = moving; }
+        if (!show) return;
+        x.g.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ')');
+        if (s !== x.s) { x.g.setAttribute('class', 'pm-p ' + s + (k === sel ? ' sel' : '') + (x.s === 'out' && s === 'done' ? ' land' : '')); x.s = s; }
+        if (moving) { x.trl.style.strokeDasharray = p.f.toFixed(4) + ' 1'; act.push(k); }
+        c[s]++;
+      });
+      set(N.move, c.move); set(N.out, c.out); set(N.done, c.done); set(N.studio, live ? waiting : c.packed);
+      stn.textContent = (live ? waiting : c.packed) ? (live ? waiting : c.packed) + ' packed for the pickup' : '';
+      clock.innerHTML = live && !playing ? '<span class="lvd"><i aria-hidden="true"></i>Live</span>' + esc(when(T, Date.now())) : '<span class="rpl">' + (playing ? 'Replaying' : 'Viewing') + '</span>' + esc(when(T, Date.now()));
+      rng.value = Math.round((T - from) / WEEK * 1000); rng.setAttribute('aria-valuetext', when(T, Date.now()));
+      act.sort(function (a, b) { return (G[a].s === 'out' ? 0 : 1) - (G[b].s === 'out' ? 0 : 1) || (G[a].tr.sh.eta || 0) - (G[b].tr.sh.eta || 0); });
+      var key = act.slice(0, 6).join(',') + '|' + act.length + '|' + sel; if (key !== listKey && (!playing || ++tick % 8 === 0)) { listKey = key; rows(act); }
+      if (sel >= 0 && !tip.hidden) placeTip(sel);
+    }
+    function rows(act) {
+      listEl.innerHTML = act.length ? act.slice(0, 6).map(function (k) { var x = G[k], o = x.tr.o; return '<button type="button" class="pm-row' + (k === sel ? ' on' : '') + '" data-k="' + k + '"><i class="pm-d ' + x.s + '" aria-hidden="true"></i><span class="pm-rn"><b>' + esc(o.id) + '</b> ' + esc(o.name) + '</span><span class="pm-rc">' + esc(o.addr.city) + '</span><span class="pm-re">' + (x.s === 'out' ? 'Out today' : esc(NL.fD(x.tr.sh.eta || Date.now()))) + '</span></button>'; }).join('') +
+        (act.length > 6 ? '<a class="pm-more" href="#/journey">' + NL.plural(act.length - 6, 'more parcel') + ' on the road</a>' : '') : '<p class="pm-none">Nothing on the road at this hour.</p>';
+    }
+    function placeTip(k) { var x = G[k]; if (!x || !x.vis) { tip.hidden = true; return; } var p = posAt(x.tr, T), r = svg.getBoundingClientRect(), cr = svg.parentNode.getBoundingClientRect(), sx = r.width / 1000, sy = r.height / 1110;
+      var left = r.left - cr.left + p.x * sx, top = r.top - cr.top + p.y * sy; tip.style.left = Math.max(8, Math.min(cr.width - 228, left - 110)) + 'px'; tip.style.top = (top + 16 + 150 > cr.height ? top - 150 : top + 16) + 'px'; }
+    function pick(k) {
+      sel = k; G.forEach(function (x, i) { x.g.classList.toggle('sel', i === k); x.rt.classList.toggle('focus', i === k); });
+      if (k < 0) { tip.hidden = true; draw(); return; }
+      var x = G[k], o = x.tr.o, sh = x.tr.sh, p = posAt(x.tr, T), s = p ? p.s : 'move';
+      tip.innerHTML = '<p><b class="mono">' + esc(o.id) + '</b> · ' + esc(o.name) + '</p><p class="mute">' + esc(o.addr.city) + ' · ' + STL[s] + (s === 'done' || Math.abs(Date.now() - T) > 90000 ? '' : ' · ' + esc(NL.etaText(o))) + '</p><p class="mute">' + esc(sh.carrier) + ' · <span class="mono">' + esc(sh.awb) + '</span></p><p class="pm-ta"><a class="b sm" href="#/orders/' + esc(o.id) + '">Open order</a><a class="b sm" href="#/journey/' + esc(o.id) + '">Journey</a><button class="ib sm" type="button" data-pmx aria-label="Close">' + ic('x') + '</button></p>';
+      tip.hidden = false; placeTip(k); draw();
+    }
+    function stop() { playing = false; cancelAnimationFrame(raf); clearInterval(raf); playB.setAttribute('aria-pressed', 'false'); playB.innerHTML = ic('play') + '<span>Replay the week</span>'; draw(); }
+    function frame(ts) { if (!playing) return; var dt = lastF ? Math.min(64, ts - lastF) : 16; lastF = ts; T = Math.min(Date.now(), T + dt / RUN * WEEK); draw(); if (T >= Date.now() - 1000) { T = Date.now(); stop(); return; } raf = requestAnimationFrame(frame); }
+    function play() {
+      if (playing) { stop(); return; } if (T >= Date.now() - 120000) T = from; playing = true; lastF = 0; playB.setAttribute('aria-pressed', 'true'); playB.innerHTML = ic('pause') + '<span>Pause</span>';
+      if (A.reduce) raf = setInterval(function () { T = Math.min(Date.now(), T + 12 * NL.H); draw(); if (T >= Date.now() - 1000) { T = Date.now(); stop(); } }, 700); else raf = requestAnimationFrame(frame);
+    }
+    function ghost(k) {
+      if (A.reduce) return; var pts = G[k].tr.R.pts, g = $('.pm-gh', host), t0 = 0, dur = 2800; cancelAnimationFrame(ghostRaf); g.style.display = '';
+      (function f(ts) { if (!t0) t0 = ts; var u = Math.min(1, (ts - t0) / dur), e = u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2, fi = e * (pts.length - 1), i0 = Math.floor(fi), i1 = Math.min(pts.length - 1, i0 + 1), v = fi - i0;
+        g.setAttribute('transform', 'translate(' + (pts[i0][0] + (pts[i1][0] - pts[i0][0]) * v).toFixed(1) + ' ' + (pts[i0][1] + (pts[i1][1] - pts[i0][1]) * v).toFixed(1) + ')'); g.style.opacity = u > .85 ? (1 - u) / .15 : 1;
+        if (u < 1) ghostRaf = requestAnimationFrame(f); else g.style.display = 'none'; })(0);
+    }
+    rng.addEventListener('input', function () { if (playing) stop(); T = from + rng.value / 1000 * WEEK; draw(); });
+    playB.addEventListener('click', play);
+    host.addEventListener('click', function (e) { var h = e.target.closest('.pm-x,.pm-row'); if (h) { var k = +(h.getAttribute('data-k') || h.parentNode.getAttribute('data-k')); pick(sel === k && h.classList.contains('pm-x') ? -1 : k); return; } if (e.target.closest('[data-pmx]')) pick(-1); });
+    var live = setInterval(function () { if (!playing && Math.abs(Date.now() - T) < 90000) { T = Date.now(); draw(); } }, 30000);
+    function onKey(e) { if (e.key === 'Escape' && sel >= 0 && !tip.hidden) pick(-1); }
+    document.addEventListener('keydown', onKey);
+    draw();
+    return {
+      host: host, play: function () { if (!playing) play(); }, pause: function () { if (playing) stop(); }, count: function () { return list.length; },
+      has: function (id) { return list.some(function (tr) { return tr.o.id === id; }); },
+      focus: function (id) { var k = -1; list.forEach(function (tr, i) { if (tr.o.id === id) k = i; }); if (k < 0) return false; if (playing) stop(); T = Date.now(); pick(k); ghost(k); return true; },
+      destroy: function () { playing = false; cancelAnimationFrame(raf); clearInterval(raf); cancelAnimationFrame(ghostRaf); clearInterval(live); document.removeEventListener('keydown', onKey); }
+    };
   };
   A.cmd({ label: 'Watch a live delivery', icon: 'journey', keys: 'map tracking journey courier', run: function () { A.go('journey'); } });
 })();

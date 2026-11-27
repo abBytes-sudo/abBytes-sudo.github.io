@@ -1,4 +1,4 @@
-/* Orbit Assistants · section modules "rows" (04 What it does) and "results" (05 The numbers).
+/* Orbit Assistants · section modules "rows" (what it does) and "results" (the numbers).
    OrbitSections.rows.mount(el, ctx)    el = <section id="rows" data-module="rows">
    OrbitSections.results.mount(el, ctx) el = <section id="results" data-module="results">
    Micro-demos are plain HTML/CSS driven by a small cancellable timer runner; they run only while on screen and
@@ -59,7 +59,7 @@
     { ch: 'instagram', text: 'white sneakers under $150 size 42', parts: [['white sneakers', 'item', 'Sneakers · white'], ['under $150', 'budget', '≤ $150'], ['size 42', 'size', 'EU 42']] }
   ];
   function mkA(box) {
-    box.innerHTML = '<div class="rw-d rw-a is-final"><div class="rw-d-bar"><span class="rw-chan"></span><span class="rw-tag">preview</span></div>' +
+    box.innerHTML = '<div class="rw-d rw-a is-final"><div class="rw-d-bar"><span class="rw-chan"></span></div>' +
       '<p class="rw-a-text"></p><p class="rw-a-cap">What the assistant understood</p><ul class="rw-a-chips"></ul></div>';
     var root = box.firstChild, chan = root.querySelector('.rw-chan'), txt = root.querySelector('.rw-a-text'), chips = root.querySelector('.rw-a-chips'), idx = 0;
     function parsed(s) {
@@ -178,7 +178,7 @@
 
   /* d. FAQ you edit (paper) */
   function mkD(box) {
-    box.innerHTML = '<div class="rw-d rw-dd"><div class="rw-d-bar"><span>Admin · FAQ editor</span><span class="rw-tag">preview</span></div><div class="rw-d-cols">' +
+    box.innerHTML = '<div class="rw-d rw-dd"><div class="rw-d-bar"><span>Admin · FAQ editor</span></div><div class="rw-d-cols">' +
       '<div class="rw-d-col"><h4>Answer: delivery</h4><div class="rw-d-field"><span class="rw-d-tx"></span><i class="rw-caret is-off"></i></div><span class="rw-d-save">Save</span></div>' +
       '<div class="rw-d-col rw-d-chat"><h4>Live chat</h4><div class="rw-d-b c">How long is delivery?</div><div class="rw-d-b a"></div><span class="rw-d-up">Updated just now</span></div></div></div>';
     var root = box.firstChild, field = root.querySelector('.rw-d-field'), tx = root.querySelector('.rw-d-tx'), caret = root.querySelector('.rw-caret'), save = root.querySelector('.rw-d-save'), ans = root.querySelector('.rw-d-b.a'), up = root.querySelector('.rw-d-up');
@@ -203,7 +203,7 @@
 
   /* e. hands over cleanly */
   function mkE(box) {
-    box.innerHTML = '<div class="rw-d rw-e is-col is-join"><div class="rw-d-bar"><span>Conversation · handover</span><span class="rw-tag">preview</span></div>' +
+    box.innerHTML = '<div class="rw-d rw-e is-col is-join"><div class="rw-d-bar"><span>Conversation · handover</span></div>' +
       '<div class="rw-e-stage"><div class="rw-e-tr"><p class="rw-e-m c">Can I contest the fine on this notice? It says 15 days.</p><p class="rw-e-m b">That needs a person. I’m passing you to the team with this whole chat.</p></div>' +
       '<div class="rw-e-sum"><b><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12h12M12 7l5 5-5 5M20 5v14"/></svg>Handed over: legal question</b><small>2 messages · priority: normal · 09:05</small></div></div>' +
       '<div class="rw-e-join"><span class="rw-e-av">N</span><div class="rw-e-who"><b>Nora joined</b><small>sees the full history</small></div><span class="rw-e-take">Take over</span></div>' +
@@ -238,7 +238,7 @@
     var pts = F_Y.map(function (y, i) { return [i * (300 / (F_Y.length - 1)), 4 + (y / 31) * 34]; });
     var d = pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join('');
     var last = pts[pts.length - 1];
-    box.innerHTML = '<div class="rw-d rw-f"><div class="rw-d-bar"><span class="rw-chan"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Event log</span><span class="rw-f-n">events <span class="rw-f-c">0</span></span><span class="rw-tag">preview</span></div>' +
+    box.innerHTML = '<div class="rw-d rw-f"><div class="rw-d-bar"><span class="rw-chan"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Event log</span><span class="rw-f-n">events <span class="rw-f-c">0</span></span></div>' +
       '<ul class="rw-f-log"></ul><svg class="rw-f-spark" viewBox="0 0 300 44" aria-hidden="true" focusable="false"><path class="base" d="M0 42H300"/><path class="ln" pathLength="1" d="' + d + '"/><circle cx="' + last[0] + '" cy="' + last[1].toFixed(1) + '" r="3"/></svg>' +
       '<div class="rw-f-sl"><span>23:42</span><span>events per minute</span><span>09:05</span></div></div>';
     var root = box.firstChild, log = root.querySelector('.rw-f-log'), cnt = root.querySelector('.rw-f-c'), ln = root.querySelector('.ln'), dot = root.querySelector('circle'), TOTAL = 128;
@@ -267,22 +267,19 @@
      MODULE: rows
      ===================================================================== */
   var ROWS = [
-    { id: 'a', t: 't1', fs: 'clamp(42px,7.6vw,116px)', pad: 'clamp(80px,10vw,150px)', side: 'r', h: 'It reads <em>sentences.</em>',
-      sub: 'Budget, place, size and date, pulled from messy text.',
-      sr: 'Animation: a messy message such as \u201C3bhk indiranagar under 1.5 lakh a month, furnished\u201D is typed, then split into labelled parts: 3 BHK, Indiranagar, up to 1.5 lakh a month, furnished.', demo: mkA },
-    { id: 'b', t: 't2', fs: 'clamp(42px,8.4vw,128px)', pad: 'clamp(72px,8vw,110px)', side: 'l', h: 'It knows <em>where</em> you are.',
+    { id: 'b', t: 't2', fs: 'clamp(42px,8.4vw,128px)', pad: 'clamp(72px,8vw,110px)', side: 'l', h: 'It knows the page they’re on.',
       sub: 'It greets people with the page they are on.',
       sr: 'Animation: a browser window shows a home listing, a jacket and a clinic booking page in turn. A chat opens with a greeting that names the page, for example \u201CI can see you\u2019re looking at the Harbor Jacket\u201D.', demo: mkB },
-    { id: 'c', t: 't3', fs: 'clamp(44px,9vw,140px)', pad: 'clamp(90px,11vw,160px)', side: 'r', h: 'It <em>does</em> things.',
+    { id: 'c', t: 't3', fs: 'clamp(44px,9vw,140px)', pad: 'clamp(90px,11vw,160px)', side: 'r', h: 'It books, files and reminds.',
       sub: 'Books the visit, creates the lead, queues the reminder.',
       sr: 'Animation: a booking card fills in step by step. A Sunday 11 am slot is chosen, the name Meera K. is entered, a code verifies the phone, then three ticks appear: visit booked, lead created, reminder queued.', demo: mkC },
-    { id: 'd', t: 't4', fs: 'clamp(42px,7.4vw,112px)', pad: 'clamp(72px,8.5vw,120px)', side: 'l', h: 'Answers from <em>your</em> FAQ.',
+    { id: 'd', t: 't4', fs: 'clamp(42px,7.4vw,112px)', pad: 'clamp(72px,8.5vw,120px)', side: 'l', h: 'It answers from your FAQ.',
       sub: 'Edit one line. Every channel updates.',
       sr: 'Animation: in an admin field the text \u201CDelivery takes 3 to 5 days\u201D is retyped to \u201CDelivery now takes 1 day\u201D. After pressing Save, the chat bubble beside it shows the new answer.', demo: mkD },
-    { id: 'e', t: 't5', fs: 'clamp(42px,7.8vw,120px)', pad: 'clamp(90px,10.5vw,150px)', side: 'r', h: 'Hands over, <em>cleanly.</em>',
+    { id: 'e', t: 't5', fs: 'clamp(42px,7.8vw,120px)', pad: 'clamp(90px,10.5vw,150px)', side: 'r', h: 'It hands over cleanly.',
       sub: 'The teammate sees the whole chat.',
       sr: 'Animation: a chat transcript collapses into a card reading \u201CHanded over: legal question\u201D. Nora joins and sees the full history, then presses Take over.', demo: mkE },
-    { id: 'f', t: 't6', fs: 'clamp(42px,8.2vw,124px)', pad: 'clamp(80px,10vw,140px)', side: 'l', h: 'Records <em>everything.</em>',
+    { id: 'f', t: 't6', fs: 'clamp(42px,8.2vw,124px)', pad: 'clamp(80px,10vw,140px)', side: 'l', h: 'It records everything.',
       sub: 'Every intent, action, lead and booking.',
       sr: 'Animation: a live event log streams lines such as intent, action, lead and booking, with a small sparkline of events per minute.', demo: mkF }
   ];
@@ -295,10 +292,11 @@
       var idx = el.getAttribute('data-index') || '04', name = el.getAttribute('data-name') || 'What it does';
       el.classList.add('rw');
       el.setAttribute('aria-labelledby', 'rw-title');
-      el.innerHTML = '<div class="rw-wrap"><h2 class="rw-lab" id="rw-title"><b>' + esc(idx) + '</b> ' + esc(name) + '</h2></div>' +
+      var QH = window.OrbitUI && OrbitUI.qh;
+      el.innerHTML = '<div class="rw-wrap rw-head">' + (QH ? QH('What else does it do?', '9:06 am', 'Five things it does without being asked.', 'Each one is a few lines of script your team can read.', { id: 'rw-title' }) : '<h2 id="rw-title">Five things it does without being asked.</h2>') + '</div>' +
         ROWS.map(function (r, i) {
           return '<article class="rw-row ' + r.t + '" data-r="' + r.id + '" data-side="' + r.side + '" style="--pad:' + r.pad + '"><div class="rw-wrap rw-in"><span class="rw-rule"></span>' +
-            '<div class="rw-txt"><p class="rw-idx"><b>' + String(i + 1).padStart(2, '0') + '</b> / 06</p><h3 class="rw-stmt" style="--fs:' + r.fs + '">' + r.h + '</h3><p class="rw-sub">' + r.sub + '</p></div>' +
+            '<div class="rw-txt"><h3 class="rw-stmt" style="--fs:' + r.fs + '">' + r.h + '</h3><p class="rw-sub">' + r.sub + '</p></div>' +
             '<div class="rw-demo"><div class="rw-demo-in" aria-hidden="true" style="width:100%;display:grid;justify-items:center"></div><p class="rw-sr">' + esc(r.sr) + '</p></div></div></article>';
         }).join('');
 
@@ -359,7 +357,7 @@
       el.setAttribute('aria-labelledby', 'rs-title');
 
       function fig(cls, valHTML, sr, title) {
-        return '<article class="rs-fig ' + cls + '"><span class="rs-rule"></span><div class="rs-fh"><span class="rs-demo">Example</span></div>' +
+        return '<article class="rs-fig ' + cls + '"><span class="rs-rule"></span><div class="rs-fh"><span class="ex">Example</span></div>' +
           '<p class="rs-v"><span class="rs-sr">' + sr + '</span><span aria-hidden="true" class="rs-vv">' + valHTML + '</span></p><h3 class="rs-ft">' + title + '</h3></article>';
       }
       var items = SNIP.map(function (s) {
@@ -368,10 +366,10 @@
       }).join('');
 
       el.innerHTML =
-        '<div class="rs-wrap"><h2 class="rs-lab" id="rs-title"><b>' + esc(idx) + '</b> ' + esc(name) + '</h2>' +
+        '<div class="rs-wrap">' + (window.OrbitUI && OrbitUI.qh ? OrbitUI.qh('Does it actually work?', '9:07 am', 'Numbers from a busy week.', 'Every figure here is an example, and tagged as one.', { id: 'rs-title' }) : '<h2 id="rs-title">Numbers from a busy week.</h2>') +
         '<div class="rs-lead"><span class="rs-rule"></span>' +
         '<p class="rs-big"><span class="rs-sr">85 percent</span><span class="rs-bn" aria-hidden="true">85</span><span class="pc" aria-hidden="true">%</span></p>' +
-        '<div class="rs-lt"><p class="rs-claim">of chats finished <em>without</em> a human agent</p><p class="rs-src"><i></i>from a live real-estate deployment</p></div></div>' +
+        '<div class="rs-lt"><p class="rs-claim">of chats finished without a person</p><p class="rs-src"><span class="ex">Example</span></p></div></div>' +
         '<div class="rs-bar" aria-hidden="true"><span class="rs-bar-f"></span></div>' +
         '<div class="rs-figs">' +
         fig('rs-f1', '11<small>s</small>', '11 seconds', 'median first reply') +
@@ -379,7 +377,7 @@
         fig('rs-f3', '1 in 4', '1 in 4', 'become a lead or booking') +
         '</div>' +
         '<figure class="rs-chart" role="img" aria-label="Chart: conversations by hour of day. Volume is lowest overnight, dips through the working day and peaks between 8 and 10 pm, inside the after-hours bands."><span class="rs-rule"></span>' +
-        '<div class="rs-ch-h"><h3>Conversations by hour</h3><span class="rs-demo">Example</span></div>' +
+        '<div class="rs-ch-h"><h3>Conversations by hour</h3><span class="ex">Example</span></div>' +
         '<div class="rs-ch-box" aria-hidden="true"><div class="rs-band b1"><span>after hours</span></div><div class="rs-band b2"><span>after hours</span></div><svg><path class="rs-line" pathLength="1" d=""/></svg><i class="rs-pt-v"></i><i class="rs-pt"></i><span class="rs-pt-l">11:42 pm \u00B7 one message</span></div>' +
         '<div class="rs-ax" aria-hidden="true"><span>00</span><span style="left:25%">06</span><span style="left:37.5%">09</span><span style="left:50%">12</span><span style="left:75%">18</span><span style="left:100%">24</span></div></figure></div>' +
         '<div class="rs-mq" role="group" aria-label="Real message snippets from the six example businesses"><div class="rs-mq-in"><button type="button" class="rs-pause" aria-pressed="false" aria-label="Pause the scrolling messages">' +

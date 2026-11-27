@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Follow one order · Northlane</title>
+<meta name="description" content="One Northlane order from the customer's bag to the courier: the store on her phone and the studio's back office side by side, working on the same order as it is placed, packed on the bench and handed to the 4 pm pickup.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Northlane">
+<meta property="og:title" content="Follow one order · Northlane"><meta property="og:description" content="The store and the back office side by side, from the customer's bag to the 4 pm pickup.">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/orders/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Follow one order · Northlane"><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/orders/og.jpg">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'none'; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" media="print" id="gf">
+<link rel="preload" as="font" type="font/woff2" href="../store/fonts/bodoni-moda.woff2" crossorigin>
+<link rel="stylesheet" href="tour.css?v=2">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="tour.js?v=3" defer></script>
+<script src="../assets/back.js?v=1" defer></script>
+</head>
+<body>
+<div class="nl-bar"><b>Portfolio project by <a href="../../index.html">Abhishek</a></b></div>
+<header class="tr-hd">
+  <a class="tr-brand" href="admin.html"><span class="tr-m" aria-hidden="true">N</span><span><b>Northlane</b><small>Follow one order</small></span></a>
+  <nav class="tr-nav" aria-label="Open the apps"><a href="../store/index.html">The store</a><a href="admin.html">The back office</a></nav>
+</header>
+<main class="tr" id="main">
+  <section class="tr-side" aria-labelledby="trH">
+    <h1 id="trH">Follow one order</h1>
+    <p class="tr-lede">Meera orders in Mumbai; the studio in Jaipur packs it for the 4 pm pickup. Her phone and the studio’s back office work on the same order as it happens.</p>
+    <div class="tr-ctl">
+      <button class="tb pri" id="trPlay" type="button"><span class="tb-i" aria-hidden="true"></span><span class="tb-t">Play</span></button>
+      <button class="tb" id="trSelf" type="button" aria-pressed="false">Do it myself</button>
+      <button class="tb ghost" id="trRe" type="button">Start again</button>
+    </div>
+    <p class="tr-prog" id="trProg" aria-live="polite"></p>
+    <ol class="tr-steps" id="trSteps"></ol>
+    <p class="tr-hint" id="trHint" aria-live="polite"></p>
+  </section>
+  <section class="tr-stage" id="trStage" data-show="store" aria-label="The store and the back office">
+    <div class="tr-sw" role="group" aria-label="Which screen to show">
+      <button type="button" data-show="store" aria-pressed="true">Meera’s phone</button><button type="button" data-show="admin" aria-pressed="false">The studio</button>
+    </div>
+    <figure class="tr-phone" id="trPhone">
+      <div class="tr-ph-in"><div class="tr-sb" aria-hidden="true"><b id="trClock"></b><span class="tr-notch"></span><span class="tr-sig"><i></i><i></i><i></i><em></em></span></div><iframe id="fStore" title="The Northlane store on Meera’s phone"></iframe>
+        <button class="tr-wa" id="trWa" type="button" hidden><span class="tr-wa-ic" aria-hidden="true"></span><span class="tr-wa-tx"><b>Northlane · WhatsApp</b><time>now</time><span id="trWaT"></span></span></button></div>
+      <figcaption>Meera’s phone · Mumbai</figcaption>
+    </figure>
+    <figure class="tr-desk" id="trDesk">
+      <div class="tr-win"><div class="tr-wbar" aria-hidden="true"><i></i><i></i><i></i><span>Northlane back office · Jaipur studio</span></div>
+        <div class="tr-desk-in"><iframe id="fAdmin" title="The Northlane back office in the Jaipur studio"></iframe></div></div>
+      <figcaption>The studio · Jaipur</figcaption>
+    </figure>
+  </section>
+</main>
+<div class="tr-ring" id="trRing" aria-hidden="true"></div>
+<div class="tr-cur" id="trCur" aria-hidden="true"></div>
+</body>
+</html>

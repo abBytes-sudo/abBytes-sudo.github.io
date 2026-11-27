@@ -3,46 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Orbit Assistants · Chat assistants for web, WhatsApp and Instagram that book and hand over</title>
-<meta name="description" content="Scripted, rule-based assistants for web chat, WhatsApp and Instagram, plus a CRM assistant for your team.">
+<title>Orbit Assistants · Someone messaged your business at 11:42 pm</title>
+<meta name="description" content="Scripted chat assistants for your website, WhatsApp and Instagram. They reply at 11:42 pm, book the visit and hand your team a ranked list by morning. Pages for clinics, salons, restaurants, real estate, construction and online stores.">
 <meta name="robots" content="noindex">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self'; connect-src 'none'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Bricolage+Grotesque:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=DM+Serif+Display&family=Caveat:wght@600&display=swap">
-<link rel="stylesheet" href="../assets/vendor/lenis.css">
-<link rel="stylesheet" href="../assets/bots/bots.css?v=22">
-<link rel="stylesheet" href="../assets/bots/crm.css?v=22">
-<link rel="stylesheet" href="story.css?v=22">
-<link rel="stylesheet" href="rows.css?v=22">
-<link rel="stylesheet" href="close.css?v=22">
-<link rel="stylesheet" href="saas.css?v=22">
-<link rel="stylesheet" href="../assets/back.css?v=1">
-<script src="../assets/vendor/gsap.min.js" defer></script>
-<script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
-<script src="../assets/vendor/SplitText.min.js" defer></script>
-<script src="../assets/vendor/lenis.min.js" defer></script>
-<script src="../assets/motion.js?v=1" defer></script>
-<script src="../assets/bots/engine.js?v=22" defer></script>
-<script src="../assets/bots/agents/support.js?v=22" defer></script>
-<script src="../assets/bots/agents/realty.js?v=22" defer></script>
-<script src="../assets/bots/agents/build.js?v=22" defer></script>
-<script src="../assets/bots/agents/clinic.js?v=22" defer></script>
-<script src="../assets/bots/agents/salon.js?v=22" defer></script>
-<script src="../assets/bots/agents/dining.js?v=22" defer></script>
-<script src="../assets/bots/agents/crm.js?v=22" defer></script>
-<script src="../assets/bots/ui.js?v=22" defer></script>
-<script src="../assets/bots/crm-ui.js?v=22" defer></script>
-<script src="brands.js?v=22" defer></script>
-<script src="story.js?v=22" defer></script>
-<script src="rows.js?v=22" defer></script>
-<script src="close.js?v=22" defer></script>
-<script src="saas.js?v=22" defer></script>
-<script src="../assets/back.js?v=1" defer></script>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Orbit Assistants · Someone messaged your business at 11:42 pm">
+<meta property="og:description" content="Tell it what you run and the page rewrites itself: your headline, your customers’ questions, your night shift and a live assistant for your trade.">
+<meta property="og:image" content="https://abbytes-sudo.github.io/samples/saas/og.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://abbytes-sudo.github.io/samples/saas/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/saas/og.jpg">
+<meta name="theme-color" content="#0B0D10">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'none'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="orbit.css?v=2">
+<link rel="stylesheet" href="saas.css?v=27">
+<link rel="stylesheet" href="../assets/back.css?v=2">
+<script src="brands.js?v=24" defer></script>
+<script src="trade.js?v=2" defer></script>
+<script src="orbit-ui.js?v=2" defer></script>
+<script src="tell.js?v=2" defer></script>
+<script src="boot.js?v=3" defer></script>
+<script src="../assets/back.js?v=2" defer></script>
 </head>
 <body class="lt">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
-  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="i-send" viewBox="0 0 16 16"><path d="M2.5 8h9M8 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-check" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
   <symbol id="c-web" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 12h17M12 3.5c3 3.5 3 13.5 0 17M12 3.5c-3 3.5-3 13.5 0 17" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
   <symbol id="c-whatsapp" viewBox="0 0 24 24"><path d="M4 20l1.3-4A8.2 8.2 0 1 1 8 18.7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 9c.2 2.5 2.2 4.6 5 5.2l1-1.3-1.8-1-.8.7a4 4 0 0 1-1.8-1.8l.7-.8-1-1.8z" fill="currentColor"/></symbol>
@@ -56,45 +45,63 @@
   <symbol id="g-cal" viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
   <symbol id="g-quote" viewBox="0 0 24 24"><path d="M6 3.5h9l4 4V20.5H6zM15 3.5v4h4M9 12h7M9 16h5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
   <symbol id="g-box" viewBox="0 0 24 24"><path d="M3.5 7.5L12 3.5l8.5 4v9L12 20.5l-8.5-4zM3.5 7.5L12 11.5l8.5-4M12 11.5v9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <symbol id="orb" viewBox="0 0 22 22"><circle cx="11" cy="11" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.2" cy="5.6" r="2.6" style="fill:var(--acc)"/></symbol>
 </defs></svg>
 
-<p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a>.</p>
+<p class="demo"><span>Portfolio project by <a href="../../index.html">Abhishek</a>.</span></p>
 <div class="prog" id="prog" aria-hidden="true"><i></i></div>
-<nav class="rail" id="rail" aria-label="Page sections"></nav>
 
-<header class="hd"><div class="wrap nav">
-  <a class="logo" href="#top" aria-label="Orbit Assistants, back to top"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="17.2" cy="5.6" r="2.6" fill="var(--acc)"/></svg>Orbit <span>Assistants</span></a>
-  <nav aria-label="Main"><a href="#demo">Live demo</a><a href="#story">The night shift</a><a href="#analytics">Analytics</a><a href="#packages">Packages</a><a href="#faq">FAQ</a></nav>
-  <div class="nav-r"><a class="btn sm" href="../../index.html#contact" data-magnetic>Get one built</a></div>
+<header class="hd night"><div class="wrap nav">
+  <div class="nav-l"><a class="logo" href="#top" aria-label="Orbit Assistants, back to top"><svg class="orb" width="24" height="24" aria-hidden="true"><use href="#orb"/></svg>Orbit <span>Assistants</span></a><a class="for" id="forPill" href="#trades" hidden>for you</a><span class="clk" id="clk" title="The page runs through one night"><i aria-hidden="true"></i><span class="sr">Time in this story: </span><b>11:42 pm</b></span></div>
+  <nav aria-label="Main"><a href="#try">Try it</a><a href="#trades">Trades</a><a href="#story">The night shift</a><a href="#packages">Packages</a><a href="#faq">FAQ</a></nav>
+  <a class="btn sm" href="#brief">Get one built</a>
 </div></header>
 
 <main id="top">
-<!-- 01 HERO -->
-<section class="hero" data-index="01" data-name="The range">
+<!-- the hero: tell it what you run and the page rewrites itself -->
+<section class="hero nsec" id="hero">
   <div class="wrap hero-in">
-    <div class="lane top" id="laneTop" aria-hidden="true"></div>
-    <p class="kick" data-reveal data-now><i class="live"></i>Web chat · WhatsApp · Instagram, plus a CRM assistant</p>
-    <h1 data-split data-now data-delay=".1">Assistants that answer, book and <em>hand over.</em></h1>
-    <div class="hero-row">
-      <p class="hero-sub" data-reveal data-now data-delay=".5">Scripted chat assistants that book, track and hand over.</p>
-      <div class="hero-cta" data-reveal data-now data-delay=".65">
-        <a class="btn" href="#demo" data-magnetic>Try the live assistants <svg width="14" height="14" aria-hidden="true"><use href="#i-arrow"/></svg></a>
-        <a class="btn ghost" href="../../index.html#contact">Get one built</a>
+    <div class="hero-l">
+      <p class="who"><svg class="orb" width="20" height="20" aria-hidden="true"><use href="#orb"/></svg>Orbit <time>11:42 pm</time></p>
+      <h1 id="heroH"><span class="hh" id="heroHh">Someone messaged your business at </span><span class="tail">11:42&nbsp;pm</span>.</h1>
+      <p class="hero-sub" id="heroSub">Orbit replied, booked the visit and had it in your CRM by morning. Scripted assistants for your website, WhatsApp and Instagram.</p>
+      <div class="tell" id="tell">
+        <form class="cmp" id="tellForm" autocomplete="off" novalidate><label class="sr" for="tellIn">What do you run?</label><input id="tellIn" type="text" maxlength="80" placeholder="What do you run? A dental clinic in Pune…" enterkeyhint="send"><button type="submit" aria-label="Rewrite this page for my business"><svg width="18" height="18" aria-hidden="true"><use href="#i-send"/></svg></button></form>
+        <div class="tell-log" id="tellLog" aria-live="polite"></div>
+        <div class="chips tell-chips" id="tellChips" role="group" aria-label="Or pick a trade"><button type="button" class="chip" data-t="clinic" style="--c:#60A5FA"><i aria-hidden="true"></i>Clinic</button><button type="button" class="chip" data-t="salon" style="--c:#F0A5C8"><i aria-hidden="true"></i>Salon</button><button type="button" class="chip" data-t="restaurant" style="--c:#E8B04B"><i aria-hidden="true"></i>Restaurant</button><button type="button" class="chip" data-t="realestate" style="--c:#5EEAD4"><i aria-hidden="true"></i>Real estate</button><button type="button" class="chip" data-t="construction" style="--c:#F59E4B"><i aria-hidden="true"></i>Construction</button><button type="button" class="chip" data-t="store" style="--c:#C8FF4D"><i aria-hidden="true"></i>Online store</button></div>
+      </div>
+      <p class="proof"><b>85%</b><span>of chats finished without a person</span><span class="ex">Example</span></p>
+    </div>
+    <div class="hero-r">
+      <div class="tp-orbit" aria-hidden="true"><i></i></div>
+      <div class="hp" id="heroPhone" role="img" aria-label="A WhatsApp chat at 11:42 pm: a customer asks for a 3 BHK in Indiranagar, the assistant finds two homes and books a Saturday visit.">
+        <div class="hp-top"><span class="hp-av" id="hpAv">AH</span><span class="hp-n"><b id="hpName">Alderway Homes</b><small id="hpCh">WhatsApp · online</small></span></div>
+        <div class="hp-log" id="hpLog">
+          <p class="bub c">3 BHK in Indiranagar under 1.5 lakh a month<span class="ts">11:42 pm</span></p>
+          <p class="bub a">Two homes fit. Lakeview Court, ₹1.35 L a month.<span class="ts">11:42 pm</span></p>
+          <div class="hp-card"><b>Lakeview Court</b><small>3 BHK · furnished</small><strong>₹1.35 L a month</strong></div>
+          <p class="bub c">Can I see one on Saturday?<span class="ts">11:43 pm</span></p>
+          <p class="bub a">Saturday 11 am is free. Booked for you.<span class="ts">11:43 pm</span></p>
+          <div class="hp-bk"><svg width="18" height="18" aria-hidden="true"><use href="#i-check"/></svg><span><b>Visit booked · Saturday, 11:00 am</b><small>Lakeview Court · AV-4821</small></span></div>
+        </div>
+        <div class="hp-in" aria-hidden="true"><span>Message</span><i></i></div>
       </div>
     </div>
-    <div class="lane bot" id="laneBot" aria-hidden="true"></div>
-    <p class="proof" data-reveal data-now data-delay=".8"><b>85%</b> of chats finished without a human agent <span>on a live real-estate deployment</span></p>
   </div>
-  <div class="wrap hero-tiles"><ul class="tiles" id="tiles" aria-label="Six businesses, tap one to open it in the live demo"></ul></div>
 </section>
 
-<!-- 02 LIVE DEMO -->
-<section class="sec alt" id="demo" data-index="02" data-name="Live demo">
+<!-- six trade pages -->
+<section class="sec nsec" id="trades">
   <div class="wrap">
-    <div class="sh">
-      <h2 data-split>Pick one. <em>Type like a customer.</em></h2>
-      <p class="lede" data-reveal>Six businesses, three channels, one team assistant.</p>
-    </div>
+    <header class="qh"><div class="qh-q"><p class="bub c">Is there one for my kind of business?</p><time class="ts">11:43 pm</time></div><div class="qh-a"><p class="who"><svg class="orb" width="20" height="20" aria-hidden="true"><use href="#orb"/></svg>Orbit <time>11:43 pm</time></p><h2>Your trade has its own page.</h2><p class="lede">Each one has that business’s assistant, its night shift and the inbox it fills by morning. Open yours, or send it to someone who runs one.</p></div></header>
+    <ul class="tr-grid" id="trGrid"></ul>
+  </div>
+</section>
+
+<!-- try it -->
+<section class="sec alt nsec" id="try">
+  <div class="wrap">
+    <header class="qh"><div class="qh-q"><p class="bub c">Can I try it first?</p><time class="ts">11:44 pm</time></div><div class="qh-a"><p class="who"><svg class="orb" width="20" height="20" aria-hidden="true"><use href="#orb"/></svg>Orbit <time>11:44 pm</time></p><h2>Pick one. Type like a customer.</h2><p class="lede">Six businesses, three channels, one team assistant.</p></div></header>
     <div class="demo-grid" id="demoGrid">
       <div class="demo-l">
         <p class="stp-h"><b>1</b> Choose a business</p>
@@ -102,24 +109,23 @@
       </div>
       <div class="demo-m">
         <p class="stp-h"><b>2</b> Choose a channel</p>
-        <div class="chgroups" aria-hidden="true"><span>Your customers</span><span class="team">Your team</span></div>
         <div class="seg" id="chTabs" role="group" aria-label="Channel">
           <span class="seg-ind" aria-hidden="true"></span>
           <button type="button" data-ch="web" aria-pressed="false"><svg width="18" height="18" aria-hidden="true"><use href="#c-web"/></svg><span>Web chat</span></button>
           <button type="button" data-ch="whatsapp" aria-pressed="true"><svg width="18" height="18" aria-hidden="true"><use href="#c-whatsapp"/></svg><span>WhatsApp</span></button>
           <button type="button" data-ch="instagram" aria-pressed="false"><svg width="18" height="18" aria-hidden="true"><use href="#c-instagram"/></svg><span>Instagram</span></button>
           <i class="seg-div" aria-hidden="true"></i>
-          <button type="button" data-ch="crm" aria-pressed="false"><svg width="18" height="18" aria-hidden="true"><use href="#c-crm"/></svg><span>CRM assistant</span></button>
+          <button type="button" data-ch="crm" aria-pressed="false"><svg width="18" height="18" aria-hidden="true"><use href="#c-crm"/></svg><span>Team side</span></button>
         </div>
         <p class="now" id="nowBar" role="status" aria-live="polite"></p>
         <div class="annot" id="annot" aria-hidden="true"></div>
-        <div class="device" id="demoDev"></div>
+        <div class="dev-wrap"><div class="device" id="demoDev"><div class="dev-sk" aria-hidden="true"><i></i><i></i><i></i></div></div></div>
+        <div class="try-q"><p>Try a message</p><div class="chips" id="samples"></div></div>
         <p class="cap" id="chCap"></p>
-        <details class="drawer"><summary>Controls</summary>
+        <details class="drawer"><summary>More controls</summary>
           <div class="drawer-in">
-            <div class="side-blk"><p class="lab">Context</p><div class="ctxs" id="ctxs" role="group" aria-label="Context"></div></div>
-            <div class="side-blk"><p class="lab">Arrived from</p><label class="sel"><span class="ob-sr">Lead source</span><select id="srcSel"><option>Google search</option><option>Instagram ad</option><option>WhatsApp click-to-chat</option><option>QR on shop window</option><option>Referral</option><option>Website chat</option></select></label></div>
-            <div class="side-blk wide"><p class="lab">Try typing</p><div class="samples" id="samples"></div></div>
+            <div class="side-blk"><p class="lab">What they’re looking at</p><div class="ctxs" id="ctxs" role="group" aria-label="What the visitor is looking at"></div></div>
+            <div class="side-blk"><p class="lab">Where they came from</p><label class="sel"><span class="ob-sr">Lead source</span><select id="srcSel"><option>Google search</option><option>Instagram ad</option><option>WhatsApp click-to-chat</option><option>QR on shop window</option><option>Referral</option><option>Website chat</option></select></label></div>
             <div class="side-blk wide"><p class="lab">Behind the scenes</p>
               <label class="how"><input type="checkbox" id="howToggle"><span class="how-t"><i></i>Show how it thinks</span></label>
               <ul class="bts-l" id="bts" aria-live="polite"><li class="mute">Intents, actions and leads show up here.</li></ul><details class="bts-j"><summary>Last lead record</summary><pre id="btsLead">No lead yet</pre></details></div>
@@ -130,35 +136,42 @@
   </div>
 </section>
 
-<!-- 03 THE NIGHT SHIFT -->
-<section id="story" data-module="story" data-index="03" data-name="The night shift"></section>
-<!-- 04 DEPTH -->
-<section id="rows" data-module="rows" data-index="04" data-name="Depth"></section>
-<!-- 05 NUMBERS -->
-<section id="results" data-module="results" data-index="05" data-name="The numbers"></section>
-
-<!-- 06 INSIDE -->
-<section class="sec" id="plug" data-index="06" data-name="Inside">
+<!-- the read meter -->
+<section class="sec nsec" id="read">
   <div class="wrap">
-    <div class="sh"><h2 data-split>One engine. <em>Every channel.</em></h2></div>
-    <div class="plug" id="plugMap">
-      <div class="plug-c"><p class="lab">Customers</p><ul><li><svg width="22" height="22" aria-hidden="true"><use href="#c-web"/></svg>Web chat</li><li><svg width="22" height="22" aria-hidden="true"><use href="#c-whatsapp"/></svg>WhatsApp</li><li><svg width="22" height="22" aria-hidden="true"><use href="#c-instagram"/></svg>Instagram</li></ul></div>
-      <div class="pipes" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div class="plug-c eng"><p class="lab">The engine</p><ul><li><svg width="22" height="22" aria-hidden="true"><use href="#g-brain"/></svg>Intents</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-flow"/></svg>Flows</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-book"/></svg>FAQ you edit</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-hand"/></svg>Handover</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-log"/></svg>Event log</li></ul></div>
-      <div class="pipes" aria-hidden="true"><i></i><i></i><i></i></div>
-      <div class="plug-c"><p class="lab">Your team</p><ul><li><svg width="22" height="22" aria-hidden="true"><use href="#c-crm"/></svg>CRM assistant</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-quote"/></svg>Quotes</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-box"/></svg>Orders</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-cal"/></svg>Calendar</li></ul></div>
-    </div>
-    <p class="mnote">Here the data lives in your browser; a live build connects to your own systems.</p>
+    <header class="qh"><div class="qh-q"><p class="bub c">Does it get how people really type?</p><time class="ts">11:45 pm</time></div><div class="qh-a"><p class="who"><svg class="orb" width="20" height="20" aria-hidden="true"><use href="#orb"/></svg>Orbit <time>11:45 pm</time></p><h2>Watch it read, key by key.</h2><p class="lede">Type the way your customers do, Hinglish included. Each part lights up as it’s understood, and a wrong guess corrects itself as the sentence goes on.</p></div></header>
+    <div class="mt" id="meter"></div>
   </div>
 </section>
 
-<section class="sec alt" id="console" data-index="06">
+<!-- the night shift: pinned and scrubbed on desktop -->
+<section id="story" data-module="story" data-name="The night shift"></section>
+<div class="dawn" id="dawn" aria-hidden="true"><div class="dawn-arc"><i></i></div><p><b>9:05 am</b><span>your team logs in</span></p></div>
+<!-- what it does -->
+<section id="rows" data-module="rows" data-name="What it does"></section>
+<!-- the numbers -->
+<section id="results" data-module="results" data-name="The numbers"></section>
+
+<section class="sec" id="plug">
   <div class="wrap">
-    <div class="sh"><h2 data-split>One tap, <em>a person takes over.</em></h2></div>
+    <header class="qh"><div class="qh-q"><p class="bub c">Does it work on WhatsApp too?</p><time class="ts">9:08 am</time></div><div class="qh-a"><p class="who"><svg class="orb" width="20" height="20" aria-hidden="true"><use href="#orb"/></svg>Orbit <time>9:08 am</time></p><h2>One script, three inboxes.</h2><p class="lede">Write the flows once. Your website chat, WhatsApp and Instagram all answer from them, and your team sees every channel in one place.</p></div></header>
+    <div class="plug" id="plugMap">
+      <div class="plug-c"><p class="plug-k">Your customers</p><ul><li><svg width="22" height="22" aria-hidden="true"><use href="#c-web"/></svg>Web chat</li><li><svg width="22" height="22" aria-hidden="true"><use href="#c-whatsapp"/></svg>WhatsApp</li><li><svg width="22" height="22" aria-hidden="true"><use href="#c-instagram"/></svg>Instagram</li></ul></div>
+      <div class="pipes" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="plug-c eng"><p class="plug-k">The script</p><ul><li><svg width="22" height="22" aria-hidden="true"><use href="#g-brain"/></svg>Intents</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-flow"/></svg>Flows</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-book"/></svg>FAQ you edit</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-hand"/></svg>Handover</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-log"/></svg>Event log</li></ul></div>
+      <div class="pipes" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="plug-c"><p class="plug-k">Your team</p><ul><li><svg width="22" height="22" aria-hidden="true"><use href="#c-crm"/></svg>CRM assistant</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-quote"/></svg>Quotes</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-box"/></svg>Orders</li><li><svg width="22" height="22" aria-hidden="true"><use href="#g-cal"/></svg>Calendar</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec alt" id="console">
+  <div class="wrap">
+    <header class="qh"><div class="qh-q"><p class="bub c">Can my team step in?</p><time class="ts">9:09 am</time></div><div class="qh-a"><p class="who"><svg class="orb" width="20" height="20" aria-hidden="true"><use href="#orb"/></svg>Orbit <time>9:09 am</time></p><h2>One tap, and a person takes over.</h2></div></header>
     <div class="cons-grid">
       <div class="cons-l">
         <ol class="cons-steps"><li><b>1</b>Ask for a person</li><li><b>2</b>See it waiting</li><li><b>3</b>Take over</li></ol>
-        <div class="device sm" id="consChat"></div>
+        <div class="device sm" id="consChat"><div class="dev-sk" aria-hidden="true"><i></i><i></i><i></i></div></div>
         <button type="button" class="btn ghost sm" id="consTrig">Ask for a person now</button>
       </div>
       <div class="cons-r"><div class="cons-box" id="consBox"></div></div>
@@ -166,52 +179,52 @@
   </div>
 </section>
 
-<section class="sec" id="analytics" data-index="06">
+<section class="sec" id="analytics">
   <div class="wrap">
-    <div class="sh"><h2 data-split>Every chat leaves a <em>record.</em></h2><p class="lede" data-reveal>Live from the event log in this browser, with four weeks of history.</p></div>
+    <header class="qh"><div class="qh-q"><p class="bub c">Will I see what it did?</p><time class="ts">9:10 am</time></div><div class="qh-a"><p class="who"><svg class="orb" width="20" height="20" aria-hidden="true"><use href="#orb"/></svg>Orbit <time>9:10 am</time></p><h2>Every chat leaves a record.</h2><p class="lede">Intents, bookings, leads and hand-overs land in one event log, with four weeks of history. The chats you have above show up here as they happen.</p></div></header>
     <div id="anBox"></div>
-    <p class="mnote"><button type="button" class="lnk-b" id="resetBtn">Start fresh</button></p>
+    <p class="an-reset"><button type="button" class="lnk" id="resetBtn">Start fresh</button></p>
   </div>
 </section>
 
-<section class="sec alt" id="faqedit" data-index="06">
+<section class="sec alt" id="faqedit">
   <div class="wrap">
-    <div class="sh"><h2 data-split>Edit an answer. <em>It's live.</em></h2></div>
+    <header class="qh"><div class="qh-q"><p class="bub c">Can we change what it says?</p><time class="ts">9:11 am</time></div><div class="qh-a"><p class="who"><svg class="orb" width="20" height="20" aria-hidden="true"><use href="#orb"/></svg>Orbit <time>9:11 am</time></p><h2>Edit an answer and it’s live.</h2><p class="lede">Your team changes the FAQ in plain words. The next customer gets the new answer, on every channel.</p></div></header>
     <div class="kb-grid">
       <div class="kb-l" id="kbBox"></div>
-      <div class="kb-r"><div class="device sm" id="kbChat"></div></div>
+      <div class="kb-r"><div class="device sm" id="kbChat"><div class="dev-sk" aria-hidden="true"><i></i><i></i><i></i></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- 07 IMPACT -->
-<section id="without" data-module="split" data-index="07" data-name="Impact"></section>
-<section id="estimate" data-module="estimate" data-index="07"></section>
+<section id="without" data-module="split"></section>
+<section id="estimate" data-module="estimate"></section>
 
-<section class="sec" id="setup" data-index="07">
+<section class="sec" id="setup">
   <div class="wrap">
-    <div class="sh"><h2 data-split>Live in <em>weeks, not months.</em></h2></div>
-    <ol class="steps4" data-stagger=".08">
-      <li><b>01</b><h3>Brief</h3><p>One 30-minute call.</p></li>
-      <li><b>02</b><h3>Map</h3><p>Flows, FAQ, your data.</p></li>
-      <li><b>03</b><h3>Test</h3><p>Your team tries to break it.</p></li>
-      <li><b>04</b><h3>Launch</h3><p>Then we tune weekly.</p></li>
+    <header class="qh"><div class="qh-q"><p class="bub c">How long until it’s live?</p><time class="ts">9:14 am</time></div><div class="qh-a"><p class="who"><svg class="orb" width="20" height="20" aria-hidden="true"><use href="#orb"/></svg>Orbit <time>9:14 am</time></p><h2>Four steps to live.</h2></div></header>
+    <ol class="steps4">
+      <li><b>01</b><h3>Brief</h3><p>One 30-minute call about how your customers ask and book.</p></li>
+      <li><b>02</b><h3>Map</h3><p>Flows, the FAQ and your own data: catalogue, calendar or listings.</p></li>
+      <li><b>03</b><h3>Test</h3><p>Your team tries to break it before anyone else sees it.</p></li>
+      <li><b>04</b><h3>Launch</h3><p>On your website, WhatsApp and Instagram, then tuned every week.</p></li>
     </ol>
-    <details class="smart-note"><summary>Want it to understand looser language? <span>Optional</span></summary><p>Smart replies sit behind the scripts as a fallback. They answer only from your approved content and always hand over to a person when unsure. It needs a small backend to hold keys.</p></details>
+    <details class="smart-note"><summary>Want it to understand looser language? <span>Optional</span></summary><p>Smart replies sit behind the scripts as a fallback. They answer only from your approved content and always hand over to a person when unsure. They need a small backend to hold the keys.</p></details>
   </div>
 </section>
 
-<!-- 08 START -->
-<section id="packages" data-module="packages" data-index="08" data-name="Start"></section>
-<section id="faq" data-module="faq" data-index="08"></section>
-<section id="brief" data-module="brief" data-index="08"></section>
+<section id="packages" data-module="packages"></section>
+<section id="faq" data-module="faq"></section>
+<section id="brief" data-module="brief"></section>
 </main>
 
 <footer class="ft">
-  <div class="wrap ft-in">
-    <div class="ft-r"><p>© 2026 Orbit Assistants</p><nav aria-label="Footer"><a href="#demo">Live demo</a><a href="#story">The night shift</a><a href="#analytics">Analytics</a><a href="#packages">Packages</a></nav><p>Photos: Unsplash. Design &amp; build by <a href="../../index.html">Abhishek</a>.</p></div>
+  <div class="wrap ft-thread">
+    <div class="ft-q"><p class="bub c">That’s everything, thanks.</p><time class="ts">9:19 am</time></div>
+    <div class="ft-a"><p class="who"><svg class="orb" width="20" height="20" aria-hidden="true"><use href="#orb"/></svg>Orbit <time>9:19 am</time></p><p class="bub a">Anything else? I’m here.</p>
+      <div class="chips"><a class="chip" href="#try">Try it again</a><a class="chip" href="#trades">Find my trade</a><a class="chip" href="#brief">Get one built</a></div></div>
+    <div class="ft-meta"><p>© 2026 Orbit Assistants. A portfolio project by <a class="lnk" href="../../index.html">Abhishek</a>.</p><nav aria-label="Trades"><a href="clinic.html">Clinic</a><a href="salon.html">Salon</a><a href="restaurant.html">Restaurant</a><a href="real-estate.html">Real estate</a><a href="construction.html">Construction</a><a href="store.html">Online store</a></nav></div>
   </div>
-  <p class="giant" aria-hidden="true">Orbit</p>
 </footer>
 </body>
 </html>

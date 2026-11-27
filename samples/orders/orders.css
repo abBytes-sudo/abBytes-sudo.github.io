@@ -141,3 +141,10 @@ address{font-style:normal;line-height:1.7;color:var(--ink2)}address b{color:var(
 @media(pointer:coarse),(max-width:700px){.copy{padding:12px 6px}.btn.sm{height:44px}}
 @media(max-width:700px){.nl-ft{padding-bottom:84px}.tf .lnk,.t-hero .lede a{display:inline-flex;align-items:center;min-height:44px}}
 .route text{paint-order:stroke;stroke:#FBF9F5;stroke-width:3px;stroke-linejoin:round}
+
+/* the tracking headline rises a line at a time; it is not split into letters, so the type keeps its kerning */
+.t-h1 .t-ln{display:block;overflow:hidden;padding:.06em .04em .16em;margin:-.06em -.04em -.16em}
+.t-h1 .t-ln>span{display:inline-block;animation:tRise 1s cubic-bezier(.2,.7,.2,1) both}
+.t-h1 .t-ln+.t-ln>span{animation-delay:.09s}
+@keyframes tRise{from{transform:translateY(108%)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){.t-h1 .t-ln>span{animation:none}}

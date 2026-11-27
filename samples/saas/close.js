@@ -11,6 +11,8 @@
   function qa(root, sel) { return [].slice.call(root.querySelectorAll(sel)); }
   /* heading as masked lines: [{t:'html'}] -> block spans, joined by spaces so assistive tech reads words apart */
   function lines(prefix, arr) { return arr.map(function (l) { return '<span class="' + prefix + '-ln"><span class="' + prefix + '-li">' + l + '</span></span>'; }).join(' '); }
+  function QH(q, ts, h2, lede) { return window.OrbitUI && OrbitUI.qh ? OrbitUI.qh(q, ts, h2, lede) : '<h2>' + esc(h2) + '</h2>'; }
+  var MAIL = 'abhimasih0505@gmail.com';
   function isStatic(ctx) { return !ctx || !ctx.gsap || !ctx.animated || ctx.reduce; }
   function revealLines(ctx, root, prefix, trigger) {
     if (isStatic(ctx)) return;
@@ -52,11 +54,7 @@
     }).join('');
     el.innerHTML =
       '<div class="pk-wrap">' +
-        '<div class="pk-head">' +
-          '<p class="pk-lab"><b>' + esc(idx) + '</b>Packages</p>' +
-          '<h2 class="pk-h">' + lines('pk', ['Scope on paper,', 'price after <em>one call.</em>']) + '</h2>' +
-          '<p class="pk-note">No price list. Timings are estimates.</p>' +
-        '</div>' +
+        '<div class="pk-head">' + QH('What does it cost?', '9:15 am', 'Scope on paper, price after one call.', 'There’s no price list: each build is scoped on one call. Timings are estimates.') + '</div>' +
         '<ul class="pk-row">' + cards + '</ul>' +
       '</div>';
     qa(el, '.pk-tog').forEach(function (b) {
@@ -66,7 +64,6 @@
         b.setAttribute('aria-expanded', String(on)); more.classList.toggle('is-open', on); lab.textContent = on ? 'Hide scope' : 'See scope';
       });
     });
-    revealLines(ctx, el, 'pk', el.querySelector('.pk-h'));
     if (stat) return;
     var G = ctx.gsap, row = el.querySelector('.pk-row'), rcs = qa(el, '.pk-rc'), stamp = el.querySelector('.pk-stamp');
     G.set(rcs, { clipPath: 'inset(0 0 100% 0)', y: 36 });
@@ -78,7 +75,8 @@
 
   /* ========================================================= FAQ */
   var QS = [
-    ['Is this AI?', 'No: it\u2019s scripted and rule-based. An optional Smart replies add-on brings AI and needs a small backend. Your data stays in your browser.'],
+    ['Is this AI?', 'No: it\u2019s scripted and rule-based, so it only says what you\u2019ve approved. An optional Smart replies add-on brings AI behind the scripts and needs a small backend.'],
+    ['Does it understand Hinglish?', 'Yes. \u201CKal subah 11 baje table for 6\u201D reads as tomorrow at 11 am for six people. Try your own in the read meter above.'],
     ['What if it doesn\u2019t know the answer?', 'It asks to rephrase, then offers a person. Three misses always hand over to your team.'],
     ['Does it work on WhatsApp and Instagram?', 'Yes, with your real business accounts. Pro connects both; Starter covers one channel.'],
     ['Can my team take over a chat?', 'Yes. One tap in the agent console, with the full history in view.'],
@@ -101,14 +99,9 @@
     }).join('');
     el.innerHTML =
       '<div class="fq-wrap"><div class="fq-grid">' +
-        '<div class="fq-side">' +
-          '<p class="fq-lab"><b>' + esc(idx) + '</b>FAQ</p>' +
-          '<h2 class="fq-h">' + lines('fq', ['Go on,', '<em>ask.</em>']) + '</h2>' +
-          '<p class="fq-lede">Tap a question.</p>' +
-        '</div>' +
+        '<div class="fq-side">' + QH('I have a few questions.', '9:16 am', 'Go on, ask.', 'Tap a question.') + '</div>' +
         '<div class="fq-thread">' + items + '</div>' +
       '</div></div>';
-    revealLines(ctx, el, 'fq', el.querySelector('.fq-h'));
 
     var S = qa(el, '.fq-item').map(function (item, i) {
       return { item: item, btn: item.querySelector('.fq-btn'), panel: item.querySelector('.fq-a'), on: item.querySelector('.fq-on'), off: item.querySelector('.fq-off'), text: QS[i][1], open: false, seen: false, timer: 0, raf: 0, pending: false };
@@ -189,13 +182,12 @@
       opts: [['Answer FAQs', 'answer FAQs'], ['Book appointments', 'book appointments'], ['Qualify leads', 'qualify leads'], ['Track orders', 'track orders'], ['Hand over to my team', 'hand over to my team']] },
     { key: 'team', multi: false, q: 'How big is the team?', hint: 'Pick one', label: 'Team',
       opts: ['Just me', '2 to 5 people', '6 to 20 people', 'More than 20 people'] },
-    { key: 'notes', note: true, q: 'Anything else? (optional)', hint: 'Stays here', label: 'Notes' }
+    { key: 'notes', note: true, q: 'Anything else? (optional)', hint: 'Optional', label: 'Notes' }
   ];
 
   OS.brief = { mount: function (el, ctx) {
     var idx = el.getAttribute('data-index') || '09';
     var stat = isStatic(ctx), G = ctx.gsap;
-    var photo = ctx && ctx.samples ? ctx.samples('interior/photos/linen.jpg') : '../interior/photos/linen.jpg';
     el.classList.add('br'); if (stat) el.classList.add('is-static');
     var state = { industry: [], channels: [], goals: [], team: [], notes: '' };
 
@@ -220,28 +212,24 @@
     el.innerHTML =
       '<div class="br-bg" aria-hidden="true"><span class="br-blob"></span><span class="br-blob is-b"></span></div>' +
       '<div class="br-wrap">' +
-        '<div class="br-head"><div>' +
-          '<p class="br-lab"><b>' + esc(idx) + '</b>Contact</p>' +
-          '<h2 class="br-h">' + lines('br', ['I\u2019ll build this', 'for <em>your</em> business.']) + '</h2>' +
-        '</div><div class="br-photo" aria-hidden="true"><img src="' + esc(photo) + '" alt="" loading="lazy" decoding="async"></div></div>' +
+        '<div class="br-head">' + QH('Can you build one for us?', '9:17 am', 'I\u2019ll build this for your business.', 'Four quick questions. If you told the page what you run, it\u2019s already half filled.') + '</div>' +
         '<div class="br-grid">' +
           '<div class="br-chat" role="group" aria-label="Tell me about your business"><div class="br-chat-top"><i aria-hidden="true"></i>Orbit · scripted</div><div class="br-flow">' + turns + '</div></div>' +
           '<aside class="br-card" aria-label="Your brief"><div class="br-sheet">' +
-            '<div class="br-card-top"><h3>Your brief</h3><span class="br-hand" aria-hidden="true">writes itself</span></div>' +
+            '<div class="br-card-top"><h3>Your brief</h3><span class="br-hand" aria-hidden="true">fills as you answer</span></div>' +
             '<div class="br-text" aria-live="polite" aria-atomic="true">' + lineHtml + '</div>' +
             '<textarea class="br-fb" readonly hidden aria-label="Your brief as plain text, ready to copy" rows="6"></textarea>' +
             '<div class="br-acts">' +
               '<button type="button" class="br-b br-copy"><span>Copy brief</span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false"><rect x="5" y="5" width="8" height="9" stroke="currentColor" stroke-width="1.5"/><path d="M3 11V2h8" stroke="currentColor" stroke-width="1.5"/></svg></button>' +
-              '<a class="br-b is-primary" href="' + CONTACT + '" data-magnetic><span>Send it via the contact page</span>' + ARROW + '</a>' +
+              '<a class="br-b is-primary br-mail" href="' + CONTACT + '" data-magnetic><span>Email this brief</span>' + ARROW + '</a>' +
             '</div>' +
             '<p class="br-status" role="status"></p>' +
-            '<p class="br-fine">Nothing is sent from here. Paste it on the contact page.</p>' +
+            '<p class="br-fine">Or <a class="lnk" href="' + CONTACT + '">see other ways to get in touch</a>.</p>' +
             '<button type="button" class="br-reset">Start over</button>' +
           '</div></aside>' +
         '</div>' +
       '</div>';
 
-    revealLines(ctx, el, 'br', el.querySelector('.br-h'));
 
     /* ----- brief text ----- */
     var lineEls = {}; qa(el, '.br-line').forEach(function (l) { lineEls[l.getAttribute('data-k')] = l; });
@@ -251,6 +239,7 @@
       var a = state[k]; if (!a.length) return '';
       return a.join(', ');
     }
+    function mailHref() { return 'mailto:' + MAIL + '?subject=' + encodeURIComponent('An Orbit assistant for my business') + '&body=' + encodeURIComponent((briefText() || 'Business: to decide') + '\n\nSent from the Orbit page'); }
     function renderBrief() {
       STEPS.forEach(function (s) {
         var v = valueOf(s.key), l = lineEls[s.key], sp = l.querySelector('.br-val');
@@ -260,6 +249,7 @@
         var turn = el.querySelector('.br-turn[data-s="' + STEPS.indexOf(s) + '"]'), you = turn && turn.querySelector('.br-you');
         if (you) { you.hidden = !v; you.firstChild.textContent = v; }
       });
+      var ml = el.querySelector('.br-mail'); if (ml) ml.href = mailHref();
     }
     function briefText() {
       return STEPS.map(function (s) { var v = valueOf(s.key); return v ? s.label + ': ' + v : ''; }).filter(Boolean).join('\n');
@@ -322,6 +312,22 @@
     });
     renderBrief();
 
+    /* ----- half filled from "tell it your business" ----- */
+    function prefill(dt) {
+      var t = dt && dt.trade; if (!t || !t.brief) return;
+      var b = t.brief, map = { industry: [b.industry], channels: b.channels.slice(), goals: b.goals.slice() };
+      ['industry', 'channels', 'goals'].forEach(function (k, i) {
+        var turn = turnEls[i]; if (!turn) return;
+        qa(turn, '.br-chip').forEach(function (c) { c.setAttribute('aria-pressed', String(map[k].indexOf(c.getAttribute('data-v')) >= 0)); });
+        state[k] = qa(turn, '.br-chip[aria-pressed="true"]').map(function (c) { return c.getAttribute('data-v'); });
+        turn.hidden = false; if (revealed.indexOf(i) < 0) revealed.push(i);
+      });
+      if (dt.generic) { state.notes = 'We run ' + (/^[aeiou]/i.test(dt.noun) ? 'an ' : 'a ') + dt.noun + (dt.city ? ' in ' + dt.city : ''); notes.value = state.notes; }
+      reveal(3); renderBrief();
+    }
+    document.addEventListener('orbit:trade', function (e) { prefill(e.detail); });
+    var told = window.OrbitTell && OrbitTell.current(); if (told) { var tt = window.OrbitTrades && OrbitTrades.byId[told.id]; if (tt) prefill({ trade: tt, generic: told.generic, noun: told.noun, city: told.city }); }
+
     /* ----- first question: show typing dots, then the question, once the chat is on screen ----- */
     if (!stat) {
       var t0 = turnEls[0]; t0.classList.add('is-wait');
@@ -334,8 +340,6 @@
         var io = new IntersectionObserver(function (es) { if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); go(); } }, { threshold: 0.3 });
         io.observe(el.querySelector('.br-chat'));
       } else go();
-      G.fromTo(el.querySelector('.br-photo'), { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.6, ease: 'expo.out', clearProps: 'clipPath', scrollTrigger: { trigger: el.querySelector('.br-photo'), start: 'top 88%', once: true } });
-      G.from(el.querySelector('.br-photo img'), { scale: 1.25, duration: 2, ease: 'expo.out', scrollTrigger: { trigger: el.querySelector('.br-photo'), start: 'top 88%', once: true } });
       G.from(el.querySelector('.br-card'), { autoAlpha: 0, y: 60, duration: 1.5, ease: 'expo.out', clearProps: 'opacity,visibility,transform', scrollTrigger: { trigger: el.querySelector('.br-grid'), start: 'top 82%', once: true } });
     }
 

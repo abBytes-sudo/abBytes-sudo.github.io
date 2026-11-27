@@ -44,6 +44,13 @@
     return j === q.length ? sc : -1; };
   A.hl = function (q, s) { s = String(s); if (!q) return esc(s); var i = s.toLowerCase().indexOf(q.toLowerCase()); return i < 0 ? esc(s) : esc(s.slice(0, i)) + '<mark>' + esc(s.slice(i, i + q.length)) + '</mark>' + esc(s.slice(i + q.length)); };
   A.qs = function (r, k, d) { var v = r.q.get(k); return v == null ? d : v; };
+  // the courier collects at 4 pm, Monday to Saturday: the day's deadline on Home and on the packing bench
+  A.pickup = function (now) {
+    var t = new Date(now); t.setHours(16, 0, 0, 0); var today = new Date(now).getDay() !== 0 && now < t.getTime();
+    if (!today) { do { t.setDate(t.getDate() + 1); } while (t.getDay() === 0); }
+    return { t: t.getTime(), today: today, tomorrow: !today && NL.dayStart(t.getTime()) - NL.dayStart(now) === NL.DAY, day: t.toLocaleDateString('en-IN', { weekday: 'long' }) };
+  };
+  A.dur = function (ms) { var m = Math.max(1, Math.round(ms / 6e4)), h = Math.floor(m / 60); return h ? h + ' h' + (m % 60 ? ' ' + (m % 60) + ' min' : '') : m + ' min'; };
 
   /* ───────── toasts ───────── */
   A.toast = function (msg, o) {
@@ -127,9 +134,9 @@
     if (kind === 'none') return '';
     return '<div class="ph"><div><span class="sk" style="width:180px;height:26px"></span><span class="sk" style="width:280px;height:12px;margin-top:10px"></span></div></div><div class="tw">' + [42, 30, 50, 36, 44, 28, 40, 34].map(row).join('') + '</div>';
   }
-  var MV = '25', loaded = {}, loading = {};
+  var MV = '27', loaded = {}, loading = {};
   var FILES = { home: ['admin-insights.js', 'journey.js'], orders: ['admin-orders.js', 'journey.js'], journey: ['journey.js', 'admin-orders.js'], products: ['admin-catalog.js'], inventory: ['admin-catalog.js'],
-    customers: ['admin-people.js'], discounts: ['admin-people.js'], messages: ['admin-people.js'], analytics: ['admin-insights.js'], audit: ['admin-insights.js'], chats: ['admin-chat.js'] };
+    customers: ['admin-people.js'], discounts: ['admin-people.js'], messages: ['admin-people.js'], analytics: ['admin-insights.js'], audit: ['admin-insights.js'], chats: ['admin-chat.js'], bench: ['admin-bench.js'] };
   A.load = function (list) { return Promise.all(list.map(function (f) { if (loaded[f]) return true; if (!loading[f]) loading[f] = new Promise(function (res) { var s = document.createElement('script'); s.src = f + '?v=' + MV; s.onload = function () { loaded[f] = 1; res(); }; s.onerror = function () { loaded[f] = 1; res(); }; document.head.appendChild(s); }); return loading[f]; })); };
   A.loadAll = function () { var all = {}; Object.keys(FILES).forEach(function (k) { FILES[k].forEach(function (f) { all[f] = 1; }); }); return A.load(Object.keys(all)); };
   function render(fresh) {
@@ -142,6 +149,7 @@
     cur = p; curName = r.name; curPath = r.path; if (changed) A.dirty = false;
     view.className = 'view' + (p.wide ? ' wide' : '') + (p.flush ? ' flush' : '');
     document.body.setAttribute('data-page', r.name);
+    $$('.tabbar [data-tab]').forEach(function (t) { var on = t.getAttribute('data-tab') === (p.nav || r.name); if (on) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current'); });
     $$('#sideNav .nv').forEach(function (a) { var nav = a.getAttribute('data-nav'), hit = nav === (p.nav || r.name); var hq = a.getAttribute('data-q'); if (hq) hit = hit && r.q.toString() === hq; else if (nav === 'orders' && r.q.get('v') === 'returns' && r.name === 'orders') hit = false; if (hit) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
     crumbs(p.crumbs ? p.crumbs(r) : [[p.title || r.name, '#/' + r.name]]);
     document.title = (p.docTitle ? p.docTitle(r) : (p.title || 'Back office')) + ' · Northlane Back Office';
@@ -167,6 +175,7 @@
     { k: 'home', l: 'Home', i: 'home', href: '#/' },
     { k: 'orders', l: 'Orders', i: 'orders', href: '#/orders', ct: function () { return NL.db().orders.filter(function (o) { return !o.cancelled && NL.fulfilment(o) !== 'fulfilled'; }).length; }, hot: true },
     { k: 'orders', q: 'v=returns', l: 'Returns', i: 'return', href: '#/orders?v=returns', sub: true, ct: function () { return NL.db().orders.filter(function (o) { return NL.openReturn(o); }).length; } },
+    { k: 'bench', l: 'Packing bench', i: 'package', href: '#/bench', ct: function () { return A.toPack(); } },
     { k: 'journey', l: 'Order journey', i: 'journey', href: '#/journey' },
     { h: 'Catalogue' },
     { k: 'products', l: 'Products', i: 'products', href: '#/products', ct: function () { return NL.products({ all: true }).length; } },
@@ -183,8 +192,10 @@
   function buildNav() {
     $('#sideNav').innerHTML = NAV.map(function (n) { if (n.h) return '<h3>' + n.h + '</h3>'; return '<a class="nv' + (n.sub ? ' sub' : '') + '" href="' + n.href + '" data-nav="' + n.k + '"' + (n.q ? ' data-q="' + n.q + '"' : '') + '>' + (n.sub ? '' : A.ic(n.i)) + '<span>' + n.l + '</span>' + (n.ct ? '<span class="ct' + (n.hot ? ' hot' : '') + '" data-ct="' + NAV.indexOf(n) + '"></span>' : '') + '</a>'; }).join('');
   }
+  A.toPack = function () { return NL.db().orders.filter(function (o) { return !o.cancelled && NL.fulfilment(o) !== 'fulfilled' && o.pay.st !== 'pending'; }).length; };
   function navCounts() {
     $$('[data-ct]').forEach(function (el) { var n = NAV[+el.getAttribute('data-ct')], v = n.ct(); el.textContent = v || ''; el.classList.toggle('hot', !!(n.hot && v)); });
+    var tc = { bench: A.toPack(), chats: A.chatWaiting().n }; $$('[data-tct]').forEach(function (el) { var v = tc[el.getAttribute('data-tct')]; el.textContent = v || ''; el.hidden = !v; });
     var vs = NL.db().views || [];
     $('#sideViews').innerHTML = vs.length ? '<h3>Saved views</h3>' + vs.map(function (v) { return '<a class="nv sub" style="padding-left:12px" href="#/orders?' + esc(v.q) + '" data-nav="orders" data-q="' + esc(v.q) + '">' + A.ic('filter') + '<span>' + esc(v.name) + '</span></a>'; }).join('') : '';
     var r = A.parse(); $$('#sideViews .nv').forEach(function (a) { if (r.name === 'orders' && r.q.toString() === a.getAttribute('data-q')) a.setAttribute('aria-current', 'page'); });
@@ -197,6 +208,10 @@
   function openSide() { side.classList.add('open'); sh.hidden = false; $('#menuBtn').setAttribute('aria-expanded', 'true'); setTimeout(function () { var a = $('.nv[aria-current]', side) || $('.nv', side); if (a) a.focus(); }, 60); }
   function closeSide() { if (!side.classList.contains('open')) return; side.classList.remove('open'); sh.hidden = true; $('#menuBtn').setAttribute('aria-expanded', 'false'); }
   $('#menuBtn').innerHTML = A.ic('menu'); $('#sideX').innerHTML = A.ic('x');
+  (function () { var t = document.createElement('nav'); t.className = 'tabbar'; t.setAttribute('aria-label', 'Main sections');
+    t.innerHTML = [['home', 'Home', 'home', '#/'], ['orders', 'Orders', 'orders', '#/orders'], ['bench', 'Bench', 'package', '#/bench'], ['chats', 'Chats', 'chat', '#/chats']].map(function (x) { return '<a href="' + x[3] + '" data-tab="' + x[0] + '">' + A.ic(x[2]) + '<span>' + x[1] + '</span><em data-tct="' + x[0] + '" hidden></em></a>'; }).join('') +
+      '<button type="button" data-tab="more" aria-controls="side">' + A.ic('menu') + '<span>More</span></button>';
+    $('#app').appendChild(t); $('[data-tab=more]', t).addEventListener('click', function () { openSide(); }); })();
   $('#menuBtn').addEventListener('click', openSide); $('#sideX').addEventListener('click', closeSide); sh.addEventListener('click', closeSide);
   side.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSide(); });
 
@@ -204,7 +219,7 @@
   function themeBtn() { var d = document.documentElement.getAttribute('data-theme') === 'dark'; $('#themeBtn').innerHTML = A.ic(d ? 'sun' : 'moon'); $('#themeBtn').setAttribute('aria-label', d ? 'Switch to light theme' : 'Switch to dark theme'); }
   A.toggleTheme = function () { var d = document.documentElement.getAttribute('data-theme') !== 'dark'; if (d) document.documentElement.setAttribute('data-theme', 'dark'); else document.documentElement.removeAttribute('data-theme'); try { localStorage.setItem('nl-admin-theme', d ? 'dark' : 'light'); } catch (e) {} themeBtn(); if (cur && cur.theme) cur.theme(); };
   $('#themeBtn').addEventListener('click', A.toggleTheme); themeBtn();
-  $('#resetBtn').addEventListener('click', function () { A.confirm({ title: 'Start fresh?', sub: 'Every order, product edit, discount and note made in this browser goes back to the original seed. The storefront bag and sign-in are kept.', ok: 'Start fresh', danger: true }).then(function (y) { if (!y) return; NL.reset(); A.toast('Started fresh. New orders are waiting.'); A.go(''); }); });
+  $('#resetBtn').addEventListener('click', function () { A.confirm({ title: 'Start fresh?', sub: 'Orders, product edits, discounts and notes go back to how the season started. The storefront bag and sign-in are kept.', ok: 'Start fresh', danger: true }).then(function (y) { if (!y) return; NL.reset(); A.toast('Started fresh. New orders are waiting.'); A.go(''); }); });
 
   /* ───────── command palette ───────── */
   var cmds = [], searchers = [];
@@ -270,12 +285,13 @@
     A.cmd({ label: c[0], icon: c[1], kbd: c[3], pin: i === 1 || i === 9, run: function () { A.go(c[2]); } }); });
   A.cmd({ label: 'Toggle dark theme', icon: 'moon', keys: 'theme dark light mode', run: function () { A.toggleTheme(); } });
   A.cmd({ label: 'Open the storefront in a new tab', icon: 'store', keys: 'shop store website', run: function () { open('../store/index.html', '_blank'); } });
+  A.cmd({ label: 'Follow one order, from bag to doorstep', icon: 'journey', keys: 'tour walkthrough guide store order', run: function () { location.href = 'tour.html'; } });
   A.cmd({ label: 'Show keyboard shortcuts', icon: 'kbd', kbd: '?', keys: 'help keys', run: function () { shortcuts(); } });
   A.cmd({ label: 'Start fresh', icon: 'reset', keys: 'seed restore clear', run: function () { $('#resetBtn').click(); } });
 
   /* ───────── keyboard ───────── */
   var gPending = 0;
-  var GO = { h: '', o: 'orders', r: 'orders?v=returns', p: 'products', i: 'inventory', c: 'customers', d: 'discounts', a: 'analytics', m: 'messages', j: 'journey', l: 'audit', t: 'chats' };
+  var GO = { h: '', o: 'orders', r: 'orders?v=returns', b: 'bench', p: 'products', i: 'inventory', c: 'customers', d: 'discounts', a: 'analytics', m: 'messages', j: 'journey', l: 'audit', t: 'chats' };
   function typing(t) { return t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable); }
   addEventListener('keydown', function (e) {
     var mod = e.metaKey || e.ctrlKey;
@@ -292,9 +308,10 @@
   function shortcuts() {
     var k = function (a, b) { return '<div><span>' + a + '</span><span>' + b.split(' ').map(function (x) { return '<kbd>' + x + '</kbd>'; }).join('') + '</span></div>'; }, M = mac ? '⌘' : 'Ctrl';
     A.modal({ title: 'Keyboard shortcuts', sub: 'The back office is built to be driven from the keyboard.', size: 'lg', body: '<div class="kbdl"><h4>Everywhere</h4>' + k('Command menu and search', M + ' K') + k('Search this page', '/') + k('This list', '?') + k('Close a dialog', 'esc') +
-      '<h4>Go to</h4>' + k('Home', 'G H') + k('Orders', 'G O') + k('Returns', 'G R') + k('Products', 'G P') + k('Inventory', 'G I') + k('Customers', 'G C') + k('Discounts', 'G D') + k('Analytics', 'G A') + k('Messages', 'G M') + k('Conversations', 'G T') + k('Order journey', 'G J') + k('Audit log', 'G L') +
+      '<h4>Go to</h4>' + k('Home', 'G H') + k('Orders', 'G O') + k('Returns', 'G R') + k('Packing bench', 'G B') + k('Products', 'G P') + k('Inventory', 'G I') + k('Customers', 'G C') + k('Discounts', 'G D') + k('Analytics', 'G A') + k('Messages', 'G M') + k('Conversations', 'G T') + k('Order journey', 'G J') + k('Audit log', 'G L') +
       '<h4>Lists</h4>' + k('Move down / up', 'J K') + k('Select row', 'X') + k('Open row', '↵') + k('Select all', 'Shift A') +
       '<h4>Order detail</h4>' + k('Fulfil items', 'E') + k('Refund', 'R') + k('Print packing slip', 'P') + k('Previous / next order', '[ ]') + k('Save (in editors)', M + ' S') + k('Submit a dialog', M + ' ↵') +
+      '<h4>Packing bench</h4>' + k('Tick the scanned code', '↵') + k('Print label and next', 'P') + k('Skip for now', 'N') + k('Leave the bench', 'esc') +
       '<h4>Conversations</h4>' + k('Next chat waiting', 'N') + k('Take over', 'T') + k('Reply', 'R') + k('Resolve', 'E') + k('Previous / next chat', 'K J') + '</div>' });
   }
   $('#kbdBtn').addEventListener('click', shortcuts);

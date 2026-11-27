@@ -161,7 +161,7 @@
       if (tab === 'out') return head + outbox(D, r);
       if (!tdraft || !A.dirty) tdraft = NL.clone(D.tpl);
       var T = tdraft[tsel.ev], C = T[tsel.ch], sample = sampleOrder();
-      return head + '<div class="g2" style="grid-template-columns:260px minmax(0,1fr)"><div class="cd" style="position:sticky;top:96px"><div class="lines" style="padding:6px">' +
+      return head + '<div class="g2 g2-l"><div class="cd g2-st"><div class="lines" style="padding:6px">' +
         EVS.map(function (ev) { var t = tdraft[ev]; return '<button type="button" class="mi' + (ev === tsel.ev ? ' on' : '') + '" data-act="ev" data-ev="' + ev + '" style="min-height:44px"><span style="flex:1"><b style="font-weight:500;display:block">' + t.label + '</b><small class="mute" style="font-size:12px">' + [t.email.on ? 'Email' : '', t.wa.on ? 'WhatsApp' : ''].filter(Boolean).join(' · ') + (t.email.on || t.wa.on ? '' : 'Off') + '</small></span>' + ic('chev-r') + '</button>'; }).join('') + '</div></div>' +
         '<div><section class="cd"><div class="cd-h"><div class="seg" role="group" aria-label="Channel"><button type="button" data-act="ch" data-ch="email" aria-pressed="' + (tsel.ch === 'email') + '">' + ic('mail') + ' Email</button><button type="button" data-act="ch" data-ch="wa" aria-pressed="' + (tsel.ch === 'wa') + '">' + ic('chat') + ' WhatsApp</button></div><label class="sw"><input type="checkbox" data-ch="on"' + (C.on ? ' checked' : '') + '>Send this</label></div>' +
         '<div class="cd-b"><div class="npv"><div class="stack" style="display:grid;gap:12px">' + (tsel.ch === 'email' ? '<label class="fl"><span>Subject</span><input class="in" id="tsub" data-in="tf" data-k="subject" value="' + esc(C.subject) + '"></label>' : '') +

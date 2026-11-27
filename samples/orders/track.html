@@ -16,11 +16,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&display=swap" media="print" id="gf"><script src="../store/fonts.js" async></script><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500&display=swap"></noscript>
 <link rel="stylesheet" href="../assets/vendor/lenis.css">
 <link rel="stylesheet" href="../store/store.css?v=22">
-<link rel="stylesheet" href="orders.css?v=5">
+<link rel="stylesheet" href="orders.css?v=6">
 <link rel="preload" as="font" type="font/woff2" href="../store/fonts/bodoni-moda.woff2" crossorigin>
 <link rel="stylesheet" href="../store/mag.css?v=2">
 <link rel="stylesheet" href="../assets/back.css?v=2">
-<script src="../store/loader.js?v=4" defer data-s="../assets/vendor/gsap.min.js,../assets/vendor/ScrollTrigger.min.js,../assets/vendor/SplitText.min.js,../assets/vendor/lenis.min.js,../assets/motion.js,../store/catalog.js?v=9,../store/nl-data.js?v=21,../store/search.js?v=20,../store/store.js?v=25,track.js?v=21,../assets/back.js?v=1"></script>
+<script src="../store/loader.js?v=4" defer data-s="../assets/vendor/gsap.min.js,../assets/vendor/ScrollTrigger.min.js,../assets/vendor/SplitText.min.js,../assets/vendor/lenis.min.js,../assets/motion.js,../store/catalog.js?v=9,../store/nl-data.js?v=21,../store/search.js?v=20,../store/store.js?v=25,track.js?v=22,../assets/back.js?v=1"></script>
 <script src="../store/concierge.js?v=4" defer data-agent="northlane" data-brand="nl" data-skin="../store/concierge.css?v=8" data-title="Northlane" data-sub="Concierge · online" data-label="Ask the concierge" data-nudge="home,product,shop,checkout"></script>
 </head>
 <body data-page="track">
@@ -28,13 +28,12 @@
   <section class="wrap t-hero" id="tHero">
     <div>
       <p class="eyebrow">Order tracking</p>
-      <h1 data-split data-now>Where’s my <em>order?</em></h1>
+      <h1 class="t-h1"><span class="t-ln"><span>Where’s my</span></span> <span class="t-ln"><span><em>order?</em></span></span></h1>
       <p class="lede" data-reveal data-now data-delay=".4">Enter the order number from your confirmation and the email you used at checkout. Signed in? Your orders are all in <a class="u" href="../store/account.html#orders">your account</a>.</p>
       <form id="tf" class="tf" novalidate data-reveal data-now data-delay=".55">
         <label class="fld"><span>Order number</span><input id="tNum" name="num" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="NL-10471" required></label>
         <label class="fld"><span>Email address</span><input id="tEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></label>
         <button class="btn" type="submit" data-magnetic>Track order <span class="arrow" aria-hidden="true">→</span></button>
-        <p class="meta"><span id="demoHint"></span><button class="lnk" type="button" id="demoFill">Use a recent order</button></p>
         <p id="tErr" class="err" role="alert"></p>
       </form>
     </div>

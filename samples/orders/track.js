@@ -9,14 +9,14 @@
   var NOTE = { placed: 'We pack every order by hand at our Jaipur studio, usually within a working day.', packed: 'It’s wrapped and waiting for the courier to collect it.', shipped: 'Your parcel is moving between our courier’s hubs.', out: 'Your rider is on the way. Keep your phone handy.', delivered: 'Thanks for shopping with Northlane. Returns are free for 30 days.', cancelled: 'Anything you paid has been refunded to your original payment method.' };
   var CHECK = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg>';
   var RST = { requested: 'Return requested', approved: 'Pickup booked', received: 'Received at the studio', refunded: 'Refunded', rejected: 'Return declined' };
-  var demo = NL.demo(); $('#demoHint').innerHTML = 'Try <b>' + esc(demo.order) + '</b> with <b>' + esc(demo.email) + '</b>';
+  var demo = NL.demo(); if (!$('#tNum').value) $('#tNum').value = demo.order; if (!$('#tEmail').value) $('#tEmail').value = demo.email;
   $('#tNum').placeholder = demo.order;
 
   function submit(num, email, quiet) {
     errEl.textContent = '';
     if (!num.trim() || !email.trim()) { errEl.textContent = 'Please enter both your order number and email address.'; (num.trim() ? $('#tEmail') : $('#tNum')).focus(); return; }
     var o = NL.findOrder(num, email);
-    if (!o) { cur = null; res.hidden = true; errEl.textContent = NL.findOrder(num) ? 'That order exists, but not with this email. Use the address you checked out with.' : 'We couldn’t find ' + esc(num.trim().toUpperCase()) + '. Check the number on your confirmation, or try ' + demo.order + '.'; return; }
+    if (!o) { cur = null; res.hidden = true; errEl.textContent = NL.findOrder(num) ? 'That order exists, but not with this email. Use the address you checked out with.' : 'We couldn’t find ' + esc(num.trim().toUpperCase()) + '. Check the number on your confirmation email.'; return; }
     cur = o.id; curEmail = o.email; render(o, true); try { history.replaceState(null, '', '?o=' + encodeURIComponent(o.id) + '&e=' + encodeURIComponent(o.email) + (isNew ? '&new=1' : '')); } catch (e) {}
     if (!quiet) { var h = $('#stH'); if (h) h.focus({ preventScroll: true }); res.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); }
   }
@@ -141,7 +141,6 @@
     function show() { $$('.t-hero [data-now], .t-ph').forEach(function (e) { e.style.visibility = 'visible'; }); }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { requestAnimationFrame(show); }); setTimeout(show, 2500); })();
   form.addEventListener('submit', function (e) { e.preventDefault(); isNew = false; submit($('#tNum').value, $('#tEmail').value); });
-  $('#demoFill').addEventListener('click', function () { $('#tNum').value = demo.order; $('#tEmail').value = demo.email; errEl.textContent = ''; $('#tNum').focus(); });
   var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { var o = cur && NL.order(cur); if (o) $$('[data-route]').forEach(function (box) { var k = +box.getAttribute('data-route'); drawRoute(o, o.ships[k], box, $('[data-rn="' + k + '"]'), false); }); }, 150); });
   addEventListener('nl:change', function () { if (!cur) return; var o = NL.order(cur); if (o) render(o, false); });
 

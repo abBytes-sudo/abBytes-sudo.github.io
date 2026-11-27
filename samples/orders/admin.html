@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Northlane Back Office · Orders, products and customers</title>
-<meta name="description" content="The back office behind the Northlane store: orders, fulfilment, returns, products, inventory, customers, discounts and analytics.">
+<meta name="description" content="The back office behind the Northlane store: every parcel on one map, a packing bench for the 4 pm pickup, orders, returns, products, inventory, customers and analytics.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Northlane">
@@ -15,10 +15,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" media="print" id="gf"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
 <link rel="preload" as="font" type="font/woff2" href="../store/fonts/bodoni-moda.woff2" crossorigin>
-<link rel="stylesheet" href="admin.css?v=24">
+<link rel="stylesheet" href="admin.css?v=26">
 <link rel="stylesheet" href="../assets/back.css?v=2">
 <script src="admin-theme.js?v=3"></script>
-<script src="../store/loader.js?v=4" defer data-s="../store/catalog.js?v=9,../store/nl-data.js?v=21,admin-ui.js?v=25,../assets/back.js?v=1"></script>
+<script src="../store/loader.js?v=4" defer data-s="../store/catalog.js?v=9,../store/nl-data.js?v=21,admin-ui.js?v=27,../assets/back.js?v=1"></script>
 </head>
 <body>
 <a class="skip" href="#view">Skip to content</a>
@@ -33,6 +33,7 @@
     <nav class="side-nav" id="sideNav" aria-label="Sections"></nav>
     <div class="side-views" id="sideViews"></div>
     <div class="side-ft">
+      <a class="side-link" href="tour.html"><span class="ic ic-journey" aria-hidden="true"></span>Follow one order</a>
       <a class="side-link" href="../store/index.html" target="_blank" rel="noopener"><span class="ic ic-ext" aria-hidden="true"></span>Open the store</a>
       <button class="side-link" type="button" id="kbdBtn"><span class="ic ic-kbd" aria-hidden="true"></span>Keyboard shortcuts <kbd>?</kbd></button>
       <button class="side-link" type="button" id="resetBtn"><span class="ic ic-reset" aria-hidden="true"></span>Start fresh</button>
@@ -50,7 +51,7 @@
         <button class="ib" type="button" id="themeBtn" aria-label="Switch to dark theme"></button>
       </div>
     </header>
-    <main class="view" id="view" tabindex="-1"><div class="boot" aria-busy="true"><div class="hello"><div><h1>Good <span class="g-m">morning</span><span class="g-a">afternoon</span><span class="g-e">evening</span>, <em>Ananya.</em></h1><p>Opening today’s orders…</p></div></div><div class="kpis" aria-hidden="true"><div class="kpi"><span class="sk" style="width:60%;height:12px"></span><span class="sk" style="width:40%;height:22px;margin-top:10px"></span></div><div class="kpi"><span class="sk" style="width:50%;height:12px"></span><span class="sk" style="width:30%;height:22px;margin-top:10px"></span></div><div class="kpi"><span class="sk" style="width:55%;height:12px"></span><span class="sk" style="width:35%;height:22px;margin-top:10px"></span></div><div class="kpi"><span class="sk" style="width:45%;height:12px"></span><span class="sk" style="width:38%;height:22px;margin-top:10px"></span></div></div></div></main>
+    <main class="view" id="view" tabindex="-1"><div class="boot" aria-busy="true"><div class="day"><div><h1><span class="sk" style="width:min(420px,78vw);height:20px"></span></h1><p>Opening today’s orders…</p></div></div><div class="cd pm-sk"></div><div class="kpis" aria-hidden="true"><div class="kpi"><span class="sk" style="width:60%;height:12px"></span><span class="sk" style="width:40%;height:22px;margin-top:10px"></span></div><div class="kpi"><span class="sk" style="width:50%;height:12px"></span><span class="sk" style="width:30%;height:22px;margin-top:10px"></span></div><div class="kpi"><span class="sk" style="width:55%;height:12px"></span><span class="sk" style="width:35%;height:22px;margin-top:10px"></span></div><div class="kpi"><span class="sk" style="width:45%;height:12px"></span><span class="sk" style="width:38%;height:22px;margin-top:10px"></span></div></div></div></main>
   </div>
 </div>
 <div class="layer" id="layer"></div>

@@ -2,7 +2,7 @@
    OrbitSections.story     03 The night shift     placeholder: <section id="story"   data-module="story">
    OrbitSections.split     06 Without vs with     placeholder: <section id="without" data-module="split">
    OrbitSections.estimate  06 Savings estimator   placeholder: <section id="estimate" data-module="estimate">
-   Prefixes: .stv- (story)  .spl- (split)  .est- (estimator).  All figures are demo or estimates. */
+   Prefixes: .stv- (story)  .spl- (split)  .est- (estimator).  Every figure is an example or an estimate, and says so. */
 (function () {
   'use strict';
   var OS = window.OrbitSections = window.OrbitSections || {};
@@ -23,15 +23,18 @@
     wa: '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M4 20l1.3-4A8.2 8.2 0 1 1 8 18.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.5 9c.2 2.5 2.2 4.6 5 5.2l1-1.3-1.8-1-.8.7a4 4 0 0 1-1.8-1.8l.7-.8-1-1.8z" fill="currentColor"/></svg>',
     orb: '<svg viewBox="0 0 22 22" width="13" height="13" aria-hidden="true"><circle cx="11" cy="11" r="8.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="5.6" r="2.6" fill="currentColor"/></svg>'
   };
-  var CAPS = [
-    { time: '11:42 pm', k: 'Message', t: 'Priya writes on WhatsApp.' },
-    { time: '11:42 pm', k: 'Reply', t: 'Answered in the same minute.' },
-    { time: '11:43 pm', k: 'Booked', t: 'Saturday, 11 am. Booked.' },
-    { time: '11:44 pm', k: 'In the CRM', t: 'Waiting in the CRM, marked hot.' },
-    { time: '9:05 am', k: 'Assigned', t: 'Ranked first. Handed to Kiran.' }
-  ];
-  var LABELS = ['Message', 'Reply', 'Booked', 'In the CRM', 'Assigned'];
-  var HEAD = '11:42 pm. By 9:05 am: <em>a booked visit.</em>';
+  var CHI = {
+    whatsapp: I.wa,
+    instagram: '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>',
+    web: '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 12h17M12 3.5c3 3.5 3 13.5 0 17M12 3.5c-3 3.5-3 13.5 0 17" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>'
+  };
+  var CHL = { whatsapp: 'WhatsApp', instagram: 'Instagram', web: 'Web chat' };
+  var TIMES = ['11:42 pm', '11:42 pm', '11:43 pm', '11:44 pm', '9:05 am'], LABELS = ['Message', 'Reply', 'Booked', 'In the CRM', 'Assigned'];
+  /* the trade being shown: its story, business and the person who picks it up at 9:05 */
+  function tradeOf(id) {
+    var TR = window.OrbitTrades; if (!TR) return null;
+    var t = TR.byId[id || 'realestate'] || TR.byId.realestate; return t;
+  }
 
   function fmtClock(m) {
     var tot = (23 * 60 + 42 + Math.round(m)) % 1440, h = Math.floor(tot / 60), mi = tot % 60;
@@ -43,111 +46,125 @@
   function bub(who, inner, time) {
     return '<div class="stv-b stv-b--' + who + '">' + inner + '<span class="stv-meta"><time>' + time + '</time>' + (who === 'me' ? I.ticks : '') + '</span></div>';
   }
-  function listing(src) {
-    return '<div class="stv-lst"><span class="stv-lst-i"><img src="' + esc(src) + '" alt="Living room of Lakeview Court, a furnished 3 BHK" loading="lazy" decoding="async"></span>' +
-      '<span class="stv-lst-t"><b>Lakeview Court</b><span class="stv-ns">3 BHK · furnished</span><strong>₹1.35 L <small>a month</small></strong></span></div>';
+  function listing(t, src) {
+    var c = t.story.card;
+    return '<div class="stv-lst">' + (src ? '<span class="stv-lst-i"><img src="' + esc(src) + '" alt="' + esc(c.title + ', ' + c.meta) + '" loading="lazy" decoding="async"></span>' : '<span class="stv-lst-i stv-lst-m" aria-hidden="true">' + esc(t.mark) + '</span>') +
+      '<span class="stv-lst-t"><b>' + esc(c.title) + '</b><span class="stv-ns">' + esc(c.meta) + '</span><strong>' + esc(c.price) + '</strong></span></div>';
   }
-  function booking() {
-    return '<div class="stv-bk"><div class="stv-bk-h">' + I.ok + 'Visit booked</div><div class="stv-bk-d"><b>Saturday</b><span>11:00 am</span></div>' +
-      '<div class="stv-bk-f"><span>Lakeview Court</span><span>Ref AV-4821</span></div></div>';
+  function booking(t) {
+    var k = t.story.booking;
+    return '<div class="stv-bk"><div class="stv-bk-h">' + I.ok + esc(k.h) + '</div><div class="stv-bk-d"><b>' + esc(k.day) + '</b><span>' + esc(k.time) + '</span></div>' +
+      '<div class="stv-bk-f"><span>' + esc(k.where) + '</span><span>Ref ' + esc(k.ref) + '</span></div></div>';
   }
-  function waHead() {
-    return '<div class="stv-wa-h">' + av('AH') + '<span class="stv-wa-n"><b>Alderway Homes</b><small><i class="stv-on"></i>online</small></span><span class="stv-wa-c">' + I.wa + 'WhatsApp</span></div>';
+  function waHead(t) {
+    var ch = t.story.ch;
+    return '<div class="stv-wa-h">' + av(t.mark) + '<span class="stv-wa-n"><b>' + esc(t.biz) + '</b><small><i class="stv-on"></i>online</small></span><span class="stv-wa-c">' + (CHI[ch] || I.wa) + esc(CHL[ch] || 'Chat') + '</span></div>';
   }
   function crmRow(o) {
     return '<div class="stv-row' + (o.cls ? ' ' + o.cls : '') + '">' +
       (o.hot ? '<span class="stv-hot"><span class="stv-sr">Hot lead</span></span>' : '<span class="stv-cold" aria-hidden="true"></span>') +
-      '<span class="stv-row-m"><b>' + o.name + '</b><span class="stv-need">' + o.need + '</span><span class="stv-row-c"><span class="stv-src' + (o.wa ? ' stv-src--wa' : '') + '">' + (o.wa ? I.wa : '') + o.src + '</span><span class="stv-stg' + (o.hot ? ' stv-stg--hot' : '') + '">' + o.stage + '</span></span></span>' +
-      '<span class="stv-row-r"><time>' + o.time + '</time>' + o.own + '</span></div>';
+      '<span class="stv-row-m"><b>' + esc(o.name) + '</b><span class="stv-need">' + esc(o.need) + '</span><span class="stv-row-c"><span class="stv-src' + (o.wa ? ' stv-src--wa' : '') + '">' + (o.wa ? I.wa : '') + esc(o.src) + '</span><span class="stv-stg' + (o.hot ? ' stv-stg--hot' : '') + '">' + esc(o.stage) + '</span></span></span>' +
+      '<span class="stv-row-r"><time>' + esc(o.time) + '</time>' + o.own + '</span></div>';
   }
-  function crm(pin) {
-    var own = pin ? '<span class="stv-own"><span class="stv-own-a">Unassigned</span><span class="stv-own-b">Kiran</span></span>' : '<span class="stv-own"><span class="stv-own-a">Unassigned</span></span>';
-    var first = crmRow({ cls: 'stv-row--new', hot: true, name: 'Priya Nair', need: '3 BHK, Indiranagar', wa: true, src: 'WhatsApp', stage: 'Visit booked', time: '11:44 pm', own: own });
+  function crm(t, pin) {
+    var rows = t.story.crm, who = t.staff.name;
+    var own = pin ? '<span class="stv-own"><span class="stv-own-a">Unassigned</span><span class="stv-own-b">' + esc(who) + '</span></span>' : '<span class="stv-own"><span class="stv-own-a">Unassigned</span></span>';
+    var first = crmRow({ cls: 'stv-row--new', hot: true, name: rows[0].name, need: rows[0].need, wa: rows[0].src === 'WhatsApp', src: rows[0].src, stage: rows[0].stage, time: '11:44 pm', own: own });
     return '<div class="stv-crm-h"><b>Leads</b><span class="stv-crm-n">Today</span></div>' +
       (pin ? '<div class="stv-slot">' + first + '</div>' : first) +
-      crmRow({ name: 'Rohan Mehta', need: 'Plot, Whitefield', src: 'Web chat', stage: 'Qualified', time: 'Tue', own: '<span class="stv-own">Meera</span>' }) +
-      crmRow({ name: 'Sana Qureshi', need: '2 BHK, HSR', src: 'Instagram', stage: 'New', time: 'Mon', own: '<span class="stv-own">Meera</span>' });
+      rows.slice(1).map(function (r) { return crmRow({ name: r.name, need: r.need, src: r.src, wa: r.src === 'WhatsApp', stage: r.stage, time: r.time || 'Mon', own: '<span class="stv-own">' + esc(who) + '</span>' }); }).join('');
   }
-  function rank() {
-    return '<div class="stv-rk-h"><span class="stv-rk-b">' + I.orb + 'CRM assistant</span><time>9:05 am</time></div>' +
-      '<p class="stv-rk-q">Who should I call first?</p>' +
-      '<ol class="stv-rk-l">' +
-      '<li><b class="stv-rk-1">1</b><span><strong>Priya Nair</strong><span>Visit booked, Saturday 11 am</span></span></li>' +
-      '<li><b>2</b><span><strong>Rohan Mehta</strong><span>Asked for a callback</span></span></li>' +
-      '<li><b>3</b><span><strong>Sana Qureshi</strong><span>Still browsing</span></span></li></ol>';
+  function rank(t) {
+    var r = t.story.rank;
+    return '<div class="stv-rk-h"><span class="stv-rk-b">' + I.orb + 'Team assistant</span><time>9:05 am</time></div>' +
+      '<p class="stv-rk-q">' + esc(r.q) + '</p><ol class="stv-rk-l">' + r.items.map(function (x, i) { return '<li><b' + (i ? '' : ' class="stv-rk-1"') + '>' + (i + 1) + '</b><span><strong>' + esc(x[0]) + '</strong><span>' + esc(x[1]) + '</span></span></li>'; }).join('') + '</ol>';
   }
-  function toast() { return av('K') + '<span class="stv-toast-t"><b>Assigned to Kiran</b><span class="stv-sr"> · </span><span class="stv-toast-s">Indiranagar specialist</span></span>' + I.ok; }
+  function toast(t) { return av(t.staff.name.charAt(0)) + '<span class="stv-toast-t"><b>Assigned to ' + esc(t.staff.name) + '</b><span class="stv-sr"> · </span><span class="stv-toast-s">' + esc(t.staff.role) + '</span></span>' + I.ok; }
+  function ask() { return '<div class="stv-q"><p class="stv-qb">What happens after we close?</p><time>11:41 pm</time></div>'; }
 
-  function stageHTML(src) {
-    var caps = CAPS.map(function (c, i) { return '<div class="stv-cap" data-i="' + i + '"><span class="stv-cap-t">' + c.time + ' <i>·</i> ' + c.k + '</span><p>' + c.t + '</p></div>'; }).join('');
+  function stageHTML(t, src) {
+    var s = t.story;
+    var caps = s.caps.map(function (c, i) { return '<div class="stv-cap" data-i="' + i + '"><span class="stv-cap-t">' + TIMES[i] + ' <i>·</i> ' + LABELS[i] + '</span><p>' + esc(c) + '</p></div>'; }).join('');
     var ticks = LABELS.map(function (l, i) { return '<li style="top:' + (i * 25) + '%"><i class="stv-dot"></i><span>' + l + '</span></li>'; }).join('');
     return '<div class="stv-stage stv-pal"><div class="stv-bg" aria-hidden="true"><i class="stv-hz"></i></div>' +
-      '<div class="stv-grid"><div class="stv-l">' +
-      '<p class="stv-lab"><span>03</span> The night shift <i>·</i> demo</p>' +
+      '<div class="stv-grid"><div class="stv-l">' + ask() +
       '<div class="stv-clock" aria-hidden="true"><span class="stv-ck">11:42</span><span class="stv-ap">pm</span></div>' +
-      '<h2 class="stv-h">' + HEAD + '</h2><div class="stv-caps" aria-live="off">' + caps + '</div></div>' +
+      '<h2 class="stv-h">' + esc(s.head) + '</h2><div class="stv-caps" aria-live="off">' + caps + '</div></div>' +
       '<div class="stv-cast" role="group" aria-label="One enquiry, from the customer\'s phone to the team\'s CRM">' +
       '<i class="stv-gl stv-gl--wa" aria-hidden="true"></i><i class="stv-gl stv-gl--crm" aria-hidden="true"></i><i class="stv-gl stv-gl--rk" aria-hidden="true"></i>' +
-      '<div class="stv-wa">' + waHead() + '<div class="stv-wa-b">' +
-      bub('me', '<p>3 BHK in Indiranagar under 1.5 lakh a month</p>', '11:42 pm') +
-      bub('bot', '<p>Two homes fit. Lakeview Court, ₹1.35 L a month.</p>' + listing(src), '11:42 pm') +
-      bub('me', '<p>Can I see one on Saturday?</p>', '11:43 pm') +
-      bub('bot', '<p>Saturday 11 am is free. Booked for you.</p>' + booking(), '11:43 pm') +
+      '<div class="stv-wa">' + waHead(t) + '<div class="stv-wa-b">' +
+      bub('me', '<p>' + esc(s.m1) + '</p>', '11:42 pm') +
+      bub('bot', '<p>' + esc(s.r1) + '</p>' + listing(t, src), '11:42 pm') +
+      bub('me', '<p>' + esc(s.m2) + '</p>', '11:43 pm') +
+      bub('bot', '<p>' + esc(s.r2) + '</p>' + booking(t), '11:43 pm') +
       '</div></div>' +
-      '<div class="stv-crm">' + crm(true) + '</div>' +
-      '<div class="stv-rk">' + rank() + '</div>' +
-      '<div class="stv-toast">' + toast() + '</div></div>' +
+      '<div class="stv-crm">' + crm(t, true) + '</div>' +
+      '<div class="stv-rk">' + rank(t) + '</div>' +
+      '<div class="stv-toast">' + toast(t) + '</div></div>' +
       '<div class="stv-rail" aria-hidden="true"><div class="stv-ghost"><i class="stv-gln"></i><i class="stv-gdot"></i><span class="stv-glab">Without an assistant · first reply 6 h</span></div>' +
       '<div class="stv-main"><i class="stv-ln"></i><i class="stv-fill"></i><ol>' + ticks + '</ol></div></div>' +
       '</div></div>';
   }
 
-  function flatHTML(src) {
+  function flatHTML(t, src) {
+    var s = t.story;
     var nav = LABELS.map(function (l, i) { return '<li><a href="#stv-s' + (i + 1) + '"><i class="stv-dot"></i><span>' + l + '</span></a></li>'; }).join('');
     var steps = [
-      '<div class="stv-wa stv-wa--lone">' + waHead() + '<div class="stv-wa-b">' + bub('me', '<p>3 BHK in Indiranagar under 1.5 lakh a month</p>', '11:42 pm') + '</div></div>',
-      '<div class="stv-wa stv-wa--lone"><div class="stv-wa-b">' + bub('bot', '<p>Two homes fit. Lakeview Court, ₹1.35 L a month.</p>' + listing(src), '11:42 pm') + '</div></div>',
-      '<div class="stv-wa stv-wa--lone"><div class="stv-wa-b">' + bub('me', '<p>Can I see one on Saturday?</p>', '11:43 pm') + bub('bot', '<p>Saturday 11 am is free. Booked for you.</p>' + booking(), '11:43 pm') + '</div></div>',
-      '<div class="stv-crm">' + crm(false) + '</div>',
-      '<div class="stv-rk">' + rank() + '</div><div class="stv-toast">' + toast() + '</div>'
+      '<div class="stv-wa stv-wa--lone">' + waHead(t) + '<div class="stv-wa-b">' + bub('me', '<p>' + esc(s.m1) + '</p>', '11:42 pm') + '</div></div>',
+      '<div class="stv-wa stv-wa--lone"><div class="stv-wa-b">' + bub('bot', '<p>' + esc(s.r1) + '</p>' + listing(t, src), '11:42 pm') + '</div></div>',
+      '<div class="stv-wa stv-wa--lone"><div class="stv-wa-b">' + bub('me', '<p>' + esc(s.m2) + '</p>', '11:43 pm') + bub('bot', '<p>' + esc(s.r2) + '</p>' + booking(t), '11:43 pm') + '</div></div>',
+      '<div class="stv-crm">' + crm(t, false) + '</div>',
+      '<div class="stv-rk">' + rank(t) + '</div><div class="stv-toast">' + toast(t) + '</div>'
     ];
-    var li = CAPS.map(function (c, i) {
-      return '<li class="stv-st" id="stv-s' + (i + 1) + '"><div class="stv-st-hd"><time>' + c.time + '</time><span class="stv-st-k">' + c.k + '</span></div><p class="stv-st-p">' + c.t + '</p><div class="stv-st-bd">' + steps[i] + '</div></li>';
+    var li = s.caps.map(function (c, i) {
+      return '<li class="stv-st" id="stv-s' + (i + 1) + '"><div class="stv-st-hd"><time>' + TIMES[i] + '</time><span class="stv-st-k">' + LABELS[i] + '</span></div><p class="stv-st-p">' + esc(c) + '</p><div class="stv-st-bd">' + steps[i] + '</div></li>';
     }).join('');
-    return '<div class="stv-flat"><div class="stv-fw"><div class="stv-fl stv-pal"><div class="stv-fi">' +
-      '<p class="stv-lab"><span>03</span> The night shift <i>·</i> demo</p>' +
+    return '<div class="stv-flat"><div class="stv-fw"><div class="stv-fl stv-pal"><div class="stv-fi">' + ask() +
       '<p class="stv-fclock" aria-hidden="true"><span>11:42 pm</span><span><i>→</i> 9:05 am</span></p><p class="stv-sr">11:42 pm to 9:05 am</p>' +
-      '<h2 class="stv-h">' + HEAD + '</h2>' +
+      '<h2 class="stv-h">' + esc(s.head) + '</h2>' +
       '<nav class="stv-hr" aria-label="The five steps of the night"><ol>' + nav + '</ol><i class="stv-hr-ln"></i><i class="stv-hr-f"></i>' +
       '<p class="stv-hr-g"><i></i><span>Without an assistant: first reply 6 h</span></p></nav>' +
       '</div></div><div class="stv-fr stv-pal"><ol class="stv-steps">' + li + '</ol></div></div></div>';
   }
 
   function mountStory(el, ctx) {
-    var G = ctx.gsap, ST = ctx.ST, B = brands(ctx), r = B.byId.realty || { acc: '#5EEAD4', ink: '#04201B', tx: '#0F766E', soft: '#D9F7F1', photo: 'interior/photos/room-2.jpg' };
-    var src = ctx.samples ? ctx.samples(r.photo) : '../' + r.photo;
+    var G = ctx.gsap, ST = ctx.ST, live = ctx.animated && G && ST && G.context;
+    var mode = null, gctx = null, mq = window.matchMedia(PIN_MQ), timer = null, cur = null;
     el.classList.add('stv');
-    el.style.setProperty('--stv-acc', r.acc); el.style.setProperty('--stv-ink', r.ink); el.style.setProperty('--stv-tx', r.tx || '#0F766E'); el.style.setProperty('--stv-soft', r.soft || '#D9F7F1');
-    el.innerHTML = stageHTML(src) + flatHTML(src);
-    var live = ctx.animated && G && ST && G.context;
-    if (!live) { initFlat(el, ctx, false); return; }
-    var mode = null, gctx = null, mq = window.matchMedia(PIN_MQ), t = null;
-    function apply(first) {
+    function render(id) {
+      var t = tradeOf(id); if (!t) return; cur = t.id;
+      var c = t.color || { acc: '#5EEAD4', ink: '#04201B', tx: '#0F766E', soft: '#D9F7F1' };
+      var src = t.story.img ? (ctx.samples ? ctx.samples(t.story.img) : '../' + t.story.img) : '';
+      el.style.setProperty('--stv-acc', c.acc); el.style.setProperty('--stv-ink', c.ink); el.style.setProperty('--stv-tx', c.tx); el.style.setProperty('--stv-soft', c.soft);
+      if (gctx) { gctx.revert(); gctx = null; } mode = null; el.classList.remove('stv--pin');
+      el.innerHTML = stageHTML(t, src) + flatHTML(t, src);
+      if (!live) { initFlat(el, ctx, false); return; }
+      apply(true, t);
+      $$('img', el).forEach(function (im) { if (!im.complete) im.addEventListener('load', function () { ST.refresh(); }, { once: true }); });
+    }
+    function apply(first, t) {
+      t = t || tradeOf(cur);
       var want = mq.matches ? 'pin' : 'stack'; if (want === mode) return;
       if (gctx) gctx.revert();
       el.classList.toggle('stv--pin', false); mode = want;
       gctx = G.context(function () {
-        if (want === 'pin') { el.classList.add('stv--pin'); buildPin(el, ctx, r); } else initFlat(el, ctx, true);
+        if (want === 'pin') { el.classList.add('stv--pin'); buildPin(el, ctx, t); } else initFlat(el, ctx, true);
       }, el);
       if (first !== true) setTimeout(function () { ST.refresh(); }, 30);
     }
-    apply(true);
-    function later() { clearTimeout(t); t = setTimeout(apply, 120); }
-    window.addEventListener('resize', later);
-    if (mq.addEventListener) mq.addEventListener('change', later); else if (mq.addListener) mq.addListener(later);
-    var done = function () { ST.refresh(); };
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { requestAnimationFrame(done); });
-    $$('img', el).forEach(function (im) { if (!im.complete) im.addEventListener('load', function () { ST.refresh(); }, { once: true }); });
+    var tell = window.OrbitTell && OrbitTell.current();
+    render(tell ? tell.id : 'realestate');
+    if (live) {
+      var later = function () { clearTimeout(timer); timer = setTimeout(function () { apply(false); }, 120); };
+      window.addEventListener('resize', later);
+      if (mq.addEventListener) mq.addEventListener('change', later); else if (mq.addListener) mq.addListener(later);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { requestAnimationFrame(function () { ST.refresh(); }); });
+    }
+    document.addEventListener('orbit:trade', function (e) {
+      var id = e.detail && e.detail.id; if (!id || id === cur) return;
+      if (ctx.reduce || !live) { render(id); return; }
+      el.classList.add('is-swap'); setTimeout(function () { render(id); ST.refresh(); el.classList.remove('is-swap'); }, 300);
+    });
   }
 
   /* Stacked sequence (mobile, narrow, reduced motion): a night hero, then light steps. */
@@ -165,7 +182,7 @@
   }
 
   /* Pinned, scrubbed night: dark at 11:42 pm, the page's light background at 9:05 am. */
-  function buildPin(el, ctx, r) {
+  function buildPin(el, ctx, t) {
     var G = ctx.gsap;
     var stage = $('.stv-stage', el), cast = $('.stv-cast', stage);
     var hdEl = document.querySelector('.hd'), hd = hdEl ? Math.round(hdEl.getBoundingClientRect().height) : 0;
@@ -202,7 +219,7 @@
     /* the conversation */
     tl.fromTo(wa, { x: function () { return 11.5 * em(); } }, { x: 0, duration: 1.6, ease: 'expo.inOut' }, 5.5);
     pop(bs[0], 0.2, 1.0); pop(bs[1], 1.6, 1.3); pop(bs[2], 3.0, 1.0); pop(bs[3], 4.0, 1.3);
-    tl.fromTo($('.stv-lst-i img', stage), { scale: 1.3 }, { scale: 1, duration: 1.8, ease: 'expo.out' }, 1.7);
+    var lim = $('.stv-lst-i img', stage); if (lim) tl.fromTo(lim, { scale: 1.3 }, { scale: 1, duration: 1.8, ease: 'expo.out' }, 1.7);
     tl.fromTo($('.stv-bk', stage), { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.3, ease: 'expo.out' }, 4.25);
 
     /* the clock */
@@ -211,8 +228,8 @@
       .to(clk, { m: 563, duration: 2.2, ease: 'none', onUpdate: paint }, 6.2)
       .to(stage, { '--ck': 1, duration: 0.9, ease: 'power2.out' }, 8.2);
 
-    /* night to morning: every colour in the stage follows --d */
-    tl.to(stage, { '--d': 1, duration: 3.2, ease: 'power1.inOut' }, 6.0);
+    /* the haze at the bottom is the first light; every colour in the stage follows --d (kept at night) */
+    /* on the home page the room stays dark: the dawn band below turns the page white at 9:05 am. */
     tl.fromTo(hz, { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.6, ease: 'none' }, 6.2).to(hz, { autoAlpha: 0, duration: 1.8, ease: 'none' }, 8.2);
 
     /* the CRM */
@@ -242,7 +259,7 @@
       tl.to(li, { '--on': 1, duration: 0.7, ease: 'power4.out' }, TT[i]);
       tl.to($('.stv-dot', li), { scale: 1.25, duration: 0.7, ease: 'power4.out' }, TT[i]);
     });
-    tl.fromTo(glab, { opacity: 0.45 }, { opacity: 1, duration: 1.0, ease: 'power2.out' }, 7.6);
+    tl.fromTo(glab, { opacity: 0.8 }, { opacity: 1, duration: 1.0, ease: 'power2.out' }, 7.6);
     tl.to({}, { duration: 0.01 }, 11.8);
   }
 
@@ -256,7 +273,7 @@
   function clock12(h, m) { var ap = h >= 12 ? 'pm' : 'am', hh = (h % 12) || 12; return hh + ':' + (m < 10 ? '0' : '') + m + ' ' + ap; }
   function addMin(h, m, d) { var t = (h * 60 + m + d) % 1440; return [Math.floor(t / 60), t % 60]; }
   var CHANNEL = { whatsapp: 'WhatsApp', instagram: 'Instagram', web: 'Web chat' };
-  /* per-business after-hours scenarios (demo): enquiry time, reply, outcome, what goes wrong without, the 9:05 call */
+  /* per-business after-hours scenarios (examples): enquiry time, reply, outcome, what goes wrong without, the 9:05 call */
   var DAYS = {
     realty: { t: [23, 42], reply: 'Two homes fit. ₹1.35 L a month.', win: 'Visit booked, Saturday 11 am', cold: 'Asks another agent', late: '11 am slot gone', who: 'Kiran', callW: 'Inbox order, no owner', callV: 'Kiran calls Priya first' },
     support: { t: [22, 20], reply: 'Out for delivery. Link sent.', win: 'Resolved, no agent', cold: 'Starts a dispute', late: 'Refund already asked', who: 'Asha', callW: 'Backlog, oldest first', callV: 'Asha takes the odd ones' },
@@ -291,7 +308,7 @@
     var grid = RULER.map(function (r) { return '<i class="spl-gr" style="left:' + ((r[0] - 18) / 17 * 100).toFixed(2) + '%"></i>'; }).join('');
     var rul = RULER.map(function (r, i) { return '<span class="spl-rt' + (i === RULER.length - 1 ? ' spl-rt--end' : '') + '" style="left:' + ((r[0] - 18) / 17 * 100).toFixed(2) + '%">' + r[1] + '</span>'; }).join('');
     return '<div class="spl-sum"><p class="spl-tag">' + (wo ? 'Without Orbit' : 'With Orbit') + '</p>' +
-      '<p class="spl-stat">' + (wo ? '6 h' : 'Instant') + '</p><p class="spl-cap">first reply · demo</p></div>' +
+      '<p class="spl-stat">' + (wo ? '6 h' : 'Instant') + '</p><p class="spl-cap">first reply</p></div>' +
       '<div class="spl-ax"><i class="spl-band" aria-hidden="true"><span>Team offline</span></i>' + grid +
       '<i class="spl-axl" aria-hidden="true"></i>' +
       (wo ? '<i class="spl-sil" aria-hidden="true" style="left:' + x0.toFixed(2) + '%;width:' + (x1 - x0).toFixed(2) + '%"></i>' : '<i class="spl-run" aria-hidden="true" style="left:' + x0.toFixed(2) + '%;width:' + (x1 - x0).toFixed(2) + '%"></i><i class="spl-dot" aria-hidden="true"></i>') +
@@ -308,8 +325,8 @@
       var b = B.byId[id]; if (!b) return '';
       return '<button type="button" class="spl-chip" data-id="' + id + '" aria-pressed="false" style="--c:' + b.acc + ';--ci:' + b.ink + '"><i aria-hidden="true">' + esc(b.mark) + '</i>' + esc(b.short) + '</button>';
     }).join('');
-    el.innerHTML = '<div class="spl-wrap"><div class="spl-head"><div><p class="spl-lab"><span>07</span> Without vs with <i>·</i> demo</p>' +
-      '<h2 class="spl-h">Same night. <em>Two mornings.</em></h2></div>' +
+    var QH = window.OrbitUI && OrbitUI.qh;
+    el.innerHTML = '<div class="spl-wrap"><div class="spl-head"><div>' + (QH ? QH('What changes overnight?', '9:12 am', 'Same night, two mornings.', 'The same 11 pm enquiry, with and without an assistant. Drag the line; the times are examples.', { after: '<span class="ex">Example</span>' }) : '<h2 class="spl-h">Same night, two mornings.</h2>') + '</div>' +
       '<div class="spl-pick"><div class="spl-chips" role="group" aria-label="Pick a business">' + chips + '</div>' +
       '<div class="spl-enq" aria-live="polite"><p class="spl-enq-m"></p><p class="spl-enq-q"></p></div></div></div>' +
       '<div class="spl-stage" data-pos="50"><section class="spl-ly spl-ly--wo" aria-label="Without Orbit"></section><section class="spl-ly spl-ly--wi" aria-label="With Orbit"></section>' +
@@ -397,12 +414,12 @@
         '<input class="est-rg" type="range" id="' + id + '" min="' + min + '" max="' + max + '" step="' + step + '" value="' + val + '">' +
         '<div class="est-rgs" aria-hidden="true"><span>' + unit[0] + '</span><span>' + unit[1] + '</span></div>' + (note ? '<p class="est-note">' + note + '</p>' : '') + '</div>';
     }
-    el.innerHTML = '<div class="est-wrap"><div class="est-top"><p class="est-lab est-rv"><span>07</span> Savings estimator <b>Estimate</b></p>' +
-      '<h2 class="est-h est-rv">Hours back, <em>every month.</em></h2></div>' +
+    var QH = window.OrbitUI && OrbitUI.qh;
+    el.innerHTML = '<div class="est-wrap"><div class="est-top">' + (QH ? QH('How much time would it save us?', '9:13 am', 'Count the hours.', 'Three numbers you already know. The result is an estimate, not a quote.', { after: '<span class="ex">Estimate</span>' }) : '<h2 class="est-h">Count the hours.</h2>') + '</div>' +
       '<div class="est-grid"><div class="est-in est-rv" role="group" aria-label="Your numbers">' +
       ctl('01', 'est-chats', 'Chats a month', 100, 5000, 50, 1200, '', ['100', '5,000']) +
       ctl('02', 'est-mins', 'Minutes per chat', 1, 15, 1, 4, '', ['1 min', '15 min']) +
-      ctl('03', 'est-rate', 'Handled without a person', 50, 95, 5, 85, '85% is the share on a live real-estate deployment.', ['50%', '95%']) +
+      ctl('03', 'est-rate', 'Handled without a person', 50, 95, 5, 85, 'Starts at 85%, an example figure. Set your own.', ['50%', '95%']) +
       '</div>' +
       '<div class="est-out">' +
       '<div class="est-hero est-rv"><p class="est-k">Hours saved a month <span>estimate</span></p>' +
@@ -412,14 +429,14 @@
       '<div class="est-pair"><div class="est-lead est-rv"><p class="est-k">After-hours leads <span>estimate</span></p>' +
       '<p class="est-mid" aria-hidden="true"><span class="est-n-l">101</span></p>' +
       '<p class="est-note">28% of chats after hours, 30% become leads.</p></div>' +
-      '<div class="est-first est-rv"><p class="est-k">First reply <span>demo</span></p>' +
+      '<div class="est-first est-rv"><p class="est-k">First reply <span>example</span></p>' +
       '<div class="est-fr" aria-hidden="true"><div class="est-fr-r"><b>Instant</b><span class="est-fr-t"><i class="est-fr-a"></i></span></div><div class="est-fr-r est-fr-r--b"><b>~6 h</b><span class="est-fr-t"><i class="est-fr-b"></i></span></div></div></div></div>' +
       '</div></div>' +
       '<details class="est-how est-rv"><summary><span>How this is estimated</span><i aria-hidden="true"></i></summary><ul class="est-fx">' +
       '<li><span>Hours saved</span><code class="est-fx-h"></code></li>' +
       '<li><span>After-hours chats</span><code class="est-fx-a"></code></li>' +
       '<li><span>Leads captured</span><code class="est-fx-l"></code></li>' +
-      '<li><span>First reply</span><code>Assistant: seconds. Without: ~6 h, a demo figure.</code></li>' +
+      '<li><span>First reply</span><code>Assistant: seconds. Without: ~6 h, an example figure.</code></li>' +
       '</ul><p class="est-fine">An estimate, not a quote. The 28% and 30% are assumptions.</p></details>' +
       '<div class="est-cta est-rv"><a class="est-link" href="../../index.html#contact" data-magnetic>Want your real numbers? I’ll scope it with you <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></a></div>' +
       '<p class="est-sr" role="status" aria-live="polite"></p></div>';
@@ -451,7 +468,7 @@
       else if (!animated) { cur = { h: tgt.h, d: tgt.d, ha: tgt.ha, hp: tgt.hp, l: tgt.l }; paint(); }
       if (announce) {
         clearTimeout(timer);
-        timer = setTimeout(function () { live.textContent = 'Estimate: about ' + fmtH(r.h) + ' hours saved each month, and about ' + fmtInt(r.l) + ' leads captured after hours. First reply is instant instead of about 6 hours, a demo figure.'; }, 500);
+        timer = setTimeout(function () { live.textContent = 'Estimate: about ' + fmtH(r.h) + ' hours saved each month, and about ' + fmtInt(r.l) + ' leads captured after hours. First reply is instant instead of about 6 hours, an example figure.'; }, 500);
       }
     }
     [rg.c, rg.m, rg.r].forEach(function (i) { i.addEventListener('input', function () { update(true); }); });
