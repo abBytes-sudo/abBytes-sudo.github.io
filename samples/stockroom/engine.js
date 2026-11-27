@@ -30,7 +30,15 @@
   E.warehouses = function () { return H.WAREHOUSES; };
   E.wh = function (id) { return H.WAREHOUSES.filter(function (w) { return w.id === id; })[0]; };
   E.bins = function (wh) { return H.BINS.filter(function (b) { return !wh || b.wh === wh; }); };
-  E.rop = function (sku) { var c = S.cfg[sku]; return c && c.rop != null ? c.rop : ITEM[sku].rop; };
+  /* reorder policy: every item's reorder point was set for 10 days of lead time plus 3 days of safety stock.
+     Changing either number stretches or shrinks the reorder point of every item that has no hand-set number. */
+  var BASE_LEAD = 10, BASE_SAFETY = 3;
+  E.policy = function () { var p = (S && S.policy) || {}; return { lead: p.lead != null ? p.lead : BASE_LEAD, safety: p.safety != null ? p.safety : BASE_SAFETY, baseLead: BASE_LEAD, baseSafety: BASE_SAFETY }; };
+  E.setPolicy = function (lead, safety) { S.policy = { lead: Math.max(1, Math.min(60, lead | 0)), safety: Math.max(0, Math.min(30, safety | 0)) }; commit(); };
+  E.rop = function (sku) {
+    var c = S.cfg[sku]; if (c && c.rop != null) return c.rop;
+    var p = E.policy(); return Math.max(1, Math.round(ITEM[sku].rop * (p.lead + p.safety) / (BASE_LEAD + BASE_SAFETY)));
+  };
   E.roq = function (sku) { var c = S.cfg[sku]; return c && c.roq != null ? c.roq : ITEM[sku].roq; };
   E.setReorder = function (sku, rop, roq) { S.cfg[sku] = { rop: Math.max(0, rop | 0), roq: Math.max(1, roq | 0) }; commit(); };
   E.family = function (sku) { var f = ITEM[sku].family; return H.SKUS.filter(function (s) { return s.family === f; }); };
@@ -503,6 +511,23 @@
   function commit() { if (simNow != null) return; autoDraft(); save(); E.writeBridge(); emit(); }
   E.commit = commit;
   E.on = function (f) { listeners.push(f); };
+  /* supplier record from purchase-order history: lead time, on-time share, open orders, last six deliveries */
+  E.supplierStats = function (id) {
+    var pos = S.pos.filter(function (p) { return p.supplier === id && p.status !== 'draft' && p.status !== 'cancelled'; }), leads = [], dl = [], open = 0, last = 0;
+    pos.forEach(function (p) {
+      if (p.status === 'approved' || p.status === 'partial') open++;
+      p.receipts.forEach(function (g, i) {
+        if (i === 0 && p.approvedAt) leads.push((g.t - p.approvedAt) / DAY);
+        var late = p.eta ? g.t > p.eta + DAY : false;
+        dl.push({ po: p.id, gr: g.id, t: g.t, late: late, lateDays: late ? Math.max(1, Math.round((g.t - p.eta) / DAY)) : 0, units: g.lines.reduce(function (a, x) { return a + x.units; }, 0), value: g.lines.reduce(function (a, x) { var l = p.lines.filter(function (k) { return k.sku === x.sku; })[0]; return a + x.units * (l ? l.cost : 0); }, 0) });
+        if (g.t > last) last = g.t;
+      });
+    });
+    dl.sort(function (a, b) { return b.t - a.t; });
+    var onTime = dl.length ? Math.round(dl.filter(function (d) { return !d.late; }).length / dl.length * 100) : null;
+    var lead = leads.length ? leads.reduce(function (a, b) { return a + b; }, 0) / leads.length : SUP[id].lead;
+    return { lead: Math.round(lead), onTime: onTime, open: open, last: last || null, deliveries: dl.slice(0, 6), count: dl.length, pos: pos.length };
+  };
   E.fresh = function () { S = blank(); H.seed(E); autoDraft(); S.created = Date.now(); };
   E.reset = function () { try { localStorage.removeItem(KEY); } catch (e) { } E.fresh(); save(); E.writeBridge(); E.syncDeals(); emit(); };
   E.init = function (opt) {

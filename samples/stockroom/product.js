@@ -12,6 +12,7 @@
   var frameIn = $('#frame-in'), frame = $('#frame');
   var nav = [['overview', 'Today'], ['items', 'Items'], ['locations', 'Locations'], ['-', 'Warehouse'], ['receipt', 'Receive'], ['sales', 'Pick and pack'], ['ledger', 'Count'], ['scan', 'Scan'], ['-', 'Buying'], ['purchasing', 'Purchase orders'], ['labels', 'Labels'], ['-', 'More detail'], ['reports', 'Reports']];
   var drafts = E.pos().filter(function (p) { return p.status === 'draft'; }).length;
+  try {
   frameIn.innerHTML = '<div class="shell"><aside class="side"><div class="ws"><span class="mark">' + V.markSVG + '</span><span><b>Stockroom</b><small>Halden Supply</small></span></div><nav class="nav">' +
     nav.map(function (x) {
       if (x[0] === '-') return '<div class="grp">' + x[1] + '</div>';
@@ -19,13 +20,17 @@
       return '<a aria-current="' + (x[0] === 'overview' ? 'page' : 'false') + '">' + V.icon(x[0] === 'overview' ? 'overview' : x[0]) + x[1] + n + '</a>';
     }).join('') + '</nav><div class="side-foot"><div class="link-card"><div class="t"><span class="crm" style="padding:0;background:none"><i></i></span>Lumen CRM</div><div style="display:flex;align-items:center;gap:7px"><span class="dot on"></span>Connected · 3 won deals read</div></div><div class="me"><span class="av">MR</span><span><b>Meera Rao</b><small>Inventory lead</small></span></div></div></aside>' +
     '<div class="main"><div class="canvas"><header class="top"><div class="h1like" style="font-weight:600;font-size:14px">Today</div><span class="sp"></span><div class="seg"><button aria-pressed="true">All</button><button>Bhiwandi</button><button>Hoskote</button></div><span class="cmdk-btn">' + V.icon('search') + '<span class="lbl">Search</span><kbd>⌘K</kbd></span><span class="btn primary">' + V.icon('scan') + '<span class="hide-m">Scan</span></span></header><div id="view">' +
-    V.overview({ wh: '' }).replace('CRM not opened yet', '3 won deals read').replace(/<h2>/g, '<div class="h2like">').replace(/<\/h2>/g, '</div>') + '</div></div></div></div>';
+    V.overview({ wh: '' }).replace('CRM not opened yet', '3 won deals read').replace(/<h2(\s[^>]*)?>/g, function (m, a) { return '<div class="h2like"' + (a || '') + '>'; }).replace(/<\/h2>/g, '</div>') + '</div></div></div></div>';
+  // the day's headline and the two floor drawings, as the app itself shows them
+  var slot = $('#h1-slot', frameIn); if (slot && V.headline && V.lastX) { var hd = document.createElement('div'); hd.className = 'today-h1'; hd.textContent = V.headline(V.lastX); slot.replaceWith(hd); }
+  if (V.mountFloors) V.mountFloors(frameIn);
+  } catch (err) { /* the story, scan labels and numbers below do not depend on the app frame */ if (window.console) console.warn('hero app frame not drawn', err); }
   // keep the page's heading outline clean: the embedded UI is an illustration
   $$('a', frameIn).forEach(function (el) { var s = document.createElement('span'); s.className = el.className; s.innerHTML = el.innerHTML; if (el.getAttribute('aria-current') === 'page') s.setAttribute('data-cur', ''); el.parentNode.replaceChild(s, el); });
   $$('button,input,select', frameIn).forEach(function (el) { el.setAttribute('tabindex', '-1'); });
   $$('img', frameIn).forEach(function (img) { img.removeAttribute('loading'); });
   var style = document.createElement('style');
-  style.textContent = '.frame-in .h2like{font-size:22px;font-weight:600;letter-spacing:-.025em}.frame-in .panel>header .h2like{font-size:13.5px;font-weight:600;letter-spacing:-.005em}';
+  style.textContent = '.frame-in .fl-panel header .h2like{font-size:15px;font-weight:600;letter-spacing:-.01em}.frame-in .h2like{font-size:22px;font-weight:600;letter-spacing:-.025em}.frame-in .panel>header .h2like{font-size:13.5px;font-weight:600;letter-spacing:-.005em}';
   document.head.appendChild(style);
   function fit() {
     var w = frameIn.offsetWidth || 1280;
@@ -122,7 +127,7 @@
       .fromTo('#cursor .ripple', { scale: .4, autoAlpha: .9 }, { scale: 2.4, autoAlpha: 0, duration: .2 }, .28)
       .to('#won-btn .w1', { autoAlpha: 0, duration: .06 }, .3).to('#won-btn .w2', { autoAlpha: 1, duration: .06 }, .3)
       .to('#deal-stage .s1', { autoAlpha: 0, duration: .12 }, .32).to('#deal-stage .s2', { autoAlpha: 1, duration: .12 }, .32)
-      .fromTo('#deal', { boxShadow: '0 0 0 1px rgba(255,255,255,.1), 0 30px 80px -20px rgba(0,0,0,.7)' }, { boxShadow: '0 0 0 2px rgba(74,222,128,.7), 0 30px 80px -20px rgba(0,0,0,.7)', duration: .25 }, .32)
+      .to('#deal-held', { opacity: 1, duration: .25 }, .32)
       .to('#cursor', { autoAlpha: 0, x: '+=26', y: '+=34', duration: .2 }, .62)
       .to('#deal-sync', { autoAlpha: 1, duration: .1 }, 1.2);
     // beat 2: reserved (packets travel the wire, counts tick down, the PO draft grows)
@@ -148,12 +153,12 @@
       .to('#deal-sync .ds1', { autoAlpha: 0, duration: .08 }, 3.82).to('#deal-sync .ds2', { autoAlpha: 1, duration: .08 }, 3.84);
     tl.to({}, { duration: .2 }, 3.95); // hold the final frame
     state(0);
-    return function () { G.set(['.resv', '.lowflag', '#po-toast', '#sc-pick', '#sc-out', '.ledger-mini tbody tr', '.sync span', '#deal-stage span', '#sc-res', '.packet', '#cursor', '#won-btn span', '#deal-sync', '#deal-sync span', '#ship', '#listen span'], { clearProps: 'all' }); };
+    return function () { G.set(['.resv', '.lowflag', '#po-toast', '#sc-pick', '#sc-out', '.ledger-mini tbody tr', '.sync span', '#deal-stage span', '#sc-res', '.packet', '#cursor', '#won-btn span', '#deal-sync', '#deal-sync span', '#deal-held', '#ship', '#listen span'], { clearProps: 'all' }); };
   });
     ST.refresh();
   }
   // the engine and renderers load after first paint: the headline never waits for them
-  var V_ = '?v=66', deps = ['data.js', 'engine.js', 'code128.js', 'views.js'];
+  var V_ = '?v=67', deps = ['data.js', 'engine.js', 'views.js', 'depth.js'];
   function load(i, tries) {
     if (i >= deps.length) return boot();
     tries = tries || 0;

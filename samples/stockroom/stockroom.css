@@ -28,9 +28,9 @@
 }
 /* Stockroom design system: tokens, components and the app shell (also used by product.html's hero) */
 :root {
-  --paper: #F7F6F2; --paper-2: #EFEDE7; --sheet: #FFFFFF; --ink: #17171A; --ink-2: #5C5C63; --ink-3: #6B6B73;
-  --rule: #E7E5DF; --rule-2: #D9D6CE; --hover: #F3F2EE; --sel: #EEEDFB;
-  --accent: #0B7285; --accent-ink: #075867; --accent-soft: #E2F0F2;
+  --paper: #F4EFE4; --paper-2: #EAE2D2; --sheet: #FFFEFA; --ink: #1A1712; --ink-2: #54483A; --ink-3: #6B5F50;
+  --rule: #E4DCCB; --rule-2: #D2C7B1; --hover: #F1EADB; --sel: #FFF1B8;
+  --accent: #1A1712; --accent-ink: #1A1712; --accent-soft: #FFF1B8; --haz: #FFC400; --haz-ink: #1A1712; --kraft: #C9A374; --kraft-2: #B58B57; --kraft-soft: #EFE3CF;
   --ok: #1E7A52; --ok-bg: #E6F3EC; --low: #8C5208; --low-bg: #FBF0DF; --out: #C23A2B; --out-bg: #FBE9E6;
   --lumen: #2B59FF;
   --r: 6px; --r-lg: 10px;
@@ -623,7 +623,7 @@ a.stat:hover { background: var(--hover); }
 :root {
   --paper: #F4F2EC; --paper-2: #ECE9E2; --canvas: #FBFAF7; --sheet: #FFFFFF; --ink: #16181B; --ink-2: #51565D; --ink-3: #5F646C;
   --rule: #E6E3DC; --rule-2: #D6D2C9; --hover: #F3F1EC; --sel: #E8F3F4;
-  --accent: #0B7285; --accent-ink: #075867; --accent-soft: #E2F0F2;
+  --accent: #1A1712; --accent-ink: #1A1712; --accent-soft: #FFF1B8; --haz: #FFC400; --haz-ink: #1A1712; --kraft: #C9A374; --kraft-2: #B58B57; --kraft-soft: #EFE3CF;
   --fast: 160ms; --mid: 220ms;
 }
 .sr-ui { font-size: 14.5px; line-height: 1.5; }
@@ -983,3 +983,43 @@ th[aria-sort="ascending"], th[aria-sort="descending"] { color: var(--ink); }
 .tipw { isolation: isolate; }
 .tip:hover::before, .tip:focus-visible::before { border-color: var(--accent); }
 .kv small { display: inline; vertical-align: baseline; }
+
+
+/* ───────── the warehouse, drawn (wh.js): kraft cartons on a label-white floor, hazard yellow for stock that is spoken for ───────── */
+.wh { --k1: #E6C596; --k2: #CFA670; --k3: #B78C57; --tape: #F3E2C2; --lab: #FFFEFA; --frame: #2B2620; --floor: #FBF9F2; --slab: #B08A5B; --hz: #FFC400; }
+.wh-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.wh-floor { fill: var(--floor); stroke: var(--frame); stroke-width: .8; stroke-linejoin: round; }
+.wh-slab { fill: var(--slab); stroke: var(--frame); stroke-width: .8; stroke-linejoin: round; }
+.wh-aisle { fill: none; stroke: var(--hz); stroke-width: 2.2; stroke-dasharray: 9 6; }
+.wh-edge { fill: none; stroke: var(--frame); stroke-width: .5; opacity: .3; }
+.wh-up { fill: none; stroke: var(--frame); stroke-width: 1.5; stroke-linecap: round; }
+.wh-beam { fill: none; stroke: var(--frame); stroke-width: 1.1; }
+.wh-deck { fill: rgba(43, 38, 32, .07); }
+.wh-c path { stroke: rgba(43, 38, 32, .5); stroke-width: .4; stroke-linejoin: round; transition: fill .35s; }
+.wh-c .f-t { fill: var(--k1); } .wh-c .f-l { fill: var(--k2); } .wh-c .f-r { fill: var(--k3); }
+.wh-c .f-tape { fill: var(--tape); stroke: none; } .wh-c .f-lab { fill: var(--lab); stroke-width: .25; }
+.wh-c { transition: transform .5s cubic-bezier(.3, .7, .2, 1), opacity .4s; }
+.wh-tag rect { fill: var(--lab); stroke: var(--frame); stroke-width: .5; transition: fill .3s; }
+.wh-code { font: 500 5.4px var(--mono); fill: #54483A; text-anchor: middle; }
+.wh-hit { fill: transparent; stroke: none; }
+.wh-bay[role=button] { cursor: pointer; outline: 0; }
+.wh-bay[role=button]:hover .wh-up, .wh-bay[role=button]:focus-visible .wh-up { stroke-width: 2.6; }
+.wh-bay[role=button]:focus-visible .wh-hit { stroke: var(--frame); stroke-width: 1; stroke-dasharray: 3 2; }
+.wh-bay.glow .f-t, .wh-bay.s-pick .f-t { fill: #FFE27A; } .wh-bay.glow .f-l, .wh-bay.s-pick .f-l { fill: #FFC400; } .wh-bay.glow .f-r, .wh-bay.s-pick .f-r { fill: #DBA400; }
+.wh-bay.glow .wh-tag rect, .wh-bay.s-pick .wh-tag rect { fill: var(--hz); }
+.wh-bay.glow .wh-code, .wh-bay.s-pick .wh-code { fill: #1A1712; font-weight: 600; }
+.wh-bay.s-low .wh-tag rect { fill: #E8963A; } .wh-bay.s-out .wh-tag rect { fill: #C23A2B; } .wh-bay.s-recv .wh-tag rect { fill: #1E7A52; } .wh-bay.s-count .wh-tag rect { fill: #1A1712; }
+.wh-bay.s-count .wh-up { stroke-dasharray: 3 2.4; }
+.wh-bay.gone .wh-c { transform: translateY(-16px); opacity: 0; }
+.wh-route { fill: none; stroke: #1A1712; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; }
+.wh-route.on { transition: stroke-dashoffset 2.6s cubic-bezier(.4, 0, .3, 1); stroke-dashoffset: 0; }
+.wh-dock path { fill: #1A1712; } .wh-dock text { font: 600 6px var(--mono); letter-spacing: .12em; fill: #1A1712; }
+@media (prefers-reduced-motion: reduce) { .wh-c, .wh-route.on, .wh-c path, .wh-tag rect { transition: none; } }
+
+/* ───────── the app in the warehouse's colours: a kraft sidebar, label-white sheets, hazard yellow for the one primary action ───────── */
+.btn.primary { background: var(--haz); border-color: var(--ink); color: var(--ink); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5); font-weight: 600; }
+.btn.primary:hover { background: #FFD43B; }
+.btn.primary kbd { background: rgba(26, 23, 18, .1); border-color: rgba(26, 23, 18, .3); color: var(--ink); }
+.side { background: var(--kraft-soft); border-right: 1px solid var(--rule-2); }
+.nav a[aria-current="page"] { background: var(--sheet); box-shadow: 0 0 0 1px var(--ink), 2px 2px 0 rgba(26, 23, 18, .18); }
+:focus-visible { outline-color: var(--ink); }

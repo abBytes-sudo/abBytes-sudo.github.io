@@ -38,6 +38,45 @@
     { sku: 'HS-TX-020', name: 'Linen cushion cover', family: 'Linen cushion cover', variant: { Size: '50 × 50 cm' }, category: 'Textiles', uom: 'each', buy: { unit: 'box', per: 10 }, supplier: 'SUP-PH', cost: 450, price: 890, rop: 60, roq: 120, bin: 'C-02', dims: '50 × 50 cm', kg: 0.2, vel: 3.6 }
   ];
   SKUS.forEach(function (s) { var f = s.sku.toLowerCase() + '.jpg'; s.photo = 'photos/m/' + f; s.thumb = 'photos/t/' + f; });
+  // HSN code (4 digits) and GST rate for each SKU: furniture 9401 / 9403, lamps 9405, textiles 6304, rugs 5702
+  var TAX = { 'HS-CH-001': ['9401', 18], 'HS-CH-002': ['9401', 18], 'HS-CH-003': ['9401', 18], 'HS-CH-004': ['9401', 18], 'HS-TB-005': ['9403', 18], 'HS-TB-006': ['9403', 18], 'HS-TB-007': ['9403', 18],
+    'HS-SF-008': ['9401', 18], 'HS-SF-009': ['9401', 18], 'HS-ST-010': ['9403', 18], 'HS-ST-011': ['9403', 18], 'HS-ST-012': ['9403', 18], 'HS-LT-013': ['9405', 18], 'HS-LT-014': ['9405', 18],
+    'HS-LT-015': ['9405', 18], 'HS-LT-016': ['9405', 18], 'HS-LT-017': ['9405', 18], 'HS-LT-018': ['9405', 18], 'HS-RG-019': ['5702', 12], 'HS-TX-020': ['6304', 12] };
+  SKUS.forEach(function (s) { s.hsn = TAX[s.sku][0]; s.gst = TAX[s.sku][1]; });
+
+  // the legal entity on every paper: one GSTIN per state of dispatch (placeholder bodies)
+  var COMPANY = { name: 'Halden Supply Pvt Ltd', trade: 'Halden Supply', cin: 'U51909MH2019PTC000000', pan: 'AAECH0000X',
+    addr: 'Gala 14, Sarvoday Industrial Park, Anjurphata', city: 'Bhiwandi, Thane', state: 'Maharashtra', code: '27', pin: '421302', gstin: '27AAECH0000X1Z5',
+    mail: 'accounts@haldensupply.example', phone: '98XXX XX214', bank: 'Bank account and IFSC on request' };
+  var WH_ADDR = {
+    BHW: { name: 'Bhiwandi DC', addr: 'Gala 14, Sarvoday Industrial Park, Anjurphata', city: 'Bhiwandi, Thane', state: 'Maharashtra', code: '27', pin: '421302', gstin: '27AAECH0000X1Z5', lat: 19.30, lon: 73.06 },
+    BLR: { name: 'Hoskote DC', addr: 'Plot 31, KIADB Industrial Area', city: 'Hoskote, Bengaluru Rural', state: 'Karnataka', code: '29', pin: '562114', gstin: '29AAECH0000X1Z3', lat: 13.07, lon: 77.80 }
+  };
+  // supplier details: address, state, PIN, GSTIN (placeholder bodies), contact
+  var SUP_X = {
+    'SUP-KW': { person: 'Naveen Gowda', phone: '98XXX XX410', addr: '12, Belavadi Industrial Estate', state: 'Karnataka', code: '29', pin: '570018', gstin: '29AAFCK0000A1Z7', lat: 12.30, lon: 76.65 },
+    'SUP-TT': { person: 'Pratap Rathore', phone: '98XXX XX355', addr: 'Plot 8, Boranada Industrial Area', state: 'Rajasthan', code: '08', pin: '342012', gstin: '08AAFCT0000B1Z2', lat: 26.24, lon: 73.02 },
+    'SUP-UP': { person: 'Shalini Rao', phone: '98XXX XX672', addr: '44, Peenya 2nd Stage', state: 'Karnataka', code: '29', pin: '560058', gstin: '29AAFCU0000C1Z9', lat: 13.03, lon: 77.52 },
+    'SUP-MB': { person: 'Imran Qureshi', phone: '98XXX XX128', addr: 'Katghar Industrial Area, Lakri Fazalpur', state: 'Uttar Pradesh', code: '09', pin: '244001', gstin: '09AAFCM0000D1Z4', lat: 28.84, lon: 78.77 },
+    'SUP-KC': { person: 'Rekha Sharma', phone: '98XXX XX903', addr: 'Pottery Cluster, G T Road', state: 'Uttar Pradesh', code: '09', pin: '203131', gstin: '09AAFCK0000E1Z6', lat: 28.25, lon: 77.85 },
+    'SUP-AO': { person: 'Vikram Joshi', phone: '98XXX XX246', addr: 'Gat 112, Chakan MIDC Phase 2', state: 'Maharashtra', code: '27', pin: '410501', gstin: '27AAFCA0000F1Z1', lat: 18.76, lon: 73.86 },
+    'SUP-PH': { person: 'Gurpreet Singh', phone: '98XXX XX587', addr: 'Handloom Cluster, Samalkha Road', state: 'Haryana', code: '06', pin: '132103', gstin: '06AAFCP0000G1Z3', lat: 29.39, lon: 76.97 }
+  };
+  SUPPLIERS.forEach(function (s) { var x = SUP_X[s.id]; for (var k in x) s[k] = x[k]; });
+  var BUYERS = {
+    'Asha Interiors': { person: 'Asha Menon', addr: '7, Linking Road, Khar West', city: 'Mumbai', state: 'Maharashtra', code: '27', pin: '400052', gstin: '27AAHCA0000H1Z8', lat: 19.07, lon: 72.84 },
+    'Kora Hotels': { person: 'Purchase desk', addr: 'Kora Towers, Residency Road', city: 'Bengaluru', state: 'Karnataka', code: '29', pin: '560025', gstin: '29AAHCK0000J1Z5', lat: 12.97, lon: 77.60 },
+    'Studio Meridian': { person: 'Rhea Kapoor', addr: '3rd Floor, Meridian House, Baner Road', city: 'Pune', state: 'Maharashtra', code: '27', pin: '411045', gstin: '27AAHCS0000K1Z2', lat: 18.56, lon: 73.78 },
+    'Ember & Oak Cafés': { person: 'Dev Arora', addr: '21, Fort Market, Colaba', city: 'Mumbai', state: 'Maharashtra', code: '27', pin: '400001', gstin: '27AAHCE0000L1Z9', lat: 18.92, lon: 72.83 },
+    'Saffron Residences': { person: 'Site office', addr: 'Saffron Residences, Sector 18', city: 'Gurugram', state: 'Haryana', code: '06', pin: '122015', gstin: '06AAHCS0000M1Z6', lat: 28.46, lon: 77.03 },
+    'Lattice Workspaces': { person: 'Facilities', addr: 'Lattice Park, Madhapur', city: 'Hyderabad', state: 'Telangana', code: '36', pin: '500081', gstin: '36AAHCL0000N1Z3', lat: 17.44, lon: 78.39 },
+    'Indigo Bay Resort': { person: 'Reservations office', addr: 'Indigo Bay, Candolim Beach Road', city: 'Candolim', state: 'Goa', code: '30', pin: '403515', gstin: '30AAHCI0000P1Z0', lat: 15.52, lon: 73.76 },
+    'Mulberry Homes': { person: 'Anita Shah', addr: '14, Mulberry Lane, Thane West', city: 'Thane', state: 'Maharashtra', code: '27', pin: '400601', gstin: '27AAHCM0000Q1Z7', lat: 19.20, lon: 72.97 },
+    'Common Room Co-work': { person: 'Operations', addr: '5th Cross, Indiranagar', city: 'Bengaluru', state: 'Karnataka', code: '29', pin: '560038', gstin: '29AAHCC0000R1Z4', lat: 12.97, lon: 77.64 },
+    'Dune Boutique Hotel': { person: 'Front office', addr: 'Dune House, Beach Walk, Vagator', city: 'Vagator', state: 'Goa', code: '30', pin: '403509', gstin: '30AAHCD0000S1Z1', lat: 15.60, lon: 73.74 },
+    'Teal House Architects': { person: 'Studio manager', addr: '9, Studio Row, Bandra East', city: 'Mumbai', state: 'Maharashtra', code: '27', pin: '400051', gstin: '27AAHCT0000T1Z8', lat: 19.06, lon: 72.87 },
+    'Pause Wellness Spa': { person: 'Spa manager', addr: 'Pause Retreat, Sector 4, Vaishali Nagar', city: 'Jaipur', state: 'Rajasthan', code: '08', pin: '302021', gstin: '08AAHCP0000U1Z5', lat: 26.91, lon: 75.74 }
+  };
 
   // two warehouses, same rack plan: A = pallet racking (furniture), B = shelving (lighting), C = textiles
   var WAREHOUSES = [
@@ -60,7 +99,7 @@
   var BLR_RANGE = ['HS-CH-001', 'HS-CH-002', 'HS-CH-003', 'HS-ST-012', 'HS-TX-020', 'HS-LT-013', 'HS-LT-016', 'HS-LT-017', 'HS-LT-014', 'HS-LT-018', 'HS-RG-019'];
   var CUSTOMERS = ['Asha Interiors', 'Kora Hotels', 'Studio Meridian', 'Ember & Oak Cafés', 'Saffron Residences', 'Lattice Workspaces', 'Indigo Bay Resort', 'Mulberry Homes', 'Common Room Co-work', 'Dune Boutique Hotel', 'Teal House Architects', 'Pause Wellness Spa'];
 
-  window.HALDEN = { BLR_RANGE: BLR_RANGE, SUPPLIERS: SUPPLIERS, SKUS: SKUS, WAREHOUSES: WAREHOUSES, ZONES: ZONES, BINS: BINS, CUSTOMERS: CUSTOMERS };
+  window.HALDEN = { COMPANY: COMPANY, WH_ADDR: WH_ADDR, BUYERS: BUYERS, BLR_RANGE: BLR_RANGE, SUPPLIERS: SUPPLIERS, SKUS: SKUS, WAREHOUSES: WAREHOUSES, ZONES: ZONES, BINS: BINS, CUSTOMERS: CUSTOMERS };
   // the shared catalogue other Halden demos can read: sku → { name, price }
   window.HALDEN_SKUS = SKUS.map(function (s) { return { sku: s.sku, name: s.name, category: s.category, price: s.price }; });
 

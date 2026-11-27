@@ -16,18 +16,24 @@
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://abbytes-sudo.github.io/samples/stockroom/product.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0D0D0C">
+<meta name="theme-color" content="#C9A374">
 <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/vendor/lenis.css">
-<link rel="stylesheet" href="stockroom.css?v=66">
-<link rel="stylesheet" href="product.css?v=67">
+<link rel="stylesheet" href="stockroom.css?v=67">
+<link rel="stylesheet" href="depth.css?v=67">
+<link rel="stylesheet" href="product.css?v=71">
 <link rel="stylesheet" href="../assets/back.css?v=2">
 <script src="../assets/vendor/gsap.min.js" defer></script>
 <script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="../assets/vendor/SplitText.min.js" defer></script>
 <script src="../assets/vendor/lenis.min.js" defer></script>
 <script src="../assets/motion.js?v=1" defer></script>
-<script src="product.js?v=66" defer></script>
+<script src="wh.js?v=1" defer></script>
+<script src="hero-wh.js?v=1" defer></script>
+<script src="product.js?v=71" defer></script>
+<script src="code128.js?v=66" defer></script>
+<script src="qr.js?v=1" defer></script>
+<script src="scan-labels.js?v=1" defer></script>
 <script src="../assets/back.js?v=1" defer></script>
 </head>
 <body class="pp">
@@ -36,21 +42,35 @@
 
 <header class="pnav">
   <a class="brand" href="product.html" aria-label="Stockroom home"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6.5h14M5 12h9.5M5 17.5h12" stroke="#0D0D0C" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span>Stockroom</a>
-  <nav aria-label="Page"><a href="#story">How it works</a><a href="#features">Product</a><a href="#spec">Details</a></nav>
+  <nav aria-label="Page"><a href="#story">How it works</a><a href="#scan">Scan</a><a href="#features">Product</a><a href="#spec">Details</a></nav>
   <a class="cta sm" href="index.html">Open the app</a>
 </header>
 
 <main id="main">
   <section class="hero" aria-labelledby="hero-h">
     <div class="hero-copy">
-      <p class="slab" data-reveal data-now><i aria-hidden="true"></i><b>BHW-00</b><span>Inventory for furniture and lighting distributors</span></p>
-      <h1 id="hero-h">Inventory that hears the deal close.</h1>
-      <p class="lede" data-reveal data-now data-delay=".25">Stockroom keeps every bin, cost layer and pick list for Halden Supply’s two warehouses, and reserves stock the moment a deal is won in Lumen CRM.</p>
-      <div class="ctas" data-reveal data-now data-delay=".35"><a class="cta" href="index.html" data-magnetic>Open Stockroom <span aria-hidden="true">→</span></a><a class="cta ghost" href="#story">See a deal go out the door</a></div>
+      <p class="slab"><i aria-hidden="true"></i><b>BHW-00</b><span>Inventory for furniture and lighting distributors</span></p>
+      <h1 id="hero-h"><span class="hl"><span>Inventory that hears</span></span> <span class="hl"><span>the deal close.</span></span></h1>
+      <p class="lede">Two warehouses, thirty-six bins, every carton counted. When sales wins a deal, the stock is already held.</p>
+      <div class="ctas"><a class="cta" href="index.html" data-magnetic>Open Stockroom <span aria-hidden="true">→</span></a><a class="cta ghost" href="#story">See a deal go out the door</a></div>
     </div>
+    <div class="hero-wh">
+      <div class="ticket" id="ticket" aria-hidden="true">
+        <div class="tk-h"><b id="tk-id">SO-2265</b><span>from Lumen CRM</span></div>
+        <p class="tk-to" id="tk-to">Kora Hotels · Pune</p>
+        <ul class="tk-l" id="tk-l"><li><i></i><span>12 × Oak dining chair</span><code>A-03</code></li><li><i></i><span>4 × Brass pendant lamp</span><code>B-02</code></li><li><i></i><span>2 × Linen floor cushion</span><code>C-01</code></li></ul>
+        <div class="tk-f"><span class="tk-bar"></span><b id="tk-st">Listening for won deals</b></div>
+        <span class="stamp" id="stamp">Won</span>
+      </div>
+      <div id="hero-wh" class="wh"></div>
+      <p class="wh-cap">Bhiwandi warehouse · 18 bins · cartons drawn to each bin’s stock</p>
+    </div>
+  </section>
+
+  <section class="live" aria-label="The app">
     <figure class="hero-ui" id="hero-ui">
       <div class="tilt" id="tilt"><div class="frame" id="frame" inert><div class="frame-in sr-ui" id="frame-in"></div></div></div>
-      <figcaption>The real app, rendered live. Not a screenshot.</figcaption>
+      <figcaption>This is the app, drawn from the same stock. <a href="index.html">Open it</a>.</figcaption>
     </figure>
   </section>
 
@@ -65,7 +85,7 @@
   <section class="story" id="story" aria-labelledby="story-h">
     <div class="story-pin" id="story-pin">
       <div class="story-copy">
-        <p class="slab"><i aria-hidden="true"></i><b>SO-2262</b><span>One deal, four beats</span></p>
+        <p class="slab"><i aria-hidden="true"></i><b>A-01</b><span>One deal, four beats</span></p>
         <h2 id="story-h">From won to on the truck.</h2>
         <ol class="beats" id="beats">
           <li class="on"><span class="bn">01</span><div><b>Deal won</b><p>Saffron Residences signs for their clubhouse lounge in Lumen CRM. Nobody re-types the order.</p></div></li>
@@ -79,6 +99,7 @@
       <div class="stage sr-ui" id="stage" aria-label="Illustration of the four beats">
         <!-- Lumen CRM deal card -->
         <article class="deal" id="deal">
+          <i class="deal-held" id="deal-held" aria-hidden="true"></i>
           <header><span class="crm"><i aria-hidden="true"></i>Lumen CRM</span><span class="sp"></span><span class="stagepill" id="deal-stage"><span class="s1">Proposal</span><span class="s2">Won</span></span></header>
           <h3>Saffron Residences</h3>
           <p class="muted">Clubhouse lounge · ₹2,79,200</p>
@@ -97,18 +118,19 @@
 
         <!-- Stockroom panel with three scenes -->
         <article class="sr-panel">
-          <header><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6.5h14M5 12h9.5M5 17.5h12" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span><b>Stockroom</b><span class="sc-title" aria-hidden="true"><span class="t1">Items</span><span class="t2">Pick list</span><span class="t3">Dispatch</span></span><span class="sp"></span><span class="mono faint" id="so-id">SO-2262</span></header>
+          <header><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6.5h14M5 12h9.5M5 17.5h12" stroke="#1A1712" stroke-width="2.4" stroke-linecap="round" fill="none"/></svg></span><b>Stockroom</b><span class="sc-title" aria-hidden="true"><span class="t1">Items</span><span class="t2">Pick list</span><span class="t3">Dispatch</span></span><span class="sp"></span><span class="mono faint" id="so-id">SO-2262</span></header>
 
           <div class="scene sc-res" id="sc-res">
             <div class="listen" id="listen"><span class="pulse" aria-hidden="true"></span><span class="l1">Listening for won deals in Lumen CRM</span><span class="l2">Won deal received · <b class="mono">SO-2262</b> reserved in 0.4 s</span></div>
             <table class="tbl">
               <thead><tr><th>Item</th><th class="num">Reserved</th><th class="num">Available</th></tr></thead>
               <tbody>
-                <tr><td><div class="it"><img class="thumb" src="photos/t/hs-ch-001.jpg" alt="" width="32" height="32"><span><b>Oak dining chair</b><small>HS-CH-001</small></span></div></td><td class="num"><span class="resv"><span class="crm"><i aria-hidden="true"></i>12</span></span></td><td class="num"><b class="cnt" data-from="26" data-to="14">26</b><span class="lowflag pill low">Below reorder</span></td></tr>
-                <tr><td><div class="it"><img class="thumb" src="photos/t/hs-tb-006.jpg" alt="" width="32" height="32"><span><b>Oak dining table, 220 cm</b><small>HS-TB-006</small></span></div></td><td class="num"><span class="resv"><span class="crm"><i aria-hidden="true"></i>2</span></span></td><td class="num"><b class="cnt" data-from="3" data-to="1">3</b></td></tr>
-                <tr><td><div class="it"><img class="thumb" src="photos/t/hs-lt-014.jpg" alt="" width="32" height="32"><span><b>Brass pendant lamp</b><small>HS-LT-014</small></span></div></td><td class="num"><span class="resv"><span class="crm"><i aria-hidden="true"></i>4</span></span></td><td class="num"><b class="cnt" data-from="6" data-to="2">6</b></td></tr>
+                <tr><td><div class="it"><img class="thumb" src="photos/t/hs-ch-001.jpg" alt="" width="32" height="32"><span><b>Oak dining chair</b><small><span class="sk">HS-CH-001 · </span>BHW-A-01</small></span></div></td><td class="num"><span class="resv"><span class="crm"><i aria-hidden="true"></i>12</span></span></td><td class="num"><b class="cnt" data-from="26" data-to="14">26</b><span class="lowflag pill low">Below reorder</span></td></tr>
+                <tr><td><div class="it"><img class="thumb" src="photos/t/hs-tb-006.jpg" alt="" width="32" height="32"><span><b>Oak dining table, 220 cm</b><small><span class="sk">HS-TB-006 · </span>BHW-A-04</small></span></div></td><td class="num"><span class="resv"><span class="crm"><i aria-hidden="true"></i>2</span></span></td><td class="num"><b class="cnt" data-from="3" data-to="1">3</b></td></tr>
+                <tr><td><div class="it"><img class="thumb" src="photos/t/hs-lt-014.jpg" alt="" width="32" height="32"><span><b>Brass pendant lamp</b><small><span class="sk">HS-LT-014 · </span>BHW-B-02</small></span></div></td><td class="num"><span class="resv"><span class="crm"><i aria-hidden="true"></i>4</span></span></td><td class="num"><b class="cnt" data-from="6" data-to="2">6</b></td></tr>
               </tbody>
             </table>
+            <p class="held"><span>Held for orders</span><b class="cnt" data-from="0" data-to="18">0</b><span>units across these three lines</span></p>
             <div class="po-toast" id="po-toast"><span class="mv adjustment"><b><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.8 19.5h18.4zM12 10v4M12 17h.01"/></svg></b></span><div><b>Draft PO updated</b><span>+24 Oak dining chairs · Kaveri Woodcraft · one click to approve</span></div></div>
           </div>
 
@@ -144,8 +166,27 @@
     </div>
   </section>
 
+  <section class="scanpg" id="scan" aria-labelledby="scan-h">
+    <div class="sec-h"><p class="slab" data-reveal><i aria-hidden="true"></i><b>A-02</b><span>Scan</span></p><h2 id="scan-h" data-split>Scan this page with your phone.</h2><p class="sec-sub">Three shelf labels from the Bhiwandi warehouse, at full size. Point the app’s scanner at any of them.</p></div>
+    <div class="scan-grid">
+      <div class="shelf">
+        <figure class="lbl" style="--rot:-2deg" data-code="HS-CH-001"><div class="lbl-top"><small>Bin</small><b>BHW-A-01</b></div><p class="lbl-it"><b>Oak dining chair</b><span>Halden Supply · Bhiwandi</span></p><canvas class="lbl-bc" width="462" height="92" role="img" aria-label="Code 128 barcode, HS-CH-001"></canvas><figcaption class="lbl-hr">HS-CH-001</figcaption></figure>
+        <figure class="lbl" style="--rot:1deg" data-code="HS-LT-014"><div class="lbl-top"><small>Bin</small><b>BHW-B-02</b></div><p class="lbl-it"><b>Brass pendant lamp</b><span>Halden Supply · Bhiwandi</span></p><canvas class="lbl-bc" width="462" height="92" role="img" aria-label="Code 128 barcode, HS-LT-014"></canvas><figcaption class="lbl-hr">HS-LT-014</figcaption></figure>
+        <figure class="lbl" style="--rot:-1deg" data-code="HS-TB-006"><div class="lbl-top"><small>Bin</small><b>BHW-A-04</b></div><p class="lbl-it"><b>Oak dining table, 220 cm</b><span>Halden Supply · Bhiwandi</span></p><canvas class="lbl-bc" width="462" height="92" role="img" aria-label="Code 128 barcode, HS-TB-006"></canvas><figcaption class="lbl-hr">HS-TB-006</figcaption></figure>
+        <div class="typed"><label for="code-in">or type a code</label><div class="typed-row"><input id="code-in" class="mono" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="HS-CH-001"><a class="cta sm" id="code-go" href="index.html#/scan">Open Scan</a></div><p>Enter opens Scan in the app. Type the code into its box.</p></div>
+      </div>
+      <aside class="qrcard" aria-labelledby="qr-h">
+        <h3 id="qr-h">Open the scanner on your phone</h3>
+        <div class="qr-box"><canvas id="qr" width="225" height="225" role="img" aria-label="QR code for the Stockroom scan page"></canvas></div>
+        <a class="qr-link mono" href="index.html#/scan">https://abbytes-sudo.github.io/samples/stockroom/index.html#/scan</a>
+        <ol class="qr-steps"><li><span class="mono">1</span>Scan the square with your camera.</li><li><span class="mono">2</span>Tap Scan in the app.</li><li><span class="mono">3</span>Point it at a label on this screen.</li></ol>
+        <div class="qr-alt"><p>No phone handy?</p><a class="cta" href="index.html#/scan">Try it here</a></div>
+      </aside>
+    </div>
+  </section>
+
   <section class="features" id="features" aria-labelledby="feat-h">
-    <div class="sec-h"><p class="slab" data-reveal><i aria-hidden="true"></i><b>A-01</b><span>The product</span></p><h2 id="feat-h" data-split>Built like a ledger, used like a phone.</h2></div>
+    <div class="sec-h"><p class="slab" data-reveal><i aria-hidden="true"></i><b>A-03</b><span>The product</span></p><h2 id="feat-h" data-split>Built like a ledger, used like a phone.</h2></div>
 
     <div class="bento">
       <article class="b-wide" data-reveal>
@@ -168,25 +209,29 @@
   </section>
 
   <section class="spec" id="spec" aria-labelledby="spec-h">
-    <div class="sec-h"><p class="slab" data-reveal><i aria-hidden="true"></i><b>A-02</b><span>Details</span></p><h2 id="spec-h" data-split>Feature depth of a real system.</h2></div>
-    <dl class="speclist" data-stagger>
-      <div><dt>Items and variants</dt><dd>Families with variants (finish, size, colour), photos, dimensions and weight, supplier, cost and list price.</dd></div>
-      <div><dt>Units of measure</dt><dd>Sell by the piece or pack, buy by the carton or box; receipts convert automatically.</dd></div>
-      <div><dt>Bins</dt><dd>36 locations in pallet racking, shelving and textile zones; stock by bin and bin-to-bin moves.</dd></div>
-      <div><dt>Valuation</dt><dd>FIFO cost layers per warehouse; every outbound movement records the cost it consumed.</dd></div>
-      <div><dt>Purchasing</dt><dd>Drafts from reorder points, approval, expected dates, late flags and partial goods receipts.</dd></div>
-      <div><dt>Sales</dt><dd>Reservations, backorders, transfers to cover shortfalls, pick lists in walk order and dispatch with margin.</dd></div>
-      <div><dt>Barcodes</dt><dd>Item, bin and order labels; camera scanning with BarcodeDetector; pick-by-scan.</dd></div>
-      <div><dt>Reports</dt><dd>Stock value by warehouse and category, receipts versus dispatches, slow movers, stock-outs and missed demand.</dd></div>
-      <div><dt>Lumen CRM</dt><dd>Won deals become reserved orders; availability flows back to the deal after every change.</dd></div>
-    </dl>
+    <div class="sec-h"><p class="slab" data-reveal><i aria-hidden="true"></i><b>A-04</b><span>Details</span></p><h2 id="spec-h" data-split>Everything a storekeeper asks for.</h2></div>
+    <div class="slip" data-reveal>
+      <header class="slip-h"><div><small>Packing slip</small><b>Storekeeper’s checklist</b></div><div><small>From</small><b>Halden Supply · Bhiwandi</b></div><div><small>Lines</small><b class="mono">09 / 09</b></div></header>
+      <ol class="checks">
+        <li><span class="no">01</span><span class="box" aria-hidden="true"></span><div><h3>Items and variants</h3><p>Find any chair, lamp or rug by finish, size or colour, with its photo, dimensions and weight beside it.</p></div></li>
+        <li><span class="no">02</span><span class="box" aria-hidden="true"></span><div><h3>Units of measure</h3><p>Buy by the carton, sell by the piece. Receipts turn the count into the unit you sell.</p></div></li>
+        <li><span class="no">03</span><span class="box" aria-hidden="true"></span><div><h3>Bins</h3><p>See what sits in each of the 36 bins, and move stock from one bin to another.</p></div></li>
+        <li><span class="no">04</span><span class="box" aria-hidden="true"></span><div><h3>Valuation</h3><p>Put a value on the shelf at what you paid, oldest cost first, warehouse by warehouse.</p></div></li>
+        <li><span class="no">05</span><span class="box" aria-hidden="true"></span><div><h3>Purchasing</h3><p>Approve a draft order in one click, spot the late ones, and book a partial delivery.</p></div></li>
+        <li><span class="no">06</span><span class="box" aria-hidden="true"></span><div><h3>Sales</h3><p>Hold stock for an order, back-order what is short, and pick in the order you walk the bins.</p></div></li>
+        <li><span class="no">07</span><span class="box" aria-hidden="true"></span><div><h3>Barcodes</h3><p>Print item, bin and order labels, then confirm each pick by scanning with your phone.</p></div></li>
+        <li><span class="no">08</span><span class="box" aria-hidden="true"></span><div><h3>Reports</h3><p>Check stock value, slow movers, stock-outs and the sales you could not ship.</p></div></li>
+        <li><span class="no">09</span><span class="box" aria-hidden="true"></span><div><h3>Lumen CRM</h3><p>Win a deal and the stock is held for it; the deal sees the new count after every change.</p></div></li>
+      </ol>
+      <footer class="tear"><b class="mono">20 SKUs · 36 bins · 2 warehouses</b><i aria-hidden="true"></i></footer>
+    </div>
   </section>
 
   <section class="close" aria-labelledby="close-h">
-    <h2 id="close-h" data-split>Open the stockroom.</h2>
+    <h2 id="close-h">Walk in. The shelves are full.</h2>
     <p>Everything on this page works in the app: approve the draft PO, receive goods, pick by scanning, dispatch. Then win a deal in Lumen CRM and watch it arrive.</p>
-    <div class="ctas"><a class="cta" href="index.html" data-magnetic>Open Stockroom <span aria-hidden="true">→</span></a><a class="cta ghost" href="../crm/">Open Lumen CRM</a><a class="cta ghost" href="system.html">Design system</a></div>
-    <svg class="wordmark" viewBox="0 0 1000 200" aria-hidden="true" focusable="false"><text x="500" y="170" text-anchor="middle" textLength="980" lengthAdjust="spacingAndGlyphs">Stockroom</text></svg>
+    <div class="ctas"><a class="cta" href="index.html" data-magnetic>Open Stockroom <span aria-hidden="true">→</span></a><a class="cta ghost" href="../crm/">Open Lumen CRM</a></div>
+    <a class="biglabel" href="index.html"><span class="bl-code"><small>Bin</small><b>BHW-A-01</b></span><span class="bl-bars" aria-hidden="true"></span><span class="bl-go"><small>Halden Supply · Bhiwandi</small><b>Open the app →</b></span></a>
   </section>
 </main>
 <footer class="foot"><span>© Stockroom. A portfolio project by Abhishek.</span><span>Photos: Unsplash.</span></footer>

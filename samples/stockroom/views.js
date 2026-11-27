@@ -133,7 +133,7 @@
     var line = vals.map(function (v, i) { return (i ? 'L' : 'M') + X(i) + ' ' + Y(v); }).join(' ');
     var desc = 'Stock value over the last ' + vals.length + ' days, from ' + inr(vals[0]) + ' to ' + inr(vals[vals.length - 1]) + '.';
     return '<svg class="area" id="' + id + '" viewBox="0 0 ' + W + ' ' + Hh + '" preserveAspectRatio="none" role="img" aria-label="' + esc(desc) + '" data-vals="' + vals.map(Math.round).join(',') + '">' +
-      '<defs><linearGradient id="' + id + '-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B7285" stop-opacity=".22"/><stop offset="1" stop-color="#0B7285" stop-opacity="0"/></linearGradient></defs>' +
+      '<defs><linearGradient id="' + id + '-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9A374" stop-opacity=".5"/><stop offset="1" stop-color="#C9A374" stop-opacity="0"/></linearGradient></defs>' +
       [.25, .5, .75].map(function (f) { return '<line x1="0" x2="' + W + '" y1="' + (Hh * f) + '" y2="' + (Hh * f) + '" stroke="var(--rule)" stroke-dasharray="2 4" vector-effect="non-scaling-stroke"/>'; }).join('') +
       '<path d="' + line + ' L' + W + ' ' + Hh + ' L0 ' + Hh + 'Z" fill="url(#' + id + '-g)"/><path d="' + line + '" fill="none" stroke="var(--accent)" stroke-width="1.8" vector-effect="non-scaling-stroke"/>' +
       '<line class="xh" x1="0" x2="0" y1="0" y2="' + Hh + '" stroke="var(--ink-3)" stroke-width="1" vector-effect="non-scaling-stroke" opacity="0"/></svg>';
@@ -290,6 +290,9 @@
     var h = '<div class="page"><div class="page-h"><div><h2>Locations</h2><p>' + w.name + ' · ' + w.city + ' · ' + used + ' of ' + E.bins(wh).length + ' bins in use · ' + n(units) + ' units · ' + inrS(E.totalValue(wh)) + '</p></div><span class="sp"></span>' +
       (U.wh ? '' : '<div class="seg" role="group" aria-label="Warehouse">' + E.warehouses().map(function (x) { return '<button data-act="locwh" data-v="' + x.id + '" aria-pressed="' + (x.id === wh) + '">' + x.name + '</button>'; }).join('') + '</div>') +
       '<div class="seg" role="group" aria-label="View"><button data-act="locview" data-v="map" aria-pressed="' + (U.locView !== 'list') + '">Bin map</button><button data-act="locview" data-v="list" aria-pressed="' + (U.locView === 'list') + '">Stock by bin</button></div></div>';
+    var fc = V.floorCounts([wh]);
+    h += '<div class="loc-map"><section class="fl-panel" aria-labelledby="fl-h2"><header><h3 id="fl-h2">The floor · ' + esc(w.name) + '</h3><span class="sp"></span><span class="fl-counts">' + [fc.pick ? plural(fc.pick, 'bin') + ' to pick' : '', fc.count ? fc.count + ' to recount' : '', fc.recv ? fc.recv + ' receiving' : '', fc.low ? fc.low + ' running low' : ''].filter(Boolean).join(' · ') + '</span></header>' +
+      '<div class="fl-scroll" tabindex="0" role="region" aria-label="Warehouse drawing, scrolls sideways on small screens">' + V.floorHosts([wh]) + '</div>' + V.floorKey() + '</section></div>';
     if (U.locView === 'list') {
       h += '<section class="panel"><div class="scroll-x"><table class="tbl"><thead><tr><th>Bin</th><th>Item</th><th class="num">Qty</th><th class="num hide-m">Value at FIFO</th><th class="r hide-m">Zone</th></tr></thead><tbody>';
       E.bins(wh).forEach(function (b) {
@@ -300,7 +303,7 @@
       });
       return h + '</tbody></table></div></section></div>';
     }
-    h += '<div class="grid2"><section class="panel"><header><h2>Floor plan</h2><span class="sp"></span><span class="faint" style="font-size:12px">Bar shows how full each bin is</span></header><div class="pad floor">';
+    h += '<div class="grid2"><section class="panel"><header><h2>Every bin</h2><span class="sp"></span><span class="faint" style="font-size:12px">Bar shows how full each bin is</span></header><div class="pad floor">';
     window.HALDEN.ZONES.forEach(function (z) {
       h += '<div class="zone"><h4>Zone ' + z.id + ' <span>' + z.name + '</span></h4><div class="bins" style="--n:' + z.bins + '">';
       E.bins(wh).filter(function (b) { return b.zone === z.id; }).forEach(function (b) {
@@ -383,7 +386,7 @@
     if (wh) all = all.filter(function (s) { return s.wh === wh; });
     var groups = { open: all.filter(function (s) { return s.status === 'reserved'; }), picking: all.filter(function (s) { return s.status === 'picking'; }), ready: all.filter(function (s) { return s.status === 'picked'; }), done: all.filter(function (s) { return s.status === 'dispatched'; }), crm: all.filter(function (s) { return s.source === 'crm'; }) };
     var tab = U.sotab || 'open', list = V.sortRows(U, groups[tab] || all, V.SO_GET), shown = list.slice(0, U.solimit || 40), allOn = shown.length && shown.every(function (s) { return sel[s.id]; });
-    var h = '<div class="page"><div class="page-h"><div><h2>Pick and pack</h2><p>Every customer order, from reserved to dispatched. Orders won in Lumen CRM arrive already reserved.</p></div><span class="sp"></span><button class="btn" data-act="sim-deal">' + icon('bolt') + 'Add a won deal</button></div>';
+    var h = '<div class="page"><div class="page-h"><div><h2>Pick and pack</h2><p>Every customer order, from reserved to dispatched. Orders won in Lumen CRM arrive already reserved.</p></div><span class="sp"></span><button class="btn" data-act="sim-deal">' + icon('bolt') + 'New order from a won deal</button></div>';
     h += '<div class="bar"><div class="seg scroll-x" role="group" aria-label="Filter">' + [['open', 'To pick'], ['picking', 'Picking'], ['ready', 'Ready to dispatch'], ['done', 'Dispatched'], ['crm', 'From CRM']].map(function (k) { return '<button data-act="sotab" data-v="' + k[0] + '" aria-pressed="' + (tab === k[0]) + '">' + k[1] + ' <span class="c">' + groups[k[0]].length + '</span></button>'; }).join('') + '</div></div>';
     h += '<section class="panel"><div class="scroll-x"><table class="tbl" data-kb><thead><tr><th class="ck"><input type="checkbox" class="chk" data-act="selall" data-k="selSO" aria-label="Select all orders in view"' + (allOn ? ' checked' : '') + '></th><th>Order</th><th>Customer</th><th class="hide-m">Items</th><th class="num hide-m">Value</th><th class="hide-m">Ship from</th><th>Status</th><th class="r hide-m">Next</th></tr></thead><tbody>' +
       (shown.length ? shown.map(function (so) {
@@ -536,7 +539,7 @@
       var p = so.pick[i], it = E.item(p.sku), z = p.bin.split('-')[1];
       h += '<section class="pk-now" aria-live="polite"><div class="pk-bin"><span>Go to</span><b class="mono">' + p.bin + '</b><small>' + E.wh(p.bin.slice(0, 3)).short + ' · zone ' + z + ' · ' + zoneName(z).toLowerCase() + '</small></div>' +
         '<div class="pk-item"><img src="' + it.photo + '" alt="' + esc(it.name) + '" width="88" height="88"><div class="grow"><b>' + esc(it.name) + '</b><span class="mono">' + it.sku + '</span><span class="faint">' + esc(Object.keys(it.variant).map(function (k) { return it.variant[k]; }).join(' · ')) + '</span></div><div class="pk-qty num">× ' + p.qty + '<small>' + it.uom + '</small></div></div>' +
-        '<div class="cam pk-cam" id="cam"><div class="msg">' + ('BarcodeDetector' in window ? '<span>Scan the item label to confirm the pick.</span><button class="btn accent" data-act="cam-start">' + icon('camera') + 'Scan label</button>' : '<span>Camera scanning isn\'t available in this browser. Type the SKU below, or confirm by hand.</span>') + '</div></div>' +
+        '<div class="cam pk-cam" id="cam"><div class="msg">' + ('BarcodeDetector' in window ? '<span>Scan the item label to confirm the pick.</span><button class="btn accent" data-act="cam-start">' + icon('camera') + 'Scan label</button>' : '<span>Camera scanning isn\'t available on this device. Type the SKU below, or confirm by hand.</span>') + '</div></div>' +
         '<form class="pk-type" data-form="scan"><label class="search grow"><span class="vh">Item code</span>' + icon('scan') + '<input class="input" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Or type the SKU, e.g. ' + it.sku + '" id="scan-in"></label><button class="btn" type="submit">Check</button></form>' +
         (U.pkMsg ? '<div class="pk-msg ' + U.pkMsg.k + '" role="status">' + esc(U.pkMsg.t) + '</div>' : '') +
         '<div class="pk-actions"><button class="btn primary big" data-act="pk-confirm" data-id="' + so.id + '" data-i="' + i + '">' + icon('check') + 'Picked ' + p.qty + '</button><button class="btn big" data-act="pk-skip" data-i="' + i + '">Skip for now</button></div></section>';
@@ -642,6 +645,9 @@
     else if (short.length) T.push({ k: 'short', ic: 'alert', t: plural(short.length, 'order') + ' short of stock', s: 'Move stock from the other warehouse, or ship what we have.', btn: 'Resolve', href: '#/sales/' + short[0].id, tone: 'low' });
     if (flagged.length) T.push({ k: 'recount', ic: 'scan', t: plural(flagged.length, 'bin') + ' need a recount', s: 'A pick came up short at ' + flagged.map(function (b) { return b.id; }).join(', ') + '. Count it so the numbers stay honest.', time: mins(flagged.length * 2), btn: 'Count now', href: '#/count' });
     else if (plan.length) T.push({ k: 'count', ic: 'scan', t: plural(plan.length, 'bin') + ' due for a count', s: 'Counting a few bins a day keeps stock accurate without a shutdown.', time: mins(plan.length * 1.5), btn: 'Start count', href: '#/count' });
+    var role = V.me && V.me().key;
+    if (role === 'farah') T = T.filter(function (t) { return ['pick', 'ship', 'recount', 'count'].indexOf(t.k) < 0; });
+    if (role === 'arjun') T = T.filter(function (t) { return t.k !== 'low'; });
     return { list: T, toPick: toPick, ready: ready, arriving: arriving, late: late, drafts: drafts, low: low, plan: plan, flagged: flagged, next: next, lines: lines, openPO: openPO };
   };
   V.overview = function (U) {
@@ -764,7 +770,7 @@
       h += '<section class="focus" aria-live="polite"><div class="fx-top"><span class="fx-k">Go to bin</span><b class="fx-bin">' + p.bin + '</b><span class="fx-s">' + E.wh(p.bin.slice(0, 3)).short + ' · zone ' + z + ' · ' + zoneName(z).toLowerCase() + '</span></div>' +
         '<div class="fx-item"><img src="' + it.photo + '" alt="' + esc(it.name) + '" width="88" height="88"><div class="grow"><b>' + esc(it.name) + '</b><span class="skup">' + it.sku + '</span><span class="fx-v">' + esc(Object.keys(it.variant).map(function (k) { return it.variant[k]; }).join(' · ')) + (it.serial ? ' · scan the serial label' : '') + '</span></div><div class="fx-q num">× ' + p.qty + '<small>' + it.uom + '</small></div></div>' +
         (sh ? '<div class="fx-short"><label class="field">How many did you find?<span class="stepper"><button type="button" class="st-btn" data-step="-1" data-for="pk-found" aria-label="Fewer">−</button><input class="input num" id="pk-found" type="number" min="0" max="' + (p.qty - 1) + '" inputmode="numeric" value="' + Math.max(0, p.qty - 1) + '" aria-label="Quantity found"><button type="button" class="st-btn" data-step="1" data-for="pk-found" aria-label="More">+</button></span></label><p class="faint">The rest goes on a backorder, and ' + p.bin + ' is flagged for a recount.</p><div class="pk-actions"><button class="btn primary big" data-act="pk-short-ok" data-id="' + so.id + '" data-i="' + i + '">Save &amp; next</button><button class="btn big" data-act="pk-short-x">Cancel</button></div></div>' :
-          '<div class="cam pk-cam" id="cam"><div class="msg">' + ('BarcodeDetector' in window ? '<span>Scan the item label to confirm.</span><button class="btn accent" data-act="cam-start">' + icon('camera') + 'Scan label</button>' : '<span>No camera scanning in this browser. Type the code, or confirm by hand.</span>') + '</div></div>' +
+          '<div class="cam pk-cam" id="cam"><div class="msg">' + ('BarcodeDetector' in window ? '<span>Scan the item label to confirm.</span><button class="btn accent" data-act="cam-start">' + icon('camera') + 'Scan label</button>' : '<span>No camera scanning on this device. Type the code, or confirm by hand.</span>') + '</div></div>' +
           '<form class="pk-type" data-form="scan"><label class="search grow"><span class="vh">Item code</span>' + icon('scan') + '<input class="input" name="code" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Or type the code, e.g. ' + it.sku + '" id="scan-in"></label><button class="btn" type="submit">Check</button></form>' +
           (U.pkMsg ? '<div class="pk-msg ' + U.pkMsg.k + '" role="status">' + esc(U.pkMsg.t) + '</div>' : '') +
           '<div class="pk-actions"><button class="btn primary big" data-act="pk-confirm" data-id="' + so.id + '" data-i="' + i + '">' + icon('check') + 'Picked ' + p.qty + ' · Save &amp; next</button></div>' +
@@ -892,7 +898,7 @@
     return ev.slice(0, n || 8);
   };
   V.overview = function (U) {
-    var X = V.todayTasks(U), d = new Date(), wh = U.wh, value = E.totalValue(wh);
+    var X = V.lastX = V.todayTasks(U), d = new Date(), wh = U.wh, value = E.totalValue(wh);
     var t0 = dayStart(Date.now()), yest = t0 - 864e5;
     var shipS = V.daySeries(14, function (add) { E.moves().forEach(function (m) { if (m.type === 'sale' && (!wh || m.wh === wh)) add(m.t, -m.qty); }); });
     var recS = V.daySeries(14, function (add) { E.moves().forEach(function (m) { if (m.type === 'receipt' && m.ref !== 'OPENING' && (!wh || m.wh === wh)) add(m.t, m.qty); }); });
@@ -900,25 +906,29 @@
     var vs = valueSeries(14, wh), dv = vs[vs.length - 1] - vs[0];
     function pct(a, b) { return b ? Math.round((a - b) / b * 100) : 0; }
     var shipT = shipS[13], shipY = shipS[12], ordT = ordS[13], ordY = ordS[12];
-    var h = '<div class="page today"><div class="page-h slim"><div><h2>Today</h2><p>' + greet() + ', Meera · ' + ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()] + ' ' + day(d) + ' · <b>' + plural(X.list.length, 'thing') + ' need you</b></p></div><span class="sp"></span>' +
-      '<button class="btn" data-act="tour">' + icon('bolt') + 'Take the tour</button><button class="btn primary" data-act="flow">Try the full flow ' + icon('right', 'sm') + '</button></div>';
+    var role = V.me().key, noValue = V.me().noValue, packed = X.ready.length;
+    var sentToday = 0; E.sos().forEach(function (so) { if (so.status === 'dispatched' && so.dispatchedAt >= t0 && (!wh || so.wh === wh)) sentToday++; });
+    if (wh) packed = X.ready.filter(function (so) { return so.wh === wh; }).length;
+    var h = '<div class="page today"><div class="page-h slim"><div><span id="h1-slot"></span><p>' + esc(V.todayLine(U)) + '</p></div><span class="sp"></span>' +
+      '<button class="btn" data-act="tour">' + icon('bolt') + 'Take the tour</button><button class="btn" data-act="flow">Try the full flow ' + icon('right', 'sm') + '</button></div>';
+    h += V.floorPanel(U, X);
     // phones: big warehouse actions first
     h += '<nav class="bigacts" aria-label="Warehouse actions">' +
       '<a href="#/scan" class="ba ba-scan">' + icon('scan') + '<b>Scan</b><span>Any label</span></a>' +
       '<a href="#/receive' + (X.openPO[0] ? '/' + (X.late[0] || X.arriving[0] || X.openPO[0]).id : '') + '" class="ba">' + icon('receipt') + '<b>Receive</b><span>' + plural(X.openPO.length, 'delivery', 'deliveries') + ' open</span></a>' +
-      '<a href="#/pick/' + (X.next ? X.next.id : '') + '" class="ba">' + icon('box') + '<b>Pick</b><span>' + plural(X.toPick.length, 'order') + ' waiting</span></a>' +
-      '<a href="#/count" class="ba">' + icon('ledger') + '<b>Count</b><span>' + plural(X.plan.length, 'bin') + ' planned</span></a></nav>';
+      (V.can('pick') ? '<a href="#/pick/' + (X.next ? X.next.id : '') + '" class="ba">' + icon('box') + '<b>Pick</b><span>' + plural(X.toPick.length, 'order') + ' waiting</span></a>' : '<a href="#/purchasing?tab=drafts" class="ba">' + icon('purchasing') + '<b>Buy</b><span>' + plural(X.drafts.length, 'draft') + ' to review</span></a>') +
+      (V.can('count') ? '<a href="#/count" class="ba">' + icon('ledger') + '<b>Count</b><span>' + plural(X.plan.length, 'bin') + ' planned</span></a>' : '<a href="#/suppliers" class="ba">' + icon('receipt') + '<b>Suppliers</b><span>Lead times</span></a>') + '</nav>';
     // KPI tiles: clickable, each with a delta and a sparkline
     h += '<section class="kpis" aria-label="Key figures">' +
-      kpi({ k: 'Orders to pick', v: X.toPick.length, d: X.lines + ' lines · ' + (ordT - ordY >= 0 ? '↑ ' : '↓ ') + Math.abs(ordT - ordY) + ' new vs yesterday', s: ordS, href: '#/sales' }) +
-      kpi({ k: 'Dispatched today', v: n(shipT) + '<small>units</small>', d: (shipT >= shipY ? '↑ ' : '↓ ') + Math.abs(pct(shipT, shipY)) + '% vs yesterday', tone: shipT >= shipY ? 'up' : 'dn', s: shipS, href: '#/sales?tab=done' }) +
-      kpi({ k: 'Deliveries due', v: X.arriving.length + X.late.length, d: X.late.length ? X.late.length + ' late · ' + recS[13] + ' units in today' : recS[13] + ' units received today', tone: X.late.length ? 'dn' : '', s: recS, href: '#/receive' }) +
-      kpi({ k: 'Stock value · at cost', v: inrS(value), d: (dv >= 0 ? '↑ ' : '↓ ') + inrS(Math.abs(dv)).replace('−', '') + ' in 14 days', tone: dv >= 0 ? 'up' : 'dn', s: vs, href: '#/reports' }) + '</section>';
+      (role === 'farah' ? kpi({ k: 'Items below reorder', v: X.low.length, d: X.drafts.length ? plural(X.drafts.length, 'draft order') + ' ready to review' : 'No drafts waiting', href: '#/items?status=low' }) : kpi({ k: 'Orders to pick', v: X.toPick.length, d: X.lines + ' lines · ' + ordT + ' new today', s: ordS, href: '#/sales' })) +
+      (role === 'farah' ? kpi({ k: 'Open purchase orders', v: X.openPO.length, d: X.late.length ? X.late.length + ' running late' : 'All on schedule', tone: '', href: '#/purchasing?tab=open' }) : kpi({ k: 'Dispatched today', v: sentToday + ' of ' + (sentToday + packed), d: packed ? packed + ' packed, waiting for the 4 pm truck' : 'Nothing waiting for the truck', tone: '', s: shipS, href: '#/sales?tab=done' })) +
+      kpi({ k: 'Deliveries due', v: X.arriving.length + X.late.length, d: (X.late.length ? X.late.length + ' late · ' : '') + (recS[13] ? n(recS[13]) + ' units in today' : 'none in yet'), tone: X.late.length ? 'dn' : '', s: recS, href: '#/receive' }) +
+      (noValue ? kpi({ k: 'Items below reorder', v: X.low.length, d: X.flagged.length ? plural(X.flagged.length, 'bin') + ' to recount' : 'No bins to recount', tone: '', href: '#/items?status=low' }) : kpi({ k: 'Stock value · at cost', v: inrS(value), d: (dv >= 0 ? '↑ ' : '↓ ') + inrS(Math.abs(dv)).replace('−', '') + ' in 14 days', tone: dv >= 0 ? 'up' : '', s: vs, href: '#/reports' })) + '</section>';
     // main: needs attention + queues | now & next + activity
     h += '<div class="home-grid"><div class="col-main">';
     h += '<section class="todo" aria-labelledby="todo-h"><header class="sec-h2"><h3 id="todo-h">Needs your attention</h3><span class="faint">' + X.list.length + '</span></header>';
     h += X.list.length ? '<ul class="tasks">' + X.list.map(function (t) {
-      return '<li class="task ' + (t.tone || '') + '"><span class="tic">' + icon(t.ic) + '</span><div class="grow"><b>' + t.t + (t.crm ? ' ' + crm() : '') + '</b><span>' + t.s + '</span></div>' + (t.time ? '<span class="tchip">' + t.time + '</span>' : '') + '<a class="btn sm ' + (t.k === 'pick' ? 'primary' : '') + '" href="' + t.href + '">' + t.btn + '</a></li>';
+      return '<li class="task ' + (t.tone || '') + '"><span class="tic">' + icon(t.ic) + '</span><div class="grow"><b>' + t.t + (t.crm ? ' ' + crm() : '') + '</b><span>' + t.s + '</span></div>' + (t.time ? '<span class="tchip">' + t.time + '</span>' : '') + '<a class="btn sm" href="' + t.href + '">' + t.btn + '</a></li>';
     }).join('') + '</ul>' : V.empty('check', 'All done for today', 'New orders from Lumen CRM and deliveries will appear here as they come in.');
     h += '</section>';
     var pickDone = 0, pickAll = 0; X.toPick.concat(X.ready).forEach(function (s) { (s.pick || s.lines).forEach(function (p) { pickAll++; if (p.done || s.status === 'picked') pickDone++; }); });
@@ -930,6 +940,8 @@
       { n: 'Cycle count · Bhiwandi', s: 'Flagged bins first', a: 'MR', done: counted, all: counted + X.plan.length, due: 'Today', st: X.flagged.length ? 'flagged' : 'active', href: '#/count', time: mins(X.plan.length * 1.5) },
       { n: 'Reorder review', s: 'Drafts from low-stock alerts', a: 'MR', done: 0, all: X.drafts.length, due: X.drafts.length ? 'Today' : '—', st: X.drafts.length ? 'active' : 'clear', href: '#/purchasing?tab=drafts', time: mins(X.drafts.length * 1) }
     ];
+    if (V.me().key === 'farah') Q = Q.filter(function (q) { return q.n === 'Receiving' || q.n === 'Reorder review'; });
+    if (V.me().key === 'arjun') Q = Q.filter(function (q) { return q.n !== 'Reorder review'; });
     h += '<section aria-labelledby="q-h"><header class="sec-h2"><h3 id="q-h">Queues</h3><span class="faint">Press Play to work through one</span></header><div class="scroll-x"><table class="tbl queues"><thead><tr><th>Queue</th><th class="hide-m">Owner</th><th>Progress</th><th class="hide-m">Due</th><th class="r"><span class="vh">Start</span></th></tr></thead><tbody>' +
       Q.map(function (q) {
         return '<tr data-href="' + q.href + '"><td><b class="qn">' + q.n + '</b><div class="faint qs">' + q.s + '</div></td><td class="hide-m"><span class="av sm">' + q.a + '</span></td><td><div class="qp">' + meter(q.done, q.all, q.st === 'late' ? 'out' : '') + '<span class="num faint">' + q.done + '/' + q.all + '</span></div></td><td class="hide-m"><span class="pill plain' + (q.due === 'Overdue' ? ' out' : '') + '">' + q.due + '</span> <span class="faint qt">' + q.time + '</span></td><td class="r"><a class="btn sm play" href="' + q.href + '" aria-label="Start ' + q.n + '">' + icon('right', 'sm') + 'Play</a></td></tr>';
@@ -1039,7 +1051,7 @@
     var b = E.so(so.id + '-B'); if (b) rel.push('<li>' + chipSO(b.id) + '<span>Backorder · ' + plural(b.lines.reduce(function (a, l) { return a + l.qty; }, 0), 'unit') + '</span>' + soPill(b) + '</li>');
     var m = /^(SO-\d+)-B$/.exec(so.id); if (m) rel.push('<li>' + chipSO(m[1]) + '<span>Original order</span></li>');
     so.lines.forEach(function (l) { if (l.qty - l.res - l.picked > 0) E.pos().forEach(function (p) { if ((p.status === 'approved' || p.status === 'partial') && p.lines.some(function (x) { return x.sku === l.sku && x.recv < x.pq; })) rel.push('<li>' + chipPO(p.id) + '<span>Brings ' + esc(E.item(l.sku).name) + ' · ' + whenLc(p.eta) + '</span>' + poPill(p) + '</li>'); }); });
-    r.body += timeline(ev) + related(rel) + notesBlock(id);
+    r.body += V.papersRow('so', id) + timeline(ev) + related(rel) + notesBlock(id);
     return r;
   };
   V.poSheet = function (id) {
@@ -1050,7 +1062,7 @@
     if (po.bill) ev.push({ t: po.bill.t, what: 'Bill ' + esc(po.bill.no) + ' recorded', sub: inr(po.bill.amount) });
     var rel = [];
     E.sos().forEach(function (s) { if (s.status === 'reserved' && s.lines.some(function (l) { return l.qty > l.res && po.lines.some(function (x) { return x.sku === l.sku; }); })) rel.push('<li>' + chipSO(s.id) + '<span>' + esc(s.customer) + ' is waiting on this</span>' + soPill(s) + '</li>'); });
-    r.body += timeline(ev) + related(rel) + notesBlock(id);
+    r.body += V.papersRow('po', id) + timeline(ev) + related(rel) + notesBlock(id);
     return r;
   };
   V.itemSheet = function (sku, U) {

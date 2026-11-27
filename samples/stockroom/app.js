@@ -10,7 +10,10 @@
     ['data.js', function () { return window.HALDEN && window.HALDEN.seed; }],
     ['engine.js', function () { return window.SR && window.SR.init && window.SR.syncDeals; }],
     ['code128.js', function () { return window.Code128 && window.Code128.draw; }],
-    ['views.js', function () { return window.SRV && window.SRV.overview && window.SRV.pick; }]
+    ['wh.js', function () { return window.Wh && window.Wh.render; }],
+    ['views.js', function () { return window.SRV && window.SRV.overview && window.SRV.pick; }],
+    ['depth.js', function () { return window.SRV && window.SRV.floorBins; }],
+    ['papers.js', function () { return window.SRV && window.SRV.docHTML; }]
   ];
   function ensure(i, tries, forced, done) {
     if (i >= DEPS.length) return done();
@@ -44,25 +47,43 @@
   try {
     var p = JSON.parse(localStorage.getItem(PKEY) || '{}');
     if (p.wh === 'BHW' || p.wh === 'BLR') U.wh = p.wh;
+    if (V.ROLES[p.role]) V.who = p.role;
     if (p.itemView === 'cards' || p.itemView === 'table') U.itemView = p.itemView;
     if (p.cols && typeof p.cols === 'object') U.cols = p.cols;
     if (Array.isArray(p.views)) U.views = DEFAULT_VIEWS.concat(p.views.filter(function (v) { return v && v.name; }).map(function (v) { v.custom = true; return v; }));
   } catch (e) { }
-  function savePrefs() { try { localStorage.setItem(PKEY, JSON.stringify({ wh: U.wh, itemView: U.itemView || '', cols: U.cols || null, views: U.views.filter(function (v) { return v.custom; }) })); } catch (e) { } }
+  function savePrefs() { try { localStorage.setItem(PKEY, JSON.stringify({ wh: U.wh, itemView: U.itemView || '', cols: U.cols || null, role: V.who, views: U.views.filter(function (v) { return v.custom; }) })); } catch (e) { } }
 
-  var TITLES = { count: 'Count', receive: 'Receive', overview: 'Today', items: 'Items', locations: 'Locations', ledger: 'Stock ledger', sales: 'Pick and pack', purchasing: 'Purchase orders', scan: 'Scan', labels: 'Labels', reports: 'Reports', pick: 'Pick mode' };
+  var TITLES = { suppliers: 'Suppliers', settings: 'Settings', doc: 'Papers', count: 'Count', receive: 'Receive', overview: 'Today', items: 'Items', locations: 'Locations', ledger: 'Stock ledger', sales: 'Pick and pack', purchasing: 'Purchase orders', scan: 'Scan', labels: 'Labels', reports: 'Reports', pick: 'Pick mode' };
   var SELKEY = { items: 'selItems', sales: 'selSO', purchasing: 'selPO' };
   var route = { name: 'overview', id: null, qs: {} };
   function parse() {
     var h = location.hash.replace(/^#\/?/, ''), qi = h.indexOf('?'), qs = {};
     if (qi >= 0) { h.slice(qi + 1).split('&').forEach(function (kv) { var a = kv.split('='); qs[decodeURIComponent(a[0])] = decodeURIComponent(a[1] || ''); }); h = h.slice(0, qi); }
     var parts = h.split('/');
+    if (parts[0] === 'doc') return { name: 'doc', kind: parts[1] || '', id: parts[2] ? decodeURIComponent(parts[2]) : null, qs: qs };
     return { name: TITLES[parts[0]] ? parts[0] : 'overview', id: parts[1] ? decodeURIComponent(parts[1]) : null, qs: qs };
   }
 
   /* ---------- render ---------- */
   var lastBase = null, kb = -1;
+  var h1 = $('#title'), topBar = $('.top');
+  function homeTitle() { if (h1.parentNode !== topBar) topBar.insertBefore(h1, $('.sp', topBar)); h1.className = ''; }
+  /* what the current person may open: the others go back to Today */
+  function allowed(r) {
+    if (r.name === 'doc') return r.kind === 'po' ? V.can('purchasing') : r.kind === 'grn' ? true : V.can('sales');
+    return V.can(r.name);
+  }
+  function applyRole() {
+    var me = V.me();
+    $$('.nav a[data-nav], .tabbar a[data-nav]').forEach(function (a) { a.hidden = !V.can(a.dataset.nav); });
+    $$('.nav [data-g="buying"]').forEach(function (el) { if (el.tagName !== 'A') el.hidden = !V.can('purchasing'); });
+    $('.nav').setAttribute('data-first', me.first);
+    $('#me-av').textContent = me.ini; $('#me-name').textContent = me.name; $('#me-role').textContent = me.title;
+    var ta = $('#top-av'); ta.textContent = me.ini; ta.title = me.name + ' · ' + me.title;
+  }
   function render(keepScroll) {
+    homeTitle();
     var r = route, top = view.scrollTop;
     if (r.name === 'items' && r.qs.status) U.status = r.qs.status;
     if (r.name === 'purchasing' && r.qs.tab) U.potab = r.qs.tab;
@@ -73,11 +94,17 @@
     if (r.name === 'count' && (!U.cnt || U.cnt.wh !== (U.wh || 'BHW'))) { var cw = U.wh || 'BHW'; U.cnt = { wh: cw, plan: E.countPlan(cw, 8), i: 0, res: {}, step: 'count' }; }
     if (r.name === 'receive') { if (!r.id) U.rcv = null; else if (!U.rcv || U.rcv.id !== r.id) { var rp = E.po(r.id); U.rcv = rp ? { id: r.id, step: 0, q: {}, bin: {}, wh: rp.wh, dn: '', dmg: false, note: '' } : null; } }
     U.sel = r.id;
+    if (r.name === 'doc') U.doc = { kind: r.kind, id: r.id };
     view.innerHTML = V[r.name](U);
     if (keepScroll || lastBase === r.name) view.scrollTop = top;
     lastBase = r.name;
-    $('#title').innerHTML = TITLES[r.name] + (r.id && r.name !== 'locations' ? ' <span class="crumb">/ ' + esc(r.id) + '</span>' : '');
-    document.title = TITLES[r.name] + (r.id ? ' ' + r.id : '') + ' · Stockroom';
+    var slot = r.name === 'overview' ? $('#h1-slot', view) : null;
+    if (slot) { slot.replaceWith(h1); h1.className = 'today-h1'; h1.textContent = V.headline(V.lastX); }
+    else h1.innerHTML = TITLES[r.name] + (r.id && r.name !== 'locations' && r.name !== 'overview' ? ' <span class="crumb">/ ' + esc(r.id) + '</span>' : '');
+    document.title = (r.name === 'doc' ? (V.docName(r.kind) || 'Papers') : TITLES[r.name]) + (r.id ? ' ' + r.id : '') + ' · Stockroom';
+    document.body.classList.toggle('on-doc', r.name === 'doc');
+    mountFloors();
+    if (r.name === 'doc') { loadPapers(); fitDoc(); }
     var navName = r.name;
     $$('.nav a, .tabbar a').forEach(function (a) { a.setAttribute('aria-current', a.dataset.nav === navName || (navName === 'pick' && a.dataset.nav === 'sales') ? 'page' : 'false'); });
     $$('[data-act="wh"]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === U.wh)); });
@@ -87,8 +114,25 @@
     if ((r.name === 'scan' || r.name === 'pick') && stream) attachVideo();
     if (coach) setTimeout(coachPlace, 60);
   }
+  var paperCss = false;
+  function loadPapers() { if (paperCss) return; paperCss = true; var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'papers.css?v=67'; l.onload = function () { if (route.name === 'doc') fitDoc(); }; document.head.appendChild(l); }
+  function mountFloors() { V.mountFloors(view, function (bin) { location.hash = '#/' + (route.name === 'locations' ? 'locations' : 'overview') + '/' + bin; if (route.name === 'locations') setTimeout(function () { flashBin(bin); }, 60); }); }
+  function flashBin(bin) {
+    var el = $('tr[data-href="#/locations/' + bin + '"]', view) || $('.bin[href="#/locations/' + bin + '"]', view); if (!el) return;
+    $$('.locflash', view).forEach(function (x) { x.classList.remove('locflash'); });
+    el.classList.add('locflash'); el.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
+  function fitDoc() {
+    var f = $('#docfit'), sc = $('#docscale'); if (!f || !sc) return;
+    sc.style.transform = ''; sc.style.marginBottom = ''; sc.classList.remove('fit');
+    var cs = getComputedStyle(f), inner = f.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), w = sc.offsetWidth, k = Math.min(1, inner / w);
+    if (k < 1) { sc.classList.add('fit'); sc.style.transform = 'scale(' + k.toFixed(4) + ')'; sc.style.marginBottom = (-(sc.offsetHeight * (1 - k))).toFixed(1) + 'px'; }
+  }
+  addEventListener('resize', function () { if (route.name === 'doc') fitDoc(); });
   function renderSheet() {
     var r = route, s = null;
+    if (r.id && (r.name === 'locations' || r.name === 'overview')) s = V.binSheet(r.id);
+    if (r.id && r.name === 'suppliers') s = V.supplierSheet(r.id);
     if (r.id && r.name === 'items' && E.item(r.id)) s = V.itemSheet(r.id, U);
     if (r.id && r.name === 'purchasing') s = V.poSheet(r.id);
     if (r.id && r.name === 'sales') s = V.soSheet(r.id);
@@ -237,7 +281,7 @@
     $('#rcv-wh', modal).addEventListener('change', function (e) { $$('select[data-sku]', modal).forEach(function (s) { s.innerHTML = binOptions(e.target.value, E.primaryBin(s.dataset.sku, e.target.value)); }); });
     $('#rcv-all', modal).addEventListener('click', function () { $$('.stepper input', modal).forEach(function (i) { i.value = i.max; }); });
   }
-  function newPOModal() {
+  function newPOModal(presetSup) {
     var sups = E.suppliers();
     function lines(sid) { return E.items().filter(function (s) { return s.supplier === sid; }).map(function (s) { return '<tr><td>' + V.itemCell(s.sku, true) + '<div class="faint" style="font-size:11.5px;margin-left:32px">' + V.n(E.available(s.sku)) + ' available · reorder at ' + E.rop(s.sku) + '</div></td><td class="num">' + stepper('q-' + s.sku, E.status(s.sku) !== 'ok' ? E.suggestQty(s.sku) : 0, null, s.buy.unit + 's of ' + s.name) + (s.buy.per > 1 ? '<div class="faint" style="font-size:11px">' + s.buy.unit + 's of ' + s.buy.per + '</div>' : '') + '</td></tr>'; }).join(''); }
     openModal('<header><h2>New purchase order</h2><p>Quantities are in the supplier\'s buying unit. Items below their reorder point are pre-filled.</p></header><div class="body"><div class="row2"><label class="field">Supplier<select class="select" name="sup" id="np-sup">' + sups.map(function (s) { return '<option value="' + s.id + '">' + esc(s.name) + ' · ' + s.lead + ' days</option>'; }).join('') + '</select></label><label class="field">Deliver to<select class="select" name="wh">' + whOptions('BHW') + '</select></label></div>' +
@@ -251,6 +295,7 @@
       location.hash = '#/purchasing/' + po.id;
     }, true);
     $('#np-sup', modal).addEventListener('change', function (e) { $('#np-lines', modal).innerHTML = lines(e.target.value); });
+    if (presetSup) { $('#np-sup', modal).value = presetSup; $('#np-lines', modal).innerHTML = lines(presetSup); }
   }
   function shortcutsModal() {
     modal.className = 'modal wide';
@@ -311,6 +356,9 @@
     printHTML('<div class="labels">' + chosen.map(V.labelHTML).join('') + '</div>');
   }
   function printPicks(ids) { printHTML(ids.map(function (id) { return V.pickPrint(E.so(id)); }).join('')); }
+
+  addEventListener('beforeprint', function () { if (route.name === 'doc' && !document.body.classList.contains('printing')) { $('#print').innerHTML = V.docHTML(route.kind, route.id); drawBarcodes($('#print')); document.body.classList.add('printing'); } });
+  addEventListener('afterprint', function () { document.body.classList.remove('printing'); });
 
   /* ---------- scanning ---------- */
   var stream = null, detector = null, scanning = false, lastCode = '', lastAt = 0, torch = false, camErr = '';
@@ -405,16 +453,19 @@
   function cmdk() {
     var all = [];
     var actions = [
-      ['Add a won deal from Lumen CRM', function () { simDeal(); }], ['New purchase order', newPOModal],
+      ['New order from a won deal', function () { simDeal(); }], ['New purchase order', newPOModal],
       ['Approve all draft purchase orders', function () { var d = E.pos().filter(function (p) { return p.status === 'draft'; }); if (!d.length) return toast('No drafts to approve.'); act('approve drafts', function () { d.forEach(function (p) { E.approvePO(p.id, true); }); E.commit(); return d; }, 'Approved and sent ' + d.length + ' purchase orders'); }],
       ['Transfer stock…', function () { pickItemModal(transferModal, 'Transfer stock'); }], ['Adjust stock…', function () { pickItemModal(adjustModal, 'Adjust stock'); }],
       ['Show Bhiwandi only', function () { setWh('BHW'); }], ['Show Hoskote only', function () { setWh('BLR'); }], ['Show both warehouses', function () { setWh(''); }],
       ['Take the tour', function () { startCoach('tour'); }], ['Try the full flow', function () { startCoach('flow'); }], ['Count bins', function () { location.hash = '#/count'; }], ['Receive a delivery', function () { location.hash = '#/receive'; }], ['Keyboard shortcuts', shortcutsModal], ['Start fresh', resetDemo]];
     actions.forEach(function (a) { all.push({ t: a[0], k: 'Action', run: a[1], ic: 'bolt' }); });
-    Object.keys(TITLES).forEach(function (k) { if (k !== 'pick') all.push({ t: 'Go to ' + TITLES[k], k: 'Page', h: '#/' + k, ic: k }); });
+    Object.keys(TITLES).forEach(function (k) { if (k !== 'pick' && k !== 'doc' && V.can(k)) all.push({ t: 'Go to ' + TITLES[k], k: 'Page', h: '#/' + k, ic: k }); });
+    if (V.can('sales')) E.sos().slice(-40).reverse().forEach(function (so) { V.docsFor('so', so.id).forEach(function (d) { if (d.ok) all.push({ t: 'Print ' + d.label.toLowerCase().replace('tax invoice', 'invoice') + ' for ' + so.id, k: 'Paper', h: '#/doc/' + d.k + '/' + so.id, ic: 'print' }); }); });
+    E.pos().slice(-24).reverse().forEach(function (po) { V.docsFor('po', po.id).forEach(function (d) { if (d.ok && (d.k === 'grn' || V.can('purchasing'))) all.push({ t: 'Print ' + d.label.toLowerCase() + ' for ' + po.id, k: 'Paper', h: '#/doc/' + d.k + '/' + po.id, ic: 'print' }); }); });
     E.items().forEach(function (s) { all.push({ t: s.name, k: s.sku, h: '#/items/' + s.sku, img: s.thumb }); });
     E.sos().slice(-40).reverse().forEach(function (s) { all.push({ t: s.customer + ' · ' + s.status, k: s.id, h: '#/sales/' + s.id, ic: 'sales' }); });
-    E.pos().slice(-20).reverse().forEach(function (p) { all.push({ t: E.supplier(p.supplier).name + ' · ' + p.status, k: p.id, h: '#/purchasing/' + p.id, ic: 'purchasing' }); });
+    if (V.can('purchasing')) E.pos().slice(-20).reverse().forEach(function (p) { all.push({ t: E.supplier(p.supplier).name + ' · ' + p.status, k: p.id, h: '#/purchasing/' + p.id, ic: 'purchasing' }); });
+    if (V.can('suppliers')) E.suppliers().forEach(function (su) { all.push({ t: 'Supplier ' + su.name, k: su.city, h: '#/suppliers/' + su.id, ic: 'purchasing' }); });
     E.bins().forEach(function (b) { all.push({ t: 'Bin ' + b.id, k: 'Bin', h: '#/locations/' + b.id, ic: 'locations' }); });
     modal.className = 'modal cmdk';
     modal.innerHTML = '<label><span class="vh">Search Stockroom</span><input class="q" placeholder="Type a command, item, order or bin…" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="cmdk-list"></label><ul id="cmdk-list" role="listbox"></ul><div class="cmdk-f"><span><span class="kbd">↑</span><span class="kbd">↓</span> move</span><span><span class="kbd">↵</span> open</span><span><span class="kbd">Esc</span> close</span></div>';
@@ -438,7 +489,7 @@
   function setWh(v) { U.wh = v; savePrefs(); render(); toast(v ? 'Showing ' + E.wh(v).name : 'Showing both warehouses'); }
   function simDeal() { var nso = E.simulateDeal(); nso.lines.forEach(function (l) { touchedBefore[l.sku] = 1; }); toast('<span class="crm"><i></i>Lumen CRM</span> Deal won: ' + esc(nso.customer) + ' · ' + (E.shortfall(nso) ? E.shortfall(nso) + ' units backordered' : 'all lines reserved') + ' <a href="#/sales/' + nso.id + '">Open</a>', { ms: 6500 }); }
   function resetDemo() {
-    openModal('<header><h2>Start fresh?</h2><p>Stockroom goes back to its starting 90 days of history. Changes made in this browser are lost.</p></header><footer><button class="btn" type="button" data-close>Keep my changes</button><button class="btn primary" type="submit" autofocus>Start fresh</button></footer>',
+    openModal('<header><h2>Start fresh?</h2><p>Stockroom goes back to its starting 90 days of history. Changes you have made are lost.</p></header><footer><button class="btn" type="button" data-close>Keep my changes</button><button class="btn primary" type="submit" autofocus>Start fresh</button></footer>',
       function () { E.reset(); U.scans = []; U.scanHit = null; clearSel(); toast('Started fresh'); });
   }
 
@@ -531,6 +582,11 @@
       case 'lblnone': U.lblSel = {}; render(true); break;
       case 'print': printLabels(); break;
       case 'sim-deal': simDeal(); break;
+      case 'who': { var wm = $('#whomenu'), open = wm.hidden; wm.hidden = !open; a.setAttribute('aria-expanded', String(open)); if (open) { wm.innerHTML = V.whoMenu(); var cur = $('[aria-checked="true"]', wm); if (cur) cur.focus({ preventScroll: true }); wm.scrollIntoView({ block: 'nearest' }); } break; }
+      case 'who-set': { V.who = v; savePrefs(); $('#whomenu').hidden = true; $('#me-btn').setAttribute('aria-expanded', 'false'); applyRole(); if (!allowed(route)) { location.hash = '#/overview'; } render(); toast('Now working as ' + esc(V.me().name) + ' · ' + V.me().title); break; }
+      case 'settab': U.settab = v; render(true); break;
+      case 'po-new-sup': newPOModal(id); break;
+      case 'doc-print': { var dk = route.kind, di = route.id; printHTML(V.docHTML(dk, di)); break; }
       case 'reset': resetDemo(); break;
       case 'cam-start': startCam(); break;
       case 'cam-stop': stopCam(); render(true); break;
@@ -614,6 +670,9 @@
   function closeNew() { var m = $('#newmenu'); if (m) m.hidden = true; var b = $('[data-act="newmenu"]'); if (b) b.setAttribute('aria-expanded', 'false'); }
   document.addEventListener('click', function (e) { if (!e.target.closest('#newmenu, [data-act="newmenu"]')) closeNew(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeNew(); });
+  function closeWho() { var m = $('#whomenu'); if (m && !m.hidden) { m.hidden = true; $('#me-btn').setAttribute('aria-expanded', 'false'); } }
+  document.addEventListener('click', function (e) { if (!e.target.closest('.mewrap')) closeWho(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { var m = $('#whomenu'); if (m && !m.hidden) { closeWho(); $('#me-btn').focus(); } } });
   function plural2(k, w) { return k + ' ' + w + (k === 1 ? '' : 's'); }
   function quickAdjust(sku, d) {
     var it = E.item(sku), wh = U.wh || (E.onHand(sku, 'BHW') || d > 0 ? 'BHW' : 'BLR'), bin = (E.binsOf(sku, wh)[0] || {}).bin || E.primaryBin(sku, wh);
@@ -749,6 +808,7 @@
     var t = e.target, k = t.dataset && t.dataset.in;
     if (k === 'lsku') { U.lsku = t.value; U.llimit = 60; history.replaceState(null, '', '#/ledger'); route.qs = {}; render(); }
     if (k === 'poline') E.setPOLine(t.dataset.id, t.dataset.sku, parseInt(t.value, 10) || 0);
+    if (k === 'policy') { var pc = E.policy(), nv = parseInt(t.value, 10); if (isNaN(nv) || nv === pc[t.dataset.k]) return; var np = { lead: pc.lead, safety: pc.safety }; np[t.dataset.k] = nv; E.setPolicy(np.lead, np.safety); toast('Reorder policy saved · ' + (E.policy().lead + E.policy().safety) + ' days of cover'); }
   });
   document.addEventListener('submit', function (e) {
     var f = e.target, k = f.dataset.form;
@@ -797,6 +857,7 @@
   function go() {
     var prev = route.name;
     route = parse();
+    if (!allowed(route)) { route = { name: 'overview', id: null, qs: {} }; history.replaceState(null, '', '#/overview'); }
     if ((prev === 'scan' || prev === 'pick') && route.name !== prev) stopCam();
     if (prev !== route.name) { kb = -1; clearSel(); U.pkMsg = null; U.sort = null; if (route.name === 'pick') U.pkSkip = {}; }
     $('#side').classList.remove('open');
@@ -819,11 +880,12 @@
   addEventListener('focus', pullDeals);
   document.addEventListener('visibilitychange', function () { if (document.hidden) stopCam(); });
 
+  setTimeout(loadPapers, 2500);
   route = parse();
+  applyRole();
+  if (!allowed(route)) { route = { name: 'overview', id: null, qs: {} }; history.replaceState(null, '', '#/overview'); }
   render();
   pullDeals();
   E.writeBridge();
-  var toured = false; try { toured = !!localStorage.getItem(TKEY); } catch (e) { toured = true; }
-  if (!toured && !matchMedia('(prefers-reduced-motion: reduce)').matches) setTimeout(function () { if (!coach) startCoach('tour'); }, 900);
   }
 })();
