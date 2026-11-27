@@ -1,4 +1,5 @@
-/* Ghatika checkout: bag → delivery → demo payment → confirmation. Writes the order to the demo back office. No real payment. */
+/* Ghatika checkout: bag → delivery → payment → confirmation. Each watch in the bag is given the next number of the year's 300;
+   the order lands in the back office. No money moves. */
 (function () {
   'use strict';
   var D = window.GH_DATA, G = window.GH, $ = G.$, $$ = G.$$;
@@ -7,9 +8,19 @@
   var PIN = { '11': 'New Delhi', '12': 'Gurugram', '30': 'Jaipur', '31': 'Udaipur', '38': 'Ahmedabad', '40': 'Mumbai', '41': 'Pune', '50': 'Hyderabad', '56': 'Bengaluru', '60': 'Chennai', '68': 'Kochi', '70': 'Kolkata' };
 
   function items() { return G.bag.items(); }
+  // the heading names the watch and the number it will carry on its caseback ring (0128 / 300 is on show; the year has reached 0130)
+  var WORD = ['', 'one', 'two', 'three', 'four', 'five', 'six'];
+  function no(n) { return String(n).padStart(4, '0'); }
+  function heading() {
+    var it = done ? done.items : items(), h = $('#coH'), first = done ? done.first : 131 + G.store.get('numbered', 0); if (!h) return;
+    var n = it.reduce(function (a, x) { return a + (x.qty || 1); }, 0), names = it.map(function (x) { return D.MODELS[x.model].name; });
+    var same = names.every(function (x) { return x === names[0]; });
+    h.textContent = !n ? 'Your bag' : n === 1 ? 'Your ' + names[0] + ', No. ' + no(first)
+      : 'Your ' + (same ? (WORD[n] || n) + ' ' + names[0] + 's' : n === 2 ? names.join(' and ') : (WORD[n] || n) + ' watches') + ', Nos. ' + no(first) + (n === 2 ? ' and ' : '–') + no(first + n - 1);
+  }
   function total() { return G.bag.total(); }
   function summary() {
-    var it = done ? done.items : items(), t = done ? done.total : total();
+    heading(); var it = done ? done.items : items(), t = done ? done.total : total();
     var gst = Math.round(t * 18 / 118);
     $('#coSum').innerHTML = '<p class="k">Order summary</p>' + (it.length ? it.map(function (x) { var m = D.MODELS[x.model]; return '<div class="mini"><img src="' + m.img + '" alt="" width="64" height="80"><div><b>' + m.name + '</b><span>' + G.esc(G.cfgLine(x)) + (x.engraving ? '<br>Engraved “' + G.esc(x.engraving) + '”' : '') + '</span></div><span class="price">' + G.inr(x.price) + '</span></div>'; }).join('') : '<p class="muted">Nothing here yet.</p>') +
       '<div class="row"><span>Insured delivery</span><span>Free</span></div><div class="row"><span>Engraving and gift card</span><span>Free</span></div><div class="row"><span>GST (18%, included)</span><span>' + G.inr(gst) + '</span></div>' +
@@ -78,7 +89,7 @@
   function process() {
     var box = $('#s-pay .paybox'), keep = box.innerHTML;
     box.setAttribute('aria-busy', 'true');
-    box.insertAdjacentHTML('afterbegin', '<div class="processing" id="proc" role="status"><div class="spinner" aria-hidden="true"></div><p class="h3" style="margin:0">Confirming with your bank…</p><p class="hint" style="margin:0">Please keep this page open.</p></div>');
+    box.insertAdjacentHTML('afterbegin', '<div class="processing" id="proc" role="status"><div class="spinner" aria-hidden="true"></div><p class="h3" style="margin:0">Reserving your number…</p><p class="hint" style="margin:0">Please keep this page open.</p></div>');
     $$('#s-pay .paybox > :not(#proc)').forEach(function (el) { el.hidden = true; });
     setTimeout(function () { finish(); box.removeAttribute('aria-busy'); }, G.reduce ? 300 : 1700);
   }
@@ -87,7 +98,8 @@
     var id = G.nextId('GH-O-', 'orders', 24200), name = $('#dN').value.trim();
     var sig = it.every(function (x) { var s = D.MODELS[x.model].sig; return x.dial === s.dial && x.metal === s.metal && x.strap === s.strap; });
     var rec = { id: id, at: new Date().toISOString(), customer: name, email: $('#dE').value.trim(), phone: '+91 ' + digits.slice(-10, -5) + ' •••' + digits.slice(-2), city: pick ? D.BOUTIQUES.filter(function (b) { return b.id === $('#dB').value; })[0].city : $('#dC').value.trim(), items: it.map(function (x) { return { model: x.model, dial: x.dial, metal: x.metal, strap: x.strap, engraving: x.engraving, qty: x.qty }; }), total: t, pay: { upi: 'UPI', card: 'Card', emi: 'EMI · ' + emiN + ' mo', btq: 'Pay at boutique' }[payMethod], delivery: pick ? 'Boutique pick-up' : 'Insured courier', status: payMethod === 'btq' ? 'new' : 'paid', owner: '', note: ($('#dGift').checked ? 'Gift: hide prices. Card: “' + $('#dMsg').value.trim() + '”. ' : '') + ($('#dG').value ? 'GST invoice ' + $('#dG').value.toUpperCase() : ''), source: 'website' };
-    G.add('orders', rec); done = { items: it, total: t };
+    var first = 131 + G.store.get('numbered', 0); G.store.set('numbered', G.store.get('numbered', 0) + it.reduce(function (a, x) { return a + (x.qty || 1); }, 0));
+    G.add('orders', rec); done = { items: it, total: t, first: first };
     G.bag.save([]); G.store.del('checkout-draft');
     var d0 = new Date(), add = function (n) { var d = new Date(d0); d.setDate(d.getDate() + n); return G.dfmt(d.toISOString(), { day: 'numeric', month: 'short' }); };
     var build = sig ? 0 : 38;

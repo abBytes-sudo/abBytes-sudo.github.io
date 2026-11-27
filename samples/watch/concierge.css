@@ -167,3 +167,4 @@ html.cg-lock,html.cg-lock body{overflow:hidden!important}
 body.has-mbar .cg--gh .cg-launch,body.has-mbar .cg--gh .cg-nudge{bottom:calc(max(18px,env(safe-area-inset-bottom)) + 72px)}
 @media (max-width:760px){.cg--gh .cg-lab{display:none}.cg--gh .cg-launch{padding:0 6px;border-radius:50%}}
 @media (max-width:560px){.cg--gh .cg-panel{border-radius:0!important}.cg--gh .cg-panel::before{display:none}.cg--gh[data-state=open] .cg-launch,.cg--gh[data-state=closing] .cg-launch{opacity:0;pointer-events:none;transform:scale(.8)}}
+@media (max-width:760px){body.cg-tuck .cg--gh .cg-launch,body.cg-tuck .cg--gh .cg-nudge{opacity:0;transform:translateY(24px) scale(.9);pointer-events:none}}

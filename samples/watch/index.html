@@ -4,38 +4,39 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ghatika · Mechanical watches made by hand in Udaipur</title>
-<meta name="description" content="Ghatika makes 300 hand-finished mechanical watches a year in Udaipur. Take a Prahar apart in 3D, configure your own, and book a viewing.">
+<meta name="description" content="Ghatika makes 300 hand-finished mechanical watches a year in Udaipur. Wind a Prahar, take it apart forty times closer, configure your own and book a viewing.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Ghatika">
 <meta property="og:title" content="Ghatika · The hour, held by hand">
-<meta property="og:description" content="Ghatika makes 300 hand-finished mechanical watches a year in Udaipur. Take a Prahar apart in 3D, configure your own, and book a viewing.">
+<meta property="og:description" content="Ghatika makes 300 hand-finished mechanical watches a year in Udaipur. Wind a Prahar, take it apart forty times closer, configure your own and book a viewing.">
 <meta property="og:url" content="https://abbytes-sudo.github.io/samples/watch/">
 <meta property="og:image" content="https://abbytes-sudo.github.io/samples/watch/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="A Ghatika Prahar watch with a blue guilloché dial, coming apart into its crystal, dial, movement and strap">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Ghatika · The hour, held by hand"><meta name="twitter:description" content="Ghatika makes 300 hand-finished mechanical watches a year in Udaipur. Take a Prahar apart in 3D, configure your own, and book a viewing."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/watch/og.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Ghatika · The hour, held by hand"><meta name="twitter:description" content="Ghatika makes 300 hand-finished mechanical watches a year in Udaipur. Wind a Prahar, take it apart forty times closer, configure your own and book a viewing."><meta name="twitter:image" content="https://abbytes-sudo.github.io/samples/watch/og.jpg">
 <meta name="robots" content="noindex">
-<meta name="theme-color" content="#0d0d0f">
+<meta name="theme-color" content="#08151f">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="preload" href="fonts/prata.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="img/poster-m.webp" as="image" media="(max-aspect-ratio: 4/5)" fetchpriority="high">
 <link rel="preload" href="img/poster.webp" as="image" media="(min-aspect-ratio: 4.01/5)" fetchpriority="high">
-<link rel="stylesheet" href="watch.min.css?v=9">
+<link rel="stylesheet" href="watch.min.css?v=11">
 <link rel="stylesheet" href="../assets/back.css?v=2">
 <script src="../assets/vendor/gsap.min.js" defer></script>
 <script src="../assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="../assets/vendor/SplitText.min.js" defer></script>
 <script src="../assets/vendor/lenis.min.js" defer></script>
 <script src="../assets/motion.js?v=1" defer></script>
-<script src="data.js?v=9" defer></script>
-<script src="app.js?v=9" defer></script>
-<script src="home.js?v=9" defer></script>
+<script src="data.js?v=11" defer></script>
+<script src="app.js?v=11" defer></script>
+<script src="wind.js?v=11" defer></script>
+<script src="home.js?v=11" defer></script>
 <script src="../assets/back.js?v=1" defer></script>
-<script src="concierge.js?v=9" defer data-agent="watch" data-skin="concierge.css?v=9" data-brand="gh" data-title="Ghatika concierge" data-sub="Replies from the atelier, Udaipur" data-label="Ask the concierge" data-nudge="watch,index,collection" data-v="9"></script>
+<script src="concierge.js?v=11" defer data-agent="watch" data-skin="concierge.css?v=11" data-brand="gh" data-title="Ghatika concierge" data-sub="Replies from the atelier, Udaipur" data-label="Ask the concierge" data-nudge="watch,index,collection" data-v="11"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <p class="demo">Portfolio project by <a href="../../index.html">Abhishek</a></p>
 <header class="hdr">
-  <a class="logo" href="index.html" aria-label="Ghatika, home"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="#c9a25a" stroke-width="1.2"/><path d="M6.5 13.5h19a9.5 9.5 0 0 1-19 0z" fill="#c9a25a"/><circle cx="16" cy="26.6" r="1.3" fill="#c9a25a"/></svg>GHATIKA</a>
+  <a class="logo" href="index.html" aria-label="Ghatika, home"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="none" stroke="#c9ad7c" stroke-width="1.2"/><path d="M6.5 13.5h19a9.5 9.5 0 0 1-19 0z" fill="#c9ad7c"/><circle cx="16" cy="26.6" r="1.3" fill="#c9ad7c"/></svg>GHATIKA</a>
   <nav class="nav" aria-label="Main"><a class="ul" href="collection.html">Collection</a><a class="ul" href="watch.html?m=prahar">Configure</a><a class="ul" href="craft.html">Craft</a><a class="ul" href="boutiques.html">Boutiques</a><a class="ul" href="journal.html">Journal</a></nav>
   <div class="hdr-r">
     <a class="btn sm ghost" href="boutiques.html#book">Book a viewing</a>
@@ -43,48 +44,61 @@
     <button class="mbtn" id="mbtn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
   </div>
 </header>
-<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="collection.html">Collection</a><a href="watch.html?m=prahar">Configure</a><a href="craft.html">Craft</a><a href="boutiques.html">Boutiques</a><a href="journal.html">Journal</a><a href="boutiques.html#book">Book a viewing</a><a href="service.html">Care and service</a></nav><p class="k">Client care</p><nav aria-label="Client care" style="display:grid"><a href="warranty.html" style="font-size:1.3rem">Register a warranty</a><a href="service.html#track" style="font-size:1.3rem">Track a service ticket</a><a href="staff.html" style="font-size:1.3rem">Staff</a></nav></div>
+<div class="menu" id="menu" hidden><nav aria-label="Mobile"><a href="collection.html">Collection</a><a href="watch.html?m=prahar">Configure</a><a href="craft.html">Craft</a><a href="boutiques.html">Boutiques</a><a href="journal.html">Journal</a><a href="boutiques.html#book">Book a viewing</a><a href="service.html">Care and service</a></nav><p class="k">Client care</p><nav aria-label="Client care" style="display:grid"><a href="warranty.html" style="font-size:1.3rem">Register a warranty</a><a href="service.html#track" style="font-size:1.3rem">Track a service ticket</a></nav></div>
 <main id="main">
 <section class="reveal studio-bg" id="reveal" aria-labelledby="h1">
   <div class="reveal-stage" id="stage">
-    <picture><source media="(max-aspect-ratio: 4/5)" srcset="img/poster-m.webp"><img class="poster" src="img/poster.webp" alt="" width="1800" height="1100" fetchpriority="high"></picture>
-    <canvas id="watch3d" role="img" aria-label="A live 3D model of the Ghatika Prahar. As you scroll it comes apart into crystal, hands, dial, case, movement and strap, then closes again."></canvas>
+    <picture><source media="(max-aspect-ratio: 4/5)" srcset="img/poster-m.webp"><img class="poster" src="img/poster.webp" alt="" width="1440" height="900" fetchpriority="high"></picture>
+    <canvas id="watch3d" role="img" aria-label="The Ghatika Prahar. Wind it by its crown; as you scroll it comes apart into crystal, hands, dial, case, movement and strap, goes forty times closer to the dial and the bridges, and closes again."></canvas>
+    <div class="vign" id="vign" aria-hidden="true"></div>
     <div class="callouts" id="callouts" aria-hidden="true"><svg id="leaders"></svg></div>
+    <div class="mm-scale" id="scale" aria-hidden="true"><i></i><span>1 mm</span></div>
     <div class="hero-top"><p class="k">Udaipur · since 2019 · <b>300 watches a year</b></p><p class="k">On the bench today: <b>Prahar No. 0128</b></p></div>
-    <div class="chapters" id="chapters" aria-hidden="true"><span class="on">The watch</span><span>Crystal, hands</span><span>Dial</span><span>Case</span><span>Movement</span><span>Strap, back</span><span>Closed</span></div>
+    <div class="chapters" id="chapters" aria-hidden="true"><span class="on">The watch</span><span>Crystal, hands</span><span>The dial ×40</span><span>The case</span><span>The calibre ×40</span><span>Strap, back</span><span>Closed</span></div>
+    <div class="crown-hit" id="crownHit" role="slider" tabindex="0" aria-label="Crown of the Prahar: drag up, or press the up arrow, to wind it" aria-valuemin="0" aria-valuemax="72" aria-valuenow="0" aria-orientation="vertical" hidden><span class="ch-ring"></span><span class="ch-tip">Turn the crown</span></div>
     <div class="hero-copy" id="heroCopy">
       <h1 id="h1" class="disp">The hour, <span class="l2">held by hand.</span></h1>
       <div class="hero-side">
-        <p>Ghatika makes three hundred mechanical watches a year in Udaipur. One watchmaker, thirty-eight days, every part finished by hand. Scroll, and take one apart.</p>
-        <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center"><a class="btn" data-magnetic href="watch.html?m=prahar">Configure Prahar <span class="ar" aria-hidden="true">→</span></a><span class="scrollcue k" aria-hidden="true"><i></i>Scroll</span></div>
+        <p><span class="s1">Ghatika makes three hundred mechanical watches a year in Udaipur.</span><span class="xl"> One watchmaker, thirty-eight days, every part finished by hand.</span> Wind it, then take it apart.</p>
+        <div class="wind" id="wind" role="group" aria-labelledby="windT">
+          <svg class="pr" viewBox="0 0 120 72" aria-hidden="true" focusable="false">
+            <path class="tr" d="M14 58A46 46 0 0 1 106 58"/><path class="fl" id="prFill" d="M0 0"/>
+            <g class="tk"><path d="M14 58h6M37 18.2l3 5.2M83 18.2l-3 5.2M106 58h-6"/></g>
+            <line id="prHand" class="hd" x1="60" y1="58" x2="60" y2="22" transform="rotate(-90 60 58)"/><circle class="pin" cx="60" cy="58" r="2.6"/>
+            <text x="14" y="70" text-anchor="middle">0</text><text x="106" y="70" text-anchor="middle">72</text>
+          </svg>
+          <div class="wind-t"><span class="k" id="windT">Power reserve</span><b id="prVal">Stopped</b></div>
+          <button class="btn ghost sm wind-btn" id="windBtn" type="button">Wind it</button>
+          <button class="snd" id="sndBtn" type="button" aria-pressed="false" aria-label="Sound of the movement: off"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path class="w" d="M15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/><path class="x" d="M15.5 9.5l5 5M20.5 9.5l-5 5"/></svg></button>
+          <p class="sr" id="prLive" aria-live="polite"></p>
+        </div>
+        <div class="hero-cta"><a class="btn" data-magnetic href="watch.html?m=prahar">Configure Prahar <span class="ar" aria-hidden="true">→</span></a><span class="scrollcue k" aria-hidden="true"><i></i>Scroll</span></div>
       </div>
     </div>
     <div class="reveal-end" id="revealEnd"><p class="k br">Thirty-eight days later</p><p class="h2" style="margin:12px 0 28px">And then it closes.</p><a class="btn" href="watch.html?m=prahar" tabindex="-1" id="endCta">Make it yours <span class="ar" aria-hidden="true">→</span></a></div>
   </div>
 </section>
-<ol class="reveal-list" id="revealList" aria-label="Inside a Ghatika Prahar">
-  <li><span class="ring" data-n="I" aria-hidden="true"></span>
-      <h2 class="h3">Domed sapphire</h2><p>A 1.1 mm dome, anti-reflective on the inside only, so the outside never scuffs cloudy.</p></li>
-  <li><span class="ring" data-n="II" aria-hidden="true"></span>
-      <h2 class="h3">Dauphine, faceted</h2><p>Two facets per hand, polished on a tin wheel until they catch the light from any angle.</p></li>
-  <li><span class="ring" data-n="III" aria-hidden="true"></span>
-      <h2 class="h3">Lehariya guilloché</h2><p>Cut in 120 passes on a 1931 rose engine. The waves come from the monsoon turbans of Mewar.</p></li>
-  <li><span class="ring" data-n="IV" aria-hidden="true"></span>
-      <h2 class="h3">39 mm, 9.8 mm thin</h2><p>Brushed flanks, a polished bevel, and lugs that curve down to meet the wrist.</p></li>
-  <li><span class="ring" data-n="V" aria-hidden="true"></span>
-      <h2 class="h3">Six beats a second</h2><p>A free-sprung balance regulated in five positions, to within four seconds a day.</p></li>
-  <li><span class="ring" data-n="VI" aria-hidden="true"></span>
-      <h2 class="h3">Finished by hand</h2><p>Côtes de Genève, bevelled edges, blued screws and 21 rubies. Four hours of bevelling alone.</p></li>
-  <li><span class="ring" data-n="VII" aria-hidden="true"></span>
-      <h2 class="h3">Vegetable-tanned calf</h2><p>Cut and saddle-stitched in Jodhpur. It softens to your wrist in about a month.</p></li>
-  <li><span class="ring" data-n="VIII" aria-hidden="true"></span>
-      <h2 class="h3">Numbered, signed inside</h2><p>Sapphire, so the movement stays on show. Your watchmaker’s initials sit beneath it.</p></li>
+<ol class="reveal-list" id="revealList" aria-label="Inside a Ghatika Prahar, in seven chapters">
+  <li><figure><picture><source media="(max-aspect-ratio: 4/5)" data-srcset="img/seq/port/f024.webp"><img data-src="img/seq/land/f024.webp" alt="The crystal and the bezel lifting off the Prahar" width="1440" height="900" loading="lazy" decoding="async"></picture>
+    <figcaption><span class="ring" data-n="I" aria-hidden="true"></span><h2 class="h3">Crystal and hands</h2><p>A 1.1 mm sapphire dome, anti-reflective on the inside only. Dauphine hands with two facets, polished on a tin wheel.</p></figcaption></figure></li>
+  <li><figure><picture><source media="(max-aspect-ratio: 4/5)" data-srcset="img/seq/port/f051.webp"><img data-src="img/seq/land/f051.webp" alt="The lehariya guilloché dial forty times closer, ridges catching a raking light" width="1440" height="900" loading="lazy" decoding="async"></picture>
+    <figcaption><span class="ring" data-n="II" aria-hidden="true"></span><h2 class="h3">The dial, forty times closer</h2><p>Cut in 120 passes on a 1931 rose engine, each ridge 0.13 mm from the next. The waves come from the monsoon turbans of Mewar.</p></figcaption></figure></li>
+  <li><figure><picture><source media="(max-aspect-ratio: 4/5)" data-srcset="img/seq/port/f063.webp"><img data-src="img/seq/land/f063.webp" alt="The watch fully apart: case, dial, movement, caseback and strap" width="1440" height="900" loading="lazy" decoding="async"></picture>
+    <figcaption><span class="ring" data-n="III" aria-hidden="true"></span><h2 class="h3">The case, apart</h2><p>39 mm and 9.8 mm thin. Brushed flanks, a polished bevel, and lugs that curve down to meet the wrist.</p></figcaption></figure></li>
+  <li><figure><picture><source media="(max-aspect-ratio: 4/5)" data-srcset="img/seq/port/f071.webp"><img data-src="img/seq/land/f071.webp" alt="Calibre GH-01 turned over: bridges, rubies, gear train and balance" width="1440" height="900" loading="lazy" decoding="async"></picture>
+    <figcaption><span class="ring" data-n="IV" aria-hidden="true"></span><h2 class="h3">The calibre</h2><p>A free-sprung balance beating six times a second, regulated in five positions to within four seconds a day.</p></figcaption></figure></li>
+  <li><figure><picture><source media="(max-aspect-ratio: 4/5)" data-srcset="img/seq/port/f089.webp"><img data-src="img/seq/land/f089.webp" alt="A polished bevel along a bridge edge, beside a ruby in a gold chaton" width="1440" height="900" loading="lazy" decoding="async"></picture>
+    <figcaption><span class="ring" data-n="V" aria-hidden="true"></span><h2 class="h3">Bevel and blued screw</h2><p>Every edge filed to 45° and polished on gentian wood; every screw warmed on a brass tray until it turns cornflower blue.</p></figcaption></figure></li>
+  <li><figure><picture><source media="(max-aspect-ratio: 4/5)" data-srcset="img/seq/port/f106.webp"><img data-src="img/seq/land/f106.webp" alt="The strap and the sapphire caseback coming back together" width="1440" height="900" loading="lazy" decoding="async"></picture>
+    <figcaption><span class="ring" data-n="VI" aria-hidden="true"></span><h2 class="h3">Strap and caseback</h2><p>Vegetable-tanned calf, saddle-stitched in Jodhpur. A numbered sapphire back, with your watchmaker’s initials beneath it.</p></figcaption></figure></li>
+  <li><figure><picture><source media="(max-aspect-ratio: 4/5)" data-srcset="img/seq/port/f119.webp"><img data-src="img/seq/land/f119.webp" alt="The Prahar closed again" width="1440" height="900" loading="lazy" decoding="async"></picture>
+    <figcaption><span class="ring" data-n="VII" aria-hidden="true"></span><h2 class="h3">Thirty-eight days later</h2><p>And then it closes. <a class="lnk" href="watch.html?m=prahar">Make it yours <span class="ar" aria-hidden="true">→</span></a></p></figcaption></figure></li>
 </ol>
 
 <section class="ghati paper" id="ghati" aria-labelledby="ghati-h">
   <div class="ghati-copy">
     <span class="ring" data-n="XII" aria-hidden="true"></span>
-      <h2 id="ghati-h" class="h2" data-split>Twenty-four minutes, measured by a bowl.</h2>
+    <h2 id="ghati-h" class="h2" data-settle>Twenty-four minutes, measured by a bowl.</h2>
     <p>Before clock towers, India kept time with a ghati: a copper bowl with a hole the width of a hair, floated on water. It fills, and sinks, in exactly one ghatika. Someone lifts it out, empties it and strikes a gong.</p>
     <p>A watch is the same idea, made small: energy let go at a steady rate, and counted. We named the maison after the bowl because both only work if someone takes care of them.</p>
     <div class="ghati-stats">
@@ -97,17 +111,17 @@
     <svg viewBox="0 0 420 420" role="img" aria-label="Illustration: a copper bowl floating in a tub of water, slowly sinking as it fills">
       <defs><linearGradient id="cu" x1="0" x2="1"><stop offset="0" stop-color="#8a4a26"/><stop offset=".45" stop-color="#d0875a"/><stop offset="1" stop-color="#6d3418"/></linearGradient>
         <clipPath id="tub"><rect x="40" y="150" width="340" height="230" rx="4"/></clipPath></defs>
-      <rect x="40" y="150" width="340" height="230" rx="4" fill="none" stroke="#0d0d0f" stroke-opacity=".28"/>
+      <rect x="40" y="150" width="340" height="230" rx="4" fill="none" stroke="#0e2232" stroke-opacity=".28"/>
       <g clip-path="url(#tub)"><path id="water" d="M40 196 Q 125 188 210 196 T 380 196 V 380 H 40 Z" fill="#28477a" fill-opacity=".16"/></g>
       <g id="bowl" transform="translate(0 0)">
         <path d="M150 190 h120 a60 52 0 0 1 -120 0z" fill="url(#cu)"/>
         <ellipse cx="210" cy="190" rx="60" ry="9" fill="#5a2a12"/>
         <ellipse id="fill" cx="210" cy="198" rx="40" ry="5" fill="#28477a" fill-opacity=".55"/>
-        <circle cx="210" cy="242" r="1.8" fill="#0d0d0f"/>
+        <circle cx="210" cy="242" r="1.8" fill="#0e2232"/>
       </g>
-      <g font-family="Inter Tight, sans-serif" font-size="11" letter-spacing="2" fill="#645e55"><text x="40" y="404">0 MIN</text><text x="380" y="404" text-anchor="end">24 MIN</text></g>
-      <rect x="40" y="410" width="340" height="1" fill="#0d0d0f" fill-opacity=".18"/><rect id="tbar" x="40" y="410" width="0" height="1.6" fill="#7a5c22"/>
-      <text id="tmin" x="210" y="120" text-anchor="middle" font-family="Bodoni Moda, serif" font-size="56" fill="#0d0d0f">00:00</text>
+      <g font-family="Jost, sans-serif" font-size="12" letter-spacing="1" fill="#4f5f6a"><text x="40" y="404">0 min</text><text x="380" y="404" text-anchor="end">24 min</text></g>
+      <rect x="40" y="410" width="340" height="1" fill="#0e2232" fill-opacity=".18"/><rect id="tbar" x="40" y="410" width="0" height="1.6" fill="#7a5c30"/>
+      <text id="tmin" x="210" y="120" text-anchor="middle" font-family="Prata, serif" font-size="56" fill="#0e2232">00:00</text>
     </svg>
     <figcaption id="ghati-cap" class="k">The ghati, after a 12th-century description. It sinks as you scroll.</figcaption>
   </figure>
@@ -117,16 +131,16 @@
 <div class="marq" data-marquee aria-hidden="true"><div><span>Cut by hand</span><b>·</b><span>Wound by hand</span><b>·</b><span>Regulated in five positions</span><b>·</b><span>Numbered, three hundred a year</span><b>·</b><span>Made in Udaipur</span><b>·</b><span>Cut by hand</span><b>·</b><span>Wound by hand</span><b>·</b><span>Regulated in five positions</span><b>·</b><span>Numbered, three hundred a year</span><b>·</b><span>Made in Udaipur</span><b>·</b></div></div>
 
 <section class="sec" aria-labelledby="col-h">
-  <div class="sec-h"><span class="ring" data-n="II" aria-hidden="true"></span><h2 id="col-h" class="h2" data-split>Three watches. No more.</h2><p>We make one hand-wound, one moon and one traveller. Each is built to order around the dial, metal and strap you choose, and engraved on the back if you wish.</p></div>
-  <div class="models" id="models" data-stagger="0.12"></div>
+  <div class="sec-h"><span class="ring" data-n="II" aria-hidden="true"></span><h2 id="col-h" class="h2" data-settle>Three watches. No more.</h2><p>We make one hand-wound, one moon and one traveller. Each is built to order around the dial, metal and strap you choose, and engraved on the back if you wish.</p></div>
+  <div class="models" id="models"><article class="mcard" data-settle><div class="ph arch"><img src="img/prahar.webp" alt="Prahar, Pichola blue · 904L steel · Cognac calf" width="960" height="1200" loading="lazy" decoding="async"><span class="tag k">01 · GH-01.39</span></div><div class="meta"><h3>Prahar<span class="nick">hand-wound</span></h3><span class="price">from ₹3.85 L</span></div><p class="desc">The quietest watch we make. Hand-wound · small seconds.</p><a class="cover" href="watch.html?m=prahar" aria-label="Configure Prahar"></a></article><article class="mcard" data-settle><div class="ph arch"><img src="img/nimisha.webp" alt="Nimisha, Sandstone · 18k rose gold · Ink alligator-grain" width="960" height="1200" loading="lazy" decoding="async"><span class="tag k">02 · GH-03.36</span></div><div class="meta"><h3>Nimisha<span class="nick">moon</span></h3><span class="price">from ₹4.65 L</span></div><p class="desc">The moon over Pichola, on your wrist. Automatic · tithi moon.</p><a class="cover" href="watch.html?m=nimisha" aria-label="Configure Nimisha"></a></article><article class="mcard" data-settle><div class="ph arch"><img src="img/yantra.webp" alt="Yantra, Monsoon slate · 904L steel · Rann bracelet" width="960" height="1200" loading="lazy" decoding="async"><span class="tag k">03 · GH-02.41</span></div><div class="meta"><h3>Yantra<span class="nick">GMT</span></h3><span class="price">from ₹5.25 L</span></div><p class="desc">Two time zones, one sundial. Automatic · GMT.</p><a class="cover" href="watch.html?m=yantra" aria-label="Configure Yantra"></a></article></div>
 </section>
 
 <section class="sec" aria-labelledby="cfg-h" style="padding-top:0">
   <div class="tease">
-    <div class="tease-art" id="teaseArt"><img id="teaseImg" src="img/dial-pichola.webp" alt="Prahar with a Pichola blue dial" width="1200" height="825" loading="lazy" decoding="async"></div>
+    <div class="tease-art arch" id="teaseArt"><img id="teaseImg" src="img/dial-pichola.webp" alt="Prahar with a Pichola blue dial" width="1200" height="825" loading="lazy" decoding="async"></div>
     <div class="tease-copy">
       <span class="ring" data-n="IV" aria-hidden="true"></span>
-      <h2 id="cfg-h" class="h2">Five dials. One is yours.</h2>
+      <h2 id="cfg-h" class="h2" data-settle>Five dials. One is yours.</h2>
       <p class="muted">Turn it in a studio lit like ours, put it on a wrist your size, and engrave the back. Every combination is made to order in six weeks.</p>
       <div class="dots" id="teaseDots" role="group" aria-label="Preview a dial colour"></div>
       <a class="btn" href="watch.html?m=prahar">Open the configurator <span class="ar" aria-hidden="true">→</span></a>
@@ -135,31 +149,34 @@
 </section>
 
 <section class="craft-band paper" aria-labelledby="craft-h">
-  <div class="craft-media arch" data-clip><video data-lazy muted loop playsinline preload="none" poster="video/macro-poster.jpg" data-src="video/macro.mp4" aria-label="Macro film: the balance wheel beating, gears turning and the bridges of calibre GH-01 under a moving light" width="1280" height="960"></video></div>
+  <figure class="craft-media arch" data-clip><video data-lazy muted loop playsinline preload="none" poster="video/light-sweep.jpg" data-src="video/light-sweep.mp4" aria-label="Forty times closer: a raking light travels across the ridges of the lehariya dial" width="1280" height="960"></video></figure>
   <div class="craft-copy">
     <span class="ring" data-n="VI" aria-hidden="true"></span>
-      <h2 id="craft-h" class="h2" data-split>One watchmaker, start to finish.</h2>
+    <h2 id="craft-h" class="h2" data-settle>One watchmaker, start to finish.</h2>
     <p>Our watchmakers don’t work on a line. One person finishes, assembles, regulates and cases your watch, and signs it inside the back.</p>
-    <ol class="steps" aria-label="How a Ghatika is made">
-      <li><span>Finish the bridges by hand</span><span>9 days</span></li>
-      <li><span>Cut and lacquer the dial</span><span>8 days</span></li>
-      <li><span>Assemble the calibre</span><span>7 days</span></li>
-      <li><span>Regulate in five positions</span><span>6 days</span></li>
-      <li><span>Case, then a 72-hour run</span><span>4 days</span></li>
+    <ol class="d38" aria-label="Thirty-eight days, stage by stage">
+      <li style="--s:0;--d:2"><i></i><span class="t">Inspect every part</span><span class="n">2 days</span></li>
+      <li style="--s:2;--d:9"><i></i><span class="t">Bevel the bridges</span><span class="n">9 days</span></li>
+      <li style="--s:11;--d:8"><i></i><span class="t">Cut and lacquer the dial</span><span class="n">8 days</span></li>
+      <li style="--s:19;--d:7"><i></i><span class="t">Assemble the calibre</span><span class="n">7 days</span></li>
+      <li style="--s:26;--d:6"><i></i><span class="t">Regulate in five positions</span><span class="n">6 days</span></li>
+      <li style="--s:32;--d:4"><i></i><span class="t">Case, then a 72-hour run</span><span class="n">4 days</span></li>
+      <li style="--s:36;--d:2"><i></i><span class="t">Sign and number</span><span class="n">2 days</span></li>
     </ol>
+    <div class="caliper on-paper" data-m="38 days · one pair of hands" aria-hidden="true"></div>
     <a class="lnk" href="craft.html">How a Ghatika is made <span class="ar" aria-hidden="true">→</span></a>
   </div>
 </section>
 
-<section class="sec bone" aria-labelledby="bq-h">
-  <div class="sec-h"><span class="ring" data-n="VIII" aria-hidden="true"></span><h2 id="bq-h" class="h2" data-split>Come and wind one.</h2><p>Four rooms, one hour each, no obligation. Bring the watch you wear every day and we’ll show you the difference a hand-finished movement makes.</p></div>
-  <div class="bq-list" id="bqList" data-stagger="0.08"></div>
+<section class="sec arcade" aria-labelledby="bq-h">
+  <div class="sec-h"><span class="ring" data-n="VIII" aria-hidden="true"></span><h2 id="bq-h" class="h2" data-settle>Come and wind one.</h2><p>Four rooms, one hour each, no obligation. Bring the watch you wear every day and we’ll show you the difference a hand-finished movement makes.</p></div>
+  <div class="bq-list" id="bqList"><article class="bq" data-settle><a class="bq-ph ph arch" href="boutiques.html?b=udaipur#book" tabindex="-1" aria-hidden="true"><img src="img/bq-udaipur.jpg" srcset="img/bq-udaipur-s.jpg 760w, img/bq-udaipur.jpg 1500w" sizes="(max-width: 560px) 72vw, (max-width: 900px) 44vw, 21vw" alt="" width="1500" height="938" loading="lazy" decoding="async"></a><div class="bq-b"><p class="k"><svg class="door" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 146V60C12 31 33 13 60 8c27 5 48 23 48 52v86"/><path d="M5 146h110"/><path d="M36 52h48v10H36zM41 62l4 6M79 62l-4 6M48 62v4M60 62v4M72 62v4M40 52c4-13 36-13 40 0M60 40v-6"/><path d="M42 140v-40c0-8 4-12 8-14 2-6 6-9 10-10 4 1 8 4 10 10 4 2 8 6 8 14v40M60 140v-38"/><circle cx="52" cy="112" r=".9"/><circle cx="52" cy="124" r=".9"/><circle cx="68" cy="112" r=".9"/><circle cx="68" cy="124" r=".9"/><path d="M34 140h52"/></g></svg><span>Lal Ghat, by Lake Pichola</span></p><h3>Udaipur</h3><p>Our workshop and flagship. Watch the benches through a glass wall; the rose engine runs on Thursdays.</p><p class="k hrs">Tue–Sun · 11:00–19:30</p><a class="lnk" href="boutiques.html?b=udaipur#book">Book Udaipur <span class="ar" aria-hidden="true">→</span></a></div></article><article class="bq" data-settle><a class="bq-ph ph arch" href="boutiques.html?b=mumbai#book" tabindex="-1" aria-hidden="true"><img src="img/bq-mumbai.jpg" srcset="img/bq-mumbai-s.jpg 760w, img/bq-mumbai.jpg 1500w" sizes="(max-width: 560px) 72vw, (max-width: 900px) 44vw, 21vw" alt="" width="1500" height="938" loading="lazy" decoding="async"></a><div class="bq-b"><p class="k"><svg class="door" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 146V60C12 31 33 13 60 8c27 5 48 23 48 52v86"/><path d="M5 146h110"/><path d="M36 140V96c0-20 10-34 24-42 14 8 24 22 24 42v44"/><path d="M42 140V98c0-16 8-28 18-36 10 8 18 20 18 36v42M42 100h36M60 140v-40"/><circle cx="60" cy="84" r="6"/><path d="M38 84l5 2M44 70l4 4M60 54v8M76 70l-4 4M82 84l-5 2M30 140h60"/></g></svg><span>Rampart Row, Fort</span></p><h3>Mumbai</h3><p>A first-floor salon above the bookshops, with a watchmaker in residence on Saturdays.</p><p class="k hrs">Mon–Sat · 11:00–20:00</p><a class="lnk" href="boutiques.html?b=mumbai#book">Book Mumbai <span class="ar" aria-hidden="true">→</span></a></div></article><article class="bq" data-settle><a class="bq-ph ph arch" href="boutiques.html?b=delhi#book" tabindex="-1" aria-hidden="true"><img src="img/bq-delhi.jpg" srcset="img/bq-delhi-s.jpg 760w, img/bq-delhi.jpg 1500w" sizes="(max-width: 560px) 72vw, (max-width: 900px) 44vw, 21vw" alt="" width="1500" height="938" loading="lazy" decoding="async"></a><div class="bq-b"><p class="k"><svg class="door" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 146V60C12 31 33 13 60 8c27 5 48 23 48 52v86"/><path d="M5 146h110"/><path d="M30 146V50h60v96"/><path d="M30 50v-5c3-4 6-4 9 0v5M42 50v-5c3-4 6-4 9 0v5M54 50v-5c3-4 6-4 9 0v5M66 50v-5c3-4 6-4 9 0v5M78 50v-5c3-4 6-4 9 0v5"/><path d="M42 146V96c0-12 6-20 14-24l4-6 4 6c8 4 14 12 14 24v50"/><circle cx="37" cy="61" r="3"/><circle cx="83" cy="61" r="3"/><path d="M46 100h28M51 90v10M55.5 86v14M60 84v16M64.5 86v14M69 90v10"/></g></svg><span>Kalka Das Marg</span></p><h3>New Delhi</h3><p>A courtyard room facing the Qutub skyline. Evening appointments until nine on request.</p><p class="k hrs">Tue–Sun · 12:00–20:00</p><a class="lnk" href="boutiques.html?b=delhi#book">Book New Delhi <span class="ar" aria-hidden="true">→</span></a></div></article><article class="bq" data-settle><a class="bq-ph ph arch" href="boutiques.html?b=bengaluru#book" tabindex="-1" aria-hidden="true"><img src="img/bq-bengaluru.jpg" srcset="img/bq-bengaluru-s.jpg 760w, img/bq-bengaluru.jpg 1500w" sizes="(max-width: 560px) 72vw, (max-width: 900px) 44vw, 21vw" alt="" width="1500" height="938" loading="lazy" decoding="async"></a><div class="bq-b"><p class="k"><svg class="door" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 146V60C12 31 33 13 60 8c27 5 48 23 48 52v86"/><path d="M5 146h110"/><path d="M22 66l38-26 38 26zM34 62l26-16 26 16M24 66h72v6H24z"/><path d="M31 72v68M37 72v68M83 72v68M89 72v68M29 76h10M81 76h10"/><path d="M48 140V98h24v42M48 98a12 12 0 0 1 24 0M60 98l-8-8M60 98V86M60 98l8-8M60 140v-40M26 140h68"/></g></svg><span>Ashok Nagar</span></p><h3>Bengaluru</h3><p>Our newest room: a deep sofa, two lamps and every dial we make, on a quiet street by the park.</p><p class="k hrs">Mon–Sat · 11:00–19:30</p><a class="lnk" href="boutiques.html?b=bengaluru#book">Book Bengaluru <span class="ar" aria-hidden="true">→</span></a></div></article></div>
   <p style="margin-top:var(--s7)"><a class="btn" href="boutiques.html#book">Book a private viewing <span class="ar" aria-hidden="true">→</span></a></p>
 </section>
 
 <section class="sec paper" aria-labelledby="j-h">
-  <div class="sec-h"><span class="ring" data-n="X" aria-hidden="true"></span><h2 id="j-h" class="h2">From the journal</h2><p><a class="lnk" href="journal.html">All stories <span class="ar" aria-hidden="true">→</span></a></p></div>
-  <div class="jgrid" id="jgrid" data-stagger="0.1"></div>
+  <div class="sec-h"><span class="ring" data-n="X" aria-hidden="true"></span><h2 id="j-h" class="h2" data-settle>Notes from the bench</h2><p><a class="lnk" href="journal.html">All stories <span class="ar" aria-hidden="true">→</span></a></p></div>
+  <div class="jgrid" id="jgrid"><article class="jcard" data-settle data-cat="Craft"><div class="ph"><img src="img/j-rose-engine.jpg" srcset="img/j-rose-engine-s.jpg 760w, img/j-rose-engine.jpg 1500w" sizes="(max-width: 900px) 92vw, 30vw" alt="A watchmaker’s hands setting a wheel with tweezers" width="900" height="600" loading="lazy" decoding="async"></div><p class="k">Craft · 8 November · 6 min</p><h3>Why we still cut dials on a 1931 rose engine</h3><p>A machine older than Indian independence, a lever moved by hand, and 120 passes for a single lehariya dial.</p><a class="cover" href="article-rose-engine.html" aria-label="Read: Why we still cut dials on a 1931 rose engine"></a></article><article class="jcard" data-settle data-cat="History"><div class="ph"><img src="img/j-ghati.jpg" srcset="img/j-ghati-s.jpg 760w, img/j-ghati.jpg 1500w" sizes="(max-width: 900px) 92vw, 30vw" alt="A white palace on Lake Pichola in Udaipur, with a boat crossing the water" width="900" height="600" loading="lazy" decoding="async"></div><p class="k">History · 21 October · 5 min</p><h3>The ghati: India’s twenty-four-minute clock</h3><p>Before clock towers, temples and courts measured the day with a copper bowl and a bucket of water. We named the maison after it.</p><a class="cover" href="article-ghati.html" aria-label="Read: The ghati: India’s twenty-four-minute clock"></a></article><article class="jcard" data-settle data-cat="Design"><div class="ph"><img src="img/j-lehariya.jpg" srcset="img/j-lehariya-s.jpg 760w, img/j-lehariya.jpg 1500w" sizes="(max-width: 900px) 92vw, 30vw" alt="Folds of dyed fabric in warm colours" width="900" height="600" loading="lazy" decoding="async"></div><p class="k">Design · 30 September · 4 min</p><h3>Lehariya, from turban to dial</h3><p>How a Rajasthani tie-dye became the pattern on our first watch.</p><a class="cover" href="article-lehariya.html" aria-label="Read: Lehariya, from turban to dial"></a></article></div>
 </section>
 </main>
 <footer class="ftr">
@@ -167,11 +184,11 @@
     <div><p class="h3" style="margin-bottom:12px">Letters from the atelier</p><p class="muted" style="max-width:40ch">One letter a season: new dials, bench notes and evenings at the boutiques. Never more.</p>
       <form class="news" data-news novalidate><label class="sr" for="nl">Email address</label><input id="nl" type="email" placeholder="Your email" autocomplete="email"><button type="submit">Subscribe</button></form></div>
     <div><h2>Watches</h2><ul><li><a class="ul" href="watch.html?m=prahar">Prahar</a></li><li><a class="ul" href="watch.html?m=nimisha">Nimisha</a></li><li><a class="ul" href="watch.html?m=yantra">Yantra</a></li><li><a class="ul" href="collection.html">Compare all three</a></li></ul></div>
-    <div><h2>Maison</h2><ul><li><a class="ul" href="craft.html">Craftsmanship</a></li><li><a class="ul" href="journal.html">Journal</a></li><li><a class="ul" href="boutiques.html">Boutiques</a></li><li><a class="ul" href="staff.html">Staff</a></li></ul></div>
+    <div><h2>Maison</h2><ul><li><a class="ul" href="craft.html">Craftsmanship</a></li><li><a class="ul" href="journal.html">Journal</a></li><li><a class="ul" href="boutiques.html">Boutiques</a></li></ul></div>
     <div><h2>Client care</h2><ul><li><a class="ul" href="boutiques.html#book">Book a viewing</a></li><li><a class="ul" href="warranty.html">Register a warranty</a></li><li><a class="ul" href="service.html">Service request</a></li><li><a class="ul" href="service.html#track">Track a ticket</a></li><li><a class="ul" href="legal.html">Terms, privacy, returns</a></li></ul></div>
   </div>
-  <svg class="wordmark" viewBox="0 0 1240 180" aria-hidden="true" focusable="false"><text x="620" y="160" text-anchor="middle">GHATIKA</text></svg>
-  <div class="ftr-base"><span>© 2026 Ghatika, Udaipur. A portfolio project by Abhishek.</span><span>Watches modelled in three.js · Studio light: Poly Haven · Photographs: Unsplash</span></div>
+  <div class="ftr-ring" aria-hidden="true"><svg viewBox="0 0 400 400" focusable="false"><defs><path id="ftrPath" d="M200 200m-150 0a150 150 0 1 1 300 0a150 150 0 1 1 -300 0"/></defs><circle class="r0" cx="200" cy="200" r="194"/><circle class="r1" cx="200" cy="200" r="178"/><circle class="r2" cx="200" cy="200" r="128"/><g class="tk"><line x1="200.00" y1="22.00" x2="200.00" y2="10.00" class="h"/><line x1="218.61" y1="22.98" x2="219.34" y2="16.01"/><line x1="237.01" y1="25.89" x2="238.46" y2="19.04"/><line x1="255.01" y1="30.71" x2="257.17" y2="24.05"/><line x1="272.40" y1="37.39" x2="275.25" y2="30.99"/><line x1="289.00" y1="45.85" x2="295.00" y2="35.46" class="h"/><line x1="304.63" y1="56.00" x2="308.74" y2="50.33"/><line x1="319.11" y1="67.72" x2="323.79" y2="62.52"/><line x1="332.28" y1="80.90" x2="337.48" y2="76.21"/><line x1="344.01" y1="95.37" x2="349.67" y2="91.26"/><line x1="354.15" y1="111.00" x2="364.55" y2="105.00" class="h"/><line x1="362.61" y1="127.60" x2="369.01" y2="124.75"/><line x1="369.29" y1="145.00" x2="375.95" y2="142.83"/><line x1="374.11" y1="162.99" x2="380.96" y2="161.54"/><line x1="377.02" y1="181.39" x2="383.99" y2="180.66"/><line x1="378.00" y1="200.00" x2="390.00" y2="200.00" class="h"/><line x1="377.02" y1="218.61" x2="383.99" y2="219.34"/><line x1="374.11" y1="237.01" x2="380.96" y2="238.46"/><line x1="369.29" y1="255.01" x2="375.95" y2="257.17"/><line x1="362.61" y1="272.40" x2="369.01" y2="275.25"/><line x1="354.15" y1="289.00" x2="364.54" y2="295.00" class="h"/><line x1="344.00" y1="304.63" x2="349.67" y2="308.74"/><line x1="332.28" y1="319.11" x2="337.48" y2="323.79"/><line x1="319.10" y1="332.28" x2="323.79" y2="337.48"/><line x1="304.62" y1="344.01" x2="308.74" y2="349.67"/><line x1="289.00" y1="354.15" x2="295.00" y2="364.55" class="h"/><line x1="272.40" y1="362.61" x2="275.25" y2="369.01"/><line x1="255.00" y1="369.29" x2="257.17" y2="375.95"/><line x1="237.01" y1="374.11" x2="238.46" y2="380.96"/><line x1="218.60" y1="377.03" x2="219.34" y2="383.99"/><line x1="200.00" y1="378.00" x2="200.00" y2="390.00" class="h"/><line x1="181.39" y1="377.02" x2="180.66" y2="383.99"/><line x1="162.99" y1="374.11" x2="161.53" y2="380.96"/><line x1="144.99" y1="369.29" x2="142.83" y2="375.94"/><line x1="127.60" y1="362.61" x2="124.75" y2="369.01"/><line x1="111.00" y1="354.15" x2="105.00" y2="364.54" class="h"/><line x1="95.37" y1="344.00" x2="91.26" y2="349.67"/><line x1="80.89" y1="332.28" x2="76.21" y2="337.48"/><line x1="67.72" y1="319.10" x2="62.52" y2="323.79"/><line x1="55.99" y1="304.62" x2="50.33" y2="308.74"/><line x1="45.85" y1="289.00" x2="35.45" y2="295.00" class="h"/><line x1="37.39" y1="272.40" x2="30.99" y2="275.24"/><line x1="30.71" y1="255.00" x2="24.05" y2="257.17"/><line x1="25.89" y1="237.01" x2="19.04" y2="238.46"/><line x1="22.97" y1="218.60" x2="16.01" y2="219.34"/><line x1="22.00" y1="200.00" x2="10.00" y2="200.00" class="h"/><line x1="22.98" y1="181.39" x2="16.01" y2="180.66"/><line x1="25.89" y1="162.99" x2="19.04" y2="161.53"/><line x1="30.71" y1="144.99" x2="24.06" y2="142.83"/><line x1="37.39" y1="127.60" x2="30.99" y2="124.75"/><line x1="45.85" y1="111.00" x2="35.46" y2="105.00" class="h"/><line x1="56.00" y1="95.37" x2="50.33" y2="91.26"/><line x1="67.72" y1="80.89" x2="62.52" y2="76.21"/><line x1="80.90" y1="67.72" x2="76.21" y2="62.52"/><line x1="95.38" y1="55.99" x2="91.26" y2="50.33"/><line x1="111.00" y1="45.85" x2="105.00" y2="35.45" class="h"/><line x1="127.60" y1="37.39" x2="124.76" y2="30.99"/><line x1="145.00" y1="30.71" x2="142.83" y2="24.05"/><line x1="162.99" y1="25.89" x2="161.54" y2="19.04"/><line x1="181.40" y1="22.97" x2="180.66" y2="16.01"/></g><g class="spin"><text><textPath href="#ftrPath" textLength="930" lengthAdjust="spacing">GHATIKA · UDAIPUR · No. 0128 · SAPPHIRE · 5 ATM · GHATIKA · UDAIPUR · No. 0128 · SAPPHIRE · 5 ATM · </textPath></text></g><g transform="translate(152 140) scale(3)"><path d="M6.5 13.5h19a9.5 9.5 0 0 1-19 0z" class="bowl"/><circle cx="16" cy="26.6" r="1.3" class="bowl"/></g><text class="c1" x="200" y="252" text-anchor="middle">Udaipur · since 2019</text></svg></div>
+  <div class="ftr-base"><span>© 2026 Ghatika. A portfolio project by Abhishek.</span></div>
 </footer>
 </body>
 </html>

@@ -1,4 +1,4 @@
-/* Ghatika: catalogue, boutiques, journal and seeded demo records (a fictional maison; all data is demo). */
+/* Ghatika: catalogue, boutiques, journal and the seeded back-office records. */
 (function () {
   'use strict';
   var MODELS = {
@@ -50,7 +50,7 @@
     { id: 'udaipur', city: 'Udaipur', name: 'The Atelier', area: 'Lal Ghat, by Lake Pichola', addr: 'Haveli No. 14, Lal Ghat Road, Udaipur, Rajasthan 313001', hours: 'Tue–Sun · 11:00–19:30', note: 'Our workshop and flagship. Watch the benches through a glass wall; the rose engine runs on Thursdays.', img: 'img/bq-udaipur.jpg', services: ['Viewing', 'Bench tour', 'Service drop-off', 'Strap fitting'] },
     { id: 'mumbai', city: 'Mumbai', name: 'Kala Ghoda', area: 'Rampart Row, Fort', addr: '2nd floor, 11 Rampart Row, Kala Ghoda, Mumbai 400001', hours: 'Mon–Sat · 11:00–20:00', note: 'A first-floor salon above the bookshops, with a watchmaker in residence on Saturdays.', img: 'img/bq-mumbai.jpg', services: ['Viewing', 'Service drop-off', 'Strap fitting'] },
     { id: 'delhi', city: 'New Delhi', name: 'Mehrauli', area: 'Kalka Das Marg', addr: 'Ground floor, 7 Kalka Das Marg, Mehrauli, New Delhi 110030', hours: 'Tue–Sun · 12:00–20:00', note: 'A courtyard room facing the Qutub skyline. Evening appointments until nine on request.', img: 'img/bq-delhi.jpg', services: ['Viewing', 'Service drop-off'] },
-    { id: 'bengaluru', city: 'Bengaluru', name: 'Lavelle Road', area: 'Ashok Nagar', addr: '3 Lavelle Road, Ashok Nagar, Bengaluru 560001', hours: 'Mon–Sat · 11:00–19:30', note: 'Our newest room: a long table, three chairs and every dial we make.', img: 'img/bq-bengaluru.jpg', services: ['Viewing', 'Strap fitting'] }
+    { id: 'bengaluru', city: 'Bengaluru', name: 'Lavelle Road', area: 'Ashok Nagar', addr: '3 Lavelle Road, Ashok Nagar, Bengaluru 560001', hours: 'Mon–Sat · 11:00–19:30', note: 'Our newest room: a deep sofa, two lamps and every dial we make, on a quiet street by the park.', img: 'img/bq-bengaluru.jpg', services: ['Viewing', 'Strap fitting'] }
   ];
   var PURPOSES = ['Private viewing', 'Configure a commission', 'Service or repair', 'Strap fitting', 'Bench tour (Udaipur only)'];
   var SLOTS = ['11:00', '12:00', '13:30', '15:00', '16:30', '18:00'];
@@ -105,8 +105,11 @@
       ] }
   ];
 
-  // ---------------------------------------------------------- demo records for the back office
-  var NAMES = ['Aarav Mehta', 'Ishaan Kapoor', 'Riya Desai', 'Kabir Malhotra', 'Ananya Iyer', 'Vikram Rathore', 'Meera Shekhawat', 'Arjun Nair', 'Zoya Merchant', 'Dev Khanna', 'Tara Menon', 'Rohan Bhatia', 'Naina Sethi', 'Aditya Rao', 'Sana Qureshi', 'Kunal Jain', 'Priya Raghavan', 'Neil D’Souza', 'Farah Kazmi', 'Siddharth Goenka', 'Ira Banerjee', 'Manav Chopra', 'Leela Pillai', 'Omar Siddiqui'];
+  // ---------------------------------------------------------- seed records for the back office
+  // a client book big enough that each list has its own people; a few appear twice, as real clients do (bought, then serviced)
+  var FIRST = ['Aarav', 'Ishaan', 'Riya', 'Kabir', 'Ananya', 'Vikram', 'Meera', 'Arjun', 'Zoya', 'Dev', 'Tara', 'Rohan', 'Naina', 'Aditya', 'Sana', 'Kunal', 'Priya', 'Neil', 'Farah', 'Siddharth', 'Leela', 'Omar', 'Gauri', 'Harsh', 'Ira', 'Jai', 'Mahira', 'Nikhil', 'Pooja', 'Rehan', 'Shreya', 'Tanvir', 'Uma', 'Varun', 'Yash', 'Aisha', 'Bhavna', 'Cyrus', 'Divya', 'Eshan', 'Fatima', 'Gaurav', 'Hiral', 'Irfan', 'Jasleen', 'Karan', 'Lavanya', 'Manav'];
+  var LAST = ['Mehta', 'Kapoor', 'Desai', 'Malhotra', 'Iyer', 'Rathore', 'Shekhawat', 'Nair', 'Merchant', 'Khanna', 'Menon', 'Bhatia', 'Sethi', 'Rao', 'Qureshi', 'Jain', 'Raghavan', 'D’Souza', 'Kazmi', 'Goenka', 'Bhandari', 'Chatterjee', 'Dutta', 'Fernandes', 'Gill', 'Hegde', 'Joshi', 'Kulkarni', 'Lobo', 'Mistry', 'Naidu', 'Oberoi', 'Pillai', 'Reddy', 'Sahni', 'Talwar', 'Vaidya', 'Wadia', 'Zaveri', 'Bose', 'Chauhan', 'Dhillon', 'Grewal', 'Kamath', 'Mathur', 'Parekh', 'Saxena', 'Thakkar'];
+  var NAMES = (function () { var out = [], seen = {}; for (var i = 0; out.length < 96; i++) { var n = FIRST[(i * 5 + 1) % 48] + ' ' + LAST[(i * 7 + 3 + Math.floor(i / 48) * 5) % 48]; if (!seen[n]) { seen[n] = 1; out.push(n); } } return out; })();
   var CITIES = ['Mumbai', 'New Delhi', 'Bengaluru', 'Udaipur', 'Pune', 'Hyderabad', 'Chennai', 'Kolkata', 'Ahmedabad', 'Jaipur', 'Gurugram', 'Kochi'];
   var STAFF = ['Mehul Soni', 'Kavya Paliwal', 'Rafiq Khan', 'Anjali Purohit'];
   function rnd(seed) { var s = seed >>> 0; return function () { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
@@ -128,23 +131,23 @@
       var model = pick(r, ['prahar', 'prahar', 'nimisha', 'yantra']), sig = MODELS[model].sig;
       var cfg = { model: model, dial: r() < 0.5 ? sig.dial : pick(r, DIALS).id, metal: r() < 0.7 ? sig.metal : pick(r, METALS).id, strap: r() < 0.6 ? sig.strap : pick(r, STRAPS).id };
       if (cfg.strap === 'bracelet' && (cfg.metal === 'rose' || cfg.metal === 'yellow')) cfg.strap = 'cognac';
-      var name = NAMES[i % NAMES.length], age = Math.floor(i * 1.6 + r() * 2);
+      var name = NAMES[i], age = Math.floor(i * 1.6 + r() * 2);
       var st = age < 2 ? pick(r, ['new', 'paid']) : age < 8 ? pick(r, ['paid', 'atelier', 'qc']) : age < 20 ? pick(r, ['atelier', 'qc', 'dispatched']) : 'delivered';
       orders.push({ id: 'GH-O-' + (24180 - i), at: dayISO(-age, 10 + Math.floor(r() * 9), Math.floor(r() * 60)), customer: name, email: emailOf(name), phone: phoneOf(r), city: pick(r, CITIES), items: [Object.assign({ qty: 1, engraving: r() < 0.35 ? pick(r, ['For A., 12.01.2027', 'Twenty-four minutes', 'Papa, 60', 'Ek ghadi aur', 'R & M', 'Hold the hour']) : '' }, cfg)], total: price(cfg), pay: pick(r, ['UPI', 'Card', 'EMI · 12 mo', 'Bank transfer']), delivery: pick(r, ['Insured courier', 'Boutique pick-up', 'Insured courier']), status: st, owner: pick(r, STAFF), note: r() < 0.3 ? pick(r, ['Gift: hand-written card, no invoice in the box', 'Wants delivery before Diwali', 'Collector: owns Prahar No. 0041', 'Call before dispatch, office reception closes at 6']) : '' });
     }
     var AST = ['requested', 'confirmed', 'confirmed', 'visited', 'no-show', 'cancelled'];
     for (var j = 0; j < 20; j++) {
-      var off = j - 8, b = pick(r, BOUTIQUES), nm = NAMES[(j * 7 + 3) % NAMES.length];
+      var off = j - 8, b = pick(r, BOUTIQUES), nm = j % 9 === 4 ? NAMES[j] : NAMES[26 + j]; // two booked a viewing before they ordered
       appts.push({ id: 'GH-A-' + (5120 + j), boutique: b.id, at: dayISO(off, 11 + Math.floor(r() * 7), pick(r, [0, 30])), customer: nm, email: emailOf(nm), phone: phoneOf(r), purpose: pick(r, PURPOSES.slice(0, 4)), interest: pick(r, ['prahar', 'nimisha', 'yantra']), guests: 1 + Math.floor(r() * 2), status: off < 0 ? pick(r, ['visited', 'visited', 'no-show']) : off < 2 ? pick(r, ['confirmed', 'requested']) : pick(r, ['requested', 'confirmed']), host: pick(r, STAFF), note: r() < 0.4 ? pick(r, ['Prefers Hindi', 'Bringing father, birthday gift', 'Comparing with a Swiss three-hander', 'Wants to see ivory enamel in daylight', 'Left-handed, wants crown at 9']) : '' });
     }
     var SST = ['received', 'diagnosis', 'quote', 'approved', 'service', 'qc', 'ready', 'returned'];
     for (var k = 0; k < 16; k++) {
-      var nm2 = NAMES[(k * 5 + 1) % NAMES.length], md = pick(r, ['prahar', 'prahar', 'nimisha', 'yantra']);
+      var nm2 = k % 2 ? NAMES[46 + 33 - k] : NAMES[80 + k / 2], /* half are owners already registered for warranty */ md = pick(r, ['prahar', 'prahar', 'nimisha', 'yantra']);
       var typ = pick(r, ['Full service', 'Running slow', 'Moisture under crystal', 'Crown stiff', 'Strap replacement', 'Polish and pressure test']);
       service.push({ id: 'GH-S-' + (880 + k), at: dayISO(-Math.floor(k * 2.3 + r() * 3), 12), customer: nm2, email: emailOf(nm2), phone: phoneOf(r), model: md, serial: 'GH' + String(MODELS[md].ref.slice(3, 5)) + '-' + String(40 + Math.floor(r() * 260)).padStart(4, '0'), issue: typ, detail: pick(r, ['Loses about 40 seconds a day since a flight', 'Stopped after a swim, has been dry since', 'Fine, five years old, due for service', 'Hand slipped when setting time', 'Strap cracked at the buckle hole']), stage: SST[Math.min(SST.length - 1, Math.floor(r() * SST.length))], warranty: r() < 0.55, quote: typ === 'Strap replacement' ? 9500 : typ === 'Full service' ? 38000 : Math.round((8 + r() * 20)) * 1000, logistics: pick(r, ['Courier pick-up', 'Boutique drop-off · Mumbai', 'Boutique drop-off · Udaipur']), tech: pick(r, STAFF), due: dayISO(Math.floor(r() * 18) - 3, 18) });
     }
     for (var w = 0; w < 34; w++) {
-      var nm3 = NAMES[(w * 3 + 2) % NAMES.length], md3 = pick(r, ['prahar', 'prahar', 'nimisha', 'yantra']), dd = -Math.floor(w * 11 + r() * 9);
+      var nm3 = NAMES[46 + w], md3 = pick(r, ['prahar', 'prahar', 'nimisha', 'yantra']), dd = -Math.floor(w * 11 + r() * 9);
       warranty.push({ id: 'GH-W-' + (3300 + w), serial: 'GH' + String(MODELS[md3].ref.slice(3, 5)) + '-' + String(1 + w * 7).padStart(4, '0'), model: md3, customer: nm3, email: emailOf(nm3), city: pick(r, CITIES), bought: dayISO(dd), boutique: pick(r, BOUTIQUES).id, registered: dayISO(dd + Math.floor(r() * 20)), years: r() < 0.8 ? 8 : 5, status: r() < 0.12 ? 'pending' : 'verified' });
     }
     return { orders: orders, appts: appts, service: service, warranty: warranty };

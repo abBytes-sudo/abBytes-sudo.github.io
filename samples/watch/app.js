@@ -1,4 +1,4 @@
-/* Ghatika: shared shell. Store (localStorage, demo), bag drawer, header, menu, toast with undo, search palette (Ctrl/Cmd+K). */
+/* Ghatika: shared shell. Store (localStorage), bag drawer, header, menu, toast with undo, search palette (Ctrl/Cmd+K). */
 (function () {
   'use strict';
   var D = window.GH_DATA;
@@ -14,7 +14,16 @@
     del: function (k) { try { localStorage.removeItem(PFX + k); } catch (e) {} }
   };
   var mem = {};
+  var SEEDV = 2; // bump when the seed changes: seeded rows are replaced, rows made on this device are kept
   function db(name) { // seeded collections for the back office
+    if (!db.v) {
+      db.v = 1;
+      if (store.get('seedv', 1) !== SEEDV) {
+        var s0 = D.seed();
+        ['orders', 'appts', 'service', 'warranty'].forEach(function (n) { var old = store.get(n, null), ids = {}; if (!old) return; s0[n].forEach(function (x) { ids[x.id] = 1; }); store.set(n, old.filter(function (x) { return !ids[x.id]; }).concat(s0[n])); });
+        store.set('seedv', SEEDV);
+      }
+    }
     var v = store.get(name, null);
     if (!v) { var s = D.seed(); ['orders', 'appts', 'service', 'warranty'].forEach(function (n) { if (!store.get(n, null)) store.set(n, s[n]); }); v = store.get(name, mem[name] || s[name]); }
     return v;
@@ -114,6 +123,16 @@
     if (reduce || !('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('on'); }); return; }
     var io = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('on'); io.unobserve(x.target); } }); }, { rootMargin: '0px 0px -12% 0px' });
     els.forEach(function (e) { io.observe(e); });
+    // blocks settle into place as they enter (transform only: nothing waits invisible for a scroll)
+    var st = $$('[data-settle]');
+    if (st.length) { var so = new IntersectionObserver(function (en) { en.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('st-in'); so.unobserve(x.target); } }); }, { rootMargin: '0px 0px -4% 0px' }); st.forEach(function (e) { so.observe(e); }); }
+    // the footer's caseback ring turns slowly while it is on screen
+    var ring = $('.ftr-ring .spin');
+    if (ring && !reduce) {
+      var vis = false, raf = 0, base = 0;
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; }).observe(ring.closest('.ftr-ring'));
+      addEventListener('scroll', function () { if (!vis || raf) return; raf = requestAnimationFrame(function () { raf = 0; ring.style.transform = 'rotate(' + ((scrollY * 0.035) % 360).toFixed(2) + 'deg)'; /* CSS rotation about the ring's own centre (transform-origin in the stylesheet) */ }); }, { passive: true });
+    }
   }
 
   // ---------- search palette (Ctrl/Cmd+K)
@@ -125,7 +144,7 @@
     document.body.appendChild(pal);
     var items = [];
     Object.keys(D.MODELS).forEach(function (k) { var m = D.MODELS[k]; items.push({ t: m.name + ' · ' + m.line, h: 'watch.html?m=' + k, g: 'Watch' }); });
-    [['Collection', 'collection.html'], ['Craftsmanship', 'craft.html'], ['Boutiques and appointments', 'boutiques.html'], ['Journal', 'journal.html'], ['Bag and checkout', 'checkout.html'], ['Register a warranty', 'warranty.html'], ['Care and service request', 'service.html'], ['Track a service ticket', 'service.html#track'], ['Terms, privacy and returns', 'legal.html'], ['Staff back office', 'staff.html']].forEach(function (p) { items.push({ t: p[0], h: p[1], g: 'Page' }); });
+    [['Collection', 'collection.html'], ['Craftsmanship', 'craft.html'], ['Boutiques and appointments', 'boutiques.html'], ['Journal', 'journal.html'], ['Bag and checkout', 'checkout.html'], ['Register a warranty', 'warranty.html'], ['Care and service request', 'service.html'], ['Track a service ticket', 'service.html#track'], ['Terms, privacy and returns', 'legal.html']].forEach(function (p) { items.push({ t: p[0], h: p[1], g: 'Page' }); });
     D.BOUTIQUES.forEach(function (b) { items.push({ t: b.city + ' · ' + b.name, h: 'boutiques.html?b=' + b.id + '#book', g: 'Boutique' }); });
     D.JOURNAL.forEach(function (j) { items.push({ t: j.title, h: 'article-' + j.id + '.html', g: 'Journal' }); });
     var sel = 0, cur = [];
