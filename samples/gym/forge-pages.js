@@ -1,4 +1,4 @@
-/* Forge · content pages: branch pages, HYROX tools, forms that land in the staff inbox, membership compare + sign-up wizard. */
+/* Forge · content pages: branch pages, HYROX tools, forms that land in staff Messages, membership compare + sign-up wizard. */
 (function () {
   'use strict';
   var F = window.Forge, $ = function (s, r) { return (r || document).querySelector(s); }, $$ = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
@@ -67,7 +67,7 @@
       setTimeout(function () {
         var rec = build(new FormData(form)); rec.id = F.uid(); rec.at = new Date().toISOString(); rec.status = 'new'; pushStore('inbox', rec);
         var done = form.nextElementSibling; done.innerHTML = doneHtml(rec); form.hidden = true; done.hidden = false; done.focus({ preventScroll: true });
-        F.toast('Sent. It’s now in the <a href="staff.html#inbox">staff inbox</a>.');
+        F.toast('Sent. A coach replies within a working day.');
       }, reduce ? 0 : 650);
     });
   }

@@ -717,7 +717,7 @@
     $('#tplF').onsubmit = function (e) { e.preventDefault(); var o = {}; Object.keys(TPL_DEF).forEach(function (k) { o[k] = e.target[k].value; }); var undo = snap(['ops-tpls']); F.set('ops-tpls', o); toast('Templates saved', undo); };
     $('#tplReset').onclick = function () { var undo = snap(['ops-tpls']); F.set('ops-tpls', {}); render(); toast('Defaults restored', undo); };
     $('#resetDemo').onclick = function () {
-      $('#modalIn').innerHTML = '<p class="mono o-muted">Settings</p><h3>Start fresh?</h3><p class="o-muted">Clears leads, roster, check-ins, queues, notes and messages saved by the staff app in this browser. Member-app and website bookings stay.</p><div class="o-row"><button class="btn volt sm" type="button" id="rsGo"><span>Reset</span></button><button class="o-btn ghost" type="button" data-close>Cancel</button></div>';
+      $('#modalIn').innerHTML = '<p class="mono o-muted">Settings</p><h3>Start fresh?</h3><p class="o-muted">Clears the leads, roster, check-ins, queues, notes and messages the staff app has recorded. Member-app and website bookings stay.</p><div class="o-row"><button class="btn volt sm" type="button" id="rsGo"><span>Reset</span></button><button class="o-btn ghost" type="button" data-close>Cancel</button></div>';
       $('#modal').showModal();
       $('#rsGo').onclick = function () { ['leads', 'roster', 'checkins', 'queue-log', 'ops-threads', 'ops-tstate', 'ops-views', 'ops-attend', 'ops-tpls', 'freezes', 'pt', 'inbox', 'signups', 'waitlist'].forEach(function (k) { try { localStorage.removeItem('forge:' + k); } catch (x) {} }); seedAll(); $('#modal').close(); go('today'); toast('Fresh start: roster and queues reloaded'); };
     };

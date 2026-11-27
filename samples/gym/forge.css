@@ -336,6 +336,32 @@ html:not(.motion-on) .wk-big,html:not(.motion-on) .week-prog,html:not(.motion-on
 .bar-steps li.on .sw{background:var(--c);transform:scale(1.15)}
 .bar-cap{grid-column:1/-1;position:absolute;right:var(--m);bottom:28px;max-width:34ch;text-align:right;color:var(--ash);text-transform:none;letter-spacing:.01em;opacity:0;transform:translateY(10px);transition:opacity .6s,transform .6s var(--ease);z-index:2}
 .bar-cap.on{opacity:1;transform:none}
+/* your turn: when the bar is racked the legend gives way to a loader the visitor works */
+.bar-steps{transition:opacity .45s var(--ease),transform .6s var(--ease)}
+.bar-you{grid-column:2;grid-row:2/4;align-self:end;justify-self:end;width:min(100%,380px);margin-bottom:62px;position:relative;z-index:3;border-top:1px solid var(--chalk);padding-top:16px;display:grid;gap:14px;opacity:0;transform:translateY(16px);pointer-events:none;visibility:hidden;transition:opacity .5s var(--ease),transform .7s var(--ease),visibility 0s .5s}
+.bar-pin.you .bar-you{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition:opacity .5s var(--ease) .15s,transform .7s var(--ease) .15s,visibility 0s}
+.bar-pin.you .bar-steps{opacity:0;transform:translateY(-10px);pointer-events:none}
+.bar-pin.you .bar-cap{opacity:0}
+.by-k{color:var(--volt)}
+.by-h{font-size:clamp(24px,2.2vw,34px);font-weight:820;font-variation-settings:'wdth' 74;text-transform:uppercase;line-height:1}
+.by-row{display:grid;grid-template-columns:48px 1fr 48px;align-items:center;gap:14px}
+.by-b{width:48px;height:48px;border:1px solid var(--rule);border-radius:var(--r-ctl);background:rgba(12,12,10,.5);color:var(--chalk);font:800 22px/1 var(--disp);cursor:pointer;transition:border-color .2s,background-color .2s,color .2s,transform .2s var(--ease)}
+.by-b:hover{border-color:var(--volt);color:var(--volt)}
+.by-b:active{transform:scale(.94);background:var(--volt);color:#0C0C0A}
+#byRange{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;cursor:ew-resize;--p:63.6%}
+#byRange::-webkit-slider-runnable-track{height:3px;background:linear-gradient(90deg,var(--volt) var(--p),var(--rule) var(--p))}
+#byRange::-moz-range-track{height:3px;background:linear-gradient(90deg,var(--volt) var(--p),var(--rule) var(--p))}
+#byRange::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-11.5px;border-radius:50%;background:radial-gradient(circle,#0C0C0A 0 4px,var(--volt) 4.5px);border:0;box-shadow:0 0 0 4px rgba(12,12,10,.7),0 0 0 5px var(--volt)}
+#byRange::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle,#0C0C0A 0 4px,var(--volt) 4.5px);border:0;box-shadow:0 0 0 4px rgba(12,12,10,.7),0 0 0 5px var(--volt)}
+#byRange:focus-visible{outline:2px solid var(--volt);outline-offset:4px}
+.by-plates{color:var(--ash);margin-top:-6px}
+.by-proj{display:grid;grid-template-columns:1fr 1fr;gap:18px;border-top:1px solid var(--rule);padding-top:12px}
+.by-proj dt{color:var(--ash)}
+.by-proj dd{display:flex;align-items:baseline;gap:6px;margin-top:2px}
+.by-proj b{font-size:clamp(40px,3.6vw,56px);font-weight:880;font-variation-settings:'wdth' 64;line-height:.95;font-variant-numeric:tabular-nums}
+.by-proj span{font:900 15px/1 var(--disp);font-variation-settings:'wdth' 125;color:var(--volt);text-transform:lowercase}
+.by-note{font-size:13.5px;line-height:1.45;color:var(--ash);max-width:40ch}
+.bar-you .btn{justify-self:start}
 html:not(.motion-on) .bar-pin{height:auto;min-height:0;display:block;padding-top:var(--s9);padding-bottom:var(--s9)}
 html:not(.motion-on) .bar-stage{position:relative;aspect-ratio:16/10;margin:var(--s5) 0}
 html:not(.motion-on) .bar-steps li{color:var(--chalk)}
@@ -343,6 +369,7 @@ html:not(.motion-on) .bar-steps li .sw{background:var(--c)}
 html:not(.motion-on) .bar-steps{margin-left:auto}
 html:not(.motion-on) .bar-cap{position:static;opacity:1;transform:none;text-align:left;margin-top:var(--s5)}
 html:not(.motion-on) .bar-stage canvas{display:none}
+html:not(.motion-on) .bar-you{opacity:1;transform:none;pointer-events:auto;visibility:visible;margin:var(--s6) 0 0 auto}
 @media (max-width:860px){
   .bar-pin{grid-template-columns:1fr;grid-template-rows:auto 1fr auto auto;padding-top:calc(var(--hh) + 10px);padding-bottom:72px}
   .bar-stage{inset:12% 0 30% 0}
@@ -355,6 +382,15 @@ html:not(.motion-on) .bar-stage canvas{display:none}
   .bar-steps li .mono{grid-column:1;font-size:9.5px}
   .bar-cap{display:none}
   .bar-head{flex-direction:column;gap:6px}
+  .bar-stage{transition:inset .7s var(--ease)}
+  .bar-pin.you .bar-stage{inset:9% 0 50% 0}
+  .bar-you{grid-column:1;grid-row:4;justify-self:stretch;width:100%;margin-bottom:0;gap:9px;padding-top:10px}
+  .by-k,.by-note{display:none}
+  .by-h{font-size:21px}
+  .by-row{grid-template-columns:44px 1fr 44px;gap:10px}.by-b{width:44px;height:44px}
+  .by-proj{padding-top:8px;gap:12px}.by-proj b{font-size:38px}
+  .bar-you .btn{justify-self:stretch;min-height:48px}
+  .bar-pin.you .bar-kg b{font-size:clamp(72px,22vw,120px)}
   html:not(.motion-on) .bar-cap{display:block}
 }
 
@@ -487,6 +523,15 @@ html:not(.motion-on) .bar-stage canvas{display:none}
 .story:hover img{filter:grayscale(1) contrast(1.08) brightness(1)}
 .story:hover img{transform:scale(1.04)}
 .story>.mono{color:var(--ash);margin-top:16px}
+/* proof under each portrait: one cell a week for the last year, brighter the more sessions that week */
+.att{margin-top:16px}
+.att-h{display:flex;justify-content:space-between;gap:12px;color:var(--ash);font-size:10.5px}
+.att-g{display:grid;grid-template-columns:repeat(52,minmax(0,1fr));gap:2px;margin-top:7px}
+.att-g i{height:20px;background:#22211d;transform-origin:50% 100%;transition:transform .5s var(--ease),opacity .4s;transition-delay:calc(var(--i) * 14ms)}
+.att-g i[data-n="1"]{background:rgba(212,255,58,.28)}.att-g i[data-n="2"]{background:rgba(212,255,58,.5)}.att-g i[data-n="3"]{background:rgba(212,255,58,.78)}.att-g i[data-n="4"]{background:var(--volt)}
+.att-g i.pre{background:transparent;box-shadow:inset 0 -1px 0 var(--rule)}
+html.motion-on .att:not(.in) .att-g i{transform:scaleY(.12);opacity:.35}
+.att-c{margin-top:8px;color:var(--chalk);font-size:13.5px;line-height:1.4}
 .story blockquote{font-family:var(--serif);font-style:italic;font-size:clamp(24px,2.1vw,32px);line-height:1.12;margin-top:12px}
 .metric{display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--rule);margin-top:18px;padding-top:12px}
 .metric b{font-size:22px;font-weight:800;font-variation-settings:'wdth' 74;text-transform:uppercase}
@@ -1006,3 +1051,7 @@ html:not(.motion-on) .bar-stage canvas{display:none}
 .story blockquote{font-family:var(--disp);font-style:normal;font-weight:700;font-variation-settings:'wdth' 82;line-height:1.18;font-size:clamp(20px,1.7vw,26px)}
 .plan .tag{font-family:var(--disp);font-style:normal;font-weight:500;font-size:15px;line-height:1.35}
 .bar-kg span{font-family:var(--disp);font-style:normal;font-weight:900;font-variation-settings:'wdth' 125}
+
+/* phones: the way back to the portfolio is in the menu, so the floating arrow does not sit on the calls to action */
+@media (max-width:860px){.to-home{display:none!important}}
+.menu .menu-out{margin-top:8px;color:var(--dim)}

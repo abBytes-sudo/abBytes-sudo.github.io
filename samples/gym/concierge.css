@@ -177,3 +177,6 @@ body.chat-wait .cg--fg:not([data-state=open]) .cg-launch{opacity:0;visibility:hi
 body.chat-wait .cg--fg .cg-nudge{visibility:hidden}
 .cg--fg .cg-launch{visibility:visible}
 @media (max-width:560px){.cg--fg[data-state=open] .cg-launch{opacity:0;visibility:hidden;pointer-events:none}}
+
+/* while someone is loading the bar, the desk keeps its suggestion to itself and the launcher shrinks to its ring */
+.bar-yours .cg-nudge{visibility:hidden!important;opacity:0!important;pointer-events:none!important}

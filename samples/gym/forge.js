@@ -176,27 +176,60 @@
   }
 
 
+  /* ================= STORIES: a year of attendance under each portrait ================= */
+  $$('.att').forEach(function (el) {
+    var seed = F.hash(el.dataset.seed), from = +el.dataset.from || 0, miss = (el.dataset.miss || '').split(',').filter(Boolean).map(Number), avg = +el.dataset.avg || 3, cells = '', i, n;
+    for (i = 0; i < 52; i++) { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; var r = seed / 4294967296; n = i < from ? -1 : miss.indexOf(i) > -1 ? 0 : Math.max(1, Math.min(4, Math.round(avg + (r - 0.5) * 2.2)));
+      cells += '<i style="--i:' + i + '"' + (n < 0 ? ' class="pre"' : ' data-n="' + n + '"') + '></i>'; }
+    el.innerHTML = '<p class="att-h mono"><span>Attendance · 52 weeks</span><span>now →</span></p><div class="att-g" role="img" aria-label="' + esc(el.dataset.cap) + '">' + cells + '</div><p class="att-c">' + esc(el.dataset.cap) + '.</p>';
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { el.classList.add('in'); o.disconnect(); } }, { threshold: 0.4 }).observe(el); else el.classList.add('in');
+  });
+
   /* ================= THE BAR (three.js, scroll-loaded plates) ================= */
   var STEP0 = 0.1, STEP = 0.17;                         /* must match forge3d.js */
   var barKg = function (p) { var kg = 20; [25, 20, 15, 10].forEach(function (k, i) { if (p > STEP0 + i * STEP + STEP * 0.5) kg += 2 * k; }); return kg; };
   function barSection() {
     var sec = $('#bar'); if (!sec) return;
     var stage = $('.bar-stage', sec), canvas = $('#barCanvas'), num = $('#kgNum'), steps = $$('#barSteps li'), cap = $('#barCap'), api = null, lastKg = 0, prog = 0;
+    /* your turn: once the bar is racked the visitor loads it. The number goes with them to the trial form. */
+    var pin = $('.bar-pin', sec), range = $('#byRange'), platesEl = $('#byPlates'), w12 = $('#by12'), w52 = $('#by52'), mine = 160, yours = false, MAXKG = 240;
+    var r5 = function (v) { return Math.round(v / 5) * 5; };
+    function compose(total) { var side = (total - 20) / 2, out = []; [[25, 4], [20, 1], [15, 1], [10, 1], [5, 1], [2.5, 1]].forEach(function (p) { for (var k = 0; k < p[1] && side >= p[0] - 1e-6; k++) { out.push(p[0]); side -= p[0]; } }); return out; }
+    function roll(el, to) { var from = +el.textContent || 0; if (reduce || from === to) { el.textContent = to; return; } var o = { v: from }; G.to(o, { v: to, duration: 0.5, ease: 'power3.out', overwrite: true, onUpdate: function () { el.textContent = r5(o.v); }, onComplete: function () { el.textContent = to; } }); }
+    function setMine(kg, load) {
+      kg = Math.max(20, Math.min(MAXKG, r5(kg))); mine = kg; range.value = kg; range.style.setProperty('--p', ((kg - 20) / (MAXKG - 20) * 100).toFixed(1) + '%'); range.setAttribute('aria-valuetext', kg + ' kilograms');
+      var list = compose(kg); platesEl.textContent = list.length ? list.join(' + ') + ' a side' : 'The empty bar, 20 kg';
+      /* the club average: beginners add the most, and the gains taper as the bar gets heavier */
+      roll(w12, r5(kg + Math.max(7.5, Math.min(27.5, 30 - 0.12 * kg)))); roll(w52, r5(kg + Math.max(15, Math.min(70, 75 - 0.3 * kg))));
+      if (kg !== lastKg) { roll(num, kg); lastKg = kg; if (!reduce) G.fromTo(num, { '--w': 100 }, { '--w': 64, duration: 0.6, ease: 'expo.out', overwrite: true }); }
+      if (load) { F.set('bar', kg); if (api && api.load) api.load(kg); }
+    }
+    function setYours(on) {
+      if (on === yours) return; yours = on; pin.classList.toggle('you', on); root.classList.toggle('bar-yours', on);
+      if (on) { var saved = +F.get('bar', 0); setMine(160, false); if (saved && saved !== 160) setTimeout(function () { if (yours) setMine(saved, true); }, 700); }
+      else { if (api && api.release) api.release(); lastKg = -1; }
+    }
+    range.addEventListener('input', function () { setMine(+range.value, true); });
+    $('#byMinus').addEventListener('click', function () { setMine(mine - 5, true); }); $('#byPlus').addEventListener('click', function () { setMine(mine + 5, true); });
+    $('#byGo').addEventListener('click', function () { setLift(mine); });
+    if (fine) pin.addEventListener('pointermove', function (e) { if (yours && api && api.lean) api.lean((e.clientX / innerWidth - 0.5) * 2); });
     function paint(p) {
-      prog = p; var kg = barKg(p);
+      prog = p; if (yours) { if (api) api.setProgress(p); return; }
+      var kg = barKg(p);
       if (kg !== lastKg) { num.textContent = kg; lastKg = kg; if (!reduce) G.fromTo(num, { '--w': 112 }, { '--w': 64, duration: 0.7, ease: 'expo.out', overwrite: true }); }
       steps.forEach(function (li, i) { li.classList.toggle('on', p > STEP0 + i * STEP + STEP * 0.5); });
       cap.classList.toggle('on', p > 0.9);
       if (api) api.setProgress(p);
     }
-    if (reduce) { paint(1); return; }
+    if (reduce) { paint(1); setMine(+F.get('bar', 0) || 160, false); return; }
     num.textContent = 20; lastKg = 20;
-    G.timeline({ scrollTrigger: { trigger: sec, start: 'top top', end: function () { return '+=' + innerHeight * 3; }, pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true, onUpdate: function (s) { paint(s.progress); } } });
+    /* the first 76% of the pin loads the bar; the rest holds it racked so there is time to play */
+    G.timeline({ scrollTrigger: { trigger: sec, start: 'top top', end: function () { return '+=' + innerHeight * 3.9; }, pin: true, scrub: 0.6, anticipatePin: 1, invalidateOnRefresh: true, onUpdate: function (s) { var p = Math.min(1, s.progress / 0.76); if (yours && s.progress < 0.7) setYours(false); paint(p); if (!yours && s.progress > 0.775) setYours(true); } } });
     /* load three.js only when the section is near; the poster covers until the first frame */
     var loaded = false;
     new IntersectionObserver(function (es, o) {
       if (!es[0].isIntersecting || loaded) return; loaded = true; o.disconnect();
-      var s = document.createElement('script'); s.src = '../assets/forge3d.js?v=1'; s.async = true;
+      var s = document.createElement('script'); s.src = '../assets/forge3d.js?v=2'; s.async = true;
       s.onload = function () { try { api = window.__forgeBar = window.Forge3D.mount(canvas, { progress: prog }); api.ready.then(function () { stage.classList.add('is-3d'); }); } catch (e) { /* WebGL unavailable: the poster stays */ } };
       document.head.appendChild(s);
     }, { rootMargin: '120% 0px' }).observe(sec);
@@ -346,6 +379,16 @@
     bill = b.dataset.bill; F.segSet($('.bill .seg'), b); renderPlans();
     if (!reduce) $$('#plans .price b').forEach(function (el, i) { var o = { v: from[i] }, to = +el.dataset.price; G.to(o, { v: to, duration: 0.9, ease: 'power3.out', onUpdate: function () { el.textContent = F.rupees(Math.round(o.v / 10) * 10); }, onComplete: function () { el.textContent = F.rupees(to); } }); });
   }); });
+  /* the bar they loaded upstairs rides along to the front desk */
+  var lift = 0;
+  function setLift(kg) {
+    lift = kg; var tag = $('#liftTag'), form = $('#trialForm');
+    if (!kg) { if (tag) tag.remove(); return; }
+    if (!tag) { tag = document.createElement('p'); tag.id = 'liftTag'; tag.className = 'interest'; form.insertBefore(tag, $('.f2', form)); }
+    tag.innerHTML = 'Squat today: ' + kg + ' kg <button type="button" aria-label="Remove the squat number">×</button>';
+    $('button', tag).addEventListener('click', function () { setLift(0); });
+    if (form.goal) form.goal.value = 'Get stronger';
+  }
   var interest = '';
   function setInterest(p) {
     interest = p; var tag = $('#interest');
@@ -370,7 +413,7 @@
     if (!(a && b && c)) { (!a ? tf.name : !b ? tf.phone : tf.ok).focus(); return; }
     var btn = $('.big-btn', tf); btn.classList.add('busy'); $('span:not(.arr)', btn).textContent = 'Booking your trial';
     setTimeout(function () {
-      var lead = F.addLead({ name: tf.name.value.trim(), phone: tf.phone.value.trim(), branch: tf.branch.value, day: tf.day.value, goal: tf.goal.value, plan: interest || '' });
+      var lead = F.addLead({ name: tf.name.value.trim(), phone: tf.phone.value.trim(), branch: tf.branch.value, day: tf.day.value, goal: tf.goal.value + (lift ? ' · squats ' + lift + ' kg today' : ''), plan: interest || '' });
       F.set('me', { name: lead.name, phone: lead.phone });
       var done = $('#trialDone'), br = F.branches[lead.branch];
       done.innerHTML = '<p class="idx mono">Request received</p><h3>See you on ' + esc(F.nice(lead.day)) + ', ' + esc(lead.name.split(' ')[0]) + '.</h3>' +
