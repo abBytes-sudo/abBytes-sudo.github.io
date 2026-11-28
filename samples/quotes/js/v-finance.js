@@ -30,7 +30,7 @@
   MR.views.invoice = function (r) {
     MR.loadHand();
     var iv = MR.invoice(r.p[1]); if (!iv) return { html: MR.notFound('That invoice does not exist.'), title: 'Invoice', crumbs: [['Invoices', '#/invoices'], ['Not found']], nav: 'invoices' };
-    var c = MR.client(iv.clientId), p = MR.project(iv.projectId), co = S().company, st = MR.invState(iv), intra = iv.state === 'HR';
+    var c = MR.client(iv.clientId), p = MR.project(iv.projectId), co = MR.co(), st = MR.invState(iv), intra = iv.state === 'HR';
     var pays = S().payments.filter(function (x) { return x.invoiceId === iv.id; }).sort(function (a, b) { return a.date < b.date ? -1 : 1; });
     var raw = iv.taxable + iv.cgst + iv.sgst + iv.igst, ro = iv.total - raw;
     var h = '<div class="page narrow"><div class="ph noprint"><div><div class="eyebrow">' + MR.pill(st.key, { paid: ['Paid', 'ok'], overdue: [st.label, 'bad'], part: ['Part paid', 'warn'], open: [st.label, 'info'] }) + '</div><h1>' + esc(iv.no) + '</h1><p class="sub">' + esc(c.name) + ' · <a class="rowlink" href="#/project/' + p.id + '?tab=billing">' + esc(p.name) + '</a></p></div><div class="acts">' + (st.balance && MR.can('finance.edit') ? MR.btn('record-payment', 'Record payment', { cls: 'pri', icon: 'pay', id: iv.id }) : '') + (st.key === 'overdue' ? MR.btn('inv-remind', 'Send reminder', { icon: 'mail', id: iv.id }) : '') + MR.btn('print', 'Print', { icon: 'print' }) + '</div></div>';
@@ -63,7 +63,7 @@
   };
   MR.act['inv-remind'] = function (el) {
     var iv = MR.invoice(el.dataset.id), c = MR.client(iv.clientId), st = MR.invState(iv), first = c.contact.split(' (')[0].replace(/^Dr\s+/, 'Dr ').split(' ')[0];
-    var msg = 'Hi ' + first + ', a gentle reminder that invoice ' + iv.no + ' for ' + MR.project(iv.projectId).name.split(',')[0] + ' (' + u.inr(st.balance) + ') was due on ' + u.fdate(iv.due) + '. Bank details are on the invoice. If it is already paid, please share the UTR and we will reconcile it today. · Rakesh, Accounts, Marlow & Reed';
+    var msg = 'Hi ' + first + ', a gentle reminder that invoice ' + iv.no + ' for ' + MR.project(iv.projectId).name.split(',')[0] + ' (' + u.inr(st.balance) + ') was due on ' + u.fdate(iv.due) + '. Bank details are on the invoice. If it is already paid, please share the UTR and we will reconcile it today. · Rakesh, Accounts, ' + MR.studio();
     MR.openDlg('<div class="dlg-hd"><h2 id="dlgT">Payment reminder</h2>' + MR.xBtn() + '</div><div class="dlg-bd"><p class="muted">' + esc(c.email) + ' · ' + st.overdue + ' days overdue</p><label class="field"><span>Message</span><textarea class="ta" id="rmT" rows="6">' + esc(msg) + '</textarea><small>Copy it into WhatsApp or email; the reminder is logged on the invoice.</small></label></div><div class="dlg-ft"><button type="button" class="btn" data-act="dlg-close">Cancel</button>' + MR.btn('inv-remind-ok', 'Log reminder and copy', { cls: 'pri', icon: 'mail', id: iv.id }) + '</div>');
   };
   MR.act['inv-remind-ok'] = function (el) { var iv = MR.invoice(el.dataset.id); (iv.reminders = iv.reminders || []).push(u.today()); MR.audit('invoice', iv.no, 'reminder sent', MR.invState(iv).overdue + ' days overdue'); MR.copy(document.getElementById('rmT').value, 'Reminder copied and logged'); MR.save(); MR.closeDlg(); MR.render(); };

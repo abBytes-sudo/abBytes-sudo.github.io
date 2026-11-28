@@ -4,7 +4,7 @@
 (function () {
   'use strict';
   var CORE = ['core', 'seed', 'seed-crm', 'v-home', 'app'], REST = ['v-sales', 'v-portal', 'v-delivery', 'v-site', 'v-finance', 'v-work', 'v-crm', 'v-design', 'v-ops'];
-  var V = '20261128b', dev = /[?&]dev=1\b/.test(location.search);
+  var V = '20261128e', dev = /[?&]dev=1\b/.test(location.search);
   var NAMES = { owner: ['Ira', 'Owner'], pm: ['Kabir', 'Project manager'], accounts: ['Rakesh', 'Accounts'], site: ['Imran', 'Site engineer'], design: ['Tanvi', 'Designer'], client: ['Rohan', 'Client'] };
   var DAY = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var role = 'owner';

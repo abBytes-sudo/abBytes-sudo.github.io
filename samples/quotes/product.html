@@ -17,9 +17,10 @@
 <meta name="theme-color" content="#EEF0EC">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script src="brand-boot.js?v=1"></script>
 <link rel="preload" href="fonts/Eczar.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/InterTight.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="product.css?v=10">
+<link rel="stylesheet" href="product.css?v=11">
 <link rel="stylesheet" href="../assets/back.css?v=2">
 <script src="product.js?v=8" defer></script>
 <script src="../assets/back.js?v=1" defer></script>
@@ -30,9 +31,10 @@
 
 <header class="nav">
   <div class="wrap nav-in">
-    <a class="logo" href="#top" aria-label="Studio OS, top of page"><span class="mark" aria-hidden="true">M<i>&amp;</i>R</span><b>Studio OS</b></a>
+    <a class="logo" href="#top" aria-label="Studio OS, top of page"><span class="mark" aria-hidden="true" data-bn="mark">M<i>&amp;</i>R</span><b>Studio OS</b><span class="for" data-bn="for" hidden></span></a>
     <nav aria-label="Page sections" class="nav-links"><a href="#story">How it flows</a><a href="#roles">Roles</a><a href="#site">On site</a><a href="#craft">Details</a></nav>
-    <a class="btn pri" href="index.html">Open the live app</a>
+    <button type="button" class="nav-brand" data-brand-open data-bn="entry" aria-haspopup="dialog">See it as yours</button>
+    <a class="btn pri" href="index.html" data-bn="open:nav">Open the live app</a>
   </div>
 </header>
 
@@ -52,9 +54,10 @@
           </ul>
         </aside>
       </div>
+      <p class="hero-for" data-bn="hero" hidden></p>
       <div class="hero-sub">
         <p>Leads, design approvals, BOQ quotes, vendor bids, site logs, handover and GST invoices for an interiors studio. One record per job, six people on it.</p>
-        <div class="ctas"><a class="btn pri lg" href="index.html">Open the live app</a><a class="btn lg" href="#story">See it flow <span aria-hidden="true">↓</span></a></div>
+        <div class="ctas"><a class="btn pri lg" href="index.html" data-bn="open">Open the live app</a><a class="btn lg" href="#story">See it flow <span aria-hidden="true">↓</span></a></div>
       </div>
     </div>
     <div class="hero-shot" id="heroShot">
@@ -235,7 +238,7 @@
     <div class="wrap">
       <h2 id="endT" class="h-end">Open the studio. Thirty-two leads are in.</h2>
       <p class="lede">Thirty-two leads, four design boards, twenty-one quotes, vendor bids, eight projects, GST invoices, site logs and snags, seeded with a Gurugram studio’s year. Change anything; it stays in your browser.</p>
-      <div class="ctas"><a class="btn pri lg" href="index.html">Open Studio OS</a><a class="btn lg" href="index.html#/d/dz-iyer">See the client’s design link</a></div>
+      <div class="ctas"><a class="btn pri lg" href="index.html" data-bn="open">Open Studio OS</a><a class="btn lg" href="index.html#/d/dz-iyer">See the client’s design link</a></div>
     </div>
   </section>
 </main>
@@ -243,9 +246,9 @@
 <footer class="foot">
   <div class="board" aria-hidden="true"><span style="--c:#0E5C57"><b>LQ-01</b>Lacquer teal</span><span style="--c:#B07D2A"><b>BR-02</b>Brushed brass</span><span style="--c:#6E5038"><b>OK-03</b>Smoked oak</span><span class="lt" style="--c:#DCE0DA"><b>LW-04</b>Limewash</span><span class="lt tz"><b>TZ-05</b>Terrazzo</span></div>
   <div class="wrap foot-in">
-    <a class="logo" href="#top"><span class="mark" aria-hidden="true">M<i>&amp;</i>R</span><b>Studio OS</b></a>
-    <nav aria-label="Footer" class="foot-nav"><a href="index.html">Open the app</a><a href="index.html#/d/dz-iyer">Client design link</a><a href="#story">How it flows</a><a href="#roles">Roles</a></nav>
-    <p class="foot-c">© Marlow &amp; Reed. A portfolio project by <a href="../../index.html">Abhishek</a>.</p>
+    <a class="logo" href="#top"><span class="mark" aria-hidden="true" data-bn="mark">M<i>&amp;</i>R</span><b>Studio OS</b></a>
+    <nav aria-label="Footer" class="foot-nav"><a href="index.html">Open the app</a><a href="index.html#/d/dz-iyer">Client design link</a><a href="#story">How it flows</a><a href="#roles">Roles</a><button type="button" class="foot-brand" data-brand-open aria-haspopup="dialog">See it with your name on it</button></nav>
+    <p class="foot-c">© <span data-bn="copy">Marlow &amp; Reed</span>. A portfolio project by <a href="../../index.html">Abhishek</a>.</p>
   </div>
 </footer>
 </body>

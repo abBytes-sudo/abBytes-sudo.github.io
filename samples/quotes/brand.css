@@ -1,0 +1,62 @@
+/* "Your name on it" panel for the Studio OS page and the app. Loaded only when the panel is first opened.
+   Uses each page's own tokens (--surface, --line-2, --ink, --brand, --f, --serif) so it looks native on both. */
+dialog.bp{box-sizing:border-box;position:fixed;margin:0;padding:0;width:min(372px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;overscroll-behavior:contain;border:1px solid var(--line-2,#CDD3CB);border-radius:12px;background:var(--surface,#fff);color:var(--ink,#141C1A);font:400 14px/1.45 var(--f,'Inter Tight',system-ui,sans-serif);box-shadow:0 1px 2px rgba(16,28,26,.06),0 24px 60px -12px rgba(16,28,26,.34),0 0 0 1px rgba(16,28,26,.05)}
+dialog.bp::backdrop{background:rgba(20,28,26,0)}
+dialog.bp[open]{animation:bp-in .18s cubic-bezier(.16,1,.3,1)}
+@keyframes bp-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes bp-up{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
+.bp *,.bp *::before,.bp *::after{box-sizing:border-box}
+.bp-in{padding:20px 20px 18px}
+.bp-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.bp h2{margin:0;font:600 24px/1.1 var(--serif,'Eczar',Georgia,serif);letter-spacing:-.015em;color:var(--ink,#141C1A)}
+.bp-x{flex:none;width:32px;height:32px;margin:-4px -6px 0 0;border:0;border-radius:8px;background:none;color:var(--ink-3,#57615D);font:400 22px/1 var(--f,sans-serif);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.bp-x:hover{background:var(--hover,#E9ECE7);color:var(--ink,#141C1A)}
+.bp-sub{margin:8px 0 0;color:var(--ink-2,#36403D);font-size:14px}
+.bp-sub b{font-weight:600;color:var(--ink,#141C1A)}
+.bp form{margin-top:16px;display:grid;gap:14px}
+.bp-f{display:grid;gap:6px;margin:0;padding:0;border:0;min-width:0}
+.bp-row2{display:grid;grid-template-columns:minmax(0,1fr) 84px;gap:12px}
+.bp label,.bp legend{font-weight:600;font-size:12.5px;color:var(--ink-2,#36403D);padding:0}
+.bp-inp{width:100%;height:40px;padding:0 12px;border:1px solid var(--line-2,#CDD3CB);border-radius:8px;background:var(--surface,#fff);color:var(--ink,#141C1A);font:400 15px/1 var(--f,sans-serif)}
+.bp-inp::placeholder{color:var(--ink-4,#5F6965);opacity:1}
+.bp-inp:focus{outline:none;border-color:var(--brand-ink,#0E5C57);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand,#0E5C57) 20%,transparent)}
+.bp-inp[aria-invalid=true]{border-color:var(--bad,#AE271E)}
+.bp-ini{text-align:center;text-transform:uppercase;font-weight:600;letter-spacing:.02em}
+.bp-err{margin:0;min-height:0;color:var(--bad,#AE271E);font-size:13px}
+.bp-err:empty{display:none}
+.bp-sw{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.bp-sw label{position:relative;display:block;width:40px;height:40px;margin:0;cursor:pointer}
+.bp-sw input[type=radio]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.bp-sw label>span{position:absolute;inset:0;border-radius:8px;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.14);transition:box-shadow .12s}
+.bp-sw input:checked+span{box-shadow:inset 0 0 0 1px rgba(0,0,0,.14),0 0 0 2px var(--surface,#fff),0 0 0 4px var(--ink,#141C1A)}
+.bp-sw input:focus-visible+span{box-shadow:inset 0 0 0 1px rgba(0,0,0,.14),0 0 0 2px var(--surface,#fff),0 0 0 4px var(--brand-ink,#0E5C57)}
+.bp-cap{margin:2px 0 0;display:flex;align-items:center;gap:10px;min-height:32px;color:var(--ink-3,#57615D);font-size:13px}
+.bp-own{display:inline-flex;align-items:center;gap:8px;margin:0;font-weight:500;color:var(--ink-2,#36403D);cursor:pointer}
+.bp-own input[type=color]{width:36px;height:28px;padding:0;border:1px solid var(--line-2,#CDD3CB);border-radius:6px;background:none;cursor:pointer}
+.bp-own input[type=color]::-webkit-color-swatch-wrapper{padding:2px}
+.bp-own input[type=color]::-webkit-color-swatch{border:0;border-radius:4px}
+.bp-own input[type=radio]{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.bp-own:has(input[type=radio]:checked) input[type=color]{box-shadow:0 0 0 2px var(--surface,#fff),0 0 0 4px var(--ink,#141C1A)}
+.bp-own:has(input[type=radio]:focus-visible) input[type=color]{box-shadow:0 0 0 2px var(--surface,#fff),0 0 0 4px var(--brand-ink,#0E5C57)}
+.bp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:8px;border:1px solid var(--line-2,#CDD3CB);background:var(--surface,#fff);color:var(--ink,#141C1A);font:500 14px/1 var(--f,sans-serif);cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s}
+.bp-btn:hover{border-color:var(--ink-4,#5F6965)}
+.bp-btn.pri{background:var(--brand,#0E5C57);border-color:var(--brand,#0E5C57);color:var(--on-brand,#fff)}
+.bp-btn.pri:hover{background:var(--brand-h,#0A4743);border-color:var(--brand-h,#0A4743)}
+.bp form .bp-btn.pri{width:100%}
+.bp-btn:focus-visible,.bp-x:focus-visible,.bp-quiet:focus-visible,.bp-link:focus-visible{outline:2px solid var(--brand-ink,#0E5C57);outline-offset:2px}
+.bp-out{margin-top:18px;padding-top:16px;border-top:1px solid var(--line,#DCE0DA);display:grid;gap:10px}
+.bp-out p{margin:0;color:var(--ink-2,#36403D);font-size:13px}
+.bp-link{width:100%;height:38px;padding:0 10px;border:1px solid var(--line-2,#CDD3CB);border-radius:8px;background:var(--surface-2,#F6F7F4);color:var(--ink-2,#36403D);font:400 12.5px/1 var(--f,sans-serif);text-overflow:ellipsis}
+.bp-acts{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.bp-quiet{border:0;background:none;padding:6px 2px;color:var(--ink-2,#36403D);font:500 13.5px/1 var(--f,sans-serif);text-decoration:underline;text-decoration-color:var(--line-3,#B7BEB5);text-underline-offset:3px;cursor:pointer}
+.bp-quiet:hover{color:var(--ink,#141C1A);text-decoration-color:currentColor}
+.bp-ok{min-height:18px;color:var(--ok,#1E7346);font-size:13px;font-weight:500}
+@media (max-width:699px){
+  dialog.bp{left:0!important;right:0!important;top:auto!important;bottom:0!important;width:100%;max-width:none;max-height:90dvh;border-radius:16px 16px 0 0;border-width:1px 0 0;padding-bottom:env(safe-area-inset-bottom)}
+  dialog.bp::backdrop{background:rgba(20,28,26,.4)}
+  dialog.bp[open]{animation:bp-up .22s cubic-bezier(.16,1,.3,1)}
+  .bp-in{padding:18px 16px 16px}
+  .bp-inp{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){dialog.bp[open]{animation:none}.bp-sw label>span,.bp-btn{transition:none}}
+@media print{dialog.bp{display:none!important}}

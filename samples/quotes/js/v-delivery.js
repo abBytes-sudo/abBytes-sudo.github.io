@@ -240,7 +240,7 @@
   MR.views.po = function (r) {
     MR.loadHand();
     var o = MR.po(r.p[1]); if (!o) return { html: MR.notFound('That purchase order does not exist.'), title: 'PO', crumbs: [['Purchase orders', '#/pos'], ['Not found']], nav: 'pos' };
-    var v = MR.vendor(o.vendorId), p = MR.project(o.projectId), co = S().company, t = MR.poTotal(o), intra = v.state === 'HR', st = poState(o), mv = MR.can('money.view');
+    var v = MR.vendor(o.vendorId), p = MR.project(o.projectId), co = MR.co(), t = MR.poTotal(o), intra = v.state === 'HR', st = poState(o), mv = MR.can('money.view');
     var h = '<div class="page narrow"><div class="ph noprint"><div><div class="eyebrow">' + MR.pill(st, POSTAT) + '</div><h1>' + esc(o.no) + '</h1><p class="sub">' + esc(v.name) + ' · for <a class="rowlink" href="#/project/' + p.id + '?tab=purchase">' + esc(p.name) + '</a></p></div><div class="acts">' + (MR.can('proc.receive') && (o.status === 'issued' || o.status === 'partial') ? MR.btn('po-receive', 'Record delivery', { cls: 'pri', icon: 'truck', id: o.id }) : '') + MR.btn('print', 'Print', { icon: 'print' }) + '</div></div>';
     if (o.note) h += '<div class="banner warn noprint">' + ic('flag') + '<div class="bt"><b>Note</b>' + esc(o.note) + '</div></div>';
     h += '<article class="doc"><header class="doc-hd">' + MR.companyBlock() + '<div class="dt"><h2>Purchase order</h2><span>' + esc(o.no) + '</span><span>Dated ' + u.fdate(o.date) + '</span><span>Deliver by ' + u.fdate(o.expected) + '</span></div></header>';

@@ -144,7 +144,7 @@
       var keep = main.querySelector('[data-keep]');
       main.innerHTML = res.html;
       if (keep) { var nk = main.querySelector('[data-keep="' + keep.getAttribute('data-keep') + '"]'); if (nk) { if (keep.innerHTML !== nk.innerHTML) keep.innerHTML = nk.innerHTML; if (keep.className !== nk.className) keep.className = nk.className; keep.removeAttribute('aria-busy'); nk.parentNode.replaceChild(keep, nk); } }
-      document.title = (res.title || 'Studio OS') + ' · Marlow & Reed Studio OS';
+      document.title = (res.title || 'Studio OS') + ' · ' + MR.studio() + ' Studio OS';
       if (changed) {
         if (lastPath !== null) window.scrollTo(0, 0);
         var h = main.querySelector('h1'); if (h && lastPath !== null) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
@@ -254,6 +254,7 @@
     Object.keys(MR.ROLES).forEach(function (k) { if (k !== r) add('Actions', 'user', 'Switch role to ' + MR.ROLES[k].label, MR.userById(MR.ROLES[k].who).name, function () { MR.setRole(k); }); });
     if (MR.can('finance.view')) add('Actions', 'phone', 'Start collections', 'focus mode', goTo('#/collect'));
     add('Actions', 'spark', 'Take the tour', 'quote to paid', function () { MR.act.tour(); });
+    add('Actions', 'eye', 'See it as your studio', '', function () { if (window.StudioBrand) window.StudioBrand.open(); }, 'brand name colour logo your own');
     add('Actions', 'sun', 'Toggle dark theme', '', function () { MR.act.theme(); });
     add('Actions', 'keys', 'Keyboard shortcuts', '?', openShortcuts);
     add('Actions', 'undo', 'Undo last change', '⌘Z', MR.undo);

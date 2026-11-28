@@ -20,6 +20,13 @@
   function fnum(v, d) { v = +v || 0; return v.toLocaleString('en-IN', { maximumFractionDigits: d == null ? 2 : d }); }
   function pct(v, d) { return (Math.round((v || 0) * Math.pow(10, d || 0)) / Math.pow(10, d || 0)).toFixed(d || 0) + '%'; }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  /* ---------------- whose studio this is: the example studio, or a visitor's own name (set by brand-boot.js) ---------------- */
+  var BR = window.StudioBrand && window.StudioBrand.get ? window.StudioBrand.get() : null;
+  MR.brand = BR;
+  MR.studio = function () { return BR ? BR.name : MR.S.company.short; };
+  MR.co = function () { var c = MR.S.company, o = {}, k; if (!BR) return c; for (k in c) o[k] = c[k]; o.name = BR.name; o.short = BR.name; o.email = 'studio@' + BR.slug + '.example'; o.web = BR.slug + '.example'; return o; };
+  MR.markHtml = function () { return '<span class="mark" aria-hidden="true"' + (BR ? ' data-n="' + BR.n + '">' + esc(BR.initial) : '>M<i>&amp;</i>R') + '</span>'; };
+  MR.sub = function (t) { return BR ? String(t).replace(/Marlow (?:&|&amp;) Reed(?: Interiors LLP)?/g, function () { return BR.name; }) : t; };
   function num(v) { var n = parseFloat(String(v).replace(/[,₹\s]/g, '')); return isFinite(n) ? n : 0; }
   function uid(p) { return (p || 'x') + Math.random().toString(36).slice(2, 9); }
   function pd(s) { var p = String(s).slice(0, 10).split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }

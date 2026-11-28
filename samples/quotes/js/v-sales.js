@@ -452,7 +452,7 @@
     v.sentAt = new Date().toISOString(); q.status = 'sent';
     MR.audit('quote', q.no, 'sent', 'v' + v.n + ' sent to ' + cl.contact); MR.save(); MR.render();
     var link = MR.qLink(q), first = cl.contact.split(' (')[0].replace(/^Dr\s+/, 'Dr ').split(' ')[0];
-    var msg = 'Hi ' + first + ', your quote for ' + q.name.split(',')[0] + ' is ready: ' + u.lakh(MR.calc(q).taxable) + ' + GST, version ' + v.n + '. You can comment on any line, ask for changes, or sign online here: ' + link + ' · Kabir, Marlow & Reed';
+    var msg = 'Hi ' + first + ', your quote for ' + q.name.split(',')[0] + ' is ready: ' + u.lakh(MR.calc(q).taxable) + ' + GST, version ' + v.n + '. You can comment on any line, ask for changes, or sign online here: ' + link + ' · Kabir, ' + MR.studio();
     MR.openDlg('<div class="dlg-hd"><h2 id="dlgT">Link ready for ' + esc(first) + '</h2>' + MR.xBtn() + '</div><div class="dlg-bd"><label class="field"><span>Client link</span><input class="inp mono" id="lnk" readonly value="' + esc(link) + '"></label><label class="field"><span>Message (WhatsApp or email)</span><textarea class="ta" id="lnkMsg" rows="4">' + esc(msg) + '</textarea><small>Copy it into WhatsApp or email, or open the link to see what the client sees.</small></label></div><div class="dlg-ft"><a class="btn left" href="#/q/' + q.token + '" target="_blank" rel="noopener">' + ic('eye') + '<span>Open as client</span></a>' + MR.btn('copy-msg', 'Copy message', { icon: 'copy' }) + MR.btn('copy-link', 'Copy link', { cls: 'pri', icon: 'link' }) + '</div>');
   };
   function copy(text, ok) { try { navigator.clipboard.writeText(text).then(function () { MR.toast(ok); }, function () { MR.toast(text, { plain: true }); }); } catch (e) { MR.toast(text, { plain: true }); } }

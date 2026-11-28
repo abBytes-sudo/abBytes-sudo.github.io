@@ -16,8 +16,8 @@
   MR.TERMS = TERMS;
 
   function companyBlock() {
-    var co = MR.S.company;
-    return '<div class="co"><span class="mark" aria-hidden="true">M<i>&amp;</i>R</span><div><b>' + esc(co.name) + '</b><span>' + esc(co.addr[0]) + '<br>' + esc(co.addr[1]) + '</span><span>GSTIN ' + esc(co.gstin) + ' · ' + esc(co.email) + '</span></div></div>';
+    var co = MR.co();
+    return '<div class="co">' + MR.markHtml() + '<div><b>' + esc(co.name) + '</b><span>' + esc(co.addr[0]) + '<br>' + esc(co.addr[1]) + '</span><span>GSTIN ' + esc(co.gstin) + ' · ' + esc(co.email) + '</span></div></div>';
   }
   MR.companyBlock = companyBlock;
 
@@ -39,7 +39,7 @@
     var open = ['sent', 'viewed', 'changes'].indexOf(q.status) > -1 && v === MR.ver(q);
     var h = '';
     if (preview) h += '<div class="preview-bar noprint">You are previewing ' + esc(q.no) + ' v' + v.n + ' as ' + esc(cl.contact.split(' (')[0]) + ' would see it. Comments and signatures you make here are recorded on the quote. <a href="#/quote/' + q.id + '">Back to Studio OS</a></div>';
-    h += '<div class="portal-top"><div class="in"><span class="mark" aria-hidden="true">M<i>&amp;</i>R</span><div class="who"><b>Marlow &amp; Reed</b><span>' + esc(q.no) + ' v' + v.n + ' · prepared by ' + esc(pm.name) + '</span></div>' + MR.btn('print', 'Download PDF', { icon: 'download', cls: 'sm' }) + '</div></div>';
+    h += '<div class="portal-top"><div class="in">' + MR.markHtml() + '<div class="who"><b>' + esc(MR.studio()) + '</b><span>' + esc(q.no) + ' v' + v.n + ' · prepared by ' + esc(pm.name) + '</span></div>' + MR.btn('print', 'Download PDF', { icon: 'download', cls: 'sm' }) + '</div></div>';
     h += '<div class="page narrow" style="padding-top:28px">';
     if (signed) h += '<div class="banner ok noprint">' + ic('sign') + '<div class="bt"><b>Signed by ' + esc(q.sig.name) + ' on ' + u.fdate(q.sig.at.slice(0, 10)) + '</b>Thank you. ' + esc(pm.name.split(' ')[0]) + ' will call within one working day to fix the site kick-off and share the project plan.</div></div>';
     else if (q.status === 'changes' && v === MR.ver(q)) h += '<div class="banner warn noprint">' + ic('edit') + '<div class="bt"><b>Changes requested</b>' + esc(pm.name.split(' ')[0]) + ' is preparing v' + (v.n + 1) + '. You will get the same link updated.</div></div>';
@@ -48,7 +48,7 @@
     else if (open) h += '<p class="callout noprint" style="margin-bottom:14px">' + ic('comment') + 'Tap <b>Comment</b> on any line to ask a question. Your project manager replies here.</p>';
     h += '<article class="doc" aria-label="Quotation">';
     h += '<header class="doc-hd">' + companyBlock() + '<div class="dt"><h1>Quotation</h1><span>' + esc(q.no) + ' · version ' + v.n + '</span><span>Dated ' + u.fdate((v.sentAt || v.created).slice(0, 10)) + '</span><span>Valid till ' + u.fdate(u.addD((v.sentAt || v.created).slice(0, 10), q.validDays)) + '</span></div></header>';
-    h += '<div class="doc-parties"><div><h4>Prepared for</h4><b>' + esc(cl.name) + '</b><br>' + esc(cl.contact) + (cl.gstin ? '<br>GSTIN ' + esc(cl.gstin) : '') + '</div><div><h4>Site</h4>' + esc(q.site) + '<br>' + esc(q.city) + ', ' + esc(MR.STATE[q.state].name) + '<br><span class="muted">Place of supply: ' + esc(MR.STATE[q.state].name) + ' (' + MR.STATE[q.state].code + ')</span></div><div><h4>Your team</h4>' + esc(pm.name) + ', project manager<br>Tanvi Joshi, lead designer<br><span class="muted">' + esc(MR.S.company.email) + '</span></div></div>';
+    h += '<div class="doc-parties"><div><h4>Prepared for</h4><b>' + esc(cl.name) + '</b><br>' + esc(cl.contact) + (cl.gstin ? '<br>GSTIN ' + esc(cl.gstin) : '') + '</div><div><h4>Site</h4>' + esc(q.site) + '<br>' + esc(q.city) + ', ' + esc(MR.STATE[q.state].name) + '<br><span class="muted">Place of supply: ' + esc(MR.STATE[q.state].name) + ' (' + MR.STATE[q.state].code + ')</span></div><div><h4>Your team</h4>' + esc(pm.name) + ', project manager<br>Tanvi Joshi, lead designer<br><span class="muted">' + esc(MR.co().email) + '</span></div></div>';
     h += '<table><thead><tr><th style="width:28px">#</th><th>Item</th><th class="num">Qty</th><th class="hide-sm">Unit</th><th class="num hide-sm">Rate</th><th class="num">Amount</th></tr></thead><tbody>';
     var n = 0;
     v.sections.forEach(function (s) {
@@ -68,8 +68,8 @@
     h += '<p class="doc-words">' + esc(u.words(Math.round(c.total))) + '</p>';
     var sch = MR.SCHEDULES[q.terms || '40/30/25/5'];
     h += '<h4 style="font:600 11px/1 var(--f);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-4);margin-top:28px">Payment schedule · ' + esc(q.terms) + '</h4><div class="sched">' + sch.map(function (s) { return '<div><b>' + s[1] + '%</b><span>' + esc(s[0]) + '</span><br><span>' + u.inr(c.total * s[1] / 100) + '</span></div>'; }).join('') + '</div>';
-    h += '<div class="doc-terms"><div><h4>Terms</h4><ol>' + TERMS.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ol></div><div><h4>Bank details</h4><div class="bankbox">' + esc(MR.S.company.name) + '<br>' + esc(MR.S.company.bank.name) + '<br>A/c ' + esc(MR.S.company.bank.ac) + ' · IFSC ' + esc(MR.S.company.bank.ifsc) + '<br><span class="muted">Portfolio project: no payment is taken.</span></div></div></div>';
-    h += '<div class="doc-sign"><div class="sigbox"><div class="sg"><span class="typed" style="font-size:26px;color:var(--ink-2)">Ira Mehta</span></div><small>For Marlow &amp; Reed Interiors LLP · authorised signatory</small></div><div class="sigbox">' + (signed ? '<div class="sg">' + (q.sig.data ? '<img src="' + q.sig.data + '" alt="Signature of ' + esc(q.sig.name) + '">' : '<span class="typed">' + esc(q.sig.name) + '</span>') + '</div><small>Accepted by ' + esc(q.sig.name) + ' · ' + u.fdate(q.sig.at.slice(0, 10)) + ' ' + u.ftime(q.sig.at) + ' · e-signed (' + esc(q.sig.mode) + ')</small>' : '<div class="sg"></div><small>Client acceptance</small>') + '</div></div>';
+    h += '<div class="doc-terms"><div><h4>Terms</h4><ol>' + TERMS.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ol></div><div><h4>Bank details</h4><div class="bankbox">' + esc(MR.co().name) + '<br>' + esc(MR.S.company.bank.name) + '<br>A/c ' + esc(MR.S.company.bank.ac) + ' · IFSC ' + esc(MR.S.company.bank.ifsc) + '<br><span class="muted">Portfolio project: no payment is taken.</span></div></div></div>';
+    h += '<div class="doc-sign"><div class="sigbox"><div class="sg"><span class="typed" style="font-size:26px;color:var(--ink-2)">Ira Mehta</span></div><small>For ' + esc(MR.co().name) + ' · authorised signatory</small></div><div class="sigbox">' + (signed ? '<div class="sg">' + (q.sig.data ? '<img src="' + q.sig.data + '" alt="Signature of ' + esc(q.sig.name) + '">' : '<span class="typed">' + esc(q.sig.name) + '</span>') + '</div><small>Accepted by ' + esc(q.sig.name) + ' · ' + u.fdate(q.sig.at.slice(0, 10)) + ' ' + u.ftime(q.sig.at) + ' · e-signed (' + esc(q.sig.mode) + ')</small>' : '<div class="sg"></div><small>Client acceptance</small>') + '</div></div>';
     if (signed) h += '<div style="text-align:right;margin-top:14px"><span class="stamp" id="stamp">' + ic('check') + 'Accepted</span></div>';
     h += '</article></div>';
     if (open) h += '<div class="signdock noprint"><div class="in"><div class="tt"><b>' + u.inr(c.total) + '</b><span>incl. GST · v' + v.n + ' · ' + esc(q.terms) + ' schedule</span></div>' + MR.btn('pc-changes', 'Request changes', {}) + MR.btn('pc-sign', 'Accept and sign', { cls: 'pri', icon: 'sign' }) + '</div></div>';
@@ -79,7 +79,7 @@
       var st = document.getElementById('stamp'); if (st && MR._justSigned && !MR.still()) { MR._justSigned = false; window.gsap.from(st, { scale: 2.2, opacity: 0, rotate: -18, duration: .7, ease: 'expo.out' }); }
     } };
   };
-  function notFoundPortal(msg) { return '<div class="portal-top"><div class="in"><span class="mark" aria-hidden="true">M<i>&amp;</i>R</span><div class="who"><b>Marlow &amp; Reed</b></div></div></div><div class="page narrow">' + MR.empty('link', 'Link not available', esc(msg)) + '</div>'; }
+  function notFoundPortal(msg) { return '<div class="portal-top"><div class="in">' + MR.markHtml() + '<div class="who"><b>' + esc(MR.studio()) + '</b></div></div></div><div class="page narrow">' + MR.empty('link', 'Link not available', esc(msg)) + '</div>'; }
   function pq() { var t = MR.route().p[1]; return MR.S.quotes.filter(function (x) { return x.token === t; })[0]; }
 
   MR.act['pc-toggle'] = function (el) { MR._pcOpen = MR._pcOpen === el.dataset.id ? null : el.dataset.id; MR.render(); };
@@ -175,7 +175,7 @@
     if (!f) return { html: notFoundPortal('This change-order link is not valid.'), title: 'Change order', crumbs: [] };
     var p = f.p, co = f.co, cl = MR.client(p.clientId), pm = MR.userById(p.pm), intra = p.state === 'HR', gst = co.amount * 0.18;
     var before = MR.projValue(p) - (co.status === 'approved' ? co.amount : 0);
-    var h = (preview ? '<div class="preview-bar noprint">Previewing ' + esc(co.no) + ' as the client. <a href="#/project/' + p.id + '?tab=cos">Back to Studio OS</a></div>' : '') + '<div class="portal-top"><div class="in"><span class="mark" aria-hidden="true">M<i>&amp;</i>R</span><div class="who"><b>Marlow &amp; Reed</b><span>' + esc(p.code) + ' · ' + esc(co.no) + '</span></div>' + MR.btn('print', 'Download PDF', { icon: 'download', cls: 'sm' }) + '</div></div><div class="page narrow" style="padding-top:28px">';
+    var h = (preview ? '<div class="preview-bar noprint">Previewing ' + esc(co.no) + ' as the client. <a href="#/project/' + p.id + '?tab=cos">Back to Studio OS</a></div>' : '') + '<div class="portal-top"><div class="in">' + MR.markHtml() + '<div class="who"><b>' + esc(MR.studio()) + '</b><span>' + esc(p.code) + ' · ' + esc(co.no) + '</span></div>' + MR.btn('print', 'Download PDF', { icon: 'download', cls: 'sm' }) + '</div></div><div class="page narrow" style="padding-top:28px">';
     if (co.status === 'approved') h += '<div class="banner ok noprint">' + ic('check') + '<div class="bt"><b>Approved by ' + esc(co.signedBy) + ' on ' + u.fdate(co.decidedAt.slice(0, 10)) + '</b>Work on this change is scheduled. It is billed 100% on approval.</div></div>';
     if (co.status === 'rejected') h += '<div class="banner noprint">' + ic('x') + '<div class="bt"><b>Declined</b>' + esc(co.clientNote || '') + '</div></div>';
     h += '<article class="doc"><header class="doc-hd">' + companyBlock() + '<div class="dt"><h1>Change order</h1><span>' + esc(co.no) + ' · ' + esc(p.code) + '</span><span>Raised ' + u.fdate(co.created.slice(0, 10)) + '</span></div></header>';

@@ -47,7 +47,7 @@
   MR.act['col-call'] = function () { COL.onCall = !COL.onCall; if (COL.onCall) COL.t0 = Date.now(); else clearInterval(COL.timer); MR.render(); };
   MR.act['col-wa'] = function () {
     var iv = MR.invoice(COL.i), c = MR.client(iv.clientId), st = MR.invState(iv), first = c.contact.split(' (')[0].replace(/^Dr\s+/, 'Dr ').split(' ')[0];
-    MR.copy('Hi ' + first + ', a gentle reminder about invoice ' + iv.no + ' (' + u.inr(st.balance) + ') for ' + MR.project(iv.projectId).name.split(',')[0] + '. If it is already paid, please share the UTR and we will reconcile it today. · Rakesh, Marlow & Reed', 'Reminder copied. Paste it into WhatsApp.');
+    MR.copy('Hi ' + first + ', a gentle reminder about invoice ' + iv.no + ' (' + u.inr(st.balance) + ') for ' + MR.project(iv.projectId).name.split(',')[0] + '. If it is already paid, please share the UTR and we will reconcile it today. · Rakesh, ' + MR.studio(), 'Reminder copied. Paste it into WhatsApp.');
   };
   MR.act['col-out'] = function (el) { COL.out = COL.out === el.dataset.v ? null : el.dataset.v; var y = window.scrollY; MR.render(); window.scrollTo(0, y); var n = document.getElementById('colNote'); if (n) n.focus({ preventScroll: true }); };
   MR.act['col-save'] = function (el) {
