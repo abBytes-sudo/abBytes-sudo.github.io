@@ -212,3 +212,37 @@ body.cs-rew{--c-bg:#0f1830;--c-ink:#f4f1ea;--c-dim:#aeb7cf;--c-acc:#f5a524;--c-a
 }
 /* reduced motion on a wide screen: the still crops sit two to a row instead of filling the page width */
 @media (min-width:900px){.cs-rew .cin.flat .cin-stops{grid-template-columns:repeat(2,minmax(0,1fr));gap:44px 40px}}
+
+/* ---- part 5: two months of search work, and where the visitors come from. Four Search Console cards, then the tracker's
+   six sources beside what it does with them. Two slots wait for the owner's figures and carry the hidden attribute
+   until they are typed in: the fourth card and the "Visitors from AI" block. ---- */
+#sources [hidden]{display:none}
+.sr-nums{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));margin-bottom:clamp(26px,4vw,48px)}
+.sr-nums .cs-num{padding:16px 16px 14px}
+.sr-nums .cs-num b{font-size:clamp(28px,2.8vw,40px)}
+.sr-nums .cs-num span{font-size:14.5px}
+.sr{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(26px,4vw,60px);align-items:start}
+.sr-fig{min-width:0;padding:22px 22px 18px;border-radius:20px;background:#0b1226;color:#f4f1ea;box-shadow:0 30px 60px -36px rgba(14,12,18,.5)}
+.sr-fig h3{font:650 18px/1.3 var(--dis)}
+.sr-fig .note{margin-top:4px;font:500 12.5px/1.45 var(--mono);color:#aeb7cf}
+.sr-ai{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.12)}
+.sr-ai ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.sr-ai li{padding:16px;border-radius:14px;background:#16223f;border:1px solid rgba(255,255,255,.12)}
+.sr-ai b{display:block;font:750 clamp(30px,3.4vw,46px)/1 var(--dis);letter-spacing:-.03em;color:#d5c6ff;font-variant-numeric:tabular-nums}
+.sr-ai li:first-child b{color:#ffc35c}
+.sr-ai span{display:block;margin-top:8px;font-size:15px;color:#e6e9f3}
+.sr-ai .note{margin-top:12px}
+.sr-rows{margin-top:16px}
+.sr-rows li{display:grid;grid-template-columns:14px minmax(0,1fr);gap:2px 12px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(255,255,255,.12)}
+.sr-rows li::before{content:"";grid-row:span 2;align-self:start;width:10px;height:10px;margin-top:7px;border-radius:50%;background:var(--sc,#8f98b4)}
+.sr-rows b{font:650 16.5px/1.25 var(--dis)}
+.sr-rows span{grid-column:2;font-size:14px;line-height:1.4;color:#aeb7cf}
+.sr-rows .g{--sc:#f5a524}.sr-rows .ai{--sc:#b79cff}.sr-rows .so{--sc:#ff8fb6}.sr-rows .ag{--sc:#5fd39a}.sr-rows .di{--sc:#9aa6c4}.sr-rows .ot{--sc:#6f7b9c}
+.sr-rows .ai b::after{content:"its own line since 18 Sep 2026";margin-left:10px;padding:3px 8px;border-radius:99px;background:rgba(183,156,255,.16);font:500 11px/1 var(--mono);color:#d5c6ff;white-space:nowrap;vertical-align:2px}
+.sr-fig figcaption{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);font:500 12px/1.4 var(--mono);color:#aeb7cf}
+.sr-tx{min-width:0}
+.sr-does li{padding:14px 0;border-top:1px solid var(--hair);font-size:16px;line-height:1.5;color:var(--txt-c)}
+.sr-does li:first-child{border-top:1.5px solid var(--k)}
+.sr-does b{color:var(--k);font-weight:650}
+@media (max-width:980px){.sr{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.sr-nums{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.sr-nums .cs-num{padding:14px 13px 13px}.sr-rows .ai b::after{display:block;width:max-content;margin:6px 0 2px}}
