@@ -6,6 +6,11 @@
   function busyBtn(btn, on, label) { btn.classList.toggle('busy', on); if (label) $('span:not(.arr)', btn).textContent = label; }
   function pushStore(key, rec) { var l = F.get(key, []); l.unshift(rec); F.set(key, l); return rec; }
 
+  /* On pages that start their scripts after first paint, the critical CSS holds the hero's animated words back.
+     Release them once motion.js has set their entrance (it waits for the fonts too, and registered first), so nothing flashes. */
+  (function () { var go = function () { document.documentElement.classList.add('fx-go'); };
+    if (reduce || !window.gsap || !window.Motion || Motion.reduce || !document.fonts || !document.fonts.ready) go(); else document.fonts.ready.then(go); })();
+
   /* ---------------- branch pages ---------------- */
   $$('[data-branch-today]').forEach(function (box) {
     var br = box.getAttribute('data-branch-today'), list = F.sessions(new Date()).filter(function (s) { return s.branch === br; });

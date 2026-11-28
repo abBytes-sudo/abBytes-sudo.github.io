@@ -67,6 +67,8 @@
 .fl.seen .fl-fig{animation:flIn .5s var(--ease) both;animation-delay:var(--d)}
 @keyframes flIn{from{opacity:0}to{opacity:1}}
 .fl-tag{position:absolute;z-index:2;transform:translate(14px,-100%) translateY(-18px);display:grid;gap:3px;min-width:176px;padding:10px 12px 11px;background:var(--volt);color:#0C0C0A;box-shadow:0 18px 30px -14px rgba(0,0,0,.8)}
+/* no class on at this hour: the tag goes (display:grid above would otherwise beat the hidden attribute) */
+.fl-tag[hidden]{display:none}
 .fl-tag::after{content:"";position:absolute;left:-14px;bottom:-18px;width:1px;height:18px;background:var(--volt);transform-origin:0 0;transform:translateX(0)}
 .fl-tag::before{content:"";position:absolute;left:-17px;bottom:-21px;width:7px;height:7px;border-radius:50%;background:var(--volt)}
 .fl-tag.flip{transform:translate(-100%,-100%) translate(-14px,-18px)}.fl-tag.flip::after{left:auto;right:-14px}.fl-tag.flip::before{left:auto;right:-17px}

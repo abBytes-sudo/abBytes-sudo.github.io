@@ -229,6 +229,9 @@ a:hover .arr,button:hover .arr,a:focus-visible .arr{transform:translateX(5px)}
 .hero.off .live::after,.hero.off .ring-rot,.hero.off .cue::after{animation-play-state:paused}
 @media (prefers-reduced-motion:no-preference){
   html:not(.intro) .hero-h,html:not(.intro) .hero [data-hero],html:not(.intro) .ring{visibility:hidden;animation:showLate 0s 3.2s forwards}
+  html:not(.intro) .hero-img,html:not(.intro) #heroVideo{transform:scale(1.12)}
+  /* content pages whose scripts start after first paint (html[data-boot]): the same hold for the words motion.js brings in */
+  html[data-boot]:not(.fx-go) [data-now]{visibility:hidden;animation:showLate 0s 3.2s forwards}
 }
 @keyframes showLate{to{visibility:visible}}
 @media (max-width:1180px) and (min-width:861px){.ring.desk{width:116px;height:116px}}

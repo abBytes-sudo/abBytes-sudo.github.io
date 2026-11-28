@@ -25,6 +25,8 @@
   function intro() {
     root.classList.add('intro');
     if (reduce) return;
+    // scripts arrived after the CSS failsafe had already shown the hero (a very slow connection): no second entrance
+    if (window.FORGE_LATE) { cacheRects(); placeRing(); if (!fine) wave(); return; }
     var tl = G.timeline({ defaults: { ease: 'expo.out' } });
     tl.from('.hero-img, #heroVideo', { scale: 1.12, duration: 2.6, ease: 'power3.out' }, 0)
       .from($$('.hl-in', h1), { yPercent: 118, duration: 1.4, stagger: 0.1 }, 0.1)
