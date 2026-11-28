@@ -45,6 +45,19 @@
     if (!top.nextSibling || top.nextSibling.nodeType !== 3) bar.insertBefore(document.createTextNode(' '), top.nextSibling);
   }
 
+  /* the back office behind each site: shown in the top bar so visitors know it exists (owner, 28 Nov) */
+  var BO = { revv: ['dealer.html', 'the dealer back office'], gym: ['staff.html', 'the club back office'], store: ['../orders/admin.html', 'the store back office'],
+    interior: ['studio.html', 'the studio back office'], masonry: ['desk.html', 'the office desk'], watch: ['staff.html', 'the boutique back office'],
+    work: ['staff.html', 'the reseller console'], launch: ['admin.html', 'the sales back office'], build: ['admin.html', 'the site back office'], resort: ['staff.html', 'the front desk'] };
+  var bo = BO[folder], here = location.pathname.split('/').pop() || 'index.html';
+  if (bar && bo && bo[0].split('/').pop() !== here && !bar.querySelector('.bo-link') && ![].some.call(bar.querySelectorAll('a[href]'), function (x) { return x.getAttribute('href').split('#')[0].split('?')[0].split('/').pop() === bo[0].split('/').pop(); })) {
+    var bl = document.createElement('a'); bl.className = 'bo-link'; bl.href = bo[0];
+    bl.style.marginLeft = '14px'; bl.style.whiteSpace = 'nowrap'; bl.style.textDecoration = 'underline'; bl.style.textUnderlineOffset = '3px';
+    var mqb = matchMedia('(max-width: 560px)');
+    var setBo = function () { bl.textContent = mqb.matches ? 'Back office →' : 'See ' + bo[1] + ' →'; bl.style.display = mqb.matches && bar.scrollWidth > bar.clientWidth ? 'none' : ''; };
+    bar.appendChild(bl); setBo(); if (mqb.addEventListener) mqb.addEventListener('change', setBo);
+  }
+
   var a = document.createElement('a'); a.className = 'to-home'; a.href = href;
   a.innerHTML = '<b aria-hidden="true">←</b> ' + short; a.setAttribute('aria-label', text.replace('← ', ''));
   document.body.appendChild(a);
