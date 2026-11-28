@@ -82,7 +82,7 @@
   function summary() {
     var s = spec(), n = C.name || 'my business', mess = window.MESS && window.MESS.length ? window.MESS.join(', ') : '';
     var body = 'Business: ' + n + '\nTrade: ' + P().n + '\nFirst screen: ' + P().home + '\nModules: ' + s.m.map(function (x) { return x[1]; }).join(', ') + '\nScreens: ' + s.n + '\nLook: ' + s.th + (C.color ? ', brand colour ' + C.color : '') + '\nRoles: ' + s.r + '\nAutomations: ' + (s.a.length ? s.a.map(function (x) { return x[1] + ' → ' + x[2].join(' → '); }).join('; ') : 'none yet') + '\nTypical timeline: ' + s.lo + ' to ' + s.hi + ' weeks' + (mess ? '\nOur mess: ' + mess : '') + '\nLink to this configuration: ' + location.href.split('#')[0] + '#b=' + pack() + '\n\nHow we work today:\n';
-    var href = 'mailto:abhimasih0505@gmail.com?subject=' + encodeURIComponent('A system for ' + n) + '&body=' + encodeURIComponent(body);
+    var href = 'mailto:contact.abbytes@gmail.com?subject=' + encodeURIComponent('A system for ' + n) + '&body=' + encodeURIComponent(body);
     sum2.textContent = ''; A(sum2, E('h4', '', (C.name || 'Your') + (C.name ? '’s' : '') + ' system'));
     var dl = E('dl'); [['Modules', s.m.length ? s.m.length + ', with ' + s.n + ' screens' : 'None yet'], ['Roles', ROLES.length + ', one view each'], ['Automations', s.a.length + ' on'], ['Typical timeline', s.lo + ' to ' + s.hi + ' weeks']].forEach(function (x) { A(dl, E('dt', '', x[0]), E('dd', '', x[1])); }); sum2.appendChild(dl);
     sum2.appendChild(E('small', '', 'Two weeks to listen and map, the rest to build, test and launch. A first estimate, not a quote.'));

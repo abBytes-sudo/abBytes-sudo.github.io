@@ -17,7 +17,7 @@
   var form = d.getElementById('ask');
   if (!form) return;
   var name = form.elements.name, company = form.elements.company, why = form.elements.why, status = d.getElementById('ask-st');
-  var TO = 'abhimasih0505@gmail.com';
+  var TO = 'contact.abbytes@gmail.com';
   function say(text, link) {
     status.textContent = text;
     if (link) {

@@ -42,7 +42,7 @@
   if (!reduce) setInterval(function () { if (!howOn || held) return; at = (at + 1) % 6; lit(at === 5 ? -1 : at); }, 1150); else lit(0);
 
   /* reveals and the formula bar for the sections after the city */
-  var SEC = { sheet: ['A1:H2', '=RESULTS(live_systems)'], how: ['B1', '=LAUNCH(BUILD(DECIDE(MAP(LISTEN(your_team)))))'], contact: ['C1', '=EMAIL("abhimasih0505@gmail.com")'] }, secNow = '';
+  var SEC = { sheet: ['A1:H2', '=RESULTS(live_systems)'], how: ['B1', '=LAUNCH(BUILD(DECIDE(MAP(LISTEN(your_team)))))'], contact: ['C1', '=EMAIL("contact.abbytes@gmail.com")'] }, secNow = '';
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
     [].forEach.call(d.querySelectorAll('.rv'), function (el) { io.observe(el); });
@@ -54,7 +54,7 @@
   } else [].forEach.call(d.querySelectorAll('.rv'), function (el) { el.classList.add('in'); });
 
   var copy = $('#copy');
-  copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('abhimasih0505@gmail.com').then(done, done); else done(); });
+  copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('contact.abbytes@gmail.com').then(done, done); else done(); });
 
   /* the city: scroll position → rise, stop, outro */
   var world = $('#world'), track = $('#city'), cap = $('#cap'), rowsEl = $('#rows'), api = null, cur = -1, inCity = false, busy = false;

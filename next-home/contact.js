@@ -16,7 +16,7 @@
   'use strict';
   var d = document, f = d.getElementById('cf'), sec = d.getElementById('contact');
   if (!f || !sec || !window.fetch || !window.JSON) return;            // the email address beside the form stays the way in
-  var KEY = 'a97e9109-fa83-484f-8a86-9b3b484e08dc', API = 'https://api.web3forms.com/submit', MAIL = 'abhimasih0505@gmail.com', MEM = 'am-contact';
+  var KEY = 'a97e9109-fa83-484f-8a86-9b3b484e08dc', API = 'https://api.web3forms.com/submit', MAIL = 'contact.abbytes@gmail.com', MEM = 'am-contact';
   var $ = function (s, r) { return (r || d).querySelector(s); }, $$ = function (s, r) { return [].slice.call((r || d).querySelectorAll(s)); };
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var nm = $('#cf-name'), em = $('#cf-email'), ph = $('#cf-phone'), phOpt = $('#cf-phone-opt'), msg = $('#cf-msg'), msgW = $('#cf-msgw'), rew = $('#cf-rew'), more = $('#cf-more'), xb = $('#cf-xb');

@@ -168,7 +168,7 @@
     io.observe(map); [].forEach.call(d.querySelectorAll('.rv'), function (el) { io.observe(el); });
   } else [].forEach.call(d.querySelectorAll('.rv'), function (el) { el.classList.add('in'); });
 
-  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('abhimasih0505@gmail.com').then(done, done); else done(); });
+  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('contact.abbytes@gmail.com').then(done, done); else done(); });
   var rT = 0, lw = innerWidth; addEventListener('resize', function () { clearTimeout(rT); rT = setTimeout(function () { if (innerWidth === lw) return; lw = innerWidth; mine.forEach(function (g) { g.remove(); }); mine = []; layout(); }, 160); });
   function boot() { layout(); if (reduce) { T = 1; draw(); } else setTimeout(function () { to(1); }, 700); }
   if (d.fonts && d.fonts.ready) d.fonts.ready.then(boot, boot); else boot();

@@ -9,7 +9,7 @@
   var RISE = 100, STEP = mobile ? 52 : 58, OUT = 130, END = RISE + (N - 1) * STEP + OUT;
   function thumb(w, big) { return w.img ? 'img/' + w.img + (big ? '' : '-s') + '.webp' : w.card ? 'img/cards/' + w.card + (big ? '' : '-480') + '.webp' : ''; }
 
-  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('abhimasih0505@gmail.com').then(done, done); else done(); });
+  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('contact.abbytes@gmail.com').then(done, done); else done(); });
 
   var cv = $('#gl'), gl = null; try { gl = cv.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' }); } catch (e) { /* no WebGL */ }
   $('#fall').style.setProperty('--len', END);

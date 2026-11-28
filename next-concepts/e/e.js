@@ -15,7 +15,7 @@
     var a = E('a'); a.href = w.href; a.appendChild(E('span', '', (i < 9 ? '0' : '') + (i + 1))); a.appendChild(d.createTextNode(w.name));
     a.addEventListener('click', function (e) { if (!root.classList.contains('still')) { e.preventDefault(); go(i); } }); rail.appendChild(a); links.push(a);
   });
-  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('abhimasih0505@gmail.com').then(done, done); else done(); });
+  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('contact.abbytes@gmail.com').then(done, done); else done(); });
   if (reduce) { root.classList.add('still', 'solid'); [].forEach.call(d.querySelectorAll('a[href="#fly"]'), function (a) { a.setAttribute('href', '#rail'); }); return; }
 
   /* windows in space */

@@ -87,7 +87,7 @@
     b.addEventListener('click', function () { root.style.setProperty('--b', c[0]); root.style.setProperty('--bs', c[1]); [].forEach.call($('#cols').children, function (x) { x.setAttribute('aria-pressed', x === b); }); }); $('#cols').appendChild(b);
   });
   function brief() {
-    var n = name || 'my business', href = 'mailto:abhimasih0505@gmail.com?subject=' + encodeURIComponent('A system for ' + n) + '&body=' + encodeURIComponent('Business: ' + n + '\nTrade: ' + P.n + (window.MESS && window.MESS.length ? '\nOur mess: ' + window.MESS.join(', ') : '') + '\n\nHow we work today:\n');
+    var n = name || 'my business', href = 'mailto:contact.abbytes@gmail.com?subject=' + encodeURIComponent('A system for ' + n) + '&body=' + encodeURIComponent('Business: ' + n + '\nTrade: ' + P.n + (window.MESS && window.MESS.length ? '\nOur mess: ' + window.MESS.join(', ') : '') + '\n\nHow we work today:\n');
     $('#appName').textContent = name || 'Your business'; $('#endH').textContent = name ? 'Let’s build ' + name + ' its own system.' : 'Let’s build yours.';
     $('#cta1').textContent = name ? 'Build ' + name + ' for real →' : 'Build this for real →'; $('#cta2').href = $('#mail').href = href;
   }

@@ -21,7 +21,7 @@
     b.addEventListener('click', function () { [].forEach.call(tabs.children, function (c) { c.setAttribute('aria-pressed', c === b); }); [].forEach.call(grid.children, function (a) { a.hidden = t[0] !== 'all' && a.dataset.cat !== t[0]; }); });
     tabs.appendChild(b);
   });
-  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('abhimasih0505@gmail.com').then(done, done); else done(); });
+  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('contact.abbytes@gmail.com').then(done, done); else done(); });
 
   var cv = $('#gl'), gl = null; try { gl = cv.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' }); } catch (e) { /* no WebGL */ }
   $('#fall').style.setProperty('--len', END);
@@ -120,7 +120,7 @@
     c.el.remove(); chips.splice(chips.indexOf(c), 1); yours.push(c.text);
     var y = $('#yours'), a = d.createElement('a'), sub = 'Our mess: ' + yours.join(', '); y.textContent = ''; y.classList.add('on');
     y.appendChild(d.createTextNode('You threw in ')); var b = d.createElement('b'); b.textContent = '“' + yours.join('”, “') + '”'; y.appendChild(b); y.appendChild(d.createTextNode('. It has a place in here now.'));
-    a.href = 'mailto:abhimasih0505@gmail.com?subject=' + encodeURIComponent(sub); a.textContent = 'Tell me about it →'; y.appendChild(a); $('#mail').href = a.href;
+    a.href = 'mailto:contact.abbytes@gmail.com?subject=' + encodeURIComponent(sub); a.textContent = 'Tell me about it →'; y.appendChild(a); $('#mail').href = a.href;
   }
   function stepChips(dt) {
     var amb = clamp(1.2 - sm(st.r) * 1.4) * clamp(1 - st.o * 4), i, c, n, r2, r, a, op, k;

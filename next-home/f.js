@@ -10,7 +10,7 @@
   var BASE = root.dataset.base || '';
   function thumb(w) { return w.img ? BASE + 'img/' + w.img + '-c.webp' : w.card ? BASE + 'img/cards/' + w.card + '.webp' : ''; }      // -c: the top of the page capture, the only part a window shows
 
-  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('abhimasih0505@gmail.com').then(done, done); else done(); });
+  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('contact.abbytes@gmail.com').then(done, done); else done(); });
 
   var cv = $('#gl'), gl = null; try { gl = cv.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' }); } catch (e) { /* no WebGL */ }
   /* once the page has moved, the menu gets a solid bar, so nothing (the hero's game hint, its counter, any text) shows through it */

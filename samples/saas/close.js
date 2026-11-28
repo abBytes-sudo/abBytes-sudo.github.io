@@ -12,7 +12,7 @@
   /* heading as masked lines: [{t:'html'}] -> block spans, joined by spaces so assistive tech reads words apart */
   function lines(prefix, arr) { return arr.map(function (l) { return '<span class="' + prefix + '-ln"><span class="' + prefix + '-li">' + l + '</span></span>'; }).join(' '); }
   function QH(q, ts, h2, lede) { return window.OrbitUI && OrbitUI.qh ? OrbitUI.qh(q, ts, h2, lede) : '<h2>' + esc(h2) + '</h2>'; }
-  var MAIL = 'abhimasih0505@gmail.com';
+  var MAIL = 'contact.abbytes@gmail.com';
   function isStatic(ctx) { return !ctx || !ctx.gsap || !ctx.animated || ctx.reduce; }
   function revealLines(ctx, root, prefix, trigger) {
     if (isStatic(ctx)) return;

@@ -87,7 +87,7 @@
     b.addEventListener('click', function () { root.style.setProperty('--b', c[0]); root.style.setProperty('--bs', c[1]); [].forEach.call($('#cols').children, function (x) { x.setAttribute('aria-pressed', x === b); }); }); $('#cols').appendChild(b);
   });
   function brief() {
-    var n = name || 'my business', href = 'mailto:abhimasih0505@gmail.com?subject=' + encodeURIComponent('A system for ' + n) + '&body=' + encodeURIComponent('Business: ' + n + '\nTrade: ' + P.n + '\n\nHow we work today:\n');
+    var n = name || 'my business', href = 'mailto:contact.abbytes@gmail.com?subject=' + encodeURIComponent('A system for ' + n) + '&body=' + encodeURIComponent('Business: ' + n + '\nTrade: ' + P.n + '\n\nHow we work today:\n');
     $('#appName').textContent = name || 'Your business'; $('#endH').textContent = name ? 'Let’s build ' + name + ' its own system.' : 'Tell me how your team works today.';
     $('#cta1').textContent = name ? 'Build ' + name + ' for real →' : 'Build this for real →'; $('#cta2').href = $('#mail').href = href;
   }
@@ -107,6 +107,6 @@
       ix.appendChild(a);
     });
   }
-  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('abhimasih0505@gmail.com').then(done, done); else done(); });
+  var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('contact.abbytes@gmail.com').then(done, done); else done(); });
   render(); brief(); setTimeout(function () { app.classList.remove('loose'); }, reduce ? 0 : 900);
 })();

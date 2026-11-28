@@ -174,7 +174,7 @@
   /* ---------- the brief ---------- */
   var TEAM = ['Just me', '2 to 5 people', '6 to 20 people', 'More than 20 people'];
   var GOALS = [['Answer FAQs', 'answer FAQs'], ['Book appointments', 'book appointments'], ['Qualify leads', 'qualify leads'], ['Track orders', 'track orders'], ['Hand over to my team', 'hand over to my team']];
-  var MAILTO = 'abhimasih0505@gmail.com';
+  var MAILTO = 'contact.abbytes@gmail.com';
   function brief() {
     var el = $('#bf'); if (!el) return;
     var st = { name: '', channels: t.brief.channels.slice(), goals: t.brief.goals.slice(), team: '2 to 5 people', notes: '' };

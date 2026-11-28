@@ -201,7 +201,7 @@
     } else { repaint(); pick(0, true); ab.set(aLines, { themes: aTh }); [].forEach.call(d.querySelectorAll('.rv'), function (el) { el.classList.add('in'); }); }
     var rT = 0, lastW = innerWidth;
     addEventListener('resize', function () { clearTimeout(rT); rT = setTimeout(function () { if (innerWidth === lastW) return; lastW = innerWidth; if (bodies) { hb.cells.forEach(function (c) { c.off = false; }); bodies = null; held = false; cancelAnimationFrame(fraf); fg.clearRect(0, 0, fx.width, fx.height); } [hb, clock, db, ab].forEach(function (b) { b.fit(); }); links(); }, 180); });
-    var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.firstElementChild.textContent = 'Copied'; setTimeout(function () { copy.firstElementChild.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('abhimasih0505@gmail.com').then(done, done); else done(); });
+    var copy = $('#copy'); copy.addEventListener('click', function () { var done = function () { copy.firstElementChild.textContent = 'Copied'; setTimeout(function () { copy.firstElementChild.textContent = 'Copy the address'; }, 1800); }; if (navigator.clipboard) navigator.clipboard.writeText('contact.abbytes@gmail.com').then(done, done); else done(); });
   }
   var went = false, begin = function () { if (!went) { went = true; start(); } };
   if (d.fonts && d.fonts.load) { d.fonts.load('40px "Bebas Neue"').then(begin, begin); setTimeout(begin, 1500); } else begin();
