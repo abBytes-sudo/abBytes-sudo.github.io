@@ -146,7 +146,17 @@ body.cs-crm{--c-bg:#0f1830;--c-ink:#f4f1ea;--c-dim:#aeb7cf;--c-acc:#f5a524;--c-a
 .mv-d .o{stroke:#8f7fd0}
 .mv-box{fill:rgba(245,165,36,.12);stroke:#ffd27f;stroke-width:2;stroke-dasharray:6 5}
 
-/* band C: the two links, as two phones. The client's page is light, like the website; the team's is the CRM's navy */
+/* band C: two real screens of the CRM's own turn-by-turn, in the same phone bodies as the links below, and one line
+   that says what they prove */
+.nv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,34px);padding:clamp(14px,3vw,30px);border-radius:18px;background:#0b1226;box-shadow:0 30px 60px -36px rgba(14,12,18,.5)}
+.nv-ph{display:flex;flex-direction:column;align-items:center;min-width:0}
+.nv .lk-b{flex:none;display:block;max-width:252px}
+.nv img{display:block;width:100%;height:auto;border-radius:19px}
+.nv-win{margin-bottom:20px;padding:18px 20px;border-radius:var(--r);background:var(--c-tint);border:1px solid #f1d9a8;font-size:17px;line-height:1.45;color:var(--txt-c)}
+.nv-win b{display:block;margin-bottom:4px;font:700 clamp(21px,2vw,26px)/1.15 var(--dis);letter-spacing:-.015em;color:var(--k)}
+@media (max-width:480px){.nv img{border-radius:16px}}
+
+/* band D: the two links, as two phones. The client's page is light, like the website; the team's is the CRM's navy */
 .lk{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,3vw,34px);padding:clamp(14px,3vw,30px);border-radius:18px;background:#0b1226;box-shadow:0 30px 60px -36px rgba(14,12,18,.5)}
 .lk-ph{display:flex;flex-direction:column;align-items:center;min-width:0}
 .lk-tag{margin-bottom:10px;font:500 12px/1.3 var(--mono);color:#ffd27f;text-align:center}

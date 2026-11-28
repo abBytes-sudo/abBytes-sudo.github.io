@@ -1,0 +1,164 @@
+/* SEO case study: the wardrobe and the page's own pieces, on top of cs.css.
+   A deep green-black with a signal green: the colour of a line going up. Charts are inline SVG, coloured here (no inline styles). */
+body.cs-seo{--c-bg:#0a1412;--c-ink:#f1f5f0;--c-dim:#a8b9b2;--c-acc:#5ff0c2;--c-acc-ink:#06221b;--c-tint:#e3f8f0;--c-line:rgba(255,255,255,.14);
+  --sx:#0b8a70;--sx2:#6a3df0;--sx-ev:#a15c00}
+
+/* draft banner and placeholder marks: impossible to mistake for real figures */
+.sx-draft{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin:0 0 20px;padding:11px 14px;border-radius:12px;border:1.5px dashed var(--gold);background:rgba(244,181,86,.1);font-size:14.5px;line-height:1.45;color:#f6e4c2}
+.sx-draft b{font:500 11.5px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:5px 8px;border-radius:6px;background:var(--gold);color:#201400}
+.ph{font:inherit;color:inherit;text-decoration:underline dashed;text-decoration-thickness:1.5px;text-underline-offset:.16em;text-decoration-color:#d9861a}
+.ph-tag{display:inline-block;margin-left:8px;padding:3px 7px;border-radius:6px;background:#fff1d6;color:#7a4a00;font:500 10.5px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;vertical-align:middle;white-space:nowrap}
+.sx-confirm{margin:-14px 0 24px;padding:10px 14px;border-radius:12px;border:1.5px dashed #d9861a;background:#fff8ea;font-size:14.5px;color:#6b4200;max-width:44em}
+
+/* hero: the proof card */
+.cs-seo .cs-hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 70% at 86% 18%,rgba(95,240,194,.16),transparent 70%),radial-gradient(40% 50% at 8% 96%,rgba(244,181,86,.1),transparent 70%)}
+.cs-seo .cs-hero-in{position:relative;align-items:end}
+.cs-seo .cs-hero h1{font-size:clamp(34px,4.1vw,60px);max-width:16em}
+.sx-proof{position:relative;margin:0;padding:clamp(20px,2.2vw,30px);border-radius:22px;background:#f4f7f2;color:var(--k);box-shadow:7px 7px 0 var(--c-acc)}
+.sx-proof figcaption{display:flex;align-items:center;justify-content:space-between;gap:10px;font:500 11.5px/1.2 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:#3c4a45}
+.sx-big{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font:700 clamp(44px,5.4vw,84px)/.95 var(--dis);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.sx-big>span{font-size:.46em;font-weight:600;letter-spacing:-.02em;color:#56645f}
+.sx-big i{font-style:normal;font-size:.4em;color:var(--sx)}
+.sx-when{margin-top:6px;font:500 12.5px/1.3 var(--mono);color:#56645f}
+.sx-spark{width:100%;height:clamp(70px,9vw,120px);margin-top:10px}
+.sx-spark .ar{fill:rgba(11,138,112,.14)}
+.sx-spark .ln{fill:none;stroke:var(--sx);stroke-width:3;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.sx-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:14px;border-top:2px solid var(--k)}
+.sx-tiles div{padding:12px 12px 0 0}
+.sx-tiles div+div{padding-left:12px;border-left:1px solid #cfd8d3}
+.sx-tiles dt{font-size:13px;line-height:1.3;color:#3c4a45}
+.sx-tiles dd{margin:5px 0 0;font:700 clamp(22px,2.2vw,30px)/1 var(--dis);letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.sx-tiles dd.s{margin-top:4px;font:500 12px/1.3 var(--mono);letter-spacing:0;color:#56645f}
+.sx-ai-l{display:grid;gap:3px;margin-top:14px;padding:11px 13px;border-radius:12px;background:#e3efe9;font-size:14.5px;line-height:1.4;color:#24302c}
+.sx-ai-l b{font:500 11px/1.2 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:#3c4a45}
+.sx-src{margin-top:14px;font:500 12px/1.4 var(--mono);color:#56645f}
+.cs-seo .cs-mask{margin-top:22px}
+
+/* 1 where it started */
+.sx-start{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:start}
+.sx-start .cs-prose p{font-size:clamp(17px,1.3vw,19px)}
+.sx-base{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;margin:0}
+.sx-base div{padding:14px 0 16px;border-top:2px solid var(--k)}
+.sx-base dt{font-size:14.5px;color:var(--mut)}
+.sx-base dd{margin:4px 0 0;font:700 clamp(26px,2.6vw,36px)/1 var(--dis);letter-spacing:-.025em;color:var(--k);font-variant-numeric:tabular-nums}
+
+/* 2 the charts */
+.sx-charts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.sx-charts .cs-chart{margin:0}
+.sx-c1,.sx-charts .sx-tbl{grid-column:1/-1}
+.sx-svg.sx-phone,.sx-c1 .sx-svg.sx-std{display:none}
+.sx-evs{display:none}
+.sx-charts .sx-tbl{margin-top:0}
+.cs-seo .cs-chart h3{display:flex;flex-wrap:wrap;align-items:center;gap:4px 0;font-size:19px;font-weight:700;letter-spacing:-.01em}
+.cs-seo .cs-chart .note{font:400 14.5px/1.45 var(--txt);color:var(--txt-c);max-width:44em}
+.sx-svg text{font-family:var(--mono);font-size:11.5px;fill:#5d5970}
+.sx-svg .gx{stroke:#e4e1ea;stroke-width:1}
+.sx-svg .ln{fill:none;stroke:var(--sx);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.sx-svg .ar{fill:rgba(11,138,112,.1)}
+.sx-svg .dot{fill:#fff;stroke:var(--sx);stroke-width:2.5}
+.sx-svg .end{font:700 17px/1 var(--dis);fill:var(--k);font-family:var(--dis)}
+.sx-svg .endu{font-size:10.5px}
+.sx-svg .start{font-size:12px;fill:var(--k);font-weight:500}
+.sx-svg .ev{stroke:var(--sx-ev);stroke-width:1.2;stroke-dasharray:3 4}
+.sx-svg .evd{fill:var(--sx-ev)}
+.sx-svg .evt{fill:var(--sx-ev);font-size:11px;font-weight:500}
+.sx-svg .wm{font:800 46px/1 var(--dis);font-family:var(--dis);letter-spacing:.04em;fill:#b3261e;opacity:.11}
+.c-imp .ln{stroke:var(--sx2)}
+.c-imp .ar{fill:rgba(106,61,240,.08)}
+.c-imp .dot{stroke:var(--sx2)}
+.c-pos .ln{stroke:var(--k)}
+.c-pos .dot{stroke:var(--k)}
+.sx-svg .bar{fill:#c9ded7}
+.c-idx .bar{fill:var(--k)}
+.sx-svg .bv{font-size:12px;fill:var(--k);font-weight:500}
+.sx-svg .hl{font-family:var(--txt);font-size:14px;fill:var(--k)}
+.sx-svg .hv{font-size:13px;fill:var(--k);font-weight:500}
+.sx-svg .bar.hi{fill:var(--sx)}
+.c-ch .bar{fill:#cfcbd9}
+.c-ch .bar.hi{fill:var(--k)}
+/* the lines draw once the chart is on screen; without the script they are simply there */
+.cs-seo .cs-chart .ln{stroke-dasharray:1;stroke-dashoffset:0;transition:none}
+.cs-seo .cs-chart.on .ln{animation:sx-draw 1.7s cubic-bezier(.3,.7,.2,1) both}
+.cs-seo .cs-chart.on .ar{animation:sx-fade 1.2s .7s both}
+.cs-seo .cs-chart .bar{transform:none;transition:none}
+.cs-seo .cs-chart.on .bar{transform-box:fill-box;transform-origin:50% 100%;animation:sx-grow .9s cubic-bezier(.2,.8,.2,1) both}
+.cs-seo .sx-ai.on .bar,.cs-seo .sx-ch.on .bar{transform-origin:0 50%;animation-name:sx-wide}
+@keyframes sx-draw{from{stroke-dashoffset:1}}
+@keyframes sx-fade{from{opacity:0}}
+@keyframes sx-grow{from{transform:scaleY(.02)}}
+@keyframes sx-wide{from{transform:scaleX(.02)}}
+.sx-proof .ln{stroke-dasharray:1;animation:sx-draw 1.8s .3s cubic-bezier(.3,.7,.2,1) both}
+
+/* the data as a table */
+.sx-tw{overflow-x:auto;padding:0 20px 18px}
+.sx-tbl table{width:100%;min-width:420px;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+.sx-tbl th,.sx-tbl td{padding:9px 14px 9px 0;text-align:right;border-top:1px solid var(--hair)}
+.sx-tbl th:first-child{text-align:left}
+.sx-tbl thead th{font:500 12px/1.3 var(--mono);color:var(--mut);border-top:0}
+.sx-tbl tbody th{font-weight:600;color:var(--k)}
+
+/* 3 what I did */
+.sx-did{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.sx-do{padding:20px;border:2px solid var(--k);border-radius:20px;background:#fff}
+.sx-no{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--c-tint);font:600 13px/1 var(--mono);color:var(--k);text-transform:uppercase}
+.sx-do h3{margin-top:14px;font:700 22px/1.12 var(--dis);letter-spacing:-.015em;color:var(--k);text-wrap:balance}
+.sx-do p{margin-top:8px;font-size:15.5px;line-height:1.45}
+.sx-do ul,.sx-get ul{display:grid;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--hair);font-size:15px;line-height:1.4}
+.sx-do li,.sx-get li{position:relative;padding-left:21px}
+.sx-do li::before,.sx-get li::before{content:"";position:absolute;left:1px;top:.42em;width:10px;height:6px;border-left:2px solid var(--sx);border-bottom:2px solid var(--sx);transform:rotate(-45deg)}
+
+/* 4 results */
+.cs-seo .cs-res .cs-chart{margin-top:16px}
+.cs-seo .cs-num b{font-size:clamp(34px,3.6vw,52px)}
+
+/* 6 what your site gets */
+.sx-gets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.sx-get{display:flex;flex-direction:column;padding:clamp(20px,2.4vw,30px);border:2px solid var(--k);border-radius:22px;background:#fff}
+.sx-k{font:500 11.5px/1.2 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--mut)}
+.sx-get h3{margin-top:10px;font:700 clamp(24px,2.5vw,36px)/1.05 var(--dis);letter-spacing:-.025em;color:var(--k);text-wrap:balance}
+.sx-get.dk{background:var(--c-bg);border-color:var(--c-bg);color:var(--c-ink);box-shadow:7px 7px 0 var(--c-acc)}
+.sx-get.dk h3{color:#fff}
+.sx-get.dk .sx-k{color:var(--c-acc)}
+.sx-get.dk ul{border-top-color:var(--c-line)}
+.sx-get.dk li::before{border-color:var(--c-acc)}
+.sx-get .cs-btn{align-self:flex-start;margin-top:22px}
+.sx-how{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:18px clamp(24px,5vw,80px);margin-top:clamp(36px,5vw,64px)}
+.sx-how h3{font:700 clamp(22px,2.2vw,30px)/1.1 var(--dis);letter-spacing:-.02em;color:var(--k)}
+.sx-how .cs-steps li:last-child{border-bottom:1px solid var(--hair)}
+
+/* 7 questions */
+.sx-faq{display:grid;gap:10px;max-width:920px}
+.sx-faq .cs-drawer{margin-top:0}
+.sx-faq summary{font-size:clamp(17.5px,1.5vw,20px)}
+.sx-ans{padding:0 64px 20px 20px;font-size:16.5px;line-height:1.55;max-width:46em}
+
+@media (max-width:1100px){.sx-did{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:980px){
+  .sx-start,.sx-how{grid-template-columns:minmax(0,1fr)}
+  .sx-charts{grid-template-columns:minmax(0,1fr)}
+  .sx-c1,.sx-charts .sx-tbl{grid-column:auto}
+  .sx-svg.sx-wide{display:none}
+  .sx-c1 .sx-svg.sx-std{display:block}
+}
+@media (max-width:640px){
+  .sx-did,.sx-gets{grid-template-columns:minmax(0,1fr)}
+  .sx-tiles{grid-template-columns:minmax(0,1fr);border-top:0}
+  .sx-tiles div,.sx-tiles div+div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 12px;align-items:baseline;padding:11px 0;border-left:0;border-top:1px solid #cfd8d3}
+  .sx-tiles div:first-child{border-top:2px solid var(--k)}
+  .sx-tiles dd{margin:0;grid-column:2;grid-row:1}
+  .sx-tiles dd.s{grid-column:1/-1;grid-row:2}
+  .sx-proof{box-shadow:5px 5px 0 var(--c-acc)}
+  .sx-get.dk{box-shadow:5px 5px 0 var(--c-acc)}
+  .sx-ans{padding-right:20px}
+  .cs-seo .cs-chart{padding:18px 14px 12px}
+  .sx-svg.sx-std,.sx-c1 .sx-svg.sx-std{display:none}
+  .sx-svg.sx-phone{display:block}
+  .sx-svg .wm.s{font-size:24px}
+  .sx-phone .end{font-size:15px}
+  .sx-evs{display:flex;flex-wrap:wrap;gap:6px 8px;margin:-10px 0 18px;counter-reset:ev;font-size:13.5px;color:var(--txt-c)}
+  .sx-evs li{counter-increment:ev;display:flex;align-items:baseline;gap:6px;padding:5px 10px 5px 6px;border-radius:99px;background:#fff;border:1px solid var(--hair)}
+  .sx-evs li::before{content:counter(ev);display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--sx-ev);color:#fff;font:600 11px/1 var(--mono)}
+  .sx-evs b{font-weight:600;color:var(--k)}
+}
+@media (prefers-reduced-motion:reduce){.cs-seo .cs-chart .ln,.cs-seo .cs-chart .bar,.cs-seo .cs-chart .ar,.sx-proof .ln{animation:none!important}}
+@media print{.sx-draft{border-color:#000;color:#000;background:none}}

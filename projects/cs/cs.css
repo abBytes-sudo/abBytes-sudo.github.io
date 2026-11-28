@@ -252,3 +252,6 @@ button,input,textarea{font:inherit;color:inherit}
 /* the status line: the homepage's words */
 .cs-wl>span:first-child{color:#cfcadb}
 
+/* five links since Services joined the nav: keep them on one line between 761px and 900px */
+.top nav a{white-space:nowrap}
+@media (max-width:900px){.top nav a{padding:8px 8px;font-size:15.5px}}
