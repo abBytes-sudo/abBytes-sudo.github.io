@@ -557,39 +557,55 @@ html.using .top,html.using .cap,html.using .gauge{opacity:0;visibility:hidden;po
 .top nav a{white-space:nowrap}
 @media (max-width:900px){.top nav a{padding:8px 8px;font-size:15.5px}}
 
-/* ---- What I build: five rows, each a link into the Services page. The delivery time sits where a price would ---- */
-.whb{border-top:6px solid var(--k);counter-reset:none}
-.whb li{border-bottom:2px solid var(--hair)}
-.whb a{display:grid;grid-template-columns:44px minmax(0,1.05fr) minmax(0,1.5fr) minmax(0,230px) 34px;gap:6px 22px;align-items:center;padding:20px 10px 20px 0;text-decoration:none;color:var(--k);transition:background .25s,padding .3s cubic-bezier(.2,.8,.2,1)}
-.whb-n{font:700 15px/1 var(--dis);color:var(--vio)}
-.whb b{font:700 clamp(25px,2.9vw,42px)/1.02 var(--dis);letter-spacing:-.025em;text-wrap:balance}
-.whb-d{font-size:16.5px;line-height:1.45;color:#36323f}
-.whb-t{font:700 clamp(18px,1.6vw,22px)/1.15 var(--dis);letter-spacing:-.015em}
-.whb-t small{display:block;margin-bottom:4px;font:500 11.5px/1.2 'JetBrains Mono',ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
-.whb i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--k);font-style:normal;font-size:16px;transition:background .2s,color .2s,transform .3s cubic-bezier(.3,1.4,.5,1)}
-.whb a:hover{background:#f5f4f8;padding-left:14px}
-.whb a:hover i{background:var(--k);color:#fff;transform:translateX(4px)}
-.whb a:focus-visible{outline:3px solid var(--b);outline-offset:-3px}
-.whb-end{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 30px;margin-top:22px;padding:20px 24px;border-radius:20px;background:#f5f4f8}
-.whb-end p{font-size:17px;line-height:1.45;max-width:44em}
-.whb-end p::before{content:"";display:inline-block;width:9px;height:9px;margin-right:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(244,181,86,.3)}
+/* ---- What I build: one compact row of five tiles between "why" and "how", each a link into the Services page.
+   The delivery time sits where a price would. On a phone it folds to a short list. ---- */
+.in.whs{border-top:0;padding-top:0;padding-bottom:clamp(44px,5vw,68px)}
+#how{border-top:2px solid var(--k)}
+.whs-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px 34px;margin-bottom:22px}
+.whs-h h2{font:700 clamp(30px,3.3vw,48px)/1 var(--dis);letter-spacing:-.025em}
+.whs-s{margin-top:8px;font-size:16.5px;color:#36323f}
+.whs-p{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;font:600 16.5px/1.35 var(--txt)}
+.whs-p>span::before{content:"";display:inline-block;width:9px;height:9px;margin-right:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(244,181,86,.3)}
+.whs-p .btn{padding:11px 18px;font-size:16px}
+.whb{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.whb li{display:flex;min-width:0}
+.whb a{position:relative;flex:1;display:flex;flex-direction:column;gap:6px;min-width:0;padding:15px 16px 15px;border:2px solid var(--k);border-radius:18px;background:#fff;color:var(--k);text-decoration:none;transition:background .22s,color .22s,transform .3s cubic-bezier(.2,.8,.2,1)}
+.whb-n{font:700 14px/1 var(--dis);color:var(--vio);transition:color .22s}
+.whb b{margin-top:6px;font:700 clamp(19px,1.75vw,24px)/1.08 var(--dis);letter-spacing:-.02em;text-wrap:balance;min-height:2.16em}
+.whb-d{font-size:14.5px;line-height:1.4;color:#36323f;transition:color .22s}
+.whb-t{margin-top:auto;padding-top:11px;border-top:1px solid var(--hair);font:700 15.5px/1.2 var(--dis);letter-spacing:-.01em;transition:border-color .22s}
+.whb-t small{display:block;margin-bottom:3px;font:500 10.5px/1.2 'JetBrains Mono',ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);transition:color .22s}
+.whb i{position:absolute;right:13px;top:11px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--k);font-style:normal;font-size:13px;transition:background .22s,color .22s,box-shadow .22s,transform .3s cubic-bezier(.3,1.4,.5,1)}
+.whb a:hover{background:var(--k);color:#fff;transform:translateY(-3px)}
+.whb a:hover .whb-n{color:var(--gold)}
+.whb a:hover .whb-d{color:#d9d4e2}
+.whb a:hover .whb-t{border-top-color:rgba(255,255,255,.2)}
+.whb a:hover .whb-t small{color:#b9b4c4}
+.whb a:hover i{background:var(--gold);color:#000;box-shadow:none;transform:translateX(2px)}
+.whb a:focus-visible{outline:3px solid var(--b);outline-offset:3px}
 .in .intro p a.st-svc{margin-left:0;color:var(--k);font-weight:600;white-space:nowrap;text-underline-offset:3px;text-decoration-thickness:1.5px}
 .in .intro p a.st-svc:hover{color:var(--b)}
 .spec .sp-48{display:flex;gap:8px;align-items:baseline;margin-top:10px;font-size:13.5px;line-height:1.4;font-weight:600;color:var(--k)}
 .spec .sp-48::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(244,181,86,.3)}
-@media (max-width:1000px){
-  .whb a{grid-template-columns:36px minmax(0,1fr) minmax(0,200px) 34px;align-items:start}
-  .whb b{grid-column:2}
-  .whb-d{grid-column:2;grid-row:2}
-  .whb-t{grid-column:3;grid-row:1/3}
-  .whb i{grid-column:4;grid-row:1/3;align-self:center}
+@media (max-width:1100px){
+  .whb{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .whb b{min-height:0}
 }
-@media (max-width:640px){
-  .whb a{grid-template-columns:30px minmax(0,1fr) 30px;gap:5px 10px;padding:16px 0}
-  .whb-t{grid-column:2;grid-row:3;margin-top:5px;font-size:16.5px}
-  .whb-t small{margin-bottom:3px}
-  .whb i{grid-column:3;grid-row:1;width:30px;height:30px;align-self:start}
-  .whb a:hover{padding-left:0}
-  .whb-end{padding:18px}
-  .whb-end .btn{width:100%;justify-content:center}
+@media (max-width:760px){
+  .in.whs{display:flex;flex-direction:column;padding-top:0;padding-bottom:42px}
+  .whs-h{display:contents}
+  .whs-h>div{margin-bottom:16px}
+  .whs-p{order:3;margin-top:18px}
+  .whs-p .btn{width:100%;justify-content:center}
+  .whb{order:2;grid-template-columns:minmax(0,1fr);gap:0;border-top:2px solid var(--k)}
+  .whb a{display:grid;grid-template-columns:26px minmax(0,1fr) 26px;gap:2px 10px;align-items:center;padding:12px 0;border:0;border-bottom:1px solid var(--hair);border-radius:0;background:none}
+  .whb-n{grid-row:1/3;align-self:start;margin-top:3px;font-size:13px}
+  .whb b{grid-column:2;margin:0;font-size:18px;min-height:0}
+  .whb-d{display:none}
+  .whb-t{grid-column:2;margin:0;padding:0;border:0;font:500 13.5px/1.3 var(--txt);letter-spacing:0;color:#36323f}
+  .whb-t small{display:none}
+  .whb i{position:static;grid-column:3;grid-row:1/3}
+  .whb a:hover{background:none;color:var(--k);transform:none}
+  .whb a:hover .whb-n{color:var(--vio)}
+  .whb a:hover i{background:var(--k);color:#fff}
 }
