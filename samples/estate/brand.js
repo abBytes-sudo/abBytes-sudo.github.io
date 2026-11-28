@@ -10,7 +10,7 @@
   var SW = [['#B9472A', 'Terracotta'], ['#3B5BDB', 'Indigo'], ['#1E7A4C', 'Forest'], ['#8A3FA0', 'Plum'], ['#0F7B6C', 'Teal'], ['#B7791F', 'Mustard']];
   function clean(s, n) { return String(s == null ? '' : s).replace(/[<>&"'`\\\u0000-\u001f]/g, '').replace(/\s+/g, ' ').trim().slice(0, n); }
   function parse(raw) {
-    if (!raw) return null; var p = raw.split('|'), name = '', city = '';
+    if (!raw) return null; raw = String(raw).replace(/%7C/gi, '|'); var p = raw.split('|'), name = '', city = '';
     try { name = clean(decodeURIComponent(p[0] || ''), 32); city = clean(decodeURIComponent(p[1] || ''), 24); } catch (e) { return null; }
     var hex = /^[0-9a-f]{6}$/i.test(p[2] || '') ? '#' + p[2].toUpperCase() : DEF.hex;
     return name.length >= 2 ? { name: name, city: city || 'your city', hex: hex } : null;
