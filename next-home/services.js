@@ -40,6 +40,9 @@
       es.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('on'); rv.unobserve(x.target); } });
     }, { rootMargin: '0px 0px -8% 0px' });
     $$('.rv').forEach(function (el) { rv.observe(el); });
+    addEventListener('scroll', function () {            // belt and braces: anything already above the fold line is shown, observer or not
+      $$('.rv').forEach(function (el) { if (!el.classList.contains('on') && el.getBoundingClientRect().top < innerHeight * .96) el.classList.add('on'); });
+    }, { passive: true });
     setTimeout(function () { $$('.rv').forEach(function (el) { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('on'); }); }, 900);
   }
 
@@ -59,7 +62,7 @@
 
   /* 5 the estimate. One package a service, any number of add-ons. Kept for the visit (sessionStorage), so coming back keeps the list.
      The form link: index.html?pick=website:standard,crm:starter&addon=care,seo-setup#contact (contact.js reads it). */
-  var picks = $$('.pick'), list = d.getElementById('bill-l');
+  var picks = $$('.pick[data-kind]'), list = d.getElementById('bill-l'), rush = d.getElementById('bill-rush'), urgent = false;
   if (!picks.length || !list) return;
   root.classList.add('sel');
   var KEY = 'am-est', order = [], tray = d.getElementById('tray'), say = d.getElementById('est-say'), endSec = d.getElementById('estimate'), endSeen = false;
@@ -107,13 +110,14 @@
       else if (counted) notes.push('Working time, from the day your content and approvals arrive.');
       if (later && counted) notes.push(later === 1 ? 'One part is timed in the estimate itself.' : later + ' parts are timed in the estimate itself.');
       if (!counted && later) notes.push('These are scoped from your brief, so the timeline comes with the estimate.');
+      if (urgent) notes.push('Urgent build asked for: the plan will say how much sooner is possible.');
       el('bill-ts').textContent = notes.join(' ');
     }
     /* the link to the form, on the one button and the two quiet links */
     var pk = on.filter(function (b) { return b.dataset.kind === 'svc'; }).map(function (b) { return b.dataset.k + ':' + b.dataset.tier; });
     var ad = on.filter(function (b) { return b.dataset.kind === 'add'; }).map(function (b) { return b.dataset.k; });
-    var q = []; if (pk.length) q.push('pick=' + pk.join(',')); if (ad.length) q.push('addon=' + ad.join(','));
-    $$('a[data-est]').forEach(function (l) { if (!l.hasAttribute('data-h')) l.setAttribute('data-h', l.getAttribute('href')); l.setAttribute('href', on.length ? 'index.html?' + q.join('&') + '#contact' : l.getAttribute('data-h')); });
+    var q = []; if (pk.length) q.push('pick=' + pk.join(',')); if (ad.length) q.push('addon=' + ad.join(',')); if (urgent) q.push('urgent=1');
+    $$('a[data-est]').forEach(function (l) { if (!l.hasAttribute('data-h')) l.setAttribute('data-h', l.getAttribute('href')); l.setAttribute('href', q.length ? 'index.html?' + q.join('&') + '#contact' : l.getAttribute('data-h')); });
     /* the header count and the tray */
     var cn = el('top-n'); if (cn) { cn.hidden = !on.length; cn.textContent = on.length; }
     if (tray) {
@@ -124,7 +128,7 @@
     }
     if (spoken && say) say.textContent = spoken + ' ' + (on.length ? on.length + (on.length === 1 ? ' item' : ' items') + ' in your estimate.' : 'Your estimate is empty.');
   }
-  function save() { try { sessionStorage.setItem(KEY, JSON.stringify(order)); } catch (e) { /* storage blocked: the list lasts for this page view */ } }
+  function save() { try { sessionStorage.setItem(KEY, JSON.stringify(order)); sessionStorage.setItem(KEY + '-rush', urgent ? '1' : ''); } catch (e) { /* storage blocked: the list lasts for this page view */ } }
   picks.forEach(function (b) {
     b.addEventListener('click', function () {
       var v = !isOn(b);
@@ -132,6 +136,8 @@
       press(b, v); save(); render((v ? 'Added ' : 'Removed ') + label(b) + '.');
     });
   });
+  if (rush) rush.addEventListener('click', function () { urgent = !urgent; rush.setAttribute('aria-pressed', urgent ? 'true' : 'false'); save(); render(urgent ? 'Marked as urgent.' : 'No longer marked as urgent.'); });
+  try { urgent = sessionStorage.getItem(KEY + '-rush') === '1'; if (rush) rush.setAttribute('aria-pressed', urgent ? 'true' : 'false'); } catch (e) { urgent = false; }
   try { (JSON.parse(sessionStorage.getItem(KEY) || '[]') || []).forEach(function (id) { var b = byPid(String(id)); if (b) press(b, true); }); } catch (e) { order = []; }
   if (IO && endSec) new IntersectionObserver(function (es) { endSeen = es[0].isIntersecting; render(); }, { rootMargin: '0px 0px -30% 0px' }).observe(endSec);
   render();

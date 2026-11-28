@@ -315,6 +315,10 @@ main{position:relative;z-index:1;display:block}
 .bill-t .lbl{color:#4a4657}
 .bill-tt{margin-top:6px;font:700 clamp(30px,3vw,44px)/1 var(--dis);letter-spacing:-.03em}
 .bill-ts{margin-top:7px;font-size:14px;line-height:1.45;color:#4a4657}
+.bill-r{display:grid;gap:10px;padding-top:13px;border-top:1px solid rgba(14,12,18,.14)}
+.bill-r p{font-size:15px;line-height:1.45;color:#33303c}
+.bill-r p b{color:var(--k)}
+.bill-r .pick{justify-self:start}
 .bill-p{display:flex;gap:10px;align-items:baseline;font:600 15.5px/1.4 var(--txt)}
 .bill-p::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(244,181,86,.3);transform:translateY(-1px)}
 .bill .btn{justify-content:center;background:var(--k);border-color:var(--k);color:#fff}

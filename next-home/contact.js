@@ -7,6 +7,7 @@
    pick = service[:package], comma separated (website, crm, automation, assistant, erp, seo : starter, standard, custom);
    addon = care, analytics, gbp, whatsapp-api, speed, seo-setup, seo-content, comma separated. The needs are ticked; one shared
    package ticks the Package row, different ones are listed per service under the needs; the draft names all of it.
+   urgent=1 ticks "Urgent build" (a checkbox beside the packages), and the draft asks what an urgent build would take.
    The older single form still works: ?service=crm&tier=standard (service takes a comma list, tier also takes unsure).
    It sends to my inbox through Web3Forms (fetch, JSON), then shows a thank-you that sums up what was sent, or an error that
    keeps the message and offers email instead. Contact details are remembered in this browser for next time.
@@ -38,7 +39,9 @@
   var CAL = { property: 'site visits', build: 'site surveys', retail: 'store pickups', stay: 'bookings', service: 'appointments' };
   var STOCK = { property: 'unit inventory', build: 'materials', stay: 'supplies', service: 'stock' };
   function needs() { return $$('#cf-need input:checked').map(function (i) { return i.value; }); }
-  function tier() { var r = $('#cf-tier input:checked'); return r ? r.value : ''; }
+  function tier() { var r = $('#cf-tier input[type=radio]:checked'); return r ? r.value : ''; }
+  var urg = $('#cf-urgent');
+  function rush() { return !!(urg && urg.checked); }
   function setup() { var b = sec.ftBrief; return b && b.has && (!att || att.checked) ? b : null; }        // footer.js reads the builder for us
   function modules(b) {
     var M = { pipe: 'leads and pipeline', cal: CAL[b.trade] || 'bookings', stock: STOCK[b.trade] || 'inventory', inv: 'invoices and payments', chat: 'WhatsApp', field: 'a field app', rep: 'reports', portal: 'a customer portal' };
@@ -83,6 +86,7 @@
     if (t) s.push(t === 'Not sure' ? 'I’m not sure which package fits.' : 'The ' + t + ' package looks about right.');
     if (b) s.push(unsure || !sys ? 'I tried configuring a system on your site (link attached).' : 'I configured it on your site (link attached).');
     if (came) s.push(came.cs ? 'I read your ' + came.name + ' case study.' : came.name + ' caught my eye.');
+    if (rush()) s.push('I need it sooner than the typical timeline, so please tell me what an urgent build would take.');
     s.push((unsure ? 'Could we talk it through this week?' : 'Could you send me an estimate and a delivery plan?') + (w === 'Email' ? ' Email works best for me.' : w === 'WhatsApp' ? ' Happy to talk on WhatsApp.' : w === 'Phone' ? ' A phone call works best for me.' : ''));
     return 'Hi Abhishek,\n\n' + s.join(' ') + (first() ? '\n\n' + first() : '');
   }
@@ -113,7 +117,8 @@
       redraft();
     });
   });
-  $$('#cf-tier input').forEach(function (i) { i.addEventListener('change', function () { pk = {}; showAdd(); reveal(); redraft(); }); });   // one package for all replaces a per-service list
+  $$('#cf-tier input[type=radio]').forEach(function (i) { i.addEventListener('change', function () { pk = {}; showAdd(); reveal(); redraft(); }); });
+  if (urg) urg.addEventListener('change', function () { if (needs().length || extras.length) reveal(); redraft(); });   // one package for all replaces a per-service list
   function picked() { return Object.keys(pk).map(function (x) { return x + ' · ' + pk[x]; }); }
   function showAdd() {                   // what came over from the Services page and has no chip of its own: per-service packages, the SEO part, add-ons
     if (!addP) return;
@@ -374,7 +379,7 @@
   function payload() {
     var n = needs(), name = nm.value.trim(), o = {
       access_key: KEY,
-      subject: 'New project enquiry: ' + (n.join(' + ') || (extras.length ? ADD[extras[0]][0] : 'Not sure yet')) + (tier() ? ' (' + tier() + ')' : '') + ' from ' + name,
+      subject: (rush() ? 'Urgent: ' : '') + 'New project enquiry: ' + (n.join(' + ') || (extras.length ? ADD[extras[0]][0] : 'Not sure yet')) + (tier() ? ' (' + tier() + ')' : '') + ' from ' + name,
       from_name: name + ' via your portfolio',
       name: name, email: em.value.trim()
     };
@@ -383,6 +388,7 @@
     o['preferred contact'] = pref() || 'No preference';
     o.need = n.join(', '); o.message = msg.value.trim() || draft();
     if (tier()) o['package'] = tier(); else if (picked().length) o['package'] = picked().join('; ');
+    if (rush()) o['urgent'] = 'Yes, an urgent build was asked for';
     if (seo) o['seo part'] = seo === 'setup' ? 'Setup only (sitemaps and indexing)' : 'Content pack only';
     if (extras.length) o['add-ons'] = extras.map(function (k) { return ADD[k][0]; }).join(', ');
     if (fm) o['found me via'] = fm.value;
@@ -423,6 +429,7 @@
     row(dl, 'You need', o.need.split(', ').join(' · '));
     row(dl, 'Package', o['package']);
     row(dl, 'SEO', o['seo part']);
+    row(dl, 'Urgent', o['urgent'] ? 'Yes' : '');
     row(dl, 'Add-ons', o['add-ons']);
     row(dl, 'Reply to', o.email);
     row(dl, 'Phone', o.phone);
@@ -486,11 +493,12 @@
     var tr = String(q.get('tier') || '').toLowerCase().replace(/[^a-z]/g, ''), kinds = {}, n = 0, all = true;
     Object.keys(vals).forEach(function (k) { if (k === 'seo' && !tiers[k]) return; n++; if (tiers[k]) kinds[tiers[k]] = 1; else all = false; });
     var one = Object.keys(kinds), r = null;
-    if (tr) r = $('#cf-tier input[data-k="' + tr + '"]');                    // an explicit tier= wins
+    if (tr) r = $('#cf-tier input[type=radio][data-k="' + tr + '"]');                    // an explicit tier= wins
     else if (one.length === 1 && all && n) r = $('#cf-tier input[value="' + one[0] + '"]');      // every service on the same package: tick it
     else Object.keys(vals).forEach(function (k) { if (tiers[k]) pk[vals[k]] = tiers[k]; });      // mixed: list them per service
     if (r) { r.checked = true; got.push(r.value === 'Not sure' ? 'package not decided' : r.value + ' package'); }
     picked().forEach(function (x) { got.push(x); });
+    if (urg && q.get('urgent') === '1') { urg.checked = true; got.push('urgent build'); }
     extras.forEach(function (k) { got.push(ADD[k][0]); });
     showAdd();
     if (!got.length) return;

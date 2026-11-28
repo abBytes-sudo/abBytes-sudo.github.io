@@ -214,3 +214,5 @@
   #contact .ft-card .cf-rt{order:2;flex:1 1 100%;max-width:none;margin:0;text-align:left}
   #contact .cf-cmp{flex-basis:100%;margin:2px 0 0}
 }
+#contact .cf-urg{margin-left:8px}
+@media (max-width:560px){#contact .cf-urg{margin-left:0}}
