@@ -660,3 +660,6 @@ html:not(.motion) .stage-wrap{position:sticky;top:96px}
 .logo{min-width:0}
 @media (max-width:699px){.nav-brand,.for{display:none}}
 .foot-brand:focus-visible,.nav-brand:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+/* footer at phone width: the logo sits clear of the finish board */
+@media (max-width:700px){.foot .foot-in{padding-top:30px}}

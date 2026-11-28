@@ -48,6 +48,7 @@
     else if (open) h += '<p class="callout noprint" style="margin-bottom:14px">' + ic('comment') + 'Tap <b>Comment</b> on any line to ask a question. Your project manager replies here.</p>';
     h += '<article class="doc" aria-label="Quotation">';
     h += '<header class="doc-hd">' + companyBlock() + '<div class="dt"><h1>Quotation</h1><span>' + esc(q.no) + ' · version ' + v.n + '</span><span>Dated ' + u.fdate((v.sentAt || v.created).slice(0, 10)) + '</span><span>Valid till ' + u.fdate(u.addD((v.sentAt || v.created).slice(0, 10), q.validDays)) + '</span></div></header>';
+    h += '<p class="doc-intro">' + esc((window.MR_INTRO ? window.MR_INTRO(MR.studio()) : 'Prepared for you by ' + MR.studio() + '.')) + '</p>';
     h += '<div class="doc-parties"><div><h4>Prepared for</h4><b>' + esc(cl.name) + '</b><br>' + esc(cl.contact) + (cl.gstin ? '<br>GSTIN ' + esc(cl.gstin) : '') + '</div><div><h4>Site</h4>' + esc(q.site) + '<br>' + esc(q.city) + ', ' + esc(MR.STATE[q.state].name) + '<br><span class="muted">Place of supply: ' + esc(MR.STATE[q.state].name) + ' (' + MR.STATE[q.state].code + ')</span></div><div><h4>Your team</h4>' + esc(pm.name) + ', project manager<br>Tanvi Joshi, lead designer<br><span class="muted">' + esc(MR.co().email) + '</span></div></div>';
     h += '<table><thead><tr><th style="width:28px">#</th><th>Item</th><th class="num">Qty</th><th class="hide-sm">Unit</th><th class="num hide-sm">Rate</th><th class="num">Amount</th></tr></thead><tbody>';
     var n = 0;

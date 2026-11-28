@@ -1328,3 +1328,8 @@ a:not(.btn):not(.chip){text-decoration:none}
 .wrest{display:flex;flex-direction:column;gap:12px}
 .wrest-btn{align-self:center;margin-top:4px}
 @media (max-width:640px){.greet h1#hello{white-space:normal;overflow:visible;text-overflow:clip}}
+
+/* the opening line of a client's quotation, and the lines that stand in for the rest while it loads */
+.doc-intro{margin:var(--s5) 0 0;max-width:64ch;font-size:15px;line-height:1.55;color:var(--ink-2)}
+.sh-lines{display:grid;gap:12px;margin-top:var(--s6)}.sh-lines .sk{display:block;height:14px;border-radius:6px}.sh-lines .sk:nth-child(2){width:82%}.sh-lines .sk:nth-child(3){width:91%}.sh-lines .sk:nth-child(4){width:58%}
+@media print{.sh-lines{display:none}}
