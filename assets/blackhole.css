@@ -1,0 +1,15 @@
+/* Blackhole (assets/blackhole.js): the letters it splits and the small hole it draws. Opt in with data-bh on an element.
+   --bh-rgb on that element (three numbers, default the portfolio's gold) sets the glow of a pulled letter. */
+.bh-sr{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;user-select:none;-webkit-user-select:none}
+bh-sr,bh-sp,bh-w,bh-lt{font:inherit;color:inherit}
+/* an underline does not reach into inline boxes: each piece takes its parent's line, so a link stays underlined letter by letter */
+.bh-sp,.bh-w,.bh-lt{text-decoration:inherit}
+.bh-w{display:inline-block;white-space:nowrap}
+.bh-lt{display:inline-block;transform-origin:50% 70%}
+.bh-lt.bh-hot{text-shadow:0 0 calc(var(--p,0) * 18px) rgb(var(--bh-rgb,244 181 86) / calc(var(--p,0) * 1.2))}
+@supports (color:color-mix(in oklab,red,blue)){[data-bh-strong] .bh-lt.bh-hot{color:color-mix(in oklab,currentColor,rgb(var(--bh-rgb,244 181 86)) calc(var(--p,0) * 100%));text-shadow:none}}
+.bh-hole{position:fixed;left:0;top:0;z-index:5;width:clamp(20px,2vw,30px);aspect-ratio:1;border-radius:50%;pointer-events:none;opacity:0;background:radial-gradient(circle,#000 0 40%,#f4b556 43% 47%,rgba(255,79,216,.55) 54%,transparent 71%);box-shadow:0 0 26px 6px rgba(255,79,216,.18)}
+.bh-hole::before{content:"";position:absolute;inset:31%;border-radius:50%;background:#000}
+.bh-hole::after{content:"";position:absolute;left:-80%;top:50%;width:260%;height:15%;margin-top:-7.5%;border-radius:50%;background:linear-gradient(90deg,transparent,#f4b556 30%,#fff 50%,#ff4fd8 70%,transparent);transform:rotate(-14deg);opacity:.85}
+@media (prefers-reduced-motion:reduce){.bh-hole{display:none}}
+@media print{.bh-hole{display:none}}
