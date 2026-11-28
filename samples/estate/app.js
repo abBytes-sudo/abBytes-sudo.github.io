@@ -61,7 +61,7 @@
     if (!V && !CK.restLoaded) inner.innerHTML = '<div class="boot" aria-hidden="true"><svg viewBox="0 0 220 60" width="220" height="60"><path class="boot-r" pathLength="100" d="M10 48C50 48 62 14 110 20s58 26 100-8"/><circle cx="10" cy="48" r="5"/><circle cx="210" cy="12" r="5"/></svg></div>';
     else if (!V) inner.innerHTML = CK.empty('Page not found', 'That address doesn’t lead anywhere.', '<a class="btn" href="#/today">Go to Today</a>');
     else if (allowed.indexOf(r.view) < 0) inner.innerHTML = CK.empty('Not part of the ' + CK.ROLE_NAME[CK.role()] + ' view', 'Each role sees only what it needs. Switch “View as” in the sidebar to open this.', '<a class="btn" href="#/' + allowed[0] + '">Go to ' + esc((NAV.filter(function (n) { return n.id === allowed[0]; })[0] || {}).label || 'start') + '</a>');
-    else inner.innerHTML = V.render(r);
+    else inner.innerHTML = CK.bt(V.render(r));
     // First frame: index.html has already painted Today's headline. Keep that node where it is and build the rest of the view
     // around it, so the page's largest paint is the first one and is not redone when the numbers arrive.
     var keepT = document.getElementById('ssr'), newT = keepT && inner.firstElementChild;
@@ -81,7 +81,7 @@
     main.scrollTop = same ? st : 0;
     document.getElementById('nav').innerHTML = navHTML();
     document.getElementById('as').innerHTML = asHTML();
-    var t = V ? V.title : 'Fieldwise'; document.getElementById('crumb').textContent = t; document.title = t + ' · Amaltas Estates · Fieldwise';
+    var t = V ? V.title : 'Fieldwise'; document.getElementById('crumb').textContent = t; document.title = t + ' · ' + (window.FWB ? window.FWB.name : 'Amaltas Estates') + ' · Fieldwise';
     var bc = bellCount(), bb = document.getElementById('bell-n'); bb.textContent = bc > 9 ? '9+' : bc; bb.hidden = !bc; bb.parentNode.setAttribute('aria-label', bc ? (bc > 9 ? '9+' : bc) + ' notifications' : 'Notifications');
     CK.renderDrawer();
     if (keep) { var el = document.getElementById(keep.id); if (el && el !== document.activeElement) { el.value = keep.v; el.focus(); try { el.setSelectionRange(keep.s, keep.s); } catch (e) { } } }
@@ -93,7 +93,7 @@
     var r = CK.route(), dw = document.getElementById('drawer'), panel = document.getElementById('drawer-p');
     if (!r.peek || !CK.D[r.peek.kind]) { if (dw.classList.contains('on')) { dw.classList.remove('on'); setTimeout(function () { if (!dw.classList.contains('on')) { dw.hidden = true; panel.innerHTML = ''; } }, 220); if (drawerKey && CK.lastOpener && document.contains(CK.lastOpener)) CK.lastOpener.focus(); } drawerKey = null; return; }
     var key = r.peek.kind + ':' + r.peek.id, sc = panel.scrollTop, first = key !== drawerKey;
-    panel.innerHTML = CK.D[r.peek.kind].render(r.peek.id);
+    panel.innerHTML = CK.bt(CK.D[r.peek.kind].render(r.peek.id));
     if (CK.D[r.peek.kind].mount) CK.D[r.peek.kind].mount(panel, r.peek.id);
     panel.scrollTop = first ? 0 : sc;
     if (first) { dw.hidden = false; requestAnimationFrame(function () { dw.classList.add('on'); var h = panel.querySelector('h2'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); } }); }
@@ -155,7 +155,7 @@
     if (/[?&]embed\b/.test(location.search)) { document.documentElement.classList.add('embed'); CK.ui.role = 'admin'; CK.ui.as = 'A1'; CK.ui.theme = 'light'; CK.saveUI = function () { }; }
     applyTheme();
     var S = CK.S();
-    document.getElementById('brand-sub').textContent = 'Fieldwise · ' + S.agents.length + ' people';
+    document.getElementById('brand-sub').textContent = 'Fieldwise · ' + (window.FWB && window.FWB.on ? window.FWB.city + ' · ' : '') + S.agents.length + ' people';
     CK.on(function (what) { clearTimeout(CK._rt); CK._rt = setTimeout(CK.render, what === 'sync' ? 0 : 10); });
     addEventListener('hashchange', function () { CK.closeMenu(); var sb = document.getElementById('side'); sb.classList.remove('open'); CK.render(); });
 
@@ -194,8 +194,8 @@
     else {
       // the route wall's styles come with the rest; render again once both have arrived
       var need = 2, done = function () { if (--need) return; CK.restLoaded = true; if (CK.ensure) { CK.ensure(); CK.syncBridges(); } CK.render(); };
-      var css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'play.min.css?v=12'; css.onload = css.onerror = done;
-      var rs = document.createElement('script'); rs.src = 'app-rest.min.js?v=12'; rs.onload = done;
+      var css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'play.min.css?v=13'; css.onload = css.onerror = done;
+      var rs = document.createElement('script'); rs.src = 'app-rest.min.js?v=13'; rs.onload = done;
       setTimeout(function () { document.head.appendChild(css); document.head.appendChild(rs); }, 0);
     }
   }

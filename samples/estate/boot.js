@@ -2,7 +2,7 @@
 (function () {
   /* the app starts right after the first frame is on screen (its file is already downloading: see the preload in index.html) */
   var started = false;
-  function start() { if (started) return; started = true; var s = document.createElement('script'); s.src = 'app.min.js?v=12'; document.head.appendChild(s); }
+  function start() { if (started) return; started = true; var s = document.createElement('script'); s.src = 'app.min.js?v=13'; document.head.appendChild(s); }
   requestAnimationFrame(function () { requestAnimationFrame(function () { setTimeout(start, 0); }); });
   setTimeout(start, 400);
   var box = document.getElementById('ssr'), h = document.getElementById('ssr-h'), p = document.getElementById('ssr-p'); if (!box) return;
@@ -11,5 +11,5 @@
   if (!ok) { box.remove(); return; }
   var d = new Date(), D = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], M = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   if (c && c.d === d.toDateString()) { h.textContent = c.t; p.textContent = c.s; }
-  else { h.textContent = D[d.getDay()] + ' · calls, trips and papers that need you'; p.textContent = d.getDate() + ' ' + M[d.getMonth()] + ' · Amaltas Estates · Green Park office'; }
+  else { h.textContent = D[d.getDay()] + ' · calls, trips and papers that need you'; p.textContent = d.getDate() + ' ' + M[d.getMonth()] + ' · ' + (window.FWB && window.FWB.on ? window.FWB.name + ' · ' + window.FWB.city : 'Amaltas Estates · Green Park') + ' office'; }
 })();

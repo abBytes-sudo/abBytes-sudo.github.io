@@ -3,7 +3,7 @@
    hero shows a finished match drawn into the page, and a click made before the engine arrives is replayed after it. */
 (function () {
   'use strict';
-  var d = document, nav = d.querySelector('.nav'), V = '12';
+  var d = document, nav = d.querySelector('.nav'), V = '13';
   /* the nav is the trip: the stop you are at, the legs behind you, and (on phones) how far along the route you are */
   var stops = [].slice.call(d.querySelectorAll('.trip a')), secs = stops.map(function (a) { return d.getElementById(a.getAttribute('href').slice(1)); }), bar = d.querySelector('.trip-bar'), tick = 0;
   function where() {

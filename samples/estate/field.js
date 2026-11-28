@@ -125,7 +125,7 @@
   function route() { var h = location.hash.replace(/^#\/?/, '').split('/'); return { v: h[0] || 'today', a: h[1], b: h[2] }; }
   function render() {
     var r = route(), el = document.getElementById('fview'), fn = R[r.v] || R.today, sc = window.scrollY, same = el.dataset.v === location.hash;
-    el.innerHTML = fn(r.a, r.b); el.dataset.v = location.hash;
+    el.innerHTML = CK.bt(fn(r.a, r.b)); el.dataset.v = location.hash;
     if (!same) window.scrollTo(0, 0); else window.scrollTo(0, sc);
     var tab = { today: 'today', trip: 'trips', trips: 'trips', stop: 'trips', capture: 'capture', verify: 'verify', report: 'report' }[r.v] || 'today';
     document.querySelectorAll('.fnav a').forEach(function (a) { var on = a.dataset.tab === tab; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });

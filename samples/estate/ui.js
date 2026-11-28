@@ -98,7 +98,7 @@
   CK.toast = function (msg, opts) {
     opts = opts || {}; var host = document.getElementById('toasts'); if (!host) return;
     var el = document.createElement('div'); el.className = 'toast' + (opts.tone ? ' t-' + opts.tone : ''); el.setAttribute('role', 'status');
-    el.innerHTML = '<span>' + (opts.icon ? ic(opts.icon, 16) : ic('check', 16)) + esc(msg) + '</span>' + (opts.undo ? '<button type="button" class="tbtn">' + ic('undo', 14) + 'Undo</button>' : '');
+    el.innerHTML = '<span>' + (opts.icon ? ic(opts.icon, 16) : ic('check', 16)) + CK.bt(esc(msg)) + '</span>' + (opts.undo ? '<button type="button" class="tbtn">' + ic('undo', 14) + 'Undo</button>' : '');
     host.appendChild(el); while (host.children.length > 3) host.removeChild(host.firstChild); requestAnimationFrame(function () { el.classList.add('on'); });
     var done = function () { el.classList.remove('on'); setTimeout(function () { el.remove(); }, 220); };
     if (opts.undo) el.querySelector('.tbtn').addEventListener('click', function () { opts.undo(); done(); CK.toast('Undone', { icon: 'undo' }); });
@@ -111,7 +111,7 @@
     opts = opts || {}; CK.closeModal();
     lastFocus = document.activeElement;
     var m = document.createElement('div'); m.className = 'modal-wrap'; m.id = 'modal';
-    m.innerHTML = '<div class="modal-bg" data-close-modal></div><div class="modal' + (opts.wide ? ' wide' : '') + '" role="dialog" aria-modal="true" aria-labelledby="modal-t">' + html + '</div>';
+    m.innerHTML = '<div class="modal-bg" data-close-modal></div><div class="modal' + (opts.wide ? ' wide' : '') + '" role="dialog" aria-modal="true" aria-labelledby="modal-t">' + CK.bt(html) + '</div>';
     document.body.appendChild(m); requestAnimationFrame(function () { m.classList.add('on'); });
     var f = m.querySelector('[autofocus], input, select, textarea, button:not([data-close-modal])'); if (f) f.focus();
     return m.querySelector('.modal');
@@ -163,6 +163,7 @@
       { t: 'Switch theme (light / dark)', s: 'Command', ic: 'moon', fn: function () { CK.toggleTheme(); } }, { t: 'Take the guided tour', s: 'Command', ic: 'sparkles', fn: function () { CK.tour(0); } },
       { t: 'Open the field app', s: 'Command', ic: 'phone', href: 'field.html' }, { t: 'Open the map', s: 'Command', ic: 'pin', go: '#/map' }, { t: 'Import a listing sheet (PDF)', s: 'Command', ic: 'upload', go: '#/import' }, { t: 'Start owner check calls', s: 'Command', ic: 'target', go: '#/survey/focus' }, { t: 'Open conversations', s: 'Command', ic: 'chat', go: '#/inbox' }, { t: 'Invite a teammate', s: 'Command', ic: 'users', go: '#/team' }, { t: 'Search rankings', s: 'Command', ic: 'search', go: '#/seo' }, { t: 'Start fresh', s: 'Command', ic: 'undo', fn: function () { CK.confirm('Start fresh?', 'Every lead, trip and deal goes back to how the day started.', 'Start fresh', function () { CK.reset(); CK.toast('Started fresh'); }); } }
     ];
+    if (window.FWB) cmds.push({ t: window.FWB.on ? 'Your brokerage: change the name or copy your link' : 'See it as your brokerage', s: 'Command', ic: 'sparkles', fn: function () { window.FWB.open(); } });
     ['admin', 'manager', 'telecaller', 'field', 'partner'].forEach(function (r) { cmds.push({ t: 'View as ' + CK.ROLE_NAME[r], s: 'Role', ic: 'eye', fn: function () { CK.setRole(r); } }); });
     function run() {
       var v = q.value.trim().toLowerCase(), out = [];

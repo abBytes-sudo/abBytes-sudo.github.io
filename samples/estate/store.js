@@ -32,6 +32,8 @@
   CK.cfg = function (p) { return p.type === 'Office' ? CK.grp(p.sqft) + ' sq ft office' : p.type === 'Studio' ? 'Studio' : p.bhk + ' BHK ' + p.type.toLowerCase(); };
 
   /* the clock: real time, kept inside office hours so the seeded day reads right */
+  /* text drawn while a visitor's own brokerage name is on (brand.js); otherwise untouched */
+  CK.bt = window.FWB && window.FWB.on ? window.FWB.text : function (s) { return s; };
   CK.now = function () { var t = Date.now(), d = CK.dayStart(t); return Math.min(Math.max(t, d + 11 * 36e5 + 2 * 6e4), d + 18 * 36e5 + 25 * 6e4); };
 
   /* ---------- lookups ---------- */
