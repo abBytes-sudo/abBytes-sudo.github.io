@@ -438,3 +438,6 @@ main{position:relative;z-index:1;display:block}
 /* five links since Services joined the nav: keep them on one line between 761px and 900px */
 .top nav a{white-space:nowrap}
 @media (max-width:900px){.top nav a{padding:8px 8px;font-size:15.5px}}
+
+/* nav: the SEO results link gives way between 768 and 899px so the header button keeps its room */
+@media (max-width: 899px) { .nav-seo { display: none !important; } }

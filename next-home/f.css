@@ -612,3 +612,6 @@ html.using .top,html.using .cap,html.using .gauge{opacity:0;visibility:hidden;po
   .whb a:hover .whb-n{color:var(--vio)}
   .whb a:hover i{background:var(--k);color:#fff}
 }
+
+/* nav: the SEO results link gives way between 768 and 899px so the header button keeps its room */
+@media (max-width: 899px) { .nav-seo { display: none !important; } }
