@@ -148,3 +148,6 @@ address{font-style:normal;line-height:1.7;color:var(--ink2)}address b{color:var(
 .t-h1 .t-ln+.t-ln>span{animation-delay:.09s}
 @keyframes tRise{from{transform:translateY(108%)}to{transform:none}}
 @media (prefers-reduced-motion:reduce){.t-h1 .t-ln>span{animation:none}}
+
+/* smooth-scroll rules (from the shared lenis.css), kept here so this page has one stylesheet fewer to wait for */
+html.lenis,html.lenis body{height:auto}.lenis:not(.lenis-autoToggle).lenis-stopped{overflow:clip}.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}.lenis.lenis-smooth iframe{pointer-events:none}.lenis.lenis-autoToggle{transition-property:overflow;transition-duration:1ms;transition-behavior:allow-discrete}

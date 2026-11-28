@@ -38,7 +38,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tb[aria-pressed=true]{border-color:var(--acc);color:var(--acc);background:var(--acc-soft)}
 .tb-i{width:0;height:0;border-style:solid;border-width:6px 0 6px 10px;border-color:transparent transparent transparent currentColor}
 .tb.playing .tb-i{width:10px;height:12px;border:0;border-left:3px solid currentColor;border-right:3px solid currentColor}
-.tr-prog{font:500 11.5px/1 var(--mono);color:var(--mute);letter-spacing:.02em}
+.tr-prog{font:500 11.5px/1 var(--mono);color:var(--mute);letter-spacing:.02em;min-height:12px}
 .tr-steps{list-style:none;display:flex;flex-direction:column}
 .tr-steps li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;padding:10px 0;border-top:1px solid var(--line);color:var(--mute);transition:color .3s}
 .tr-steps li:first-child{border-top:0}

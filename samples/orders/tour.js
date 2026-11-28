@@ -190,5 +190,7 @@
   fit(); ui();
   // the two apps start loading once the page itself is on screen, so the first paint never waits for them
   var begun = false, begin = function () { if (begun) return; begun = true; restart(); };
-  requestAnimationFrame(function () { requestAnimationFrame(function () { setTimeout(begin, 0); }); }); setTimeout(begin, 700);
+  // wait for the browser's own first-contentful-paint entry (two animation frames can both run before anything is on screen)
+  try { new PerformanceObserver(function (l, ob) { if (l.getEntriesByName('first-contentful-paint').length) { ob.disconnect(); setTimeout(begin, 120); } }).observe({ type: 'paint', buffered: true }); } catch (e) { setTimeout(begin, 400); }
+  setTimeout(begin, 2500);
 })();
