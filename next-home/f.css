@@ -564,6 +564,8 @@ html.using .top,html.using .cap,html.using .gauge{opacity:0;visibility:hidden;po
 .whs-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px 34px;margin-bottom:22px}
 .whs-h h2{font:700 clamp(30px,3.3vw,48px)/1 var(--dis);letter-spacing:-.025em}
 .whs-s{margin-top:8px;font-size:16.5px;color:#36323f}
+.whs-s a{margin-left:6px;color:var(--k);font-weight:600;white-space:nowrap;text-underline-offset:3px;text-decoration-thickness:1.5px}
+.whs-s a:hover{color:var(--b)}
 .whs-p{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;font:600 16.5px/1.35 var(--txt)}
 .whs-p>span::before{content:"";display:inline-block;width:9px;height:9px;margin-right:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(244,181,86,.3)}
 .whs-p .btn{padding:11px 18px;font-size:16px}
@@ -595,6 +597,7 @@ html.using .top,html.using .cap,html.using .gauge{opacity:0;visibility:hidden;po
   .in.whs{display:flex;flex-direction:column;padding-top:0;padding-bottom:42px}
   .whs-h{display:contents}
   .whs-h>div{margin-bottom:16px}
+  .whs-s a{display:inline-block;margin:4px 0 0}
   .whs-p{order:3;margin-top:18px}
   .whs-p .btn{width:100%;justify-content:center}
   .whb{order:2;grid-template-columns:minmax(0,1fr);gap:0;border-top:2px solid var(--k)}

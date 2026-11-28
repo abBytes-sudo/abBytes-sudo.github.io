@@ -162,3 +162,39 @@ body.cs-seo{--c-bg:#0a1412;--c-ink:#f1f5f0;--c-dim:#a8b9b2;--c-acc:#5ff0c2;--c-a
 }
 @media (prefers-reduced-motion:reduce){.cs-seo .cs-chart .ln,.cs-seo .cs-chart .bar,.cs-seo .cs-chart .ar,.sx-proof .ln{animation:none!important}}
 @media print{.sx-draft{border-color:#000;color:#000;background:none}}
+
+/* ---- v3: the real figures. Two 28-day periods side by side, clicks a day in three bars, the index over time ---- */
+.sx-big em{font:700 .34em/1 var(--dis);font-style:normal;letter-spacing:-.01em;padding:.28em .5em;border-radius:99px;background:var(--sx);color:#fff;align-self:center}
+.sx-mini{width:100%;height:clamp(64px,8vw,104px);margin-top:12px}
+.sx-mini .bar{fill:#c9ded7}
+.sx-mini .bar.hi{fill:var(--sx)}
+.sx-mcap{display:flex;justify-content:space-between;gap:10px;margin-top:6px;font:500 12px/1.3 var(--mono);color:#56645f}
+.sx-svg .bar.dim{fill:#cfd8d3}
+.sx-svg .bar.hi{fill:var(--sx)}
+.sx-svg .bv.hi{font-size:14px;font-weight:700}
+.c-idx .bar{fill:#cfcbd9}
+.c-idx .bar.hi{fill:var(--k)}
+.c-imp .bar.hi{fill:var(--sx2)}
+.sx-cmp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:16px;border-top:2px solid var(--k)}
+.sx-cmp>div{padding:16px 22px 4px 0}
+.sx-cmp>div+div{padding-left:22px;border-left:1px solid var(--hair)}
+.sx-ck{font:500 11.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.sx-cv{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:8px}
+.sx-cv b{font:700 clamp(34px,3.6vw,54px)/1 var(--dis);letter-spacing:-.035em;color:var(--k);font-variant-numeric:tabular-nums}
+.sx-cv em{font:700 15px/1 var(--dis);font-style:normal;padding:6px 10px;border-radius:99px;background:var(--c-tint);color:#07604d;white-space:nowrap}
+.sx-svg.sx-pair{max-width:300px;margin-top:12px}
+.sx-cf{margin-top:8px;font-size:14.5px;color:var(--txt-c)}
+.sx-cn{margin-top:16px;padding-top:12px;border-top:1px solid var(--hair);font-size:14.5px;line-height:1.5;color:var(--txt-c);max-width:56em}
+.c-pos .mv{stroke:var(--sx);stroke-width:4;stroke-linecap:round}
+.c-pos .d0{fill:#fff;stroke:#9aa8a2;stroke-width:2.5}
+.c-pos .d1{fill:var(--sx)}
+.cs-seo .cs-chart.on .sx-pair .bar{transform-origin:0 50%;animation-name:sx-wide}
+.sx-lines{display:grid;gap:0;margin-top:10px}
+.sx-lines li{padding:11px 0;border-top:1px solid var(--hair);font-size:16px;line-height:1.45}
+.sx-lines li:first-child{border-top:0}
+.sx-lines b{color:var(--k)}
+@media (max-width:760px){
+  .sx-cmp{grid-template-columns:minmax(0,1fr)}
+  .sx-cmp>div,.sx-cmp>div+div{padding:14px 0 12px;border-left:0}
+  .sx-cmp>div+div{border-top:1px solid var(--hair)}
+}
