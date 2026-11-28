@@ -191,3 +191,6 @@ body.cs-erp{--c-bg:#e3e4df;--c-ink:#15171a;--c-dim:#4b5157;--c-acc:#c4470c;--c-a
 @media (max-width:640px){.rw-line .am{margin-left:0}}
 
 @media (prefers-reduced-motion:reduce){.q-sig{stroke-dashoffset:0}.q-sign:not(.on) .q-sig{opacity:0}.qp.js .qp-crm .qc-bar b{transition:none}}
+
+/* 28 Nov: the "What it is not yet" panel is gone, so the results use the full width */
+#results .cs-res{grid-template-columns:minmax(0,1fr)}
