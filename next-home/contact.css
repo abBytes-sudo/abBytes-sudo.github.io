@@ -199,3 +199,18 @@
   #contact .ft-l .mail{font-size:clamp(24px,2.6vw,38px)}
   #contact .cf-chips:not(.sm) span{gap:6px;padding:7px 11px 7px 9px;font-size:13.5px}
 }
+
+/* v5: the Package row (optional), the add-on line from the Services page, and the 48-hour promise beside Send */
+#contact .cf-pkg .cf-chips{align-items:center}
+#contact .cf-cmp{margin-left:6px;font:600 13.5px/1.2 var(--txt);color:#4a4657;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;white-space:nowrap}
+#contact .cf-cmp:hover{color:var(--b)}
+#contact .cf-cmp:focus-visible{outline:3px solid var(--b);outline-offset:2px;border-radius:4px}
+#contact .ft-card .cf-add{margin:8px 0 0;font-size:14px;line-height:1.4;color:#4a4657}
+#contact .ft-card .cf-add[hidden]{display:none}
+#contact .cf-add b{color:var(--k)}
+#contact .ft-card .cf-rt{max-width:17.5em;text-align:right;text-wrap:balance;color:#33303c}
+#contact .cf-rt::before{content:"";display:inline-block;width:7px;height:7px;margin:0 7px 1px 0;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(244,181,86,.3)}
+@media (max-width:560px){
+  #contact .ft-card .cf-rt{order:2;flex:1 1 100%;max-width:none;margin:0;text-align:left}
+  #contact .cf-cmp{flex-basis:100%;margin:2px 0 0}
+}

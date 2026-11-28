@@ -1,0 +1,4 @@
+/* Services page without JavaScript: the header keeps its white bar, since nothing can switch it as the page scrolls. */
+.top{background:#fff;color:#0e0c12;box-shadow:0 1px 0 #dedbe6}
+.top nav a:hover{background:#f0eef5}
+.top .btn:hover{background:#0e0c12;color:#fff;border-color:#0e0c12}

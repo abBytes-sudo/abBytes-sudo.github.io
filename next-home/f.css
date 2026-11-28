@@ -552,3 +552,44 @@ html.using .top,html.using .cap,html.using .gauge{opacity:0;visibility:hidden;po
 
 /* a solid menu bar once the page has scrolled, so hero text never shows through it */
 .scrd:not(.inv):not(.using) .top{background:#0b0910;box-shadow:0 1px 0 rgba(255,255,255,.14)}
+
+/* five links since Services joined the nav: keep them on one line between 761px and 900px */
+.top nav a{white-space:nowrap}
+@media (max-width:900px){.top nav a{padding:8px 8px;font-size:15.5px}}
+
+/* ---- What I build: five rows, each a link into the Services page. The delivery time sits where a price would ---- */
+.whb{border-top:6px solid var(--k);counter-reset:none}
+.whb li{border-bottom:2px solid var(--hair)}
+.whb a{display:grid;grid-template-columns:44px minmax(0,1.05fr) minmax(0,1.5fr) minmax(0,230px) 34px;gap:6px 22px;align-items:center;padding:20px 10px 20px 0;text-decoration:none;color:var(--k);transition:background .25s,padding .3s cubic-bezier(.2,.8,.2,1)}
+.whb-n{font:700 15px/1 var(--dis);color:var(--vio)}
+.whb b{font:700 clamp(25px,2.9vw,42px)/1.02 var(--dis);letter-spacing:-.025em;text-wrap:balance}
+.whb-d{font-size:16.5px;line-height:1.45;color:#36323f}
+.whb-t{font:700 clamp(18px,1.6vw,22px)/1.15 var(--dis);letter-spacing:-.015em}
+.whb-t small{display:block;margin-bottom:4px;font:500 11.5px/1.2 'JetBrains Mono',ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.whb i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--k);font-style:normal;font-size:16px;transition:background .2s,color .2s,transform .3s cubic-bezier(.3,1.4,.5,1)}
+.whb a:hover{background:#f5f4f8;padding-left:14px}
+.whb a:hover i{background:var(--k);color:#fff;transform:translateX(4px)}
+.whb a:focus-visible{outline:3px solid var(--b);outline-offset:-3px}
+.whb-end{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 30px;margin-top:22px;padding:20px 24px;border-radius:20px;background:#f5f4f8}
+.whb-end p{font-size:17px;line-height:1.45;max-width:44em}
+.whb-end p::before{content:"";display:inline-block;width:9px;height:9px;margin-right:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(244,181,86,.3)}
+.in .intro p a.st-svc{margin-left:0;color:var(--k);font-weight:600;white-space:nowrap;text-underline-offset:3px;text-decoration-thickness:1.5px}
+.in .intro p a.st-svc:hover{color:var(--b)}
+.spec .sp-48{display:flex;gap:8px;align-items:baseline;margin-top:10px;font-size:13.5px;line-height:1.4;font-weight:600;color:var(--k)}
+.spec .sp-48::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(244,181,86,.3)}
+@media (max-width:1000px){
+  .whb a{grid-template-columns:36px minmax(0,1fr) minmax(0,200px) 34px;align-items:start}
+  .whb b{grid-column:2}
+  .whb-d{grid-column:2;grid-row:2}
+  .whb-t{grid-column:3;grid-row:1/3}
+  .whb i{grid-column:4;grid-row:1/3;align-self:center}
+}
+@media (max-width:640px){
+  .whb a{grid-template-columns:30px minmax(0,1fr) 30px;gap:5px 10px;padding:16px 0}
+  .whb-t{grid-column:2;grid-row:3;margin-top:5px;font-size:16.5px}
+  .whb-t small{margin-bottom:3px}
+  .whb i{grid-column:3;grid-row:1;width:30px;height:30px;align-self:start}
+  .whb a:hover{padding-left:0}
+  .whb-end{padding:18px}
+  .whb-end .btn{width:100%;justify-content:center}
+}

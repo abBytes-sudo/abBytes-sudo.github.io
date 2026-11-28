@@ -2,6 +2,12 @@
    you, and what you need) and writes the message for the visitor from what they have already done here: the needs they tap,
    the system they configured in the builder (sent as studio.js's own summary and #b= link), the mess they threw into the hero,
    the project they came back from and how they like to be reached. The draft follows their choices until they type over it.
+   The Services page opens it pre-filled with the visitor's whole estimate list:
+     index.html?pick=website:standard,crm:starter&addon=care,seo-setup#contact
+   pick = service[:package], comma separated (website, crm, automation, assistant, erp, seo : starter, standard, custom);
+   addon = care, analytics, gbp, whatsapp-api, speed, seo-setup, seo-content, comma separated. The needs are ticked; one shared
+   package ticks the Package row, different ones are listed per service under the needs; the draft names all of it.
+   The older single form still works: ?service=crm&tier=standard (service takes a comma list, tier also takes unsure).
    It sends to my inbox through Web3Forms (fetch, JSON), then shows a thank-you that sums up what was sent, or an error that
    keeps the message and offers email instead. Contact details are remembered in this browser for next time.
    Countries come from countries.js (local data). Plain DOM, no inline styles (CSP); calm motion, none under reduced motion. */
@@ -15,7 +21,7 @@
   var nm = $('#cf-name'), em = $('#cf-email'), ph = $('#cf-phone'), phOpt = $('#cf-phone-opt'), msg = $('#cf-msg'), msgW = $('#cf-msgw'), rew = $('#cf-rew'), more = $('#cf-more'), xb = $('#cf-xb');
   var cc = $('#cf-cc'), ccp = $('#cf-ccp'), ccq = $('#cf-ccq'), ccl = $('#cf-ccl'), ccn = $('#cf-ccn');
   var send = $('#cf-send'), sl = $('#cf-sl'), st = $('#cf-st'), fail = $('#cf-fail'), att = $('#cf-att'), hi = $('#cf-hi'), rt = $('#cf-rt'), ok = $('#cf-ok'), hp = $('input[name="botcheck"]', f);
-  var busy = false, auto = true, last = '', told = false, came = null, HI = hi ? hi.textContent : '';
+  var busy = false, auto = true, last = '', told = false, came = null, extras = [], pk = {}, seo = '', HI = hi ? hi.textContent : '', addP = $('#cf-add'), SEO = 'SEO content + sitemaps';
   function E(tag, cls, txt) { var e = d.createElement(tag); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; }
   function mem(k, v, sess) {            // localStorage (or sessionStorage), JSON, never throws: private mode and blocked storage just forget
     try { var S = sess ? sessionStorage : localStorage; if (v === undefined) return JSON.parse(S.getItem(k) || 'null'); if (v === null) S.removeItem(k); else S.setItem(k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ }
@@ -26,11 +32,13 @@
   function pref() { var r = $('#cf-pref input:checked'); return r ? r.value : ''; }
 
   /* ---- what the visitor has already done on this page ---- */
-  var WANT = { 'CRM': 'a CRM', 'Website': 'a website', 'Automation': 'some automation', 'ERP or back office': 'a back-office system', 'Chatbot': 'a chatbot' };
-  var SYS = { 'CRM': 1, 'ERP or back office': 1, 'Automation': 1 };
+  var WANT = { 'Website': 'a website', 'CRM and back office': 'a CRM and back office', 'Automation': 'some automation', 'WhatsApp or chat assistant': 'a WhatsApp or chat assistant', 'Custom ERP': 'a custom ERP', 'SEO content + sitemaps': 'SEO content with sitemaps and indexing' };
+  var SYS = { 'CRM and back office': 1, 'Custom ERP': 1, 'Automation': 1 };
+  var ADD = { 'care': ['Care plan', 'a care plan'], 'analytics': ['Analytics with AI-referral tracking', 'analytics with AI-referral tracking'], 'gbp': ['Google Business Profile', 'a Google Business Profile setup'], 'whatsapp-api': ['WhatsApp Business API onboarding', 'WhatsApp Business API onboarding'], 'speed': ['Speed and security pass', 'a speed and security pass'] };
   var CAL = { property: 'site visits', build: 'site surveys', retail: 'store pickups', stay: 'bookings', service: 'appointments' };
   var STOCK = { property: 'unit inventory', build: 'materials', stay: 'supplies', service: 'stock' };
   function needs() { return $$('#cf-need input:checked').map(function (i) { return i.value; }); }
+  function tier() { var r = $('#cf-tier input:checked'); return r ? r.value : ''; }
   function setup() { var b = sec.ftBrief; return b && b.has && (!att || att.checked) ? b : null; }        // footer.js reads the builder for us
   function modules(b) {
     var M = { pipe: 'leads and pipeline', cal: CAL[b.trade] || 'bookings', stock: STOCK[b.trade] || 'inventory', inv: 'invoices and payments', chat: 'WhatsApp', field: 'a field app', rep: 'reports', portal: 'a customer portal' };
@@ -61,16 +69,21 @@
 
   /* ---- the message writes itself from all of that, until they type over it ---- */
   function draft() {
-    var n = needs(), b = setup(), unsure = !n.length || n.indexOf('Not sure yet') >= 0, sys = n.some(function (x) { return SYS[x]; }), w = pref();
-    var want = unsure ? 'I’m not sure yet what I need' : 'I’m looking at ' + and(n.map(function (x) { return WANT[x]; }).filter(Boolean));
+    var n = needs(), b = setup(), sys = n.some(function (x) { return SYS[x]; }), w = pref(), t = tier();
+    var items = n.map(function (x) {
+      var wd = x === SEO && seo ? (seo === 'setup' ? 'SEO setup (sitemaps and indexing)' : 'an SEO content pack') : WANT[x];
+      return wd && pk[x] ? wd + ' (' + pk[x] + ' package)' : wd;
+    }).filter(Boolean).concat(extras.map(function (k) { return ADD[k][1]; }));
+    var unsure = !items.length || n.indexOf('Not sure yet') >= 0;
+    var want = unsure ? 'I’m not sure yet what I need' : 'I’m looking at ' + and(items);
     if (!unsure && b && sys && b.mods && b.mods.length) want += ' with ' + modules(b);
     var s = [b ? 'I run ' + (b.name ? b.name + ', a ' + business(b) + ', and ' : 'a ' + business(b) + ' and ') + want + '.' : want + '.'];
     var mess = (window.MESS || []).filter(Boolean).slice(-3);
     if (mess.length) s.push('Right now it’s ' + and(mess.map(function (m) { return '“' + m + '”'; })) + '.');
+    if (t) s.push(t === 'Not sure' ? 'I’m not sure which package fits.' : 'The ' + t + ' package looks about right.');
     if (b) s.push(unsure || !sys ? 'I tried configuring a system on your site (link attached).' : 'I configured it on your site (link attached).');
     if (came) s.push(came.cs ? 'I read your ' + came.name + ' case study.' : came.name + ' caught my eye.');
-    if (w === 'Email') s.push('Could you reply by email? That works best for me.');
-    else s.push((unsure ? 'Could we talk it through this week?' : 'Can we talk this week?') + (w === 'WhatsApp' ? ' Happy to talk on WhatsApp.' : w === 'Phone' ? ' A phone call works best for me.' : ''));
+    s.push((unsure ? 'Could we talk it through this week?' : 'Could you send me an estimate and a delivery plan?') + (w === 'Email' ? ' Email works best for me.' : w === 'WhatsApp' ? ' Happy to talk on WhatsApp.' : w === 'Phone' ? ' A phone call works best for me.' : ''));
     return 'Hi Abhishek,\n\n' + s.join(' ') + (first() ? '\n\n' + first() : '');
   }
   function grow() { msg.style.height = 'auto'; msg.style.height = Math.min(msg.scrollHeight + 4, 440) + 'px'; }
@@ -95,12 +108,33 @@
   $$('#cf-need input').forEach(function (i) {
     i.addEventListener('change', function () {
       if (i.checked) $$('#cf-need input:checked').forEach(function (o) { if (o !== i && (i.value === 'Not sure yet' || o.value === 'Not sure yet')) o.checked = false; });
+      if (!i.checked) { delete pk[i.value]; if (i.value === SEO) seo = ''; showAdd(); }
       if (needs().length) { say(null, 'cf-need-e', ''); reveal(); }
       redraft();
     });
   });
+  $$('#cf-tier input').forEach(function (i) { i.addEventListener('change', function () { pk = {}; showAdd(); reveal(); redraft(); }); });   // one package for all replaces a per-service list
+  function picked() { return Object.keys(pk).map(function (x) { return x + ' · ' + pk[x]; }); }
+  function showAdd() {                   // what came over from the Services page and has no chip of its own: per-service packages, the SEO part, add-ons
+    if (!addP) return;
+    var rows = [], pl = picked(), ex = extras.map(function (k) { return ADD[k][0]; });
+    if (pl.length) rows.push(['Packages: ', pl.join(', ')]);
+    if (seo) rows.push(['SEO: ', seo === 'setup' ? 'setup only' : 'content pack only']);
+    if (ex.length) rows.push([ex.length > 1 ? 'Add-ons: ' : 'Add-on: ', ex.join(', ')]);
+    addP.textContent = ''; addP.hidden = !rows.length; if (!rows.length) return;
+    rows.forEach(function (r, i) { if (i) addP.appendChild(d.createTextNode(' · ')); addP.appendChild(E('span', '', r[0])); addP.appendChild(E('b', '', r[1])); });
+    addP.appendChild(d.createTextNode(' · '));
+    var x = E('button', 'cf-lnk', 'remove'); x.type = 'button'; x.addEventListener('click', function () { extras = []; pk = {}; seo = ''; showAdd(); redraft(); var c = $('#cf-need input'); if (c) c.focus(); });
+    addP.appendChild(x);
+  }
   if (att) att.addEventListener('change', function () { redraft(); });
   sec.addEventListener('ft-brief', function () { redraft(); });
+  addEventListener('build-real', function () {          // "Build this for real" in the builder: the setup rides along (footer.js), the form opens drafted
+    if (!needs().length) { var c = $('#cf-need input[data-k="crm"]'); if (c) c.checked = true; }
+    say(null, 'cf-need-e', ''); reveal(); redraft(true);
+    if (!told || !st.textContent) st.textContent = 'Your setup from the builder is attached, and the message is drafted from it. You can change any of it.';
+    setTimeout(function () { var t = f.getBoundingClientRect().top; if (t > innerHeight * .4 || t < 60) scrollTo(0, t + pageYOffset - 76); }, 60);
+  });
   addEventListener('mess', function () { redraft(); });
 
   /* ---- add details (how you found me), out of the way until asked for ---- */
@@ -262,7 +296,7 @@
     if (show || !m) say(em, 'cf-email-e', m, m ? '' : typo(v));
     return !m;
   }
-  function checkNeed(show) { var good = needs().length > 0; if (show || good) say(null, 'cf-need-e', good ? '' : 'Pick one, or “Not sure yet”.'); return good; }
+  function checkNeed(show) { var good = needs().length > 0 || extras.length > 0; if (show || good) say(null, 'cf-need-e', good ? '' : 'Pick one, or “Not sure yet”.'); return good; }
   function checkMsg(show) { var good = msgW.hidden || msg.value.trim().length > 0; if (show || good) say(msg, 'cf-msg-e', good ? '' : 'Add a line or two, or let me draft it again.'); if (!good) rew.hidden = false; return good; }
   nm.addEventListener('blur', function () { if (nm.value.trim() || nm.getAttribute('aria-invalid')) checkName(true); });
   nm.addEventListener('input', function () { if (nm.getAttribute('aria-invalid')) checkName(false); redraft(); });
@@ -340,7 +374,7 @@
   function payload() {
     var n = needs(), name = nm.value.trim(), o = {
       access_key: KEY,
-      subject: 'New project enquiry: ' + (n.join(' + ') || 'Not sure yet') + ' from ' + name,
+      subject: 'New project enquiry: ' + (n.join(' + ') || (extras.length ? ADD[extras[0]][0] : 'Not sure yet')) + (tier() ? ' (' + tier() + ')' : '') + ' from ' + name,
       from_name: name + ' via your portfolio',
       name: name, email: em.value.trim()
     };
@@ -348,6 +382,9 @@
     if (tel) { o.phone = tel.full; o['phone country'] = tel.c.name; }
     o['preferred contact'] = pref() || 'No preference';
     o.need = n.join(', '); o.message = msg.value.trim() || draft();
+    if (tier()) o['package'] = tier(); else if (picked().length) o['package'] = picked().join('; ');
+    if (seo) o['seo part'] = seo === 'setup' ? 'Setup only (sitemaps and indexing)' : 'Content pack only';
+    if (extras.length) o['add-ons'] = extras.map(function (k) { return ADD[k][0]; }).join(', ');
     if (fm) o['found me via'] = fm.value;
     if (s) { o['builder setup'] = s.summary; if (s.link) o['builder link'] = s.link; }
     if (mess.length) o['their mess'] = mess.join(', ');
@@ -380,10 +417,13 @@
   function done(o) {
     remember(); greet(o.name);
     var s = setup2(), dl = $('#cf-sum'), q = o.message;
-    $('#cf-okh').textContent = 'Thanks, ' + (o.name.split(/\s+/)[0] || 'friend') + '. I’ll reply within a day.';
+    $('#cf-okh').textContent = 'Thanks, ' + (o.name.split(/\s+/)[0] || 'friend') + '. Your estimate is on its way.';
     $('#cf-okt').textContent = hm(ist()) + ' in New Delhi';
     dl.textContent = '';
     row(dl, 'You need', o.need.split(', ').join(' · '));
+    row(dl, 'Package', o['package']);
+    row(dl, 'SEO', o['seo part']);
+    row(dl, 'Add-ons', o['add-ons']);
     row(dl, 'Reply to', o.email);
     row(dl, 'Phone', o.phone);
     row(dl, 'Best way', o['preferred contact'] !== 'No preference' ? o['preferred contact'] : '');
@@ -419,7 +459,8 @@
   f.addEventListener('submit', function (e) { e.preventDefault(); go(); });
 
   $('#cf-again').addEventListener('click', function () {        // a new note: the needs and message start over, contact details stay
-    $$('#cf-need input, .cf-xb input', f).forEach(function (i) { i.checked = false; });
+    $$('#cf-need input, #cf-tier input, .cf-xb input', f).forEach(function (i) { i.checked = false; });
+    extras = []; pk = {}; seo = ''; showAdd();
     if (hp) hp.checked = false;
     msg.value = ''; last = ''; auto = true; msgW.hidden = true; rew.hidden = true;
     xb.hidden = true; more.setAttribute('aria-expanded', 'false');
@@ -427,5 +468,40 @@
     var c = $('#cf-need input'); if (c) c.focus();
   });
 
+  /* ---- arriving from the Services page with an estimate list (see the top of this file) ---- */
+  (function () {
+    var q = null; try { q = new URLSearchParams(location.search); } catch (e) { q = null; }
+    if (!q) return;
+    var TL = { starter: 'Starter', standard: 'Standard', custom: 'Custom' }, tiers = {}, want = {}, got = [], parts = {};
+    function arr(k) { return String(q.get(k) || '').toLowerCase().split(',').map(function (x) { return x.replace(/[^a-z:-]/g, ''); }).filter(Boolean); }
+    arr('pick').forEach(function (x) { var a = x.split(':'); want[a[0]] = 1; if (TL[a[1]]) tiers[a[0]] = TL[a[1]]; });
+    arr('service').forEach(function (k) { want[k] = 1; });
+    arr('addon').forEach(function (k) {
+      if (k === 'seo-setup' || k === 'seo-content') { want.seo = 1; parts[k.slice(4)] = 1; }
+      else if (ADD[k] && extras.indexOf(k) < 0) extras.push(k);
+    });
+    seo = parts.setup && !parts.content ? 'setup' : parts.content && !parts.setup ? 'content' : '';
+    var vals = {};                                                          // data-k → the chip's value
+    $$('#cf-need input').forEach(function (i) { var k = i.getAttribute('data-k'); if (k && k !== 'unsure' && want[k]) { i.checked = true; vals[k] = i.value; got.push(i.value); } });
+    var tr = String(q.get('tier') || '').toLowerCase().replace(/[^a-z]/g, ''), kinds = {}, n = 0, all = true;
+    Object.keys(vals).forEach(function (k) { if (k === 'seo' && !tiers[k]) return; n++; if (tiers[k]) kinds[tiers[k]] = 1; else all = false; });
+    var one = Object.keys(kinds), r = null;
+    if (tr) r = $('#cf-tier input[data-k="' + tr + '"]');                    // an explicit tier= wins
+    else if (one.length === 1 && all && n) r = $('#cf-tier input[value="' + one[0] + '"]');      // every service on the same package: tick it
+    else Object.keys(vals).forEach(function (k) { if (tiers[k]) pk[vals[k]] = tiers[k]; });      // mixed: list them per service
+    if (r) { r.checked = true; got.push(r.value === 'Not sure' ? 'package not decided' : r.value + ' package'); }
+    picked().forEach(function (x) { got.push(x); });
+    extras.forEach(function (k) { got.push(ADD[k][0]); });
+    showAdd();
+    if (!got.length) return;
+    reveal(); redraft(true); told = true;
+    st.textContent = 'Filled in from the Services page: ' + got.join(', ') + '. You can change any of it.';
+    if (location.hash === '#contact') {                   // on a phone the form sits below the heading: bring the form itself up
+      var place = function () { var t = f.getBoundingClientRect().top; if (t > innerHeight * .4) scrollTo(0, t + pageYOffset - 76); };
+      if (d.readyState === 'complete') setTimeout(place, 300); else addEventListener('load', function () { setTimeout(place, 300); });
+    }
+  })();
+
   f.hidden = false;                       // the form only shows once it can work
+  if (!msgW.hidden) grow();               // a pre-filled draft was sized while the form was still hidden
 })();
